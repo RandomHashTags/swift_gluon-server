@@ -21,9 +21,19 @@ public class LivingEntity : Damageable {
     public var is_sleeping:Bool
     public var is_swimming:Bool
     
+    public var potion_effects:Set<PotionEffect>
+    
+    var no_damage_ticks:UInt16
+    var no_damage_ticks_maximum:UInt16
+    
+    var air_remaining:UInt16
+    var air_maximum:UInt16
+    
     public init(
         uuid: UInt64,
         type: UnsafePointer<EntityType>,
+        display_name: String?,
+        location: Location,
         can_breathe_underwater: Bool,
         can_pickup_items: Bool,
         has_ai: Bool,
@@ -34,7 +44,12 @@ public class LivingEntity : Damageable {
         is_leashed: Bool,
         is_riptiding: Bool,
         is_sleeping: Bool,
-        is_swimming: Bool
+        is_swimming: Bool,
+        potion_effects: Set<PotionEffect>?,
+        no_damage_ticks: UInt16,
+        no_damage_ticks_maximum: UInt16,
+        air_remaining: UInt16,
+        air_maximum: UInt16
     ) {
         self.can_breathe_underwater = can_breathe_underwater
         self.can_pickup_items = can_pickup_items
@@ -47,7 +62,12 @@ public class LivingEntity : Damageable {
         self.is_riptiding = is_riptiding
         self.is_sleeping = is_sleeping
         self.is_swimming = is_swimming
-        super.init(uuid: uuid, type: type, health: 20, health_maximum: 20)
+        self.potion_effects = potion_effects ?? []
+        self.no_damage_ticks = no_damage_ticks
+        self.no_damage_ticks_maximum = no_damage_ticks_maximum
+        self.air_remaining = air_remaining
+        self.air_maximum = air_maximum
+        super.init(uuid: uuid, type: type, display_name: display_name, location: location, health: 20, health_maximum: 20)
     }
     
     public override func tick() {

@@ -1,5 +1,5 @@
 //
-//  Material.swift
+//  MaterialCategory.swift
 //  
 //
 //  Created by Evan Anderson on 2/3/23.
@@ -7,8 +7,7 @@
 
 import Foundation
 
-public struct Material : Hashable {
+public struct MaterialCategory : Hashable {
     public let identifier:String
-    public let categories:[UnsafePointer<MaterialCategory>]
     public let configuration:UnsafePointer<MaterialConfiguration>
 }
