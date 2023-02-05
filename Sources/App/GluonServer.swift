@@ -17,11 +17,13 @@ public final class GluonServer {
         return sharedInstance.worlds.first(where: { $0.name.elementsEqual(name) })
     }
     
-    private var ticks_per_second:UInt8
-    private var ticks_per_second_multiplier:Float
-    private var ticks_per_second_nanosecond:UInt64
+    private var server_ticks_per_second:UInt8
+    private var server_ticks_per_second_multiplier:Float
+    private var server_tick_interval_nano:UInt64
     private var server_is_awake:Bool
     private var server_loop:Task<Void, Error>!
+    private let server_gravity:Float
+    private var server_gravity_per_tick:Float
     
     private var worlds:[World]
     
@@ -31,16 +33,21 @@ public final class GluonServer {
     private var entity_types:Set<EntityType>
     private var inventory_types:Set<InventoryType>
     private var potion_effect_types:Set<PotionEffectType>
+    private var game_modes:Set<GameMode>
     
     private var entities:Set<Entity>
     private var living_entities:Set<LivingEntity>
     private var players:Set<Player>
     
     private init(ticks_per_second: UInt8) {
-        self.ticks_per_second = ticks_per_second
-        ticks_per_second_multiplier = Float(ticks_per_second) / 20
-        ticks_per_second_nanosecond = 1_000_000_000 / UInt64(ticks_per_second)
+        let ticks_per_second_float:Float = Float(ticks_per_second)
+        self.server_ticks_per_second = ticks_per_second
+        server_ticks_per_second_multiplier = ticks_per_second_float / 20
+        server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
+        let gravity:Float = 9.8
+        self.server_gravity = gravity
+        server_gravity_per_tick = gravity / ticks_per_second_float
         
         worlds = []
         
@@ -50,6 +57,7 @@ public final class GluonServer {
         entity_types = []
         inventory_types = []
         potion_effect_types = []
+        game_modes = []
         
         entities = []
         living_entities = []
@@ -64,7 +72,7 @@ public final class GluonServer {
             do {
                 while server_is_awake {
                     tick()
-                    try await Task.sleep(nanoseconds: ticks_per_second_nanosecond)
+                    try await Task.sleep(nanoseconds: server_tick_interval_nano)
                 }
             } catch {
                 print("encountered error during server loop: \(error)")
@@ -72,8 +80,9 @@ public final class GluonServer {
         }
     }
     func set_tick_rate(ticks_per_second: UInt8) {
-        self.ticks_per_second = ticks_per_second
-        ticks_per_second_nanosecond = 1_000_000_000 / UInt64(ticks_per_second)
+        self.server_ticks_per_second = ticks_per_second
+        server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
+        server_gravity_per_tick = server_gravity / Float(ticks_per_second)
     }
     
     func save() {
@@ -104,6 +113,10 @@ public final class GluonServer {
 }
 
 public extension GluonServer {
+    var ticks_per_second : UInt8 { server_ticks_per_second }
+    var ticks_per_second_multiplier : Float { server_ticks_per_second_multiplier }
+    var gravity_per_tick : Float { server_gravity_per_tick }
+    
     func get_players() -> Set<Player> {
         return players
     }
