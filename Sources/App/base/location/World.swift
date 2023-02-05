@@ -8,12 +8,13 @@
 import Foundation
 
 public struct World : Jsonable {
+    public let uuid:UUID
     public let seed:UInt64
     public let name:String
     
     public var spawn_location:Vector
     public var difficulty:Difficulty
-    public var game_rules:Set<GameRuleActive>
+    public var game_rules:Set<GameRule>
     public var time:UInt64
     public var border:WorldBorder?
     

@@ -30,8 +30,9 @@ public class LivingEntity : Damageable {
     public var air_maximum:UInt16
     
     public init(
-        uuid: String,
+        uuid: UUID,
         type: EntityType,
+        custom_name: String?,
         display_name: String?,
         can_breathe_underwater: Bool,
         can_pickup_items: Bool,
@@ -69,6 +70,7 @@ public class LivingEntity : Damageable {
         super.init(
             uuid: uuid,
             type: type,
+            custom_name: custom_name,
             display_name: display_name,
             health: 20,
             health_maximum: 20
@@ -80,7 +82,7 @@ public class LivingEntity : Damageable {
     }
     
     override func tick() {
-        print("living entity with uuid " + uuid + " has been ticked")
+        print("living entity with uuid " + uuid.uuidString + " has been ticked")
         super.tick()
     }
 }

@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class Entity : Jsonable {
+public class Entity : Nameable {
     public static func == (lhs: Entity, rhs: Entity) -> Bool {
-        return lhs.uuid.elementsEqual(rhs.uuid) && lhs.type == rhs.type
+        return lhs.uuid.uuidString.elementsEqual(rhs.uuid.uuidString) && lhs.type == rhs.type
     }
     
-    public let uuid:String // UUID
+    public let uuid:UUID
     public let type:EntityType
     public var display_name:String?
     
@@ -34,16 +34,17 @@ public class Entity : Jsonable {
     public var freeze_ticks_maximum:UInt16
     
     public var passengers:[String]
-    public var vehicle:String? // UUID
+    public var vehicle:UUID?
     
-    public func hash(into hasher: inout Hasher) {
+    public override func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
         hasher.combine(type)
     }
     
     public init(
-        uuid: String,
+        uuid: UUID,
         type: EntityType,
+        custom_name: String?,
         display_name: String?,
         boundaries: [Boundary],
         location: Location,
@@ -58,7 +59,7 @@ public class Entity : Jsonable {
         freeze_ticks: UInt16,
         freeze_ticks_maximum: UInt16,
         passengers: [String],
-        vehicle: String?
+        vehicle: UUID?
     ) {
         self.uuid = uuid
         self.type = type
@@ -77,6 +78,7 @@ public class Entity : Jsonable {
         self.freeze_ticks_maximum = freeze_ticks_maximum
         self.passengers = passengers
         self.vehicle = vehicle
+        super.init(custom_name: custom_name)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -90,5 +92,9 @@ public class Entity : Jsonable {
     
     public func get_nearby_entities(x: Double, y: Double, z: Double) -> Set<Entity> {
         return []
+    }
+    
+    public func teleport(location: Location) {
+        self.location = location
     }
 }

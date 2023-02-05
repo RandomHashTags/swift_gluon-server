@@ -11,9 +11,7 @@ public struct LootTable : Jsonable {
     public let item_chances:[ItemStack:Int8]
     
     public var loot_normal : [ItemStack] {
-        return item_chances.compactMap({ (item, chance) in
-            guard Int8.random(in: 0..<100) <= chance else { return nil }
-            return item
-        })
+        let chance:Int8 = Int8.random(in: 0..<100)
+        return item_chances.compactMap({ $1 <= chance ? $0 : nil })
     }
 }

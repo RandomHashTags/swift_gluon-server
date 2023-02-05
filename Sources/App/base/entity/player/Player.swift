@@ -5,6 +5,8 @@
 //  Created by Evan Anderson on 2/3/23.
 //
 
+import Foundation
+
 public class Player : LivingEntity {
     public let name:String
     public var list_name:String
@@ -26,9 +28,10 @@ public class Player : LivingEntity {
     public var inventory:Inventory
     
     public init(
-        uuid: String,
+        uuid: UUID,
         name: String,
         list_name: String,
+        custom_name: String?,
         display_name: String?,
         experience: UInt64,
         experience_level: UInt64,
@@ -60,6 +63,7 @@ public class Player : LivingEntity {
         super.init(
             uuid: uuid,
             type: GluonServer.get_player_entity_type(),
+            custom_name: custom_name,
             display_name: display_name,
             can_breathe_underwater: true,
             can_pickup_items: true,

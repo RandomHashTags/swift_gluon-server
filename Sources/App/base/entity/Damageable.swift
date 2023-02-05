@@ -12,8 +12,9 @@ public class Damageable : Entity {
     public var health_maximum:Float
     
     public init(
-        uuid: String,
+        uuid: UUID,
         type: EntityType,
+        custom_name: String?,
         display_name: String?,
         health: Float,
         health_maximum: Float
@@ -23,6 +24,7 @@ public class Damageable : Entity {
         super.init(
             uuid: uuid,
             type: type,
+            custom_name: custom_name,
             display_name: display_name,
             boundaries: [],
             location: Location(world: GluonServer.get_world(name: "world")!, x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
@@ -47,7 +49,7 @@ public class Damageable : Entity {
     }
     
     override func tick() {
-        print("damageable with uuid " + uuid + " has been ticked")
+        print("damageable with uuid " + uuid.uuidString + " has been ticked")
         super.tick()
     }
     
