@@ -31,7 +31,7 @@ public func configure(_ app: Application) throws {
     //app.http.server.configuration.serverName = Settings.get_server_name()
     //app.http.server.configuration.supportVersions = [.one]
     
-    app.webSocket("echo") { request, server_socket in
+    app.webSocket("connection") { request, server_socket in
         
         server_socket.onText { client_socket, text in
             print("client_socket received: \(text)")
@@ -55,7 +55,7 @@ public func configure(_ app: Application) throws {
         do {
             var headers:HTTPHeaders = HTTPHeaders()
             var configuration:WebSocketClient.Configuration = WebSocketClient.Configuration.init()
-            let bro:() = try await WebSocket.connect(to: "ws://localhost:25565/echo", headers: headers, configuration: configuration, on: app.eventLoopGroup.next(), onUpgrade: ({ socket in
+            let bro:() = try await WebSocket.connect(to: "ws://localhost:25565/connection", headers: headers, configuration: configuration, on: app.eventLoopGroup.next(), onUpgrade: ({ socket in
                 print("socket=\(socket)")
                 socket.send("here is some text big boy")
             }))

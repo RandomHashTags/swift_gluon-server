@@ -10,4 +10,5 @@ import Foundation
 public struct Command : Jsonable {
     public let identifier:String
     public let description:String
+    public let aliases:Set<String>
 }

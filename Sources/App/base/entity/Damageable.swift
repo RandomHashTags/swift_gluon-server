@@ -28,6 +28,7 @@ public class Damageable : Entity {
             location: Location(world: GluonServer.get_world(name: "world")!, x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
             fall_distance: 0,
+            is_glowing: false,
             is_on_fire: false,
             is_on_ground: true,
             height: 10,

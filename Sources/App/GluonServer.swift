@@ -33,6 +33,8 @@ public final class GluonServer : GluonSharedInstance {
     private var inventory_types:Set<InventoryType>
     private var potion_effect_types:Set<PotionEffectType>
     private var game_modes:Set<GameMode>
+    private var advancements:Set<Advancement>
+    private var attributes:Set<Attribute>
     
     private var entities:Set<Entity>
     private var living_entities:Set<LivingEntity>
@@ -58,7 +60,26 @@ public final class GluonServer : GluonSharedInstance {
         ]
         let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
-            World(seed: 0, name: "world", spawn_location: spawn_location, difficulty: difficulties.first!, y_min: -64, y_max: 320, y_sea_level: 100, chunks_loaded: [], allows_animals: true, allows_monsters: true, allows_pvp: true, players: [])
+            World(
+                seed: 0,
+                name: "world",
+                spawn_location: spawn_location,
+                difficulty: difficulties.first!,
+                game_rules: [],
+                time: 0,
+                border: nil,
+                y_min: -64,
+                y_max: 320,
+                y_sea_level: 100,
+                chunks_loaded: [],
+                allows_animals: true,
+                allows_monsters: true,
+                allows_pvp: true,
+                beds_work: true,
+                entities: [],
+                living_entities: [],
+                players: []
+            )
         ]
         
         materials = []
@@ -73,6 +94,8 @@ public final class GluonServer : GluonSharedInstance {
         game_modes = [
             GameMode(identifier: "minecraft.survival", allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
         ]
+        advancements = []
+        attributes = []
         
         entities = []
         living_entities = []

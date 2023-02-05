@@ -21,6 +21,7 @@ public class Entity : Jsonable {
     public var velocity:Vector
     public var fall_distance:Float
     
+    public var is_glowing:Bool
     public var is_on_fire:Bool
     public var is_on_ground:Bool
     
@@ -48,6 +49,7 @@ public class Entity : Jsonable {
         location: Location,
         velocity: Vector,
         fall_distance: Float,
+        is_glowing: Bool,
         is_on_fire: Bool,
         is_on_ground: Bool,
         height: Float,
@@ -65,6 +67,7 @@ public class Entity : Jsonable {
         self.location = location
         self.velocity = velocity
         self.fall_distance = fall_distance
+        self.is_glowing = is_glowing
         self.is_on_fire = is_on_fire
         self.is_on_ground = is_on_ground
         self.height = height
@@ -83,5 +86,9 @@ public class Entity : Jsonable {
     func save() {
     }
     func tick() {
+    }
+    
+    public func get_nearby_entities(x: Double, y: Double, z: Double) -> Set<Entity> {
+        return []
     }
 }

@@ -15,4 +15,7 @@ public struct Block : Hashable {
     }
     public var light_level:UInt8
     public var location:Location
+    
+    public func break_naturally() {
+    }
 }

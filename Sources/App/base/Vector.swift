@@ -12,9 +12,9 @@ public class Vector : Jsonable {
         return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
     }
     
-    public var x:Float
-    public var y:Float
-    public var z:Float
+    public var x:Double
+    public var y:Double
+    public var z:Double
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(x)
@@ -22,7 +22,7 @@ public class Vector : Jsonable {
         hasher.combine(z)
     }
     
-    public init(x: Float, y: Float, z: Float) {
+    public init(x: Double, y: Double, z: Double) {
         self.x = x
         self.y = y
         self.z = z

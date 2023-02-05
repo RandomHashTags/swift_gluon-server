@@ -27,15 +27,32 @@ public class Inventory : Jsonable {
         self.viewers = viewers
     }
     
-    func contains(_ item: ItemStack) -> Bool {
-        return items.first(where: { $0?.is_similar(item) ?? false }) != nil
+    func contains(_ material: Material) -> Bool {
+        return first(material) != nil
     }
+    func contains(_ item: ItemStack) -> Bool {
+        return first(item) != nil
+    }
+    
+    func first(_ material: Material) -> ItemStack? {
+        return items.first(where: { $0?.material == material }) ?? nil
+    }
+    func first(_ item: ItemStack) -> ItemStack? {
+        return items.first(where: {  item.is_similar($0) }) ?? nil
+    }
+    
+    
     func get_item(slot: Int) -> ItemStack? {
         return items.get(slot) ?? nil
     }
+    
     func set_item(slot: Int, item: ItemStack?) {
         items[slot] = item
     }
+    func set_items(items: Array<ItemStack?>) {
+        self.items = items
+    }
+    
     func add_item(item: ItemStack) {
         // TODO: finish
     }
