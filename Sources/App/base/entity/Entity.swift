@@ -7,29 +7,81 @@
 
 import Foundation
 
-public protocol Entity : Jsonable {
-    var uuid:UUID { get }
-    var type:EntityType { get }
-    var display_name:String? { get set }
+public class Entity : Jsonable {
+    public static func == (lhs: Entity, rhs: Entity) -> Bool {
+        return lhs.uuid.elementsEqual(rhs.uuid) && lhs.type == rhs.type
+    }
     
-    var boundaries:[Boundary] { get set }
-    var location:Location { get set }
-    var velocity:Vector { get set }
-    var fall_distance:Float { get set }
+    public let uuid:String // UUID
+    public let type:EntityType
+    public var display_name:String?
     
-    var is_on_fire:Bool { get set }
-    var is_on_ground:Bool { get set }
+    public var boundaries:[Boundary]
+    public var location:Location
+    public var velocity:Vector
+    public var fall_distance:Float
     
-    var height:Float { get set }
+    public var is_on_fire:Bool
+    public var is_on_ground:Bool
     
-    var fire_ticks:UInt16 { get set }
-    var fire_ticks_maximum:UInt16 { get set }
+    public var height:Float
     
-    var freeze_ticks:UInt16 { get set }
-    var freeze_ticks_maximum:UInt16 { get set }
+    public var fire_ticks:UInt16
+    public var fire_ticks_maximum:UInt16
     
-    var passengers:[String] { get set }
-    var vehicle:UUID? { get set }
+    public var freeze_ticks:UInt16
+    public var freeze_ticks_maximum:UInt16
     
-    func tick()
+    public var passengers:[String]
+    public var vehicle:String? // UUID
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(uuid)
+        hasher.combine(type)
+    }
+    
+    public init(
+        uuid: String,
+        type: EntityType,
+        display_name: String?,
+        boundaries: [Boundary],
+        location: Location,
+        velocity: Vector,
+        fall_distance: Float,
+        is_on_fire: Bool,
+        is_on_ground: Bool,
+        height: Float,
+        fire_ticks: UInt16,
+        fire_ticks_maximum: UInt16,
+        freeze_ticks: UInt16,
+        freeze_ticks_maximum: UInt16,
+        passengers: [String],
+        vehicle: String?
+    ) {
+        self.uuid = uuid
+        self.type = type
+        self.display_name = display_name
+        self.boundaries = boundaries
+        self.location = location
+        self.velocity = velocity
+        self.fall_distance = fall_distance
+        self.is_on_fire = is_on_fire
+        self.is_on_ground = is_on_ground
+        self.height = height
+        self.fire_ticks = fire_ticks
+        self.fire_ticks_maximum = fire_ticks_maximum
+        self.freeze_ticks = freeze_ticks
+        self.freeze_ticks_maximum = freeze_ticks_maximum
+        self.passengers = passengers
+        self.vehicle = vehicle
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
+    func save() {
+    }
+    func tick() {
+    }
 }

@@ -7,12 +7,33 @@
 
 import Foundation
 
-public protocol Inventory {
-    var type:InventoryType { get }
-    var items:Array<ItemStack?> { get set }
-    var viewers:Set<UUID> { get set }
+public class Inventory : Jsonable {
+    public static func == (lhs: Inventory, rhs: Inventory) -> Bool {
+        return lhs.type == rhs.type && lhs.items.elementsEqual(rhs.items)
+    }
     
-    func get_item(slot: Int) -> ItemStack?
-    func set_item(slot: Int, item: ItemStack?)
-    func add_item(item: ItemStack)
+    public let type:InventoryType
+    private var items:Array<ItemStack?>
+    public var viewers:Set<Player>
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(type)
+        hasher.combine(items)
+    }
+    
+    public init(type: InventoryType, items: Array<ItemStack?>, viewers: Set<Player>) {
+        self.type = type
+        self.items = items
+        self.viewers = viewers
+    }
+    
+    func get_item(slot: Int) -> ItemStack? {
+        return items.get(slot) ?? nil
+    }
+    func set_item(slot: Int, item: ItemStack?) {
+        items[slot] = item
+    }
+    func add_item(item: ItemStack) {
+        // TODO: finish
+    }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 public struct PlayerJoinEvent : PlayerEvent {
-    public let player:any Player
+    public let player:Player
 }

@@ -23,4 +23,9 @@ public struct World : Jsonable {
     public var allows_animals:Bool
     public var allows_monsters:Bool
     public var allows_pvp:Bool
+    
+    public var players:Set<UUID>
+    
+    func save() {
+    }
 }

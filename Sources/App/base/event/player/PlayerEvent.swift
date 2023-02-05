@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol PlayerEvent : Event {
-    var player : any Player { get }
+    var player : Player { get }
 }
