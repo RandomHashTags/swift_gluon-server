@@ -7,14 +7,12 @@
 
 import Foundation
 
-public final class GluonServer {
-    static var sharedInstance:GluonServer = GluonServer(ticks_per_second: 20)
-    
+public final class GluonServer : GluonSharedInstance {
     static func get_player_entity_type() -> EntityType {
-        return sharedInstance.entity_types.first(where: { $0.identifier.elementsEqual("minecraft.player") })!
+        return shared_instance.entity_types.first(where: { $0.identifier.elementsEqual("minecraft.player") })!
     }
     static func get_world(name: String) -> World? {
-        return sharedInstance.worlds.first(where: { $0.name.elementsEqual(name) })
+        return shared_instance.worlds.first(where: { $0.name.elementsEqual(name) })
     }
     
     private var server_ticks_per_second:UInt8
@@ -25,6 +23,7 @@ public final class GluonServer {
     private let server_gravity:Float
     private var server_gravity_per_tick:Float
     
+    private var difficulties:[Difficulty]
     private var worlds:[World]
     
     private var materials:Set<Material>
@@ -39,9 +38,12 @@ public final class GluonServer {
     private var living_entities:Set<LivingEntity>
     private var players:Set<Player>
     
+    convenience init() {
+        self.init(ticks_per_second: 20)
+    }
     private init(ticks_per_second: UInt8) {
         let ticks_per_second_float:Float = Float(ticks_per_second)
-        self.server_ticks_per_second = ticks_per_second
+        server_ticks_per_second = ticks_per_second
         server_ticks_per_second_multiplier = ticks_per_second_float / 20
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
@@ -49,24 +51,46 @@ public final class GluonServer {
         self.server_gravity = gravity
         server_gravity_per_tick = gravity / ticks_per_second_float
         
-        worlds = []
+        print("server_ticks_per_second=" + ticks_per_second.description + " 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
+        
+        difficulties = [
+            Difficulty(identifier: "minecraft.survival")
+        ]
+        let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
+        worlds = [
+            World(seed: 0, name: "world", spawn_location: spawn_location, difficulty: difficulties.first!, y_min: -64, y_max: 320, y_sea_level: 100, chunks_loaded: [], allows_animals: true, allows_monsters: true, allows_pvp: true, players: [])
+        ]
         
         materials = []
         biomes = []
         enchantment_types = []
-        entity_types = []
-        inventory_types = []
+        entity_types = [
+            EntityType(identifier: "minecraft.player", is_affected_by_gravity: true, is_damageable: true, receives_fall_damage: true, no_damage_ticks_maximum: 20, fire_ticks_maximum: 20, freeze_ticks_maximum: 20)
+        ]
+        inventory_types = [
+        ]
         potion_effect_types = []
-        game_modes = []
+        game_modes = [
+            GameMode(identifier: "minecraft.survival", allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
+        ]
         
         entities = []
         living_entities = []
+        
         players = []
     }
     
+    func player_joined() {
+        let inventory_type:InventoryType = InventoryType(identifier: "minecraft.player_items", size: 36)
+        let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
+        let player:Player = Player(uuid: "-1", name: "RandomHashTags", list_name: "RandomHashTags", display_name: nil, experience: 0, experience_level: 0, food_level: 10, permissions: [], statistics: [], game_mode: game_modes.first!, is_blocking: false, is_flying: false, is_op: true, is_sneaking: false, is_sprinting: false, inventory: inventory)
+        players.insert(player)
+        
+        if !server_is_awake {
+            wake_up()
+        }
+    }
     private func wake_up() {
-        guard !server_is_awake else { return }
-        server_loop?.cancel()
         server_is_awake = true
         server_loop = Task {
             do {

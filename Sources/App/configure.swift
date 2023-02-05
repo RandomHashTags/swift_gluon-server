@@ -49,7 +49,6 @@ public func configure(_ app: Application) throws {
         }
     }
     
-    
     Task {
         let seconds_to_sleep:UInt64 = 1
         try await Task.sleep(nanoseconds: 1_000_000_000 * seconds_to_sleep)
@@ -63,5 +62,7 @@ public func configure(_ app: Application) throws {
         } catch {
             print("encountered error while trying to `configure` app (\(error)")
         }
+        let server:GluonServer = GluonServer.shared_instance
+        //server.player_joined()
     }
 }

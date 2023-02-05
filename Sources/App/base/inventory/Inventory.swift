@@ -27,6 +27,9 @@ public class Inventory : Jsonable {
         self.viewers = viewers
     }
     
+    func contains(_ item: ItemStack) -> Bool {
+        return items.first(where: { $0?.is_similar(item) ?? false }) != nil
+    }
     func get_item(slot: Int) -> ItemStack? {
         return items.get(slot) ?? nil
     }

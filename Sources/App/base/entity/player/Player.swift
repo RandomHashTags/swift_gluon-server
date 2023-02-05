@@ -90,6 +90,10 @@ public class Player : LivingEntity {
         super.tick()
     }
     
+    public func has_permission(_ permission: String) -> Bool {
+        return permissions.first(where: { $0.identifier.compare(permission) == .orderedSame }) != nil
+    }
+    
     public func kick(reason: String) {
     }
 }
