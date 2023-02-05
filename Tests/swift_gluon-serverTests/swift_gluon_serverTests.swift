@@ -5,7 +5,6 @@
 //  Created by Evan Anderson on 2/3/23.
 //
 
-import App
 import XCTest
 
 final class swift_gluon_serverTests: XCTestCase {

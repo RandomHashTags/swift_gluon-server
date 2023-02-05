@@ -7,6 +7,19 @@
 
 import Foundation
 
-public final class GluonServer {
+struct GluonServer {
     
+    var enchantment_types:[EnchantmentType]
+    var entities:[any Entity]
+    
+    func load() {
+    }
+    func pause() {
+    }
+    
+    func tick() {
+        for entity in entities {
+            entity.tick()
+        }
+    }
 }
