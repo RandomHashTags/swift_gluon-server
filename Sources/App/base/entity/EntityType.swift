@@ -9,6 +9,7 @@ import Foundation
 
 public struct EntityType : Jsonable {
     public let identifier:String
+    public let name:MultilingualStrings
     
     public let is_affected_by_gravity:Bool
     public let is_damageable:Bool

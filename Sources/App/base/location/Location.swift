@@ -7,23 +7,47 @@
 
 import Foundation
 
-public struct Location : Jsonable {
+public final class Location : Jsonable {
+    public static func == (lhs: Location, rhs: Location) -> Bool {
+        return lhs.world_name.elementsEqual(rhs.world_name) && lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.yaw == rhs.yaw && lhs.pitch == rhs.pitch
+    }
+    
     public var world_name:String
     public var world : World? {
         return GluonServer.get_world(name: world_name)
     }
-    public var x:Float
-    public var y:Float
-    public var z:Float
-    public var yaw:Float
-    public var pitch:Float
+    public var x:Double
+    public var y:Double
+    public var z:Double
+    public var yaw:Double
+    public var pitch:Double
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(world_name)
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
+    }
+    
+    public init(world_name: String, x: Double, y: Double, z: Double, yaw: Double, pitch: Double) {
+        self.world_name = world_name
+        self.x = x
+        self.y = y
+        self.z = z
+        self.yaw = yaw
+        self.pitch = pitch
+    }
     
     public func is_similar(_ location: Location) -> Bool {
         return world_name.elementsEqual(location.world_name) && x == location.x && y == location.y && z == location.z
     }
     
-    public func is_nearby(_ location: Location, x_radius: Float, y_radius: Float, z_radius: Float) -> Bool {
-        let loc_x:Float = location.x, loc_y:Float = location.y, loc_z:Float = location.z
-        return world_name.elementsEqual(location.world_name) && (max(x, loc_x) - min(x, loc_x) <= x_radius) && (max(y, loc_y) - min(y, loc_y) <= y_radius) && (max(z, loc_z) - min(z, loc_z) <= z_radius)
+    public func is_nearby(center: Location, x_radius: Double, y_radius: Double, z_radius: Double) -> Bool {
+        let (dis_x, dis_y, dis_z):(Double, Double, Double) = distance(to: center)
+        return abs(dis_x) <= x_radius && abs(dis_y) <= y_radius && abs(dis_z) <= z_radius
+    }
+    public func distance(to location: Location) -> (x: Double, y: Double, z: Double) {
+        let loc_x:Double = location.x, loc_y:Double = location.y, loc_z:Double = location.z
+        return ((loc_x - x), (loc_y - y), (loc_z - z))
     }
 }

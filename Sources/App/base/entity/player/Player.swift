@@ -9,7 +9,7 @@ import Foundation
 
 public class Player : LivingEntity {
     public let name:String
-    public var list_name:String
+    public var list_name:String?
     
     public var experience:UInt64
     public var experience_level:UInt64
@@ -30,7 +30,7 @@ public class Player : LivingEntity {
     public init(
         uuid: UUID,
         name: String,
-        list_name: String,
+        list_name: String?,
         custom_name: String?,
         display_name: String?,
         experience: UInt64,

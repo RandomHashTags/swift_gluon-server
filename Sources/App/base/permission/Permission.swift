@@ -9,6 +9,6 @@ import Foundation
 
 public struct Permission : Jsonable {
     public let identifier:String
-    public let description:String
+    public let description:MultilingualStrings
     public let children:Set<String>
 }

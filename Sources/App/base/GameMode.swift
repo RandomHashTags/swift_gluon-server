@@ -9,6 +9,7 @@ import Foundation
 
 public struct GameMode : Jsonable {
     public let identifier:String
+    public let name:MultilingualStrings
     
     public let allows_flight:Bool
     

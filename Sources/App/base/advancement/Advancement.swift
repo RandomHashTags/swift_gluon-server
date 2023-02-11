@@ -9,6 +9,6 @@ import Foundation
 
 public struct Advancement : Jsonable {
     public let identifier:String
-    public let name:String, description:String
+    public let name:MultilingualStrings, description:MultilingualStrings
     public let criteria:[String]
 }

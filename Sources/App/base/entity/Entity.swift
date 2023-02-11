@@ -98,10 +98,14 @@ public class Entity : Nameable {
         if type.is_affected_by_gravity && !is_on_ground {
             location.y -= GluonServer.shared_instance.gravity_per_tick
         }
-        if type.is_damageable, let world:World = location.world, location.y < Float(world.y_min) {
-            let result:DamageResult = (self as! Damageable).damage(amount: GluonServer.shared_instance.void_damage_per_tick)
+        if type.is_damageable, let world:World = location.world, location.y < Double(world.y_min) {
+            let result:DamageResult = (self as! Damageable).damage(cause: DamageCause.void, amount: GluonServer.shared_instance.void_damage_per_tick)
         }
         
+    }
+    
+    public func remove() {
+        location.world?.world_entities.remove(self)
     }
     
     public func get_nearby_entities(x: Double, y: Double, z: Double) -> Set<Entity> {

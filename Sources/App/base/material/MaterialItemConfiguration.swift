@@ -17,7 +17,7 @@ public struct MaterialItemConfiguration : Jsonable {
     public let durability:Int
     
     /// Amount of health points this item inflicts to a LivingEntity.
-    public let attack_damage:Float
+    public let attack_damage:Double
     /// Amount of durability to reduced this item by when attacking a LivingEntity.
     public let attack_durability_damage:UInt
     /// Amount of durability to reduce this item by if the block broken does prefer the item's material.

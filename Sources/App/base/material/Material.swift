@@ -9,6 +9,7 @@ import Foundation
 
 public struct Material : Jsonable {
     public let identifier:String
+    public let name:MultilingualStrings
     public let categories:[MaterialCategory]
     public let configuration:MaterialConfiguration
 }

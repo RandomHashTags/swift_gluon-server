@@ -9,5 +9,6 @@ import Foundation
 
 public struct Statistic : Jsonable {
     public let identifier:String
+    public let name:MultilingualStrings
     public let value_type:ValueType
 }

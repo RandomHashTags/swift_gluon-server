@@ -9,4 +9,5 @@ import Foundation
 
 public struct PotionEffectType : Jsonable {
     public let identifier:String
+    public let name:MultilingualStrings
 }

@@ -8,16 +8,16 @@
 import Foundation
 
 public class Damageable : Entity {
-    public var health:Float
-    public var health_maximum:Float
+    public var health:Double
+    public var health_maximum:Double
     
     public init(
         uuid: UUID,
         type: EntityType,
         custom_name: String?,
         display_name: String?,
-        health: Float,
-        health_maximum: Float
+        health: Double,
+        health_maximum: Double
     ) {
         self.health = health
         self.health_maximum = health_maximum
@@ -54,10 +54,15 @@ public class Damageable : Entity {
         super.tick()
     }
     
-    public func damage(amount: Float) -> DamageResult {
-        let new_health:Float = max(0, health - amount)
+    public func damage(cause: DamageCause, amount: Double) -> DamageResult {
+        let new_health:Double = max(0, health - amount)
+        let event:EntityDamageEvent = EntityDamageEvent(entity: self, cause: cause, amount: amount)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else {
+            return DamageResult.failure(.cancelled)
+        }
         health = new_health
-        if new_health == 0 {
+        guard health == 0 else {
             // TODO: finish
             return DamageResult.success(.killed)
         }
