@@ -8,6 +8,8 @@
 import Foundation
 
 public struct MaterialBlockConfiguration : Jsonable {
+    public let type:BlockType
+    public let block_move_reaction:BlockMoveReaction
     /// If entities can passthrough (walk/sprint/swim through) this block or not.
     public let can_passthrough:Bool
     public let passthrough_velocity_dampen_x:Float

@@ -8,10 +8,9 @@
 import Foundation
 
 public struct Block : Hashable {
-    public var type : Material {
-        didSet {
-            
-        }
+    public var material_identifier:String
+    public var material : Material? {
+        return GluonServer.get_material(identifier: material_identifier)
     }
     public var light_level:UInt8
     public var location:Location

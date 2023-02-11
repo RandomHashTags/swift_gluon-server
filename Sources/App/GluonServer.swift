@@ -14,6 +14,15 @@ public final class GluonServer : GluonSharedInstance {
     static func get_world(name: String) -> World? {
         return shared_instance.worlds.first(where: { $0.name.elementsEqual(name) })
     }
+    static func get_advancement(identifier: String) -> Advancement? {
+        return shared_instance.advancements.first(where: { $0.identifier.elementsEqual(identifier) })
+    }
+    static func get_statistic(identifier: String) -> Statistic? {
+        return shared_instance.statistics.first(where: { $0.identifier.elementsEqual(identifier) })
+    }
+    static func get_material(identifier: String) -> Material? {
+        return shared_instance.materials.first(where: { $0.identifier.elementsEqual(identifier) })
+    }
     
     private var server_ticks_per_second:UInt8
     private var server_ticks_per_second_multiplier:Float
@@ -46,6 +55,7 @@ public final class GluonServer : GluonSharedInstance {
     private var art:Set<Art>
     private var attributes:Set<Attribute>
     private var instruments:Set<Instrument>
+    private var statistics:Set<Statistic>
     
     private var entities:Set<Entity>
     private var living_entities:Set<LivingEntity>
@@ -119,11 +129,17 @@ public final class GluonServer : GluonSharedInstance {
         art = []
         attributes = []
         instruments = []
+        statistics = []
         
         entities = []
         living_entities = []
         
         players = []
+        
+        for _ in 1..<10 {
+            let seed:Int64 = SeedGenerator.get_random()
+            print("GluonServer;init;seed=" + String(describing: seed))
+        }
     }
     
     func player_joined() {

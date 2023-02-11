@@ -8,6 +8,9 @@
 import Foundation
 
 public struct StatisticActive : Jsonable {
-    public let type:Statistic
-    public var value:Int
+    public let identifier:String
+    public var type : Statistic? {
+        return GluonServer.get_statistic(identifier: identifier)
+    }
+    public var value:Float
 }

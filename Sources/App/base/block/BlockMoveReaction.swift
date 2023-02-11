@@ -1,5 +1,5 @@
 //
-//  PistonMoveReaction.swift
+//  BlockMoveReaction.swift
 //  
 //
 //  Created by Evan Anderson on 2/5/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum PistonMoveReaction : String, Jsonable {
+public enum BlockMoveReaction : String, Jsonable {
     case move
     case `break`
     case block

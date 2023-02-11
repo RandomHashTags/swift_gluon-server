@@ -13,6 +13,7 @@ public struct Chunk : Jsonable {
     public let z:Int64
 
     public func load() async {
+        let seed:Int64 = world.seed
     }
     public func unload() {
     }

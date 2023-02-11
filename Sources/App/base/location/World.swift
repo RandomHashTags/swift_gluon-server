@@ -9,7 +9,7 @@ import Foundation
 
 public struct World : Jsonable {
     public let uuid:UUID
-    public let seed:UInt64
+    public let seed:Int64
     public let name:String
     
     public var spawn_location:Vector
