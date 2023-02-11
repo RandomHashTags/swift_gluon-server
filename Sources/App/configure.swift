@@ -63,6 +63,6 @@ public func configure(_ app: Application) throws {
             print("encountered error while trying to `configure` app (\(error)")
         }
         let server:GluonServer = GluonServer.shared_instance
-        //server.player_joined()
+        server.player_joined()
     }
 }

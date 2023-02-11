@@ -83,6 +83,20 @@ public class LivingEntity : Damageable {
     
     override func tick() {
         print("living entity with uuid " + uuid.uuidString + " has been ticked")
+        no_damage_ticks = no_damage_ticks == 0 ? 0 : no_damage_ticks - 1
+        
+        var removed_potion_effects:Set<PotionEffect> = Set<PotionEffect>()
+        for potion_effect in potion_effects {
+            let new_duration:UInt16 = potion_effect.duration - 1
+            if new_duration == 0 {
+                removed_potion_effects.insert(potion_effect)
+            } else {
+                potion_effect.duration = new_duration
+            }
+        }
+        potion_effects.remove(contentsOf: removed_potion_effects)
+        
+        
         super.tick()
     }
 }

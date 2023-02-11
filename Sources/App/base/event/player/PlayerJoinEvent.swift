@@ -7,6 +7,8 @@
 
 import Foundation
 
-public struct PlayerJoinEvent : PlayerEvent {
-    public let player:Player
+public final class PlayerJoinEvent : PlayerEvent {
+    public init(player: Player) {
+        super.init(type: EventType.player_join_event, is_async: false, player: player)
+    }
 }

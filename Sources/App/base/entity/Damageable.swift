@@ -27,7 +27,7 @@ public class Damageable : Entity {
             custom_name: custom_name,
             display_name: display_name,
             boundaries: [],
-            location: Location(world: GluonServer.get_world(name: "world")!, x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
+            location: Location(world_name: "world", x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
             fall_distance: 0,
             is_glowing: false,
@@ -38,8 +38,8 @@ public class Damageable : Entity {
             fire_ticks_maximum: 20,
             freeze_ticks: 0,
             freeze_ticks_maximum: 20,
-            passengers: [],
-            vehicle: nil
+            passenger_uuids: [],
+            vehicle_uuid: nil
         )
     }
     
@@ -50,14 +50,17 @@ public class Damageable : Entity {
     
     override func tick() {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
+        fire_ticks = fire_ticks == 0 ? 0 : fire_ticks - 1
         super.tick()
     }
     
-    public func damage(amount: Float) {
-        let new_health:Float = max(health - amount, 0)
+    public func damage(amount: Float) -> DamageResult {
+        let new_health:Float = max(0, health - amount)
         health = new_health
         if new_health == 0 {
             // TODO: finish
+            return DamageResult.success(.killed)
         }
+        return DamageResult.success(.normal)
     }
 }

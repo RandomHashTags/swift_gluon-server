@@ -15,7 +15,7 @@ public class Player : LivingEntity {
     public var experience_level:UInt64
     public var food_level:UInt64
     
-    public var permissions:Set<Permission>
+    public var permissions:Set<String>
     public var statistics:Set<StatisticActive>
     
     public var game_mode:GameMode
@@ -36,7 +36,7 @@ public class Player : LivingEntity {
         experience: UInt64,
         experience_level: UInt64,
         food_level: UInt64,
-        permissions: Set<Permission>,
+        permissions: Set<String>,
         statistics: Set<StatisticActive>,
         game_mode: GameMode,
         is_blocking: Bool,
@@ -62,7 +62,7 @@ public class Player : LivingEntity {
         self.inventory = inventory
         super.init(
             uuid: uuid,
-            type: GluonServer.get_player_entity_type(),
+            type: GluonServer.get_entity_type(identifier: "minecraft.player")!,
             custom_name: custom_name,
             display_name: display_name,
             can_breathe_underwater: true,
@@ -95,9 +95,10 @@ public class Player : LivingEntity {
     }
     
     public func has_permission(_ permission: String) -> Bool {
-        return permissions.first(where: { $0.identifier.compare(permission) == .orderedSame }) != nil
+        return permissions.contains(permission)
     }
     
     public func kick(reason: String) {
+        GluonServer.boot_player(player: self, reason: reason)
     }
 }

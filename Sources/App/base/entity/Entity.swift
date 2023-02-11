@@ -33,8 +33,14 @@ public class Entity : Nameable {
     public var freeze_ticks:UInt16
     public var freeze_ticks_maximum:UInt16
     
-    public var passengers:[String]
-    public var vehicle:UUID?
+    public var passenger_uuids:Set<UUID>
+    public var passengers : [Entity] {
+        return GluonServer.get_entities(uuids: passenger_uuids)
+    }
+    public var vehicle_uuid:UUID?
+    public var vehicle : Entity? {
+        return vehicle_uuid != nil ? GluonServer.get_entity(uuid: vehicle_uuid!) : nil
+    }
     
     public override func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
@@ -58,8 +64,8 @@ public class Entity : Nameable {
         fire_ticks_maximum: UInt16,
         freeze_ticks: UInt16,
         freeze_ticks_maximum: UInt16,
-        passengers: [String],
-        vehicle: UUID?
+        passenger_uuids: Set<UUID>,
+        vehicle_uuid: UUID?
     ) {
         self.uuid = uuid
         self.type = type
@@ -76,8 +82,8 @@ public class Entity : Nameable {
         self.fire_ticks_maximum = fire_ticks_maximum
         self.freeze_ticks = freeze_ticks
         self.freeze_ticks_maximum = freeze_ticks_maximum
-        self.passengers = passengers
-        self.vehicle = vehicle
+        self.passenger_uuids = passenger_uuids
+        self.vehicle_uuid = vehicle_uuid
         super.init(custom_name: custom_name)
     }
     
@@ -88,6 +94,14 @@ public class Entity : Nameable {
     func save() {
     }
     func tick() {
+        
+        if type.is_affected_by_gravity && !is_on_ground {
+            location.y -= GluonServer.shared_instance.gravity_per_tick
+        }
+        if type.is_damageable, let world:World = location.world, location.y < Float(world.y_min) {
+            let result:DamageResult = (self as! Damageable).damage(amount: GluonServer.shared_instance.void_damage_per_tick)
+        }
+        
     }
     
     public func get_nearby_entities(x: Double, y: Double, z: Double) -> Set<Entity> {
