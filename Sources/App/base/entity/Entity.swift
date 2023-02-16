@@ -14,6 +14,7 @@ public class Entity : Nameable {
     
     public let uuid:UUID
     public let type:EntityType
+    public var custom_name:String?
     public var display_name:String?
     
     public var boundaries:[Boundary]
@@ -42,7 +43,7 @@ public class Entity : Nameable {
         return vehicle_uuid != nil ? GluonServer.get_entity(uuid: vehicle_uuid!) : nil
     }
     
-    public override func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
         hasher.combine(type)
     }
@@ -69,6 +70,7 @@ public class Entity : Nameable {
     ) {
         self.uuid = uuid
         self.type = type
+        self.custom_name = custom_name
         self.display_name = display_name
         self.boundaries = boundaries
         self.location = location
@@ -84,7 +86,6 @@ public class Entity : Nameable {
         self.freeze_ticks_maximum = freeze_ticks_maximum
         self.passenger_uuids = passenger_uuids
         self.vehicle_uuid = vehicle_uuid
-        super.init(custom_name: custom_name)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -94,7 +95,6 @@ public class Entity : Nameable {
     func save() {
     }
     func tick() {
-        
         if type.is_affected_by_gravity && !is_on_ground {
             location.y -= GluonServer.shared_instance.gravity_per_tick
         }
