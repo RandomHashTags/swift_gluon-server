@@ -24,6 +24,7 @@ public class Damageable : Entity {
         super.init(
             uuid: uuid,
             type: type,
+            ticks_lived: 0,
             custom_name: custom_name,
             display_name: display_name,
             boundaries: [],

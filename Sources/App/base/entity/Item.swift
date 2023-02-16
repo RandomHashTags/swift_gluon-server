@@ -21,6 +21,7 @@ public class Item : Entity {
         super.init(
             uuid: UUID(),
             type: GluonServer.get_entity_type(identifier: "minecraft.item")!,
+            ticks_lived: 0,
             custom_name: nil,
             display_name: nil,
             boundaries: [],
@@ -42,5 +43,13 @@ public class Item : Entity {
     
     public required init(from decoder: Decoder) throws {
         fatalError("init(from:) has not been implemented")
+    }
+    
+    
+    public override func tick(_ server: GluonServer) {
+        super.tick(server)
+        if entity_ticks_lived >= UInt64(server.ticks_per_second) * 60 * 5 {
+            remove()
+        }
     }
 }
