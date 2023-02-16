@@ -7,11 +7,7 @@
 
 import Foundation
 
-public final class Location : Jsonable {
-    public static func == (lhs: Location, rhs: Location) -> Bool {
-        return lhs.world_name.elementsEqual(rhs.world_name) && lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.yaw == rhs.yaw && lhs.pitch == rhs.pitch
-    }
-    
+public struct Location : Jsonable {
     public var world_name:String
     public var world : World? {
         return GluonServer.get_world(name: world_name)
@@ -21,22 +17,6 @@ public final class Location : Jsonable {
     public var z:Double
     public var yaw:Double
     public var pitch:Double
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(world_name)
-        hasher.combine(x)
-        hasher.combine(y)
-        hasher.combine(z)
-    }
-    
-    public init(world_name: String, x: Double, y: Double, z: Double, yaw: Double, pitch: Double) {
-        self.world_name = world_name
-        self.x = x
-        self.y = y
-        self.z = z
-        self.yaw = yaw
-        self.pitch = pitch
-    }
     
     public func is_similar(_ location: Location) -> Bool {
         return world_name.elementsEqual(location.world_name) && x == location.x && y == location.y && z == location.z
@@ -50,5 +30,19 @@ public final class Location : Jsonable {
     public func distance(to location: Location) -> (x: Double, y: Double, z: Double) {
         let loc_x:Double = location.x, loc_y:Double = location.y, loc_z:Double = location.z
         return ((loc_x - x), (loc_y - y), (loc_z - z))
+    }
+    
+    /// Adds the specified distances to itself, and returns self.
+    mutating func adding(x: Double, y: Double, z: Double, yaw: Double, pitch: Double) -> Location {
+        self.x += x
+        self.y += y
+        self.z += z
+        self.yaw += yaw
+        self.pitch += pitch
+        return self
+    }
+    /// Returns a new `Location` adding the specified distances to this location.
+    func advanced_by(x: Double, y: Double, z: Double, yaw: Double = 0, pitch: Double = 0) -> Location {
+        return Location(world_name: world_name, x: self.x + x, y: self.y + y, z: self.z + z, yaw: self.yaw + yaw, pitch: self.pitch + pitch)
     }
 }

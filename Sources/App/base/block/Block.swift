@@ -26,8 +26,9 @@ public struct Block : Hashable {
     public func break_naturally() {
         if let loot:[ItemStack] = loot_table?.loot_normal, let world:World = location.world {
             let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second/2
+            let item_location:Location = location.advanced_by(x: 0.5, y: 0.5, z: 0.5)
             for item_stack in loot {
-                let item:Item = Item(item_stack: item_stack, pickup_delay: pickup_delay, location: location)
+                let item:Item = Item(item_stack: item_stack, pickup_delay: pickup_delay, location: item_location)
                 world.spawn_entity(item)
             }
         }
