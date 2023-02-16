@@ -24,4 +24,7 @@ public struct MaterialItemConfiguration : Jsonable {
     public let break_preferred_block_durability_damage:UInt
     /// Amount of durability to reduce this item by if the block broken doesn't prefer the item's material.
     public let break_nonpreferred_block_durability_damage:UInt
+    
+    public let place_block_whitelist:Set<String>?
+    public let place_block_blacklist:Set<String>?
 }

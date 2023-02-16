@@ -18,6 +18,8 @@ public struct Chunk : Jsonable {
     public func unload() {
     }
     
+    func save() {
+    }
     func tick() {
     }
 }

@@ -88,13 +88,19 @@ public class World : Jsonable {
     }
     
     func save() {
+        for chunk in chunks_loaded {
+            chunk.save()
+        }
+        for entity in world_entities {
+            entity.save()
+        }
     }
     func tick() {
         for chunk in chunks_loaded {
             chunk.tick()
         }
         
-        for entity in entities {
+        for entity in world_entities {
             entity.tick()
         }
     }

@@ -66,7 +66,7 @@ public final class GluonServer : GluonSharedInstance {
         server_ticks_per_second_multiplier = ticks_per_second_float / 20
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
-        let gravity:Double = 9.8
+        let gravity:Double = 9.80665
         self.server_gravity = gravity
         server_gravity_per_tick = gravity / ticks_per_second_float
         server_void_damage_per_tick = 1 / ticks_per_second_float
@@ -88,7 +88,7 @@ public final class GluonServer : GluonSharedInstance {
             World(
                 uuid: UUID(),
                 seed: 0,
-                name: "world",
+                name: "overworld",
                 spawn_location: spawn_location,
                 difficulty: difficulties.first!.value,
                 game_rules: [],
@@ -168,9 +168,6 @@ public final class GluonServer : GluonSharedInstance {
     private func save() {
         for world in worlds {
             world.save()
-        }
-        for entity in server_entities {
-            entity.save()
         }
     }
     private func tick() {

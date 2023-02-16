@@ -46,6 +46,7 @@ public final class Location : Jsonable {
         let (dis_x, dis_y, dis_z):(Double, Double, Double) = distance(to: center)
         return abs(dis_x) <= x_radius && abs(dis_y) <= y_radius && abs(dis_z) <= z_radius
     }
+    /// Gets the distance between two locations, regardless of world.
     public func distance(to location: Location) -> (x: Double, y: Double, z: Double) {
         let loc_x:Double = location.x, loc_y:Double = location.y, loc_z:Double = location.z
         return ((loc_x - x), (loc_y - y), (loc_z - z))

@@ -27,7 +27,7 @@ public class Damageable : Entity {
             custom_name: custom_name,
             display_name: display_name,
             boundaries: [],
-            location: Location(world_name: "world", x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
+            location: Location(world_name: "overworld", x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
             fall_distance: 0,
             is_glowing: false,
