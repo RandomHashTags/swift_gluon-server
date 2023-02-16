@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class GluonServer : GluonSharedInstance {
+public final class GluonServer : GluonSharedInstance, Tickable {
     private var server_ticks_per_second:UInt8
     private var server_ticks_per_second_multiplier:Double
     private var server_tick_interval_nano:UInt64
@@ -149,8 +149,9 @@ public final class GluonServer : GluonSharedInstance {
         server_is_awake = true
         server_loop = Task {
             do {
+                let instance:GluonServer = GluonServer.shared_instance
                 while server_is_awake {
-                    tick()
+                    tick(instance)
                     
                     try await Task.sleep(nanoseconds: server_tick_interval_nano)
                 }
@@ -170,9 +171,10 @@ public final class GluonServer : GluonSharedInstance {
             world.save()
         }
     }
-    private func tick() {
+    
+    public func tick(_ server: GluonServer) {
         for world in worlds {
-            world.tick()
+            world.tick(server)
         }
     }
 }

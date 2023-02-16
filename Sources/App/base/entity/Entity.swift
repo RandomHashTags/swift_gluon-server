@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Entity : Nameable {
+public class Entity : Nameable, Tickable {
     public static func == (lhs: Entity, rhs: Entity) -> Bool {
         return lhs.uuid.uuidString.elementsEqual(rhs.uuid.uuidString) && lhs.type == rhs.type
     }
@@ -94,12 +94,12 @@ public class Entity : Nameable {
     
     func save() {
     }
-    func tick() {
+    public func tick(_ server: GluonServer) {
         if type.is_affected_by_gravity && !is_on_ground {
-            location.y -= GluonServer.shared_instance.gravity_per_tick
+            location.y -= server.gravity_per_tick
         }
         if type.is_damageable, let world:World = location.world, location.y < Double(world.y_min) {
-            let result:DamageResult = (self as! Damageable).damage(cause: DamageCause.void, amount: GluonServer.shared_instance.void_damage_per_tick)
+            let result:DamageResult = (self as! Damageable).damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
         }
         
     }

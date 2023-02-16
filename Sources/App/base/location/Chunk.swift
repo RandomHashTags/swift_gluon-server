@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Chunk : Jsonable {
+public struct Chunk : Jsonable, Tickable {
     public let world:World
     public let x:Int64
     public let z:Int64
@@ -20,6 +20,6 @@ public struct Chunk : Jsonable {
     
     func save() {
     }
-    func tick() {
+    public func tick(_ server: GluonServer) {
     }
 }

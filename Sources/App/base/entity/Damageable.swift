@@ -48,10 +48,10 @@ public class Damageable : Entity {
         try super.init(from: decoder)
     }
     
-    override func tick() {
+    public override func tick(_ server: GluonServer) {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
         fire_ticks = fire_ticks == 0 ? 0 : fire_ticks - 1
-        super.tick()
+        super.tick(server)
     }
     
     public func damage(cause: DamageCause, amount: Double) -> DamageResult {

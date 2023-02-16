@@ -89,9 +89,9 @@ public class Player : LivingEntity {
         try super.init(from: decoder)
     }
     
-    override func tick() {
+    public override func tick(_ server: GluonServer) {
         print("player " + name + " has been ticked")
-        super.tick()
+        super.tick(server)
     }
     
     public func has_permission(_ permission: String) -> Bool {

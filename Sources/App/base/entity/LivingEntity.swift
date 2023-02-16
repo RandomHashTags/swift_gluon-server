@@ -81,7 +81,7 @@ public class LivingEntity : Damageable {
         fatalError("init(from:) has not been implemented")
     }
     
-    override func tick() {
+    public override func tick(_ server: GluonServer) {
         print("living entity with uuid " + uuid.uuidString + " has been ticked")
         no_damage_ticks = no_damage_ticks == 0 ? 0 : no_damage_ticks - 1
         
@@ -96,7 +96,6 @@ public class LivingEntity : Damageable {
         }
         potion_effects.remove(contentsOf: removed_potion_effects)
         
-        
-        super.tick()
+        super.tick(server)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class World : Jsonable {
+public class World : Jsonable, Tickable {
     public static func == (lhs: World, rhs: World) -> Bool {
         return lhs.uuid == rhs.uuid && lhs.seed == rhs.seed && lhs.name.elementsEqual(rhs.name)
     }
@@ -95,13 +95,13 @@ public class World : Jsonable {
             entity.save()
         }
     }
-    func tick() {
+    public func tick(_ server: GluonServer) {
         for chunk in chunks_loaded {
-            chunk.tick()
+            chunk.tick(server)
         }
         
         for entity in world_entities {
-            entity.tick()
+            entity.tick(server)
         }
     }
     
