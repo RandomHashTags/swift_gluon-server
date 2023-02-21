@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Block : Hashable {
+public struct Block : Hashable, Tickable {
     public var material_identifier:String
     public var material : Material? {
         return GluonServer.get_material(identifier: material_identifier)
@@ -22,6 +22,10 @@ public struct Block : Hashable {
     }
     
     public var loot_table:LootTable?
+    
+    public func tick(_ server: GluonServer) {
+        // TODO: handle tick logic
+    }
     
     public func break_naturally() {
         if let loot:[ItemStack] = loot_table?.loot_normal, let world:World = location.world {
