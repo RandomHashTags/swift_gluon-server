@@ -7,11 +7,15 @@
 
 import Foundation
 
-public class PlayerGameModeChangeEvent : PlayerEventCancellable {
-    public let new_game_mode:GameMode
+public final class PlayerGameModeChangeEvent : PlayerEventCancellable {
+    public let type:EventType
+    public var is_cancelled:Bool
+    public let player:Player, new_game_mode:GameMode
     
     public init(player: Player, new_game_mode: GameMode) {
+        type = EventType.player_change_game_mode
+        is_cancelled = false
+        self.player = player
         self.new_game_mode = new_game_mode
-        super.init(type: EventType.player_change_game_mode, player: player)
     }
 }

@@ -101,12 +101,19 @@ public class World : Jsonable, Tickable {
     func load_chunk(x: Int64, z: Int64) async {
         let chunk:Chunk = Chunk(world: self, x: x, z: z)
         guard !chunks_loaded.contains(chunk) else { return }
-        chunks_loaded.insert(chunk)
         await chunk.load()
+        chunks_loaded.insert(chunk)
         let event:ChunkLoadEvent = ChunkLoadEvent(chunk: chunk)
         GluonServer.shared_instance.call_event(event: event)
     }
     func unload_chunk(x: Int64, z: Int64) {
+        let chunk:Chunk = Chunk(world: self, x: x, z: z)
+        guard chunks_loaded.contains(chunk) else { return }
+        let event:ChunkUnloadEvent = ChunkUnloadEvent(chunk: chunk)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else { return }
+        chunks_loaded.remove(chunk)
+        chunk.unload()
     }
     
     public func spawn_entity(_ entity: Entity) {

@@ -7,11 +7,5 @@
 
 import Foundation
 
-public class EntityEventCancellable : EventCancellable {
-    public let entity:Entity
-    
-    public init(type: EventType, entity: Entity) {
-        self.entity = entity
-        super.init(type: type, is_cancelled: false)
-    }
+public protocol EntityEventCancellable : EntityEvent, Cancellable {
 }

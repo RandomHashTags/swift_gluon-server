@@ -7,11 +7,6 @@
 
 import Foundation
 
-public class EntityEvent : Event {
-    public let entity:Entity
-    
-    public init(type: EventType, entity: Entity) {
-        self.entity = entity
-        super.init(type: type)
-    }
+public protocol EntityEvent : Event {
+    var entity:Entity { get }
 }

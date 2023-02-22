@@ -7,8 +7,11 @@
 
 import Foundation
 
-public class ChunkLoadEvent : ChunkEvent {
+public final class ChunkLoadEvent : ChunkEvent {
+    public let type:EventType, chunk:Chunk
+    
     public init(chunk: Chunk) {
-        super.init(type: EventType.chunk_load, chunk: chunk)
+        type = EventType.chunk_load
+        self.chunk = chunk
     }
 }

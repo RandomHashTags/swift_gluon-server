@@ -7,11 +7,5 @@
 
 import Foundation
 
-public class PlayerEventCancellable : EventCancellable {
-    public let player:Player
-    
-    public init(type: EventType, player: Player) {
-        self.player = player
-        super.init(type: type, is_cancelled: false)
-    }
+public protocol PlayerEventCancellable : PlayerEvent, Cancellable {
 }

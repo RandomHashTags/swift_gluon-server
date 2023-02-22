@@ -7,8 +7,13 @@
 
 import Foundation
 
-public class ChunkUnloadEvent : ChunkEvent {
+public final class ChunkUnloadEvent : ChunkEvent, Cancellable {
+    public let type:EventType, chunk:Chunk
+    public var is_cancelled:Bool
+    
     public init(chunk: Chunk) {
-        super.init(type: EventType.chunk_unload, chunk: chunk)
+        type = EventType.chunk_unload
+        self.chunk = chunk
+        is_cancelled = false
     }
 }

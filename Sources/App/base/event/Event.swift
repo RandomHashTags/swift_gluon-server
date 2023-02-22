@@ -7,10 +7,6 @@
 
 import Foundation
 
-public class Event {
-    public let type:EventType
-    
-    public init(type: EventType) {
-        self.type = type
-    }
+public protocol Event {
+    var type:EventType { get }
 }

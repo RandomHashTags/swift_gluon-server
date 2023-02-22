@@ -8,7 +8,11 @@
 import Foundation
 
 public class EntityDeathEvent : EntityEvent {
+    public let type:EventType
+    public let entity:Entity
+    
     public init(entity: Entity) {
-        super.init(type: EventType.entity_death, entity: entity)
+        type = EventType.entity_death
+        self.entity = entity
     }
 }
