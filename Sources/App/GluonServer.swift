@@ -127,7 +127,9 @@ public final class GluonServer : GluonSharedInstance, Tickable {
             recipes: []
         )
         let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
+        let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
         let player:Player = Player(
+            connection: connection,
             uuid: UUID(),
             name: "RandomHashTags",
             list_name: nil,

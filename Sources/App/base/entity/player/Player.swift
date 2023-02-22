@@ -8,6 +8,8 @@
 import Foundation
 
 public class Player : LivingEntity {
+    public let connection:PlayerConnection
+    
     public let name:String
     public var list_name:String?
     
@@ -28,6 +30,7 @@ public class Player : LivingEntity {
     public var inventory:Inventory
     
     public init(
+        connection: PlayerConnection,
         uuid: UUID,
         name: String,
         list_name: String?,
@@ -46,6 +49,7 @@ public class Player : LivingEntity {
         is_sprinting: Bool,
         inventory: Inventory
     ) {
+        self.connection = connection
         self.name = name
         self.list_name = list_name
         self.experience = experience
