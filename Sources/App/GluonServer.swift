@@ -8,16 +8,16 @@
 import Foundation
 
 public final class GluonServer : GluonSharedInstance, Tickable {
-    private var server_ticks_per_second:UInt8
-    private var server_ticks_per_second_multiplier:Double
+    public private(set) var ticks_per_second:UInt8
+    public private(set) var ticks_per_second_multiplier:Double
     private var server_tick_interval_nano:UInt64
     private var server_is_awake:Bool
     private var server_loop:Task<Void, Error>!
-    private let server_gravity:Double
-    private var server_gravity_per_tick:Double
-    private var server_void_damage_per_tick:Double
+    public private(set) var gravity:Double
+    public private(set) var gravity_per_tick:Double
+    public private(set) var void_damage_per_tick:Double
     
-    private var max_players:UInt64
+    public private(set) var max_players:UInt64
     private var port:Int
     private var has_whitelist:Bool
     private var whitelisted_players:Set<UUID>
@@ -25,7 +25,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var banned_ip_addresses:Set<BanEntry>
     
     private var difficulties:[String:Difficulty]
-    private var worlds:Set<World>
+    public private(set) var worlds:Set<World>
     
     private var sound_categories:Set<SoundCategory>
     private var sounds:Set<Sound>
@@ -44,15 +44,12 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var commands:[String:Command]
     private var permissions:[String:Permission]
     
-    private var server_entities:Set<Entity>
-    public var entities : Set<Entity> {
-        return server_entities
-    }
+    public private(set) var entities:Set<Entity>
     public var living_entities : [LivingEntity] {
-        return server_entities.compactMap({ $0 as? LivingEntity })
+        return entities.compactMap({ $0 as? LivingEntity })
     }
-    private var players : [Player] {
-        return server_entities.compactMap({ $0 as? Player })
+    public var players : [Player] {
+        return entities.compactMap({ $0 as? Player })
     }
     
     private var event_listeners:[any EventListener]
@@ -62,14 +59,14 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     }
     private init(ticks_per_second: UInt8) {
         let ticks_per_second_float:Double = Double(ticks_per_second)
-        server_ticks_per_second = ticks_per_second
-        server_ticks_per_second_multiplier = ticks_per_second_float / 20
+        self.ticks_per_second = ticks_per_second
+        ticks_per_second_multiplier = ticks_per_second_float / 20
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
         let gravity:Double = 9.80665
-        self.server_gravity = gravity
-        server_gravity_per_tick = gravity / ticks_per_second_float
-        server_void_damage_per_tick = 1 / ticks_per_second_float
+        self.gravity = gravity
+        gravity_per_tick = gravity / ticks_per_second_float
+        void_damage_per_tick = 1 / ticks_per_second_float
         
         print("server_ticks_per_second=" + ticks_per_second.description + "; 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
         
@@ -127,7 +124,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         commands = [:]
         permissions = [:]
         
-        server_entities = []
+        entities = []
         
         event_listeners = []
     }
@@ -137,7 +134,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
         let player:Player = Player(uuid: UUID(), name: "RandomHashTags", list_name: nil, custom_name: nil, display_name: nil, experience: 0, experience_level: 0, food_level: 10, permissions: [], statistics: [], game_mode: game_modes.first!.value, is_blocking: false, is_flying: false, is_op: true, is_sneaking: false, is_sprinting: false, inventory: inventory)
         
-        server_entities.insert(player)
+        entities.insert(player)
         player.location.world?.spawn_entity(player)
         call_event(event: PlayerJoinEvent(player: player))
         
@@ -161,9 +158,9 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         }
     }
     func set_tick_rate(ticks_per_second: UInt8) {
-        self.server_ticks_per_second = ticks_per_second
+        self.ticks_per_second = ticks_per_second
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
-        server_gravity_per_tick = server_gravity / Double(ticks_per_second)
+        gravity_per_tick = gravity / Double(ticks_per_second)
     }
     
     private func save() {
@@ -180,56 +177,49 @@ public final class GluonServer : GluonSharedInstance, Tickable {
 }
 
 public extension GluonServer {
-    var ticks_per_second : UInt8 { server_ticks_per_second }
-    var ticks_per_second_multiplier : Double { server_ticks_per_second_multiplier }
-    var gravity_per_tick : Double { server_gravity_per_tick }
-    var void_damage_per_tick : Double { server_void_damage_per_tick }
-}
-
-public extension GluonServer {
     static func get_entity_type(identifier: String) -> EntityType? {
-        return shared_instance.entity_types[identifier]
+        return GluonServer.shared_instance.entity_types[identifier]
     }
     static func get_world(name: String) -> World? {
-        return shared_instance.worlds.first(where: { $0.name.elementsEqual(name) })
+        return GluonServer.shared_instance.worlds.first(where: { $0.name.elementsEqual(name) })
     }
     
     
     static func get_advancement(identifier: String) -> Advancement? {
-        return shared_instance.advancements[identifier]
+        return GluonServer.shared_instance.advancements[identifier]
     }
     static func get_command(identifier: String) -> Command? {
-        return shared_instance.commands[identifier]
+        return GluonServer.shared_instance.commands[identifier]
     }
     static func get_enchantment_type(identifier: String) -> EnchantmentType? {
-        return shared_instance.enchantment_types[identifier]
+        return GluonServer.shared_instance.enchantment_types[identifier]
     }
     static func get_game_mode(identifier: String) -> GameMode? {
-        return shared_instance.game_modes[identifier]
+        return GluonServer.shared_instance.game_modes[identifier]
     }
     static func get_inventory_type(identifier: String) -> InventoryType? {
-        return shared_instance.inventory_types.first(where: { $0.identifier.elementsEqual(identifier) })
+        return GluonServer.shared_instance.inventory_types.first(where: { $0.identifier.elementsEqual(identifier) })
     }
     static func get_material(identifier: String) -> Material? {
-        return shared_instance.materials[identifier]
+        return GluonServer.shared_instance.materials[identifier]
     }
     static func get_permission(identifier: String) -> Permission? {
-        return shared_instance.permissions[identifier]
+        return GluonServer.shared_instance.permissions[identifier]
     }
     static func get_statistic(identifier: String) -> Statistic? {
-        return shared_instance.statistics.first(where: { $0.identifier.elementsEqual(identifier) })
+        return GluonServer.shared_instance.statistics.first(where: { $0.identifier.elementsEqual(identifier) })
     }
 }
 public extension GluonServer {
     static func get_nearby_entities(center: Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [Entity] {
-        return GluonServer.shared_instance.server_entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
+        return GluonServer.shared_instance.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
     static func get_entity(uuid: UUID) -> Entity? {
-        return GluonServer.shared_instance.server_entities.first(where: { $0.uuid == uuid })
+        return GluonServer.shared_instance.entities.first(where: { $0.uuid == uuid })
     }
     static func get_entities(uuids: Set<UUID>) -> [Entity] {
-        return GluonServer.shared_instance.server_entities.filter({ uuids.contains($0.uuid) })
+        return GluonServer.shared_instance.entities.filter({ uuids.contains($0.uuid) })
     }
     
     static func get_living_entity(uuid: UUID) -> LivingEntity? {
@@ -250,7 +240,7 @@ public extension GluonServer {
 public extension GluonServer {
     static func boot_player(player: Player, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
         let instance:GluonServer = GluonServer.shared_instance
-        instance.server_entities.remove(player)
+        instance.entities.remove(player)
         
         if ban_user {
             instance.banned_players.insert(BanEntry(target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))
