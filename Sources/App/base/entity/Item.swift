@@ -48,8 +48,10 @@ public class Item : Entity {
     
     public override func tick(_ server: GluonServer) {
         super.tick(server)
-        if entity_ticks_lived >= UInt64(server.ticks_per_second) * 60 * 5 {
+        
+        if fire_ticks > 0 || ticks_lived >= UInt64(server.ticks_per_second) * 60 * 5 {
             remove()
+            return
         }
     }
 }

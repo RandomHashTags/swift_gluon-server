@@ -9,6 +9,6 @@ import Foundation
 
 public final class PlayerJoinEvent : PlayerEvent {
     public init(player: Player) {
-        super.init(type: EventType.player_join_event, is_async: false, player: player)
+        super.init(type: EventType.player_join, is_async: false, player: player)
     }
 }

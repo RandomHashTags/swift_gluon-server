@@ -18,7 +18,7 @@ public class Player : LivingEntity {
     public var permissions:Set<String>
     public var statistics:Set<StatisticActive>
     
-    public var game_mode:GameMode
+    public private(set) var game_mode:GameMode
     public var is_blocking:Bool
     public var is_flying:Bool
     public var is_op:Bool
@@ -96,6 +96,14 @@ public class Player : LivingEntity {
     
     public func has_permission(_ permission: String) -> Bool {
         return permissions.contains(permission)
+    }
+    
+    public func set_game_mode(_ game_mode: GameMode) {
+        guard self.game_mode != game_mode else { return }
+        let event:PlayerGameModeChangeEvent = PlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else { return }
+        self.game_mode = game_mode
     }
     
     public func kick(reason: String) {

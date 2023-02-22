@@ -17,6 +17,6 @@ public class EntityDamageEvent : EntityEventCancellable {
     public init(entity: Entity, cause: DamageCause, amount: Double) {
         self.cause = cause
         self.amount = amount
-        super.init(type: EventType.entity_damage_event, entity: entity)
+        super.init(type: EventType.entity_damage, entity: entity)
     }
 }

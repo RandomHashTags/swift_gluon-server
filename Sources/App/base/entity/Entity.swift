@@ -14,8 +14,7 @@ public class Entity : Nameable, Tickable {
     
     public let uuid:UUID
     public let type:EntityType
-    internal var entity_ticks_lived:UInt64
-    public var ticks_lived : UInt64 { entity_ticks_lived }
+    public private(set) var ticks_lived:UInt64
     public var custom_name:String?
     public var display_name:String?
     
@@ -73,7 +72,7 @@ public class Entity : Nameable, Tickable {
     ) {
         self.uuid = uuid
         self.type = type
-        entity_ticks_lived = ticks_lived
+        self.ticks_lived = ticks_lived
         self.custom_name = custom_name
         self.display_name = display_name
         self.boundaries = boundaries
@@ -99,10 +98,12 @@ public class Entity : Nameable, Tickable {
     func save() {
     }
     public func tick(_ server: GluonServer) {
-        entity_ticks_lived += 1
+        ticks_lived += 1
+        
         if type.is_affected_by_gravity && !is_on_ground {
             location.y -= server.gravity_per_tick
         }
+        
         if type.is_damageable, let world:World = location.world {
             let y:Double = location.y
             

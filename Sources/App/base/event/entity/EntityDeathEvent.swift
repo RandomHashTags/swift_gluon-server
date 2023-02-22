@@ -9,6 +9,6 @@ import Foundation
 
 public class EntityDeathEvent : EntityEvent {
     public init(entity: Entity) {
-        super.init(type: EventType.entity_death_event, entity: entity)
+        super.init(type: EventType.entity_death, entity: entity)
     }
 }

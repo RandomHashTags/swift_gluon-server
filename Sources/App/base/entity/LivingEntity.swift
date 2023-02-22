@@ -83,7 +83,9 @@ public class LivingEntity : Damageable {
     
     public override func tick(_ server: GluonServer) {
         print("living entity with uuid " + uuid.uuidString + " has been ticked")
-        no_damage_ticks = no_damage_ticks == 0 ? 0 : no_damage_ticks - 1
+        if no_damage_ticks > 0 {
+            no_damage_ticks -= 1
+        }
         
         var removed_potion_effects:Set<PotionEffect> = Set<PotionEffect>()
         for potion_effect in potion_effects {
@@ -97,5 +99,13 @@ public class LivingEntity : Damageable {
         potion_effects.remove(contentsOf: removed_potion_effects)
         
         super.tick(server)
+    }
+    
+    public override func damage(cause: DamageCause, amount: Double) -> DamageResult {
+        let result:DamageResult = super.damage(cause: cause, amount: amount)
+        if no_damage_ticks == 0 {
+            no_damage_ticks = no_damage_ticks_maximum
+        }
+        return result
     }
 }
