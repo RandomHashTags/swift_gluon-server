@@ -34,16 +34,9 @@ public class World : Jsonable, Tickable {
     
     public var beds_work:Bool
     
-    internal var world_entities:Set<Entity> = Set<Entity>()
-    public var entities : Set<Entity> {
-        return world_entities
-    }
-    public var living_entities : [LivingEntity] {
-        return world_entities.compactMap({ $0 as? LivingEntity })
-    }
-    public var players : [Player] {
-        return world_entities.compactMap({ $0 as? Player })
-    }
+    public internal(set) var entities:Set<Entity> = Set<Entity>()
+    public internal(set) var living_entities:Set<LivingEntity> = Set<LivingEntity>()
+    public internal(set) var players:Set<Player> = Set<Player>()
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
@@ -91,7 +84,7 @@ public class World : Jsonable, Tickable {
         for chunk in chunks_loaded {
             chunk.save()
         }
-        for entity in world_entities {
+        for entity in entities {
             entity.save()
         }
     }
@@ -100,7 +93,7 @@ public class World : Jsonable, Tickable {
             chunk.tick(server)
         }
         
-        for entity in world_entities {
+        for entity in entities {
             entity.tick(server)
         }
     }
@@ -111,22 +104,25 @@ public class World : Jsonable, Tickable {
     func unload_chunk(x: Int64, z: Int64) {
     }
     
-    func spawn_entity(_ entity: Entity) {
-        world_entities.insert(entity)
+    public func spawn_entity(_ entity: Entity) {
+        entities.insert(entity)
+    }
+    public func remove_entity(_ entity: Entity) {
+        entities.remove(entity)
     }
     
     public func get_nearby_entities(center: Location, x: Double, y: Double, z: Double) -> [Entity] {
-        return world_entities.filter({ $0.location.is_nearby(center: center, x_radius: x, y_radius: y, z_radius: z) })
+        return entities.filter({ $0.location.is_nearby(center: center, x_radius: x, y_radius: y, z_radius: z) })
     }
     public func get_nearby_entities(center: Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [Entity] {
-        return world_entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
+        return entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
     public func get_entity(uuid: UUID) -> Entity? {
-        return world_entities.first(where: { $0.uuid == uuid })
+        return entities.first(where: { $0.uuid == uuid })
     }
     public func get_entities(uuids: Set<UUID>) -> [Entity] {
-        return world_entities.filter({ uuids.contains($0.uuid) })
+        return entities.filter({ uuids.contains($0.uuid) })
     }
     
     public func get_living_entity(uuid: UUID) -> LivingEntity? {

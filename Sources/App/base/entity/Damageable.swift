@@ -51,12 +51,17 @@ public class Damageable : Entity {
     
     public override func tick(_ server: GluonServer) {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
-        fire_ticks = fire_ticks == 0 ? 0 : fire_ticks - 1
+        if fire_ticks > 0 {
+            fire_ticks -= 1
+        }
+        if freeze_ticks > 0 {
+            freeze_ticks -= 1
+        }
         super.tick(server)
     }
     
     public func damage(cause: DamageCause, amount: Double) -> DamageResult {
-        let new_health:Double = max(0, health - amount)
+        let new_health:Double = max(0, min(health-amount, health_maximum))
         let event:EntityDamageEvent = EntityDamageEvent(entity: self, cause: cause, amount: amount)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else {
@@ -65,6 +70,8 @@ public class Damageable : Entity {
         health = new_health
         guard health == 0 else {
             // TODO: finish
+            let event:EntityDeathEvent = EntityDeathEvent(entity: self)
+            GluonServer.shared_instance.call_event(event: event)
             return DamageResult.success(.killed)
         }
         return DamageResult.success(.normal)

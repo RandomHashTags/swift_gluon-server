@@ -13,7 +13,17 @@ public struct Chunk : Jsonable, Tickable {
     public let z:Int64
     
     public var entities : [Entity] {
-        let entities:Set<Entity> = world.world_entities
+        let entities:Set<Entity> = world.entities
+        let this_chunk:(Int64, Int64) = (x, z)
+        return entities.filter({ $0.location.chunk_coordinates == this_chunk })
+    }
+    public var living_entities : [LivingEntity] {
+        let entities:Set<LivingEntity> = world.living_entities
+        let this_chunk:(Int64, Int64) = (x, z)
+        return entities.filter({ $0.location.chunk_coordinates == this_chunk })
+    }
+    public var players : [Player] {
+        let entities:Set<Player> = world.players
         let this_chunk:(Int64, Int64) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
@@ -25,6 +35,14 @@ public struct Chunk : Jsonable, Tickable {
         for entity in entities {
             entity.save()
             entity.remove()
+        }
+        for living_entity in living_entities {
+            living_entity.save()
+            living_entity.remove()
+        }
+        for player in players {
+            player.save()
+            player.remove()
         }
         
         save()

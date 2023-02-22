@@ -103,14 +103,19 @@ public class Entity : Nameable, Tickable {
         if type.is_affected_by_gravity && !is_on_ground {
             location.y -= server.gravity_per_tick
         }
-        if type.is_damageable, let world:World = location.world, location.y < Double(world.y_min) {
-            let result:DamageResult = (self as! Damageable).damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
+        if type.is_damageable, let world:World = location.world {
+            let y:Double = location.y
+            
+            if y < Double(world.y_min) {
+                let result:DamageResult = (self as! Damageable).damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
+            }
         }
         
     }
     
+    /// Removes this entity from the server. Like it never existed (or "despawned").
     public func remove() {
-        location.world?.world_entities.remove(self)
+        location.world?.remove_entity(self)
     }
     
     public func get_nearby_entities(x: Double, y: Double, z: Double) -> Set<Entity> {

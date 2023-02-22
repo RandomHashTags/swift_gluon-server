@@ -44,14 +44,6 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var commands:[String:Command]
     private var permissions:[String:Permission]
     
-    public private(set) var entities:Set<Entity>
-    public var living_entities : [LivingEntity] {
-        return entities.compactMap({ $0 as? LivingEntity })
-    }
-    public var players : [Player] {
-        return entities.compactMap({ $0 as? Player })
-    }
-    
     private var event_listeners:[any EventListener]
     
     convenience init() {
@@ -124,8 +116,6 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         commands = [:]
         permissions = [:]
         
-        entities = []
-        
         event_listeners = []
     }
     
@@ -133,8 +123,6 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         let inventory_type:InventoryType = InventoryType(identifier: "minecraft.player_items", size: 36)
         let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
         let player:Player = Player(uuid: UUID(), name: "RandomHashTags", list_name: nil, custom_name: nil, display_name: nil, experience: 0, experience_level: 0, food_level: 10, permissions: [], statistics: [], game_mode: game_modes.first!.value, is_blocking: false, is_flying: false, is_op: true, is_sneaking: false, is_sprinting: false, inventory: inventory)
-        
-        entities.insert(player)
         player.location.world?.spawn_entity(player)
         call_event(event: PlayerJoinEvent(player: player))
         
@@ -212,35 +200,50 @@ public extension GluonServer {
 }
 public extension GluonServer {
     static func get_nearby_entities(center: Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [Entity] {
-        return GluonServer.shared_instance.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
+        return center.world?.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) }) ?? []
     }
     
     static func get_entity(uuid: UUID) -> Entity? {
-        return GluonServer.shared_instance.entities.first(where: { $0.uuid == uuid })
+        for world in GluonServer.shared_instance.worlds {
+            if let entity:Entity = world.entities.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
+        }
+        return nil
     }
     static func get_entities(uuids: Set<UUID>) -> [Entity] {
-        return GluonServer.shared_instance.entities.filter({ uuids.contains($0.uuid) })
+        return GluonServer.shared_instance.worlds.map({ $0.entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
     
     static func get_living_entity(uuid: UUID) -> LivingEntity? {
-        return GluonServer.shared_instance.living_entities.first(where: { $0.uuid == uuid })
+        for world in GluonServer.shared_instance.worlds {
+            if let entity:LivingEntity = world.living_entities.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
+        }
+        return nil
     }
     static func get_living_entities(uuids: Set<UUID>) -> [LivingEntity] {
-        return GluonServer.shared_instance.living_entities.filter({ uuids.contains($0.uuid) })
+        return GluonServer.shared_instance.worlds.map({ $0.living_entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
     
     static func get_player(uuid: UUID) -> Player? {
-        return GluonServer.shared_instance.players.first(where: { $0.uuid == uuid })
+        for world in GluonServer.shared_instance.worlds {
+            if let entity:Player = world.players.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
+        }
+        return nil
     }
     static func get_players(uuids: Set<UUID>) -> [Player] {
-        return GluonServer.shared_instance.players.filter({ uuids.contains($0.uuid) })
+        return GluonServer.shared_instance.worlds.map({ $0.players.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
 }
 
 public extension GluonServer {
     static func boot_player(player: Player, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
         let instance:GluonServer = GluonServer.shared_instance
-        instance.entities.remove(player)
+        player.location.world?.players.remove(player)
         
         if ban_user {
             instance.banned_players.insert(BanEntry(target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))

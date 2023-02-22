@@ -10,8 +10,9 @@ import Foundation
 public enum EventType {
     
     case entity_damage_event
+    case entity_death_event
     
     case player_join_event
     
-    case custom(identifier: String)
+    case custom(identifier: String, value: Any? = nil)
 }

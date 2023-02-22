@@ -18,7 +18,7 @@ public struct Block : Hashable, Tickable {
     
     public var growable_age:UInt8?
     public var is_fully_grown : Bool {
-        return growable_age ?? 0 >= material?.configuration.block?.growable_configuration?.maximum_age ?? 0
+        return growable_age ?? 0 >= material?.configuration.block?.growable?.maximum_age ?? 0
     }
     
     public var loot_table:LootTable?
