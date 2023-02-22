@@ -10,8 +10,8 @@ import Foundation
 public class PlayerEvent : Event {
     public let player:Player
     
-    public init(type: EventType, is_async: Bool, player: Player) {
+    public init(type: EventType, player: Player) {
         self.player = player
-        super.init(type: type, is_async: is_async)
+        super.init(type: type)
     }
 }

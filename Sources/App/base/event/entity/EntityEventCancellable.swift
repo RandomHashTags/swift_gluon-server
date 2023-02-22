@@ -12,6 +12,6 @@ public class EntityEventCancellable : EventCancellable {
     
     public init(type: EventType, entity: Entity) {
         self.entity = entity
-        super.init(type: type, is_async: false, is_cancelled: false)
+        super.init(type: type, is_cancelled: false)
     }
 }

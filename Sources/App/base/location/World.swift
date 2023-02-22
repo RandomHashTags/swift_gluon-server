@@ -98,8 +98,13 @@ public class World : Jsonable, Tickable {
         }
     }
     
-    func load_chunk(x: Int64, z: Int64) {
-        guard chunks_loaded.first(where: { $0.x == x && $0.z == z }) == nil else { return }
+    func load_chunk(x: Int64, z: Int64) async {
+        let chunk:Chunk = Chunk(world: self, x: x, z: z)
+        guard !chunks_loaded.contains(chunk) else { return }
+        chunks_loaded.insert(chunk)
+        await chunk.load()
+        let event:ChunkLoadEvent = ChunkLoadEvent(chunk: chunk)
+        GluonServer.shared_instance.call_event(event: event)
     }
     func unload_chunk(x: Int64, z: Int64) {
     }

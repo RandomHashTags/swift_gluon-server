@@ -12,6 +12,6 @@ public class PlayerEventCancellable : EventCancellable {
     
     public init(type: EventType, player: Player) {
         self.player = player
-        super.init(type: type, is_async: false, is_cancelled: false)
+        super.init(type: type, is_cancelled: false)
     }
 }

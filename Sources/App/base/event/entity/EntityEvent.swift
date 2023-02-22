@@ -12,6 +12,6 @@ public class EntityEvent : Event {
     
     public init(type: EventType, entity: Entity) {
         self.entity = entity
-        super.init(type: type, is_async: false)
+        super.init(type: type)
     }
 }

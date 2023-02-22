@@ -8,10 +8,9 @@
 import Foundation
 
 public class Event {
-    public let type:EventType, is_async:Bool
+    public let type:EventType
     
-    public init(type: EventType, is_async: Bool) {
+    public init(type: EventType) {
         self.type = type
-        self.is_async = is_async
     }
 }

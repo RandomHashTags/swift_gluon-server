@@ -124,6 +124,9 @@ public class Entity : Nameable, Tickable {
     }
     
     public func teleport(location: Location) {
+        let event:EntityTeleportEvent = EntityTeleportEvent(entity: self, new_location: location)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else { return }
         self.location = location
     }
 }
