@@ -10,8 +10,3 @@ import Foundation
 public protocol Cancellable {
     var is_cancelled : Bool { get set }
 }
-public extension Cancellable {
-    var is_cancelled : Bool {
-        return false
-    }
-}

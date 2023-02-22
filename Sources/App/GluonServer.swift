@@ -34,7 +34,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var enchantment_types:[String:EnchantmentType]
     private var entity_types:[String:EntityType]
     private var inventory_types:Set<InventoryType>
-    private var potion_effect_types:Set<PotionEffectType>
+    private var potion_effect_types:[String:PotionEffectType]
     private var game_modes:[String:GameMode]
     private var advancements:[String:Advancement]
     private var art:Set<Art>
@@ -104,7 +104,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         ]
         inventory_types = [
         ]
-        potion_effect_types = []
+        potion_effect_types = [:]
         game_modes = [
             "minecraft.survival" : GameMode(identifier: "minecraft.survival", name: MultilingualStrings(english: "Survival"), allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
         ]
@@ -120,9 +120,32 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     }
     
     func player_joined() {
-        let inventory_type:InventoryType = InventoryType(identifier: "minecraft.player_items", size: 36)
+        let inventory_type:InventoryType = InventoryType(
+            identifier: "minecraft.player_items",
+            categories: ["minecraft.player"],
+            size: 36,
+            recipes: []
+        )
         let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
-        let player:Player = Player(uuid: UUID(), name: "RandomHashTags", list_name: nil, custom_name: nil, display_name: nil, experience: 0, experience_level: 0, food_level: 10, permissions: [], statistics: [], game_mode: game_modes.first!.value, is_blocking: false, is_flying: false, is_op: true, is_sneaking: false, is_sprinting: false, inventory: inventory)
+        let player:Player = Player(
+            uuid: UUID(),
+            name: "RandomHashTags",
+            list_name: nil,
+            custom_name: nil,
+            display_name: nil,
+            experience: 0,
+            experience_level: 0,
+            food_level: 20,
+            permissions: [],
+            statistics: [],
+            game_mode: game_modes.first!.value,
+            is_blocking: false,
+            is_flying: false,
+            is_op: true,
+            is_sneaking: false,
+            is_sprinting: false,
+            inventory: inventory
+        )
         player.location.world?.spawn_entity(player)
         call_event(event: PlayerJoinEvent(player: player))
         
@@ -157,7 +180,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         }
     }
     
-    public func tick(_ server: GluonServer) {
+    func tick(_ server: GluonServer) {
         for world in worlds {
             world.tick(server)
         }
@@ -193,6 +216,9 @@ public extension GluonServer {
     }
     static func get_permission(identifier: String) -> Permission? {
         return GluonServer.shared_instance.permissions[identifier]
+    }
+    static func get_potion_effect_type(identifier: String) -> PotionEffectType? {
+        return GluonServer.shared_instance.potion_effect_types[identifier]
     }
     static func get_statistic(identifier: String) -> Statistic? {
         return GluonServer.shared_instance.statistics.first(where: { $0.identifier.elementsEqual(identifier) })

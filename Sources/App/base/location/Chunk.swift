@@ -50,6 +50,6 @@ public struct Chunk : Jsonable, Tickable {
     
     func save() {
     }
-    public func tick(_ server: GluonServer) {
+    func tick(_ server: GluonServer) {
     }
 }

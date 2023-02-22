@@ -9,5 +9,7 @@ import Foundation
 
 public struct InventoryType : Jsonable {
     public let identifier:String
+    public let categories:[String]
     public let size:Int
+    public let recipes:Set<Recipe>
 }

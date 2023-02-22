@@ -23,7 +23,7 @@ public struct Block : Hashable, Tickable {
     
     public var loot_table:LootTable?
     
-    public func tick(_ server: GluonServer) {
+    func tick(_ server: GluonServer) {
         // TODO: handle tick logic
     }
     

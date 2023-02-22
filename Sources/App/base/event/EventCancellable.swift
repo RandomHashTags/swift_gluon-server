@@ -8,5 +8,4 @@
 import Foundation
 
 public protocol EventCancellable : Event, Cancellable {
-    var is_cancelled:Bool { get set }
 }

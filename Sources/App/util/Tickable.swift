@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol Tickable {
+internal protocol Tickable {
     func tick(_ server: GluonServer)
 }

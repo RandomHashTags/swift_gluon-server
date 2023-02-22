@@ -97,7 +97,7 @@ public class Entity : Nameable, Tickable {
     
     func save() {
     }
-    public func tick(_ server: GluonServer) {
+    func tick(_ server: GluonServer) {
         ticks_lived += 1
         
         if type.is_affected_by_gravity && !is_on_ground {

@@ -8,10 +8,10 @@
 import Foundation
 
 public protocol EventListener {
-    func handle(event: Event)
+    func handle(event: any Event)
 }
 
 public extension EventListener {
-    func handle(event: Event) {
+    func handle(event: any Event) {
     }
 }

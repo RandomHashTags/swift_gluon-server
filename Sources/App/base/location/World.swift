@@ -88,7 +88,7 @@ public class World : Jsonable, Tickable {
             entity.save()
         }
     }
-    public func tick(_ server: GluonServer) {
+    func tick(_ server: GluonServer) {
         for chunk in chunks_loaded {
             chunk.tick(server)
         }
