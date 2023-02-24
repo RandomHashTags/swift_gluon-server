@@ -272,6 +272,7 @@ public extension GluonServer {
     static func boot_player(player: Player, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
         let instance:GluonServer = GluonServer.shared_instance
         player.location.world?.players.remove(player)
+        player.connection.close()
         
         if ban_user {
             instance.banned_players.insert(BanEntry(target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))
