@@ -31,6 +31,34 @@ public func configure(_ app: Application) throws {
     //app.http.server.configuration.serverName = Settings.get_server_name()
     //app.http.server.configuration.supportVersions = [.one]
     
+    test()
+    //start_server(app)
+}
+
+private func test() {
+    let difficulty:Difficulty = Difficulty.init(identifier: "minecraft.normal", name: MultilingualStrings.init(english: "Normal"))
+    let world:World = World.init(
+        uuid: UUID(),
+        seed: 420,
+        name: "minecraft.overworld",
+        spawn_location: Vector.init(x: 0, y: 0, z: 0),
+        difficulty: difficulty,
+        game_rules: [],
+        time: 0,
+        y_min: -64,
+        y_max: 365,
+        y_sea_level: 0,
+        chunks_loaded: [],
+        allows_animals: true,
+        allows_monsters: true,
+        allows_pvp: true,
+        beds_work: true
+    )
+    let chunk:Chunk = Chunk.init(world: world, x: 0, z: 0)
+    BlockPopulator.populate(chunk: chunk)
+}
+
+private func start_server(_ app: Application) {
     app.webSocket("connection") { request, server_socket in
         
         server_socket.onText { client_socket, text in

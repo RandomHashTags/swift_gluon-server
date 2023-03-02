@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Block : Hashable, Tickable {
+public struct Block : Jsonable, Tickable {
     public var material_identifier:String
     public var material : Material? {
         return GluonServer.get_material(identifier: material_identifier)

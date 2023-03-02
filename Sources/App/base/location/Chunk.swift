@@ -7,10 +7,29 @@
 
 import Foundation
 
-public struct Chunk : Jsonable, Tickable {
+public class Chunk : Jsonable, Tickable {
+    public static func == (lhs: Chunk, rhs: Chunk) -> Bool {
+        return lhs.world == rhs.world && lhs.x == rhs.x && lhs.z == rhs.z
+    }
+    
     public let world:World
     public let x:Int64
     public let z:Int64
+    
+    public internal(set) var blocks:Set<Block>
+    
+    public init(world: World, x: Int64, z: Int64) {
+        self.world = world
+        self.x = x
+        self.z = z
+        blocks = Set<Block>()
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(world)
+        hasher.combine(x)
+        hasher.combine(z)
+    }
     
     public var entities : [Entity] {
         let entities:Set<Entity> = world.entities
