@@ -20,6 +20,11 @@ public class EntityTeleportEvent : EntityEventCancellable {
     }
     
     public func get_context(key: String) -> ExecutableLogicalContext? {
-        return nil
+        switch key {
+        case "new_location":
+            return nil // TODO: fix
+        default:
+            return parse_entity_context(key: key, entity: entity)
+        }
     }
 }

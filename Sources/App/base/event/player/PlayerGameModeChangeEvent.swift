@@ -20,6 +20,11 @@ public final class PlayerGameModeChangeEvent : PlayerEventCancellable {
     }
     
     public func get_context(key: String) -> ExecutableLogicalContext? {
-        return nil
+        switch key {
+        case "new_game_mode":
+            return ExecutableLogicalContext(value_type: .string, value: new_game_mode.identifier)
+        default:
+            return parse_player_context(key: key, player: player)
+        }
     }
 }

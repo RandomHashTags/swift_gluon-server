@@ -17,7 +17,7 @@ public enum ValueType : Jsonable {
     case integer
     case integer_unsigned
     case long
-    case long_unsigned
+    case long_unsigned // UInt64
     
     case float
     case double

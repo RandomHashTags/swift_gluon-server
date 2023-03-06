@@ -34,7 +34,7 @@ public class EntityDamageEvent : EntityEventCancellable {
         case "damage_cause":
             return ExecutableLogicalContext(value_type: .string, value: cause.identifier)
         default:
-            return nil
+            return parse_entity_context(key: key, entity: entity)
         }
     }
 }
