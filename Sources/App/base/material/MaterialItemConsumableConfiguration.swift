@@ -12,5 +12,5 @@ public struct MaterialItemConsumableConfiguration : Jsonable {
     /// Amount of ticks required of consuming to consider this item to be consumed.
     public internal(set) var duration:UInt64
     /// The logic executed when this item is considered consumed.
-    public let code:[String]
+    public let executable_logic:[ExecutableLogic]
 }

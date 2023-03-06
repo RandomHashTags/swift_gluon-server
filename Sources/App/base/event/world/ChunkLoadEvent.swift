@@ -14,4 +14,8 @@ public final class ChunkLoadEvent : ChunkEvent {
         type = EventType.chunk_load
         self.chunk = chunk
     }
+    
+    public func get_context(key: String) -> ExecutableLogicalContext? {
+        return nil
+    }
 }

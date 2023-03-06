@@ -14,7 +14,7 @@ public struct MaterialItemConfiguration : Jsonable {
     /// If the item has durability.
     public let has_durability:Bool
     /// The item's maximum durability.
-    public let durability:Int
+    public let durability:UInt
     
     public let consumable:MaterialItemConsumableConfiguration?
     
@@ -27,6 +27,8 @@ public struct MaterialItemConfiguration : Jsonable {
     /// Amount of durability to reduce an item of this material by if the block broken doesn't prefer the item's material.
     public let break_nonpreferred_block_durability_damage:UInt
     
+    /// The material identifiers this item can only be placed on.
     public let place_block_whitelist:Set<String>?
+    /// The material identifiers this item cannot be placed on.
     public let place_block_blacklist:Set<String>?
 }

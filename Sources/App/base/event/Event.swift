@@ -9,4 +9,5 @@ import Foundation
 
 public protocol Event {
     var type:EventType { get }
+    func get_context(key: String) -> ExecutableLogicalContext?
 }

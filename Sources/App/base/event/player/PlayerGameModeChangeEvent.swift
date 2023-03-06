@@ -18,4 +18,8 @@ public final class PlayerGameModeChangeEvent : PlayerEventCancellable {
         self.player = player
         self.new_game_mode = new_game_mode
     }
+    
+    public func get_context(key: String) -> ExecutableLogicalContext? {
+        return nil
+    }
 }

@@ -18,4 +18,8 @@ public class EntityTeleportEvent : EntityEventCancellable {
         self.entity = entity
         self.new_location = new_location
     }
+    
+    public func get_context(key: String) -> ExecutableLogicalContext? {
+        return nil
+    }
 }

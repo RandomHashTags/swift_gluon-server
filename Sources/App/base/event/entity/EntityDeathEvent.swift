@@ -15,4 +15,8 @@ public class EntityDeathEvent : EntityEvent {
         type = EventType.entity_death
         self.entity = entity
     }
+    
+    public func get_context(key: String) -> ExecutableLogicalContext? {
+        return nil
+    }
 }

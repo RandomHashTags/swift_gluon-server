@@ -17,4 +17,8 @@ public final class PlayerJoinEvent : PlayerEvent {
         is_cancelled = false
         self.player = player
     }
+    
+    public func get_context(key: String) -> ExecutableLogicalContext? {
+        return nil
+    }
 }

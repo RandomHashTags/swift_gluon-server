@@ -16,4 +16,8 @@ public final class ChunkUnloadEvent : ChunkEvent, Cancellable {
         self.chunk = chunk
         is_cancelled = false
     }
+    
+    public func get_context(key: String) -> ExecutableLogicalContext? {
+        return nil
+    }
 }

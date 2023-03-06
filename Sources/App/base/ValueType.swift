@@ -8,11 +8,11 @@
 import Foundation
 
 public enum ValueType : Jsonable {
-    case string(String)
-    case char(Int8)
-    case char_unsigned(UInt8)
-    case short(Int16)
-    case short_unsigned(UInt16)
+    case string
+    case char//(Int8)
+    case char_unsigned//(UInt8)
+    case short//(Int16)
+    case short_unsigned//(UInt16)
     
     case integer
     case integer_unsigned
@@ -21,4 +21,6 @@ public enum ValueType : Jsonable {
     
     case float
     case double
+    
+    case boolean
 }

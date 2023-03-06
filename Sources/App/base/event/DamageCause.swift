@@ -30,4 +30,42 @@ public enum DamageCause {
     case cramming
     
     case custom(identifier: String, value: Any? = nil)
+    
+    var identifier : String {
+        switch self {
+        case .contact,
+                .suffocation,
+                .fall,
+                .fire,
+                .fire_tick,
+                .melting,
+                .lava,
+                .drowning,
+                .void,
+                .lightning,
+                .suicide,
+                .starvation,
+                .cramming:
+            return String(describing: self)
+        case .entity_attack(damager: _):
+            return "entity_attack"
+        case .projectile(projectile: _):
+            return "projectile"
+        case .block_explosion(block: _):
+            return "block_explosion"
+        case .entity_explosion(entity: _):
+            return "entity_explosion"
+        case .potion_effect(potion_effect: _):
+            return "potion_effect"
+        case .falling_block(block: _):
+            return "falling_block"
+        case .enchantment(enchant: _):
+            return "enchantment"
+            
+        case .custom(identifier: let identifier, value: .some(_)):
+            return identifier
+        case .custom(identifier: let identifier, value: .none):
+            return identifier
+        }
+    }
 }
