@@ -1,0 +1,17 @@
+{
+    "ingredients" : {
+        "minecraft.workbench" : {
+            "0" : ["minecraft.diamond"],
+            "2" : ["minecraft.diamond"],
+            "3" : ["minecraft.diamond"],
+            "4" : ["minecraft.diamond"],
+            "5" : ["minecraft.diamond"],
+            "6" : ["minecraft.diamond"],
+            "7" : ["minecraft.diamond"],
+            "8" : ["minecraft.diamond"]
+        }
+    },
+    "result" : {
+        "material" : "minecraft.diamond_chestplate"
+    }
+}
