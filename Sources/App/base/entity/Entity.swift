@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Entity : Nameable, Tickable {
+public class Entity : Nameable, Tickable, Saveable { // TODO: make protocol
     public static func == (lhs: Entity, rhs: Entity) -> Bool {
         return lhs.uuid.uuidString.elementsEqual(rhs.uuid.uuidString) && lhs.type == rhs.type
     }
@@ -95,8 +95,9 @@ public class Entity : Nameable, Tickable {
         fatalError("init(from:) has not been implemented")
     }
     
-    func save() {
+    public func save() {
     }
+    
     func tick(_ server: GluonServer) {
         ticks_lived += 1
         
@@ -111,7 +112,6 @@ public class Entity : Nameable, Tickable {
                 let result:DamageResult = (self as! Damageable).damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
             }
         }
-        
     }
     
     /// Removes this entity from the server. Like it never existed (or "despawned").

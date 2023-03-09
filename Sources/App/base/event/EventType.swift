@@ -7,17 +7,28 @@
 
 import Foundation
 
-public enum EventType {
+public struct EventType : Hashable {
+    public static func parse(_ identifier: String) -> EventType? {
+        return GluonServer.get_event_type(identifier: identifier)
+    }
     
-    case chunk_load
-    case chunk_unload
+    public let identifier:String
     
-    case entity_damage
-    case entity_death
-    case entity_teleport
+    public init(identifier: String) {
+        self.identifier = identifier
+        try? GluonServer.register_event_type(type: self) // TODO: handle
+    }
+}
+public extension EventType {
+    static var chunk_load:EventType = EventType(identifier: "minecraft.chunk_load")
+    static var chunk_unload:EventType = EventType(identifier: "minecraft.chunk_unload")
     
-    case player_change_game_mode
-    case player_join
+    static var entity_damage:EventType = EventType(identifier: "minecraft.entity_damage")
+    static var entity_death:EventType = EventType(identifier: "minecraft.entity_death")
+    static var entity_teleport:EventType = EventType(identifier: "minecraft.entity_teleport")
     
-    case custom(identifier: String, value: Any? = nil)
+    static var player_change_game_mode:EventType = EventType(identifier: "minecraft.player_change_game_mode")
+    static var player_item_consume:EventType = EventType(identifier: "minecraft.player_item_consume_event")
+    static var player_join:EventType = EventType(identifier: "minecraft.player_join")
+    static var player_quit:EventType = EventType(identifier: "minecraft.player_quit")
 }

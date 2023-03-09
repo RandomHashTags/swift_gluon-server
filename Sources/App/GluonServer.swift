@@ -27,6 +27,8 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var difficulties:[String:Difficulty]
     public private(set) var worlds:Set<World>
     
+    private var event_types:[String:EventType]
+    
     private var sound_categories:Set<SoundCategory>
     private var sounds:Set<Sound>
     private var materials:[String:Material]
@@ -94,6 +96,8 @@ public final class GluonServer : GluonSharedInstance, Tickable {
             )
         ]
         
+        event_types = [:]
+        
         sound_categories = []
         sounds = []
         materials = [:]
@@ -116,7 +120,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         commands = [:]
         permissions = [:]
         
-        event_listeners = []
+        event_listeners = [].sorted(by: { $0.priority < $1.priority })
     }
     
     func player_joined() {
@@ -190,6 +194,13 @@ public final class GluonServer : GluonSharedInstance, Tickable {
 }
 
 public extension GluonServer {
+    static func get_event_type(identifier: String) -> EventType? {
+        return GluonServer.shared_instance.event_types[identifier]
+    }
+    static func register_event_type(type: EventType) throws {
+        GluonServer.shared_instance.event_types[type.identifier] = type
+    }
+    
     static func get_entity_type(identifier: String) -> EntityType? {
         return GluonServer.shared_instance.entity_types[identifier]
     }
@@ -213,9 +224,16 @@ public extension GluonServer {
     static func get_inventory_type(identifier: String) -> InventoryType? {
         return GluonServer.shared_instance.inventory_types.first(where: { $0.identifier.elementsEqual(identifier) })
     }
+    
     static func get_material(identifier: String) -> Material? {
         return GluonServer.shared_instance.materials[identifier]
     }
+    static func get_materials(identifiers: any Collection<String>) -> [Material]? {
+        let materials:[String:Material] = GluonServer.shared_instance.materials
+        let map:[Material] = identifiers.compactMap({ materials[$0] })
+        return map.isEmpty ? nil : map
+    }
+    
     static func get_permission(identifier: String) -> Permission? {
         return GluonServer.shared_instance.permissions[identifier]
     }

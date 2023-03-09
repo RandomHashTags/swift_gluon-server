@@ -113,4 +113,16 @@ public class Player : LivingEntity {
     public func kick(reason: String) {
         GluonServer.boot_player(player: self, reason: reason)
     }
+    
+    public func consumed(item: inout ItemStack) {
+        guard let consumable_configuration:MaterialItemConsumableConfiguration = item.material.configuration.item?.consumable else { return }
+        let event:PlayerItemConsumeEvent = PlayerItemConsumeEvent(player: self, item: &item)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else { return }
+        item.amount -= 1
+        guard let context:ExecutableLogicalContext = event.get_context(key: "//TODO: fix") else { return } // TODO: fix
+        for logic in consumable_configuration.executable_logic {
+            logic.execute(context: context)
+        }
+    }
 }

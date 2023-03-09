@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Chunk : Jsonable, Tickable {
+public class Chunk : Jsonable, Tickable, Saveable {
     public static func == (lhs: Chunk, rhs: Chunk) -> Bool {
         return lhs.world == rhs.world && lhs.x == rhs.x && lhs.z == rhs.z
     }
@@ -67,7 +67,7 @@ public class Chunk : Jsonable, Tickable {
         save()
     }
     
-    func save() {
+    public func save() {
     }
     func tick(_ server: GluonServer) {
     }

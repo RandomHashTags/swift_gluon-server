@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Block : Jsonable, Tickable {
+public struct Block : Jsonable, Tickable, Saveable {
     public var material_identifier:String
     public var material : Material? {
         return GluonServer.get_material(identifier: material_identifier)
@@ -25,6 +25,9 @@ public struct Block : Jsonable, Tickable {
     
     func tick(_ server: GluonServer) {
         // TODO: handle tick logic
+    }
+    
+    public func save() {
     }
     
     public func break_naturally() {

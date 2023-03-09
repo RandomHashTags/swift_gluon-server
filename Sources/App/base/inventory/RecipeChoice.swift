@@ -8,5 +8,11 @@
 import Foundation
 
 public struct RecipeChoice : Jsonable {
-    public let materials:Set<Material>
+    /// - Returns: All allowed material identifiers that can be used as an ingredient, for a given slot.
+    public let material_identifiers:Set<String>
+}
+public extension RecipeChoice {
+    var materials : [Material]? {
+        return GluonServer.get_materials(identifiers: material_identifiers)
+    }
 }

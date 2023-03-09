@@ -23,4 +23,6 @@ public enum ValueType : Jsonable {
     case double
     
     case boolean
+    
+    case item_stack
 }

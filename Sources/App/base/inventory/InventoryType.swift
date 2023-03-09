@@ -10,6 +10,8 @@ import Foundation
 public struct InventoryType : Jsonable {
     public let identifier:String
     public let categories:[String]
-    public let size:Int
+    /// Maximum amount of slots this inventory type contains.
+    public let size:UInt
+    /// The allowed Recipes to be created in this inventory type.
     public let recipes:Set<Recipe>
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class PotionEffect : Jsonable {
+public class PotionEffect : Jsonable, Tickable {
     public static func == (lhs: PotionEffect, rhs: PotionEffect) -> Bool {
         return lhs.type_identifier.elementsEqual(rhs.type_identifier) && lhs.has_icon == rhs.has_icon && lhs.has_particles == rhs.has_particles && lhs.is_ambient == rhs.is_ambient && lhs.amplifier == rhs.amplifier && lhs.duration == rhs.duration
     }
@@ -26,10 +26,11 @@ public class PotionEffect : Jsonable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(type_identifier)
-        hasher.combine(has_icon)
-        hasher.combine(has_particles)
-        hasher.combine(is_ambient)
         hasher.combine(amplifier)
         hasher.combine(duration)
+    }
+    
+    func tick(_ server: GluonServer) {
+        duration -= 1
     }
 }
