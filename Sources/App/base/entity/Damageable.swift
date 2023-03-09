@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Damageable : Entity {
+public class Damageable : Entity { // TODO: make protocol
     public var health:Double
     public var health_maximum:Double
     
@@ -58,6 +58,13 @@ public class Damageable : Entity {
             freeze_ticks -= 1
         }
         super.tick(server)
+    }
+    
+    public override var executable_context : [String:ExecutableLogicalContext] {
+        var context:[String:ExecutableLogicalContext] = super.executable_context
+        context["health"] = ExecutableLogicalContext(value_type: .double, value: health)
+        context["health_maximum"] = ExecutableLogicalContext(value_type: .double, value: health_maximum)
+        return context
     }
     
     public func damage(cause: DamageCause, amount: Double) -> DamageResult {

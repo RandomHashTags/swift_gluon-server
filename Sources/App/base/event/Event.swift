@@ -9,10 +9,7 @@ import Foundation
 
 public protocol Event {
     var type:EventType { get }
-    /// The ``ExecutableLogicalContext`` this event supports.
-    /// - Parameters:
-    ///     - key: the lowercased identifier of the context that is being looked-up.
-    func get_context(key: String) -> ExecutableLogicalContext?
+    var context:[String:ExecutableLogicalContext]? { get }
 }
 
 public extension Event {
@@ -76,26 +73,6 @@ public extension Event {
         }
     }
     
-    func parse_literal_living_entity_context(key: String, entity: LivingEntity) -> ExecutableLogicalContext? {
-        switch key {
-            
-        case "air_remaining":
-            return ExecutableLogicalContext(value_type: .short_unsigned, value: entity.air_remaining)
-        case "air_maximum":
-            return ExecutableLogicalContext(value_type: .short_unsigned, value: entity.air_maximum)
-            
-        case "is_swimming":
-            return ExecutableLogicalContext(value_type: .boolean, value: entity.is_swimming)
-            
-        case "no_damage_ticks":
-            return ExecutableLogicalContext(value_type: .short_unsigned, value: entity.no_damage_ticks)
-        case "no_damage_ticks_maximum":
-            return ExecutableLogicalContext(value_type: .short_unsigned, value: entity.no_damage_ticks_maximum)
-            
-        default:
-            return parse_damageable_context(key: key, damageable: entity)
-        }
-    }
     private func parse_function_living_entity_context(key: String, entity: LivingEntity) -> ExecutableLogicalContext? {
         let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
         switch values[0] {
@@ -109,43 +86,10 @@ public extension Event {
         if key.contains("(") && key.contains(")") {
             return parse_function_living_entity_context(key: key, entity: entity)
         } else {
-            return parse_literal_living_entity_context(key: key, entity: entity)
+            return nil
         }
     }
     
-    private func parse_literal_player_context(key: String, player: Player) -> ExecutableLogicalContext? {
-        switch key {
-        case "ping":
-            return ExecutableLogicalContext(value_type: .short_unsigned, value: player.connection.ping)
-            
-        case "game_mode":
-            return ExecutableLogicalContext(value_type: .string, value: player.game_mode.identifier)
-        case "experience":
-            return ExecutableLogicalContext(value_type: .long_unsigned, value: player.experience)
-        case "experience_level":
-            return ExecutableLogicalContext(value_type: .long_unsigned, value: player.experience_level)
-            
-        case "food_level":
-            return ExecutableLogicalContext(value_type: .long_unsigned, value: player.food_level)
-            
-        case "has_list_name":
-            return ExecutableLogicalContext(value_type: .boolean, value: player.list_name != nil)
-            
-        case "is_blocking":
-            return ExecutableLogicalContext(value_type: .boolean, value: player.is_blocking)
-        case "is_flying":
-            return ExecutableLogicalContext(value_type: .boolean, value: player.is_flying)
-        case "is_op":
-            return ExecutableLogicalContext(value_type: .boolean, value: player.is_op)
-        case "is_sneaking":
-            return ExecutableLogicalContext(value_type: .boolean, value: player.is_sneaking)
-        case "is_sprinting":
-            return ExecutableLogicalContext(value_type: .boolean, value: player.is_sprinting)
-            
-        default:
-            return parse_living_entity_context(key: key, entity: player)
-        }
-    }
     func parse_player_context(key: String, player: Player) -> ExecutableLogicalContext? {
         if key.contains("(") && key.contains(")") {
             let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
@@ -156,7 +100,7 @@ public extension Event {
                 return parse_function_living_entity_context(key: key, entity: player)
             }
         } else {
-            return parse_literal_player_context(key: key, player: player)
+            return nil
         }
     }
 }

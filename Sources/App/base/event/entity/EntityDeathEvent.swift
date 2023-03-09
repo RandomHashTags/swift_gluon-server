@@ -16,7 +16,7 @@ public class EntityDeathEvent : EntityEvent {
         self.entity = entity
     }
     
-    public func get_context(key: String) -> ExecutableLogicalContext? {
-        return parse_entity_context(key: key, entity: entity)
+    public var context : [String:ExecutableLogicalContext]? {
+        return entity.executable_context
     }
 }

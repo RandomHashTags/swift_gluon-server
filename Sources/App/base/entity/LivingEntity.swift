@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class LivingEntity : Damageable {
+public class LivingEntity : Damageable { // TODO: make protocol
     public var can_breathe_underwater:Bool
     public var can_pickup_items:Bool
     public var has_ai:Bool
@@ -97,6 +97,17 @@ public class LivingEntity : Damageable {
         potion_effects.remove(contentsOf: removed_potion_effects)
         
         super.tick(server)
+    }
+    
+    public override var executable_context : [String:ExecutableLogicalContext] {
+        var context:[String:ExecutableLogicalContext] = super.executable_context
+        context["air_remaining"] = ExecutableLogicalContext(value_type: .short_unsigned, value: air_remaining)
+        context["air_maximum"] = ExecutableLogicalContext(value_type: .short_unsigned, value: air_maximum)
+        context["has_ai"] = ExecutableLogicalContext(value_type: .boolean, value: has_ai)
+        context["is_swimming"] = ExecutableLogicalContext(value_type: .boolean, value: is_swimming)
+        context["no_damage_ticks"] = ExecutableLogicalContext(value_type: .short_unsigned, value: no_damage_ticks)
+        context["no_damage_ticks_maximum"] = ExecutableLogicalContext(value_type: .short_unsigned, value: no_damage_ticks_maximum)
+        return context
     }
     
     public override func damage(cause: DamageCause, amount: Double) -> DamageResult {

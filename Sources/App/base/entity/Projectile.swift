@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Projectile : Entity {
+public class Projectile : Entity { // TODO: make protocol
     public let source:ProjectileSource?
     
     public init(

@@ -18,7 +18,7 @@ public final class PlayerJoinEvent : PlayerEvent {
         self.player = player
     }
     
-    public func get_context(key: String) -> ExecutableLogicalContext? {
-        return parse_player_context(key: key, player: player)
+    public var context : [String:ExecutableLogicalContext]? {
+        return player.executable_context
     }
 }

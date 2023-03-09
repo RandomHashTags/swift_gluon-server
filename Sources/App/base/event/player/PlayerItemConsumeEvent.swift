@@ -20,12 +20,9 @@ public class PlayerItemConsumeEvent : PlayerEvent, Cancellable {
         self.item = item
     }
     
-    public func get_context(key: String) -> ExecutableLogicalContext? {
-        switch key {
-        case "item":
-            return ExecutableLogicalContext(value_type: .item_stack, value: item)
-        default:
-            return parse_player_context(key: key, player: player)
-        }
+    public var context : [String:ExecutableLogicalContext]? {
+        var context:[String:ExecutableLogicalContext] = player.executable_context
+        context["item"] = ExecutableLogicalContext(value_type: .item_stack, value: item)
+        return context
     }
 }

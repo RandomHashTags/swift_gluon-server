@@ -1,0 +1,19 @@
+{
+    "categories" : [
+    ],
+    "size" : 4,
+    "material_category_restrictions" : {
+        "0" : [
+            "helmets"
+        ],
+        "1" : [
+            "chestplates"
+        ],
+        "2" : [
+            "leggings"
+        ],
+        "3" : [
+            "boots"
+        ]
+    }
+}

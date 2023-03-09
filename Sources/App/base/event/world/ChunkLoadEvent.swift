@@ -9,13 +9,10 @@ import Foundation
 
 public final class ChunkLoadEvent : ChunkEvent {
     public let type:EventType, chunk:Chunk
+    public let context:[String:ExecutableLogicalContext]? = nil
     
     public init(chunk: Chunk) {
         type = EventType.chunk_load
         self.chunk = chunk
-    }
-    
-    public func get_context(key: String) -> ExecutableLogicalContext? {
-        return nil
     }
 }

@@ -114,6 +114,17 @@ public class Entity : Nameable, Tickable, Saveable { // TODO: make protocol
         }
     }
     
+    public var executable_context : [String:ExecutableLogicalContext] {
+        return [
+            "entity_type" : ExecutableLogicalContext(value_type: .string, value: type.identifier),
+            
+            "is_on_fire" : ExecutableLogicalContext(value_type: .boolean, value: is_on_fire),
+            "is_on_ground" : ExecutableLogicalContext(value_type: .boolean, value: is_on_ground),
+            
+            "ticks_lived" : ExecutableLogicalContext(value_type: .long_unsigned, value: ticks_lived)
+        ]
+    }
+    
     /// Removes this entity from the server. Like it never existed (or "despawned").
     public func remove() {
         location.world?.remove_entity(self)

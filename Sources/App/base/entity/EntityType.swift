@@ -16,7 +16,7 @@ public struct EntityType : Jsonable {
     
     public let receives_fall_damage:Bool
     
-    public var no_damage_ticks_maximum:UInt16
-    public var fire_ticks_maximum:UInt16
-    public var freeze_ticks_maximum:UInt16
+    public internal(set) var no_damage_ticks_maximum:UInt16
+    public internal(set) var fire_ticks_maximum:UInt16
+    public internal(set) var freeze_ticks_maximum:UInt16
 }

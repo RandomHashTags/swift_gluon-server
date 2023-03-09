@@ -11,7 +11,7 @@ public struct ExecutableLogic : Jsonable { // TODO: add to `GluonServer` for glo
     /// The user-friendly lowercased string representation that is used to do logic upon certain events.
     public let string:String
     
-    func execute(context: ExecutableLogicalContext) {
+    func execute(context: [String:ExecutableLogicalContext]) {
     }
 }
 

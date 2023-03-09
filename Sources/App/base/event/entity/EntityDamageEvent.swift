@@ -25,16 +25,11 @@ public class EntityDamageEvent : EntityEventCancellable {
         self.amount = amount
     }
     
-    public func get_context(key: String) -> ExecutableLogicalContext? {
-        switch key {
-        case "damage_amount":
-            return ExecutableLogicalContext(value_type: .double, value: amount)
-        case "will_die":
-            return ExecutableLogicalContext(value_type: .boolean, value: will_die)
-        case "damage_cause":
-            return ExecutableLogicalContext(value_type: .string, value: cause.identifier)
-        default:
-            return parse_entity_context(key: key, entity: entity)
-        }
+    public var context : [String:ExecutableLogicalContext]? {
+        var context:[String:ExecutableLogicalContext] = entity.executable_context
+        context["damage_amount"] = ExecutableLogicalContext(value_type: .double, value: amount)
+        context["will_die"] = ExecutableLogicalContext(value_type: .boolean, value: will_die)
+        context["damage_cause"] = ExecutableLogicalContext(value_type: .string, value: cause.identifier)
+        return context
     }
 }

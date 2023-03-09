@@ -46,7 +46,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var commands:[String:Command]
     private var permissions:[String:Permission]
     
-    private var event_listeners:[any EventListener]
+    private var event_listeners:[String:[any EventListener]]
     
     convenience init() {
         self.init(ticks_per_second: 1)
@@ -120,7 +120,9 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         commands = [:]
         permissions = [:]
         
-        event_listeners = [].sorted(by: { $0.priority < $1.priority })
+        event_listeners = [
+            "" : [].sorted(by: { $0.priority < $1.priority })
+        ]
     }
     
     func player_joined() {
@@ -304,6 +306,7 @@ public extension GluonServer {
 
 public extension GluonServer {
     func call_event(event: Event) {
+        guard let event_listeners:[any EventListener] = event_listeners[event.type.identifier] else { return }
         for listener in event_listeners {
             listener.handle(event: event)
         }

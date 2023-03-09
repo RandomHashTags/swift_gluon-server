@@ -19,12 +19,9 @@ public final class PlayerGameModeChangeEvent : PlayerEventCancellable {
         self.new_game_mode = new_game_mode
     }
     
-    public func get_context(key: String) -> ExecutableLogicalContext? {
-        switch key {
-        case "new_game_mode":
-            return ExecutableLogicalContext(value_type: .string, value: new_game_mode.identifier)
-        default:
-            return parse_player_context(key: key, player: player)
-        }
+    public var context : [String:ExecutableLogicalContext]? {
+        var context:[String:ExecutableLogicalContext] = player.executable_context
+        context["new_game_mode"] = ExecutableLogicalContext(value_type: .string, value: new_game_mode.identifier)
+        return context
     }
 }
