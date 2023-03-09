@@ -8,8 +8,8 @@
 import Foundation
 
 public struct Recipe : Jsonable {
-    /// - Returns: The slot and ``RecipeChoice`` required to craft the result.
-    public let ingredients:[UInt:RecipeChoice]
+    /// - Returns: The slot and material identifiers required to craft the result.
+    public let ingredients:[UInt:Set<String>]
     
     /// - Returns: The ``ItemStack`` crafted by this recipe.
     public let result:ItemStack

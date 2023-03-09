@@ -1,0 +1,13 @@
+{
+    "material_categories" : [
+        "minecraft.chestplates"
+    ],
+    "names" : {
+        "en" : "Diamond Chestplate"
+    }
+    "configuration" : {
+        "item" : {
+            "durability" : 528
+        }
+    }
+}

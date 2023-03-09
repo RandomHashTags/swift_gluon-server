@@ -127,10 +127,12 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     
     func player_joined() {
         let inventory_type:InventoryType = InventoryType(
-            identifier: "minecraft.player_items",
-            categories: ["minecraft.player"],
-            size: 36,
-            recipes: []
+            identifier: "minecraft.player_hotbar",
+            categories: [],
+            size: 9,
+            material_category_restrictions: nil,
+            material_retrictions: nil,
+            recipes: nil
         )
         let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
         let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")

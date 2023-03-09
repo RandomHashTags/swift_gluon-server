@@ -1,0 +1,7 @@
+{
+    "configuration" : {
+        "item" : {
+            "stack_size_maximum" : 1
+        }
+    }
+}

@@ -4,16 +4,16 @@
     "size" : 4,
     "material_category_restrictions" : {
         "0" : [
-            "helmets"
+            "wearable_in_helmet_slot"
         ],
         "1" : [
-            "chestplates"
+            "wearable_in_chestplate_slot"
         ],
         "2" : [
-            "leggings"
+            "wearable_in_leggings_slot"
         ],
         "3" : [
-            "boots"
+            "wearable_in_boots_slot"
         ]
     }
 }
