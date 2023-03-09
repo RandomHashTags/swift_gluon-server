@@ -19,7 +19,7 @@ public struct EventType : Hashable {
         try? GluonServer.register_event_type(type: self) // TODO: handle
     }
 }
-public extension EventType {
+internal extension EventType {
     static var chunk_load:EventType = EventType(identifier: "minecraft.chunk_load")
     static var chunk_unload:EventType = EventType(identifier: "minecraft.chunk_unload")
     
