@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol EntityEvent : Event {
-    var entity:Entity { get }
+    var entity : any Entity { get }
 }

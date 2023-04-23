@@ -10,15 +10,15 @@ import Foundation
 public final class PlayerJoinEvent : PlayerEvent {
     public let type:EventType
     public var is_cancelled:Bool
-    public let player:Player
+    public let player:any Player
     
-    public init(player: Player) {
+    public init(player: any Player) {
         type = EventType.player_join
         is_cancelled = false
         self.player = player
     }
     
     public var context : [String:ExecutableLogicalContext]? {
-        return player.executable_context
+        return player.player_executable_context
     }
 }

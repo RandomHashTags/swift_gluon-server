@@ -30,7 +30,7 @@ public extension Event {
         }
     }
     
-    func parse_entity_context(key: String, entity: Entity) -> ExecutableLogicalContext? {
+    func parse_entity_context(key: String, entity: any Entity) -> ExecutableLogicalContext? {
         switch key {
         case "entity_type":
             return ExecutableLogicalContext(value_type: .string, value: entity.type.identifier)
@@ -47,7 +47,7 @@ public extension Event {
         }
     }
     
-    func parse_literal_damageable_context(key: String, damageable: Damageable) -> ExecutableLogicalContext? {
+    func parse_literal_damageable_context(key: String, damageable: any Damageable) -> ExecutableLogicalContext? {
         switch key {
         case "health":
             return ExecutableLogicalContext(value_type: .double, value: damageable.health)
@@ -58,14 +58,14 @@ public extension Event {
             return parse_entity_context(key: key, entity: damageable)
         }
     }
-    private func parse_function_damageable_context(key: String, damageable: Damageable) -> ExecutableLogicalContext? {
+    private func parse_function_damageable_context(key: String, damageable: any Damageable) -> ExecutableLogicalContext? {
         let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
         switch values[0] {
         default:
             return nil
         }
     }
-    func parse_damageable_context(key: String, damageable: Damageable) -> ExecutableLogicalContext? {
+    func parse_damageable_context(key: String, damageable: any Damageable) -> ExecutableLogicalContext? {
         if key.contains("(") && key.contains(")") {
             return parse_function_damageable_context(key: key, damageable: damageable)
         } else {
@@ -73,7 +73,7 @@ public extension Event {
         }
     }
     
-    private func parse_function_living_entity_context(key: String, entity: LivingEntity) -> ExecutableLogicalContext? {
+    private func parse_function_living_entity_context(key: String, entity: any LivingEntity) -> ExecutableLogicalContext? {
         let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
         switch values[0] {
         case "has_potion_effect":
@@ -82,7 +82,7 @@ public extension Event {
             return parse_function_damageable_context(key: key, damageable: entity)
         }
     }
-    func parse_living_entity_context(key: String, entity: LivingEntity) -> ExecutableLogicalContext? {
+    func parse_living_entity_context(key: String, entity: any LivingEntity) -> ExecutableLogicalContext? {
         if key.contains("(") && key.contains(")") {
             return parse_function_living_entity_context(key: key, entity: entity)
         } else {
@@ -90,7 +90,7 @@ public extension Event {
         }
     }
     
-    func parse_player_context(key: String, player: Player) -> ExecutableLogicalContext? {
+    func parse_player_context(key: String, player: any Player) -> ExecutableLogicalContext? {
         if key.contains("(") && key.contains(")") {
             let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
             switch values[0] {

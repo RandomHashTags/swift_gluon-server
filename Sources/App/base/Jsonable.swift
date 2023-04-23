@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import ZippyJSON
 
 public protocol Jsonable : Hashable, Codable {
 }

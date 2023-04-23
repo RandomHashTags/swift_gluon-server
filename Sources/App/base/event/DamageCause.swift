@@ -9,8 +9,8 @@ import Foundation
 
 public enum DamageCause {
     case contact
-    case entity_attack(damager: Entity)
-    case projectile(projectile: Projectile)
+    case entity_attack(damager: any Entity)
+    case projectile(projectile: any Projectile)
     case suffocation
     case fall
     case fire
@@ -19,7 +19,7 @@ public enum DamageCause {
     case lava
     case drowning
     case block_explosion(block: Block)
-    case entity_explosion(entity: Entity)
+    case entity_explosion(entity: any Entity)
     case void
     case lightning
     case suicide

@@ -17,6 +17,7 @@ public struct Material : Jsonable {
 }
 public extension Material {
     var recipe : Recipe? {
-        return nil
+        guard let identifier:String = recipe_identifier else { return nil }
+        return GluonServer.get_recipe(identifier: identifier)
     }
 }

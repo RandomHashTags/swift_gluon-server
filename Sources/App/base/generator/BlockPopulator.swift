@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import huge_numbers
 
 public struct BlockPopulator : Jsonable {
     
-    static func populate(chunk: Chunk) {
-        let world:World = chunk.world, world_name:String = world.name
+    static func populate(chunk: any Chunk) {
+        let world:any World = chunk.world, world_name:String = world.name
         let seed:UInt64 = UInt64(world.seed)
-        let y_max:Int64 = world.y_max, y_min:Int64 = world.y_min
+        let y_max:HugeInt = world.y_max, y_min:HugeInt = world.y_min
         
         let noise:PerlinNoise = PerlinNoise(seed: seed)
         print("BlockPopulator;populate;seed=" + seed.description)

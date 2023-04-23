@@ -16,6 +16,13 @@ public struct InventoryType : Jsonable {
     public let material_category_restrictions:[UInt:Set<String>]?
     /// Whitelisted slots that only allow specific material identifiers.
     public let material_retrictions:[UInt:Set<String>]?
-    /// The allowed Recipes to be created in this inventory type.
-    public let recipes:Set<Recipe>?
+    /// The allowed Recipe identifiers that can be created when inside this inventory type.
+    public let allowed_recipe_identifiers:Set<String>?
+}
+public extension InventoryType {
+    /// The allowed Recipes that can be created when inside this inventory type.
+    var allowed_recipes : Set<Recipe>? {
+        guard let identifiers:Set<String> = allowed_recipe_identifiers else { return nil }
+        return GluonServer.get_recipes(identifiers: identifiers)
+    }
 }

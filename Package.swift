@@ -11,8 +11,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.69.2"),
         .package(url: "https://github.com/swift-server/swift-backtrace.git", from: "1.3.3"),
-        
-        .package(url: "https://github.com/michaeleisel/ZippyJSON.git", from: "1.2.10"),
+        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.0.1")
     ],
     targets: [
         .target(
@@ -20,7 +19,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Backtrace", package: "swift-backtrace"),
-                .product(name: "ZippyJSON", package: "ZippyJSON"),
+                .product(name: "huge-numbers", package: "swift_huge-numbers")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

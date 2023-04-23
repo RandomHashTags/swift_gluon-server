@@ -7,24 +7,32 @@
 
 import Foundation
 
-public class Inventory : Jsonable {
-    public static func == (lhs: Inventory, rhs: Inventory) -> Bool {
+public protocol Inventory : Jsonable {
+    var type : InventoryType { get }
+    var items : [ItemStack?] { get set }
+    var viewers : Set<Player> { get set }
+    
+    init(type: InventoryType, items: [ItemStack?], viewers: Set<Player>)
+    
+    func contains(_ material: Material) -> Bool
+    func contains(_ item: ItemStack) -> Bool
+    
+    func first(_ material: Material) -> ItemStack?
+    func first(_ item: ItemStack) -> ItemStack?
+    
+    func get_item(slot: Int) -> ItemStack?
+    mutating func set_item(slot: Int, item: ItemStack?)
+    mutating func set_items(items: [ItemStack?])
+    mutating func add_item(item: ItemStack)
+}
+public extension Inventory {
+    static func == (lhs: any Inventory, rhs: any Inventory) -> Bool {
         return lhs.type == rhs.type && lhs.items.elementsEqual(rhs.items)
     }
     
-    public let type:InventoryType
-    private var items:Array<ItemStack?>
-    public var viewers:Set<Player>
-    
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(type)
         hasher.combine(items)
-    }
-    
-    public init(type: InventoryType, items: Array<ItemStack?>, viewers: Set<Player>) {
-        self.type = type
-        self.items = items
-        self.viewers = viewers
     }
     
     func contains(_ material: Material) -> Bool {
@@ -46,14 +54,14 @@ public class Inventory : Jsonable {
         return items.get(slot) ?? nil
     }
     
-    func set_item(slot: Int, item: ItemStack?) {
+    mutating func set_item(slot: Int, item: ItemStack?) {
         items[slot] = item
     }
-    func set_items(items: Array<ItemStack?>) {
+    mutating func set_items(items: Array<ItemStack?>) {
         self.items = items
     }
     
-    func add_item(item: ItemStack) {
+    mutating func add_item(item: ItemStack) {
         // TODO: finish
     }
 }

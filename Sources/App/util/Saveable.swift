@@ -8,5 +8,6 @@
 import Foundation
 
 public protocol Saveable {
+    /// Saves this object to disk.
     func save()
 }

@@ -6,7 +6,6 @@
 //
 
 import Vapor
-import ZippyJSON
 
 public func configure(_ app: Application) throws {
     let directory:DirectoryConfiguration = app.directory

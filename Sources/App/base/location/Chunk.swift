@@ -6,51 +6,61 @@
 //
 
 import Foundation
+import huge_numbers
 
-public class Chunk : Jsonable, Tickable, Saveable {
-    public static func == (lhs: Chunk, rhs: Chunk) -> Bool {
+public protocol Chunk : Jsonable, Tickable, Saveable {
+    var world : any World { get }
+    var x : HugeInt { get }
+    var z : HugeInt { get }
+    
+    var blocks:Set<Block> { get set }
+    
+    init(world: any World, x: HugeInt, z: HugeInt)
+    
+    var entities : [any Entity] { get }
+    var living_entities : [any LivingEntity] { get }
+    var players : [any Player] { get }
+    
+    func load() async
+    func unload()
+}
+
+public extension Chunk {
+    static func == (lhs: any Chunk, rhs: any Chunk) -> Bool {
         return lhs.world == rhs.world && lhs.x == rhs.x && lhs.z == rhs.z
     }
     
-    public let world:World
-    public let x:Int64
-    public let z:Int64
-    
-    public internal(set) var blocks:Set<Block>
-    
-    public init(world: World, x: Int64, z: Int64) {
-        self.world = world
-        self.x = x
-        self.z = z
-        blocks = Set<Block>()
-    }
-    
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(world)
         hasher.combine(x)
         hasher.combine(z)
     }
     
-    public var entities : [Entity] {
+    var entities : [any Entity] {
         let entities:Set<Entity> = world.entities
-        let this_chunk:(Int64, Int64) = (x, z)
+        let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-    public var living_entities : [LivingEntity] {
+    var living_entities : [any LivingEntity] {
         let entities:Set<LivingEntity> = world.living_entities
-        let this_chunk:(Int64, Int64) = (x, z)
+        let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-    public var players : [Player] {
-        let entities:Set<Player> = world.players
-        let this_chunk:(Int64, Int64) = (x, z)
+    var players : [any Player] {
+        let entities:Set<any Player> = world.players
+        let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-
-    public func load() async {
+    
+    mutating func tick(_ server: GluonServer) {
+    }
+    func save() {
+    }
+    
+    func load() async {
         let seed:Int64 = world.seed
     }
-    public func unload() {
+    func unload() {
         for entity in entities {
             entity.save()
             entity.remove()
@@ -65,10 +75,5 @@ public class Chunk : Jsonable, Tickable, Saveable {
         }
         
         save()
-    }
-    
-    public func save() {
-    }
-    func tick(_ server: GluonServer) {
     }
 }

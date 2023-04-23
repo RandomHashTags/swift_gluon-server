@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal protocol Tickable {
+public protocol Tickable {
     /// The logic executed per server tick.
-    func tick(_ server: GluonServer)
+    mutating func tick(_ server: GluonServer)
 }

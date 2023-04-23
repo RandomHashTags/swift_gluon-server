@@ -8,10 +8,10 @@
 import Foundation
 
 public final class ChunkLoadEvent : ChunkEvent {
-    public let type:EventType, chunk:Chunk
+    public let type:EventType, chunk:any Chunk
     public let context:[String:ExecutableLogicalContext]? = nil
     
-    public init(chunk: Chunk) {
+    public init(chunk: any Chunk) {
         type = EventType.chunk_load
         self.chunk = chunk
     }

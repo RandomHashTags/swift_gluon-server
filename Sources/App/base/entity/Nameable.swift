@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol Nameable : Jsonable {
-    var custom_name:String? { get set }
+    var custom_name : String? { get set }
 }

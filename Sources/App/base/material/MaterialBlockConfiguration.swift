@@ -31,7 +31,15 @@ public struct MaterialBlockConfiguration : Jsonable {
     /// If this block breaks instantly when punched.
     public let breaks_instantly:Bool
     public let resistance:Int
+    public let hardness:Float
+    public let preferred_break_material_identifiers:Set<String>?
     
     /// The items that can be dropped when this block is broken.
     public let loot:LootTable?
+}
+public extension MaterialBlockConfiguration {
+    var preferred_break_materials : Set<Material>? {
+        guard let identifiers:Set<String> = preferred_break_material_identifiers else { return nil }
+        return GluonServer.get_materials(identifiers: identifiers)
+    }
 }

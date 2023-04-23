@@ -10,9 +10,9 @@ import Foundation
 public class EntityTeleportEvent : EntityEventCancellable {
     public let type:EventType
     public var is_cancelled:Bool
-    public let entity:Entity, new_location:Location
+    public let entity:any Entity, new_location:Location
     
-    public init(entity: Entity, new_location: Location) {
+    public init(entity: any Entity, new_location: Location) {
         type = EventType.entity_teleport
         is_cancelled = false
         self.entity = entity
@@ -20,7 +20,7 @@ public class EntityTeleportEvent : EntityEventCancellable {
     }
     
     public var context : [String:ExecutableLogicalContext]? {
-        var context:[String:ExecutableLogicalContext] = entity.executable_context
+        var context:[String:ExecutableLogicalContext] = entity.entity_executable_context
         context["new_location"] = ExecutableLogicalContext(value_type: .location, value: new_location)
         return context
     }

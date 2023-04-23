@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol ChunkEvent : Event {
-    var chunk:Chunk { get }
+    var chunk : any Chunk { get }
 }

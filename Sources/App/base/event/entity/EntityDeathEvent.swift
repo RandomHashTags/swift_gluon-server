@@ -9,14 +9,14 @@ import Foundation
 
 public class EntityDeathEvent : EntityEvent {
     public let type:EventType
-    public let entity:Entity
+    public let entity:any Entity
     
-    public init(entity: Entity) {
+    public init(entity: any Entity) {
         type = EventType.entity_death
         self.entity = entity
     }
     
     public var context : [String:ExecutableLogicalContext]? {
-        return entity.executable_context
+        return entity.entity_executable_context
     }
 }

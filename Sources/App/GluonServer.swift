@@ -45,6 +45,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
     private var statistics:Set<Statistic>
     private var commands:[String:Command]
     private var permissions:[String:Permission]
+    private var recipes:[String:Recipe]
     
     private var event_listeners:[String:[any EventListener]]
     
@@ -119,6 +120,8 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         statistics = []
         commands = [:]
         permissions = [:]
+        
+        recipes = [:]
         
         event_listeners = [
             "" : [].sorted(by: { $0.priority < $1.priority })
@@ -232,10 +235,10 @@ public extension GluonServer {
     static func get_material(identifier: String) -> Material? {
         return GluonServer.shared_instance.materials[identifier]
     }
-    static func get_materials(identifiers: any Collection<String>) -> [Material]? {
+    static func get_materials(identifiers: any Collection<String>) -> Set<Material>? {
         let materials:[String:Material] = GluonServer.shared_instance.materials
         let map:[Material] = identifiers.compactMap({ materials[$0] })
-        return map.isEmpty ? nil : map
+        return map.isEmpty ? nil : Set<Material>(map)
     }
     
     static func get_permission(identifier: String) -> Permission? {
@@ -246,6 +249,15 @@ public extension GluonServer {
     }
     static func get_statistic(identifier: String) -> Statistic? {
         return GluonServer.shared_instance.statistics.first(where: { $0.identifier.elementsEqual(identifier) })
+    }
+    
+    static func get_recipe(identifier: String) -> Recipe? {
+        return GluonServer.shared_instance.recipes[identifier]
+    }
+    static func get_recipes(identifiers: any Collection<String>) -> Set<Recipe>? {
+        let recipes:[String:Recipe] = GluonServer.shared_instance.recipes
+        let map:[Recipe] = identifiers.compactMap({ recipes[$0] })
+        return map.isEmpty ? nil : Set<Recipe>(map)
     }
 }
 public extension GluonServer {
