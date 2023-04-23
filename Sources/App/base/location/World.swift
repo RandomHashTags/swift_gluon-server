@@ -35,8 +35,8 @@ public protocol World : Jsonable, Tickable {
     var living_entities : Set<LivingEntity> { get }
     var players : Set<Player> { get }
     
-    mutating func load_chunk(x: Int64, z: Int64) async
-    mutating func unload_chunk(x: Int64, z: Int64) async
+    mutating func load_chunk(x: HugeInt, z: HugeInt) async
+    mutating func unload_chunk(x: HugeInt, z: HugeInt) async
     
     func spawn_entity(_ entity: any Entity)
     func remove_entity(_ entity: any Entity)

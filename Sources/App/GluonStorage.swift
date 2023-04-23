@@ -106,7 +106,7 @@ protocol GluonSharedInstance {
     init()
 }
 extension GluonSharedInstance {
-    static var shared_instance:Self {
+    static var shared_instance : Self {
         let type:String = String(describing: Self.self)
         if let cached:Self = GluonStorageSharedInstances.instances[type] as? Self {
             return cached

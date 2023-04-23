@@ -6,48 +6,49 @@
 //
 
 import Foundation
+import huge_numbers
 
-public final class GluonServer : GluonSharedInstance, Tickable {
-    public private(set) var ticks_per_second:UInt8
-    public private(set) var ticks_per_second_multiplier:Double
-    private var server_tick_interval_nano:UInt64
-    private var server_is_awake:Bool
-    private var server_loop:Task<Void, Error>!
-    public private(set) var gravity:Double
-    public private(set) var gravity_per_tick:Double
-    public private(set) var void_damage_per_tick:Double
+public final class GluonServer : GluonSharedInstance, Server {
+    public var ticks_per_second:UInt8
+    public var ticks_per_second_multiplier:Double
+    public var server_tick_interval_nano:UInt64
+    public var server_is_awake:Bool
+    public var server_loop:Task<Void, Error>!
+    public var gravity:Double
+    public var gravity_per_tick:Double
+    public var void_damage_per_tick:Double
     
-    public private(set) var max_players:UInt64
-    private var port:Int
-    private var has_whitelist:Bool
-    private var whitelisted_players:Set<UUID>
-    private var banned_players:Set<BanEntry>
-    private var banned_ip_addresses:Set<BanEntry>
+    public var max_players:UInt64
+    public var port:Int
+    public var has_whitelist:Bool
+    public var whitelisted_players:Set<UUID>
+    public var banned_players:Set<BanEntry>
+    public var banned_ip_addresses:Set<BanEntry>
     
-    private var difficulties:[String:Difficulty]
-    public private(set) var worlds:Set<World>
+    public var difficulties:[String:Difficulty]
+    public var worlds:[String:any World]
     
-    private var event_types:[String:EventType]
+    public var event_types:[String:EventType]
     
-    private var sound_categories:Set<SoundCategory>
-    private var sounds:Set<Sound>
-    private var materials:[String:Material]
-    private var biomes:Set<Biome>
-    private var enchantment_types:[String:EnchantmentType]
-    private var entity_types:[String:EntityType]
-    private var inventory_types:Set<InventoryType>
-    private var potion_effect_types:[String:PotionEffectType]
-    private var game_modes:[String:GameMode]
-    private var advancements:[String:Advancement]
-    private var art:Set<Art>
-    private var attributes:Set<Attribute>
-    private var instruments:Set<Instrument>
-    private var statistics:Set<Statistic>
-    private var commands:[String:Command]
-    private var permissions:[String:Permission]
-    private var recipes:[String:Recipe]
+    public var sound_categories:Set<SoundCategory>
+    public var sounds:Set<Sound>
+    public var materials:[String:Material]
+    public var biomes:Set<Biome>
+    public var enchantment_types:[String:EnchantmentType]
+    public var entity_types:[String:EntityType]
+    public var inventory_types:Set<InventoryType>
+    public var potion_effect_types:[String:PotionEffectType]
+    public var game_modes:[String:GameMode]
+    public var advancements:[String:Advancement]
+    public var art:Set<Art>
+    public var attributes:Set<Attribute>
+    public var instruments:Set<Instrument>
+    public var statistics:Set<Statistic>
+    public var commands:[String:Command]
+    public var permissions:[String:Permission]
+    public var recipes:[String:Recipe]
     
-    private var event_listeners:[String:[any EventListener]]
+    public var event_listeners:[String:[any EventListener]]
     
     convenience init() {
         self.init(ticks_per_second: 1)
@@ -77,7 +78,7 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         ]
         let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
-            World(
+            "overworld" : GluonWorld(
                 uuid: UUID(),
                 seed: 0,
                 name: "overworld",
@@ -86,9 +87,9 @@ public final class GluonServer : GluonSharedInstance, Tickable {
                 game_rules: [],
                 time: 0,
                 border: nil,
-                y_min: -64,
-                y_max: 320,
-                y_sea_level: 100,
+                y_min: HugeInt("-64"),
+                y_max: HugeInt("320"),
+                y_sea_level: HugeInt("100"),
                 chunks_loaded: [],
                 allows_animals: true,
                 allows_monsters: true,
@@ -170,9 +171,8 @@ public final class GluonServer : GluonSharedInstance, Tickable {
         server_is_awake = true
         server_loop = Task {
             do {
-                let instance:GluonServer = GluonServer.shared_instance
                 while server_is_awake {
-                    tick(instance)
+                    tick(self)
                     
                     try await Task.sleep(nanoseconds: server_tick_interval_nano)
                 }
@@ -181,85 +181,25 @@ public final class GluonServer : GluonSharedInstance, Tickable {
             }
         }
     }
-    func set_tick_rate(ticks_per_second: UInt8) {
+    public func set_tick_rate(ticks_per_second: UInt8) {
         self.ticks_per_second = ticks_per_second
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         gravity_per_tick = gravity / Double(ticks_per_second)
     }
     
-    private func save() {
-        for world in worlds {
-            world.save()
+    public func save() {
+        for (identifier, _) in worlds {
+            worlds[identifier]!.save()
         }
     }
     
-    func tick(_ server: GluonServer) {
-        for world in worlds {
-            world.tick(server)
+    public func tick(_ server: GluonServer) {
+        for (identifier, _) in worlds {
+            worlds[identifier]!.tick(server)
         }
     }
 }
 
-public extension GluonServer {
-    static func get_event_type(identifier: String) -> EventType? {
-        return GluonServer.shared_instance.event_types[identifier]
-    }
-    static func register_event_type(type: EventType) throws {
-        GluonServer.shared_instance.event_types[type.identifier] = type
-    }
-    
-    static func get_entity_type(identifier: String) -> EntityType? {
-        return GluonServer.shared_instance.entity_types[identifier]
-    }
-    static func get_world(name: String) -> World? {
-        return GluonServer.shared_instance.worlds.first(where: { $0.name.elementsEqual(name) })
-    }
-    
-    
-    static func get_advancement(identifier: String) -> Advancement? {
-        return GluonServer.shared_instance.advancements[identifier]
-    }
-    static func get_command(identifier: String) -> Command? {
-        return GluonServer.shared_instance.commands[identifier]
-    }
-    static func get_enchantment_type(identifier: String) -> EnchantmentType? {
-        return GluonServer.shared_instance.enchantment_types[identifier]
-    }
-    static func get_game_mode(identifier: String) -> GameMode? {
-        return GluonServer.shared_instance.game_modes[identifier]
-    }
-    static func get_inventory_type(identifier: String) -> InventoryType? {
-        return GluonServer.shared_instance.inventory_types.first(where: { $0.identifier.elementsEqual(identifier) })
-    }
-    
-    static func get_material(identifier: String) -> Material? {
-        return GluonServer.shared_instance.materials[identifier]
-    }
-    static func get_materials(identifiers: any Collection<String>) -> Set<Material>? {
-        let materials:[String:Material] = GluonServer.shared_instance.materials
-        let map:[Material] = identifiers.compactMap({ materials[$0] })
-        return map.isEmpty ? nil : Set<Material>(map)
-    }
-    
-    static func get_permission(identifier: String) -> Permission? {
-        return GluonServer.shared_instance.permissions[identifier]
-    }
-    static func get_potion_effect_type(identifier: String) -> PotionEffectType? {
-        return GluonServer.shared_instance.potion_effect_types[identifier]
-    }
-    static func get_statistic(identifier: String) -> Statistic? {
-        return GluonServer.shared_instance.statistics.first(where: { $0.identifier.elementsEqual(identifier) })
-    }
-    
-    static func get_recipe(identifier: String) -> Recipe? {
-        return GluonServer.shared_instance.recipes[identifier]
-    }
-    static func get_recipes(identifiers: any Collection<String>) -> Set<Recipe>? {
-        let recipes:[String:Recipe] = GluonServer.shared_instance.recipes
-        let map:[Recipe] = identifiers.compactMap({ recipes[$0] })
-        return map.isEmpty ? nil : Set<Recipe>(map)
-    }
-}
 public extension GluonServer {
     static func get_nearby_entities(center: Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [Entity] {
         return center.world?.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) }) ?? []
@@ -315,14 +255,5 @@ public extension GluonServer {
             instance.banned_ip_addresses.insert(BanEntry(target: "PLAYER_IP_ADDRESS", ban_time: 0, expiration: ban_ip_expiration, reason: reason))
         }
         // TODO: send packets
-    }
-}
-
-public extension GluonServer {
-    func call_event(event: Event) {
-        guard let event_listeners:[any EventListener] = event_listeners[event.type.identifier] else { return }
-        for listener in event_listeners {
-            listener.handle(event: event)
-        }
     }
 }
