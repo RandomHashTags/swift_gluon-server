@@ -8,11 +8,13 @@
 import Foundation
 
 public protocol Inventory : Jsonable {
+    associatedtype TargetPlayer : Player
+    
     var type : InventoryType { get }
     var items : [ItemStack?] { get set }
-    var viewers : Set<Player> { get set }
+    var viewers : Set<TargetPlayer> { get set }
     
-    init(type: InventoryType, items: [ItemStack?], viewers: Set<Player>)
+    init(type: InventoryType, items: [ItemStack?], viewers: Set<TargetPlayer>)
     
     func contains(_ material: Material) -> Bool
     func contains(_ item: ItemStack) -> Bool

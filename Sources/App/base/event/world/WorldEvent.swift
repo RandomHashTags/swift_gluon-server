@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol WorldEvent : Event {
-    var world:World { get }
+    var world:any World { get }
 }

@@ -18,14 +18,14 @@ public enum DamageCause {
     case melting
     case lava
     case drowning
-    case block_explosion(block: Block)
+    case block_explosion(block: any Block)
     case entity_explosion(entity: any Entity)
     case void
     case lightning
     case suicide
     case starvation
-    case potion_effect(potion_effect: PotionEffect)
-    case falling_block(block: Block)
+    case potion_effect(potion_effect: any PotionEffect)
+    case falling_block(block: any Block)
     case enchantment(enchant: EnchantmentType)
     case cramming
     

@@ -8,6 +8,8 @@
 import Foundation
 
 public protocol LivingEntity : Damageable {
+    associatedtype TargetPotionEffect : PotionEffect
+    
     var can_breathe_underwater : Bool { get set }
     var can_pickup_items : Bool { get set }
     var has_ai : Bool { get set }
@@ -21,7 +23,7 @@ public protocol LivingEntity : Damageable {
     var is_sleeping : Bool { get set }
     var is_swimming : Bool { get set }
     
-    var potion_effects:Set<PotionEffect> { get set }
+    var potion_effects:[String:TargetPotionEffect] { get set }
     
     var no_damage_ticks : UInt16 { get set }
     var no_damage_ticks_maximum : UInt16 { get set }
@@ -31,7 +33,7 @@ public protocol LivingEntity : Damageable {
     
     var living_entity_executable_context : [String:ExecutableLogicalContext] { get }
     
-    mutating func tick_living_entity(_ server: GluonServer)
+    mutating func tick_living_entity(_ server: any Server)
     
     mutating func damage_living_entity(cause: DamageCause, amount: Double) -> DamageResult
 }
@@ -49,20 +51,22 @@ public extension LivingEntity {
         return context
     }
     
-    mutating func tick_living_entity(_ server: GluonServer) {
+    mutating func tick_living_entity(_ server: any Server) {
         print("living entity with uuid " + uuid.uuidString + " has been ticked")
         if no_damage_ticks > 0 {
             no_damage_ticks -= 1
         }
         
-        var removed_potion_effects:Set<PotionEffect> = Set<PotionEffect>()
-        for potion_effect in potion_effects {
-            potion_effect.tick(server)
-            if potion_effect.duration == 0 {
-                removed_potion_effects.insert(potion_effect)
+        var removed_potion_effects:Set<String> = Set<String>()
+        for (identifier, _) in potion_effects {
+            potion_effects[identifier]!.tick(server)
+            if potion_effects[identifier]!.duration == 0 {
+                removed_potion_effects.insert(identifier)
             }
         }
-        potion_effects.remove(contentsOf: removed_potion_effects)
+        for identifier in removed_potion_effects {
+            potion_effects.removeValue(forKey: identifier)
+        }
         
         tick_damageable(server)
     }

@@ -9,5 +9,5 @@ import Foundation
 
 public protocol Tickable {
     /// The logic executed per server tick.
-    mutating func tick(_ server: GluonServer)
+    mutating func tick(_ server: any Server)
 }

@@ -9,6 +9,8 @@ import Foundation
 import huge_numbers
 
 public final class GluonServer : GluonSharedInstance, Server {
+    public typealias TargetWorld = GluonWorld
+    
     public var ticks_per_second:UInt8
     public var ticks_per_second_multiplier:Double
     public var server_tick_interval_nano:UInt64
@@ -26,7 +28,7 @@ public final class GluonServer : GluonSharedInstance, Server {
     public var banned_ip_addresses:Set<BanEntry>
     
     public var difficulties:[String:Difficulty]
-    public var worlds:[String:any World]
+    public var worlds:[String:TargetWorld]
     
     public var event_types:[String:EventType]
     
@@ -50,7 +52,7 @@ public final class GluonServer : GluonSharedInstance, Server {
     
     public var event_listeners:[String:[any EventListener]]
     
-    convenience init() {
+    convenience public init() {
         self.init(ticks_per_second: 1)
     }
     private init(ticks_per_second: UInt8) {
@@ -87,9 +89,9 @@ public final class GluonServer : GluonSharedInstance, Server {
                 game_rules: [],
                 time: 0,
                 border: nil,
-                y_min: HugeInt("-64"),
-                y_max: HugeInt("320"),
-                y_sea_level: HugeInt("100"),
+                y_min: HugeFloat("-64"),
+                y_max: HugeFloat("320"),
+                y_sea_level: HugeFloat("100"),
                 chunks_loaded: [],
                 allows_animals: true,
                 allows_monsters: true,
@@ -140,7 +142,7 @@ public final class GluonServer : GluonSharedInstance, Server {
         )
         let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
         let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
-        let player:Player = Player(
+        let player:GluonPlayer = GluonPlayer(
             connection: connection,
             uuid: UUID(),
             name: "RandomHashTags",
@@ -193,7 +195,7 @@ public final class GluonServer : GluonSharedInstance, Server {
         }
     }
     
-    public func tick(_ server: GluonServer) {
+    public func tick(_ server: any Server) {
         for (identifier, _) in worlds {
             worlds[identifier]!.tick(server)
         }
@@ -205,14 +207,6 @@ public extension GluonServer {
         return center.world?.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) }) ?? []
     }
     
-    static func get_entity(uuid: UUID) -> Entity? {
-        for world in GluonServer.shared_instance.worlds {
-            if let entity:Entity = world.entities.first(where: { $0.uuid == uuid }) {
-                return entity
-            }
-        }
-        return nil
-    }
     static func get_entities(uuids: Set<UUID>) -> [Entity] {
         return GluonServer.shared_instance.worlds.map({ $0.entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }

@@ -31,7 +31,7 @@ public protocol Player : LivingEntity {
     
     var player_executable_context : [String:ExecutableLogicalContext] { get }
     
-    mutating func tick_player(_ server: GluonServer)
+    mutating func tick_player(_ server: any Server)
     
     func has_permission(_ permission: String) -> Bool
     
@@ -59,7 +59,7 @@ public extension Player {
         return context
     }
     
-    mutating func tick_player(_ server: GluonServer) {
+    mutating func tick_player(_ server: any Server) {
         print("player " + name + " has been ticked")
         tick_living_entity(server)
     }

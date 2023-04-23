@@ -73,7 +73,7 @@ public extension Event {
         }
     }
     
-    private func parse_function_living_entity_context(key: String, entity: any LivingEntity) -> ExecutableLogicalContext? {
+    private func parse_function_living_entity_context(key: String, entity: some LivingEntity) -> ExecutableLogicalContext? {
         let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
         switch values[0] {
         case "has_potion_effect":

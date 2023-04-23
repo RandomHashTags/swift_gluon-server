@@ -6,6 +6,7 @@
 //
 
 import Vapor
+import huge_numbers
 
 public func configure(_ app: Application) throws {
     let directory:DirectoryConfiguration = app.directory
@@ -36,7 +37,7 @@ public func configure(_ app: Application) throws {
 
 private func test() {
     let difficulty:Difficulty = Difficulty.init(identifier: "minecraft.normal", name: MultilingualStrings.init(english: "Normal"))
-    let world:World = World.init(
+    let world:GluonWorld = GluonWorld.init(
         uuid: UUID(),
         seed: 420,
         name: "minecraft.overworld",
@@ -44,16 +45,16 @@ private func test() {
         difficulty: difficulty,
         game_rules: [],
         time: 0,
-        y_min: -64,
-        y_max: 365,
-        y_sea_level: 0,
+        y_min: HugeFloat("-64"),
+        y_max: HugeFloat("365"),
+        y_sea_level: HugeFloat("0"),
         chunks_loaded: [],
         allows_animals: true,
         allows_monsters: true,
         allows_pvp: true,
         beds_work: true
     )
-    let chunk:Chunk = Chunk.init(world: world, x: 0, z: 0)
+    let chunk:any Chunk = GluonChunk.init(world: world, x: HugeInt.zero, z: HugeInt.zero)
     BlockPopulator.populate(chunk: chunk)
 }
 

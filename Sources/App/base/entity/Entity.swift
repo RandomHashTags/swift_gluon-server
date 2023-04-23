@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import huge_numbers
 
 public protocol Entity : Nameable, Tickable, Saveable {
+    associatedtype TargetLocation : Location
+    
     var uuid : UUID { get }
     var type : EntityType { get }
     var ticks_lived : UInt64 { get set }
@@ -16,7 +19,7 @@ public protocol Entity : Nameable, Tickable, Saveable {
     
     var boundaries : [Boundary] { get set }
     /// The current location of this entity.
-    var location : Location { get set }
+    var location : TargetLocation { get set }
     /// The current velocity this entity is experiencing.
     var velocity : Vector { get set }
     var fall_distance : Float { get set }
@@ -35,19 +38,42 @@ public protocol Entity : Nameable, Tickable, Saveable {
     
     /// The UUIDs of the entities currently riding this entity.
     var passenger_uuids : Set<UUID> { get set }
+    var passengers : [any Entity] { get }
     
     /// The vehicle UUID this entity is currently riding.
     var vehicle_uuid : UUID? { get set }
+    var vehicle : (any Entity)? { get }
     
     var entity_executable_context : [String:ExecutableLogicalContext] { get }
     
-    mutating func tick_entity(_ server: GluonServer)
+    init(
+        uuid: UUID,
+        type: EntityType,
+        ticks_lived: UInt64,
+        custom_name: String?,
+        display_name: String?,
+        boundaries: [Boundary],
+        location: TargetLocation,
+        fall_distance: Float,
+        is_glowing: Bool,
+        is_on_fire: Bool,
+        is_on_ground: Bool,
+        height: Float,
+        fire_ticks: UInt16,
+        fire_ticks_maximum: UInt16,
+        freeze_ticks: UInt16,
+        freeze_ticks_maximum: UInt16,
+        passenger_uuids: Set<UUID>,
+        vehicle_uuid: UUID?
+    )
+    
+    mutating func tick_entity(_ server: any Server)
     
     /// Removes this entity from the server. Like it never existed (or "despawned").
     func remove()
     
     /// Teleport this entity to a certain location.
-    mutating func teleport(_ location: Location)
+    mutating func teleport(_ location: TargetLocation)
 }
 
 public extension Entity {
@@ -60,7 +86,7 @@ public extension Entity {
         hasher.combine(type)
     }
     
-    mutating func tick_entity(_ server: GluonServer) {
+    mutating func tick_entity(_ server: any Server) {
         ticks_lived += 1
         
         if type.is_affected_by_gravity && !is_on_ground {
@@ -68,9 +94,10 @@ public extension Entity {
         }
         
         if type.is_damageable, let world:any World = location.world {
-            let y:Double = location.y
+            let y:HugeFloat = location.y
             
-            if y < Double(world.y_min) {
+            if y < world.y_min {
+                
                 let result:DamageResult = (self as! (any Damageable)).damage_damageable(cause: DamageCause.void, amount: server.void_damage_per_tick)
             }
         }
@@ -87,19 +114,11 @@ public extension Entity {
         ]
     }
     
-    var passengers : [any Entity] {
-        return GluonServer.get_entities(uuids: passenger_uuids)
-    }
-    var vehicle : (any Entity)? {
-        guard let uuid:UUID = vehicle_uuid else { return nil }
-        return GluonServer.get_entity(uuid: uuid)
-    }
-    
     func remove() {
         location.world?.remove_entity(self)
     }
     
-    mutating func teleport(_ location: Location) {
+    mutating func teleport(_ location: TargetLocation) {
         let event:EntityTeleportEvent = EntityTeleportEvent(entity: self, new_location: location)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }

@@ -10,9 +10,9 @@ import Foundation
 public class EntityTeleportEvent : EntityEventCancellable {
     public let type:EventType
     public var is_cancelled:Bool
-    public let entity:any Entity, new_location:Location
+    public let entity:any Entity, new_location:any Location
     
-    public init(entity: any Entity, new_location: Location) {
+    public init(entity: any Entity, new_location: any Location) {
         type = EventType.entity_teleport
         is_cancelled = false
         self.entity = entity

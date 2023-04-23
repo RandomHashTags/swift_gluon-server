@@ -102,10 +102,10 @@ private extension GluonStorage {
     }
 }
 
-protocol GluonSharedInstance {
+public protocol GluonSharedInstance {
     init()
 }
-extension GluonSharedInstance {
+public extension GluonSharedInstance {
     static var shared_instance : Self {
         let type:String = String(describing: Self.self)
         if let cached:Self = GluonStorageSharedInstances.instances[type] as? Self {

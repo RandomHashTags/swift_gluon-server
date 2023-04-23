@@ -13,7 +13,7 @@ public protocol Damageable : Entity {
     
     var damageable_executable_context : [String:ExecutableLogicalContext] { get }
     
-    mutating func tick_damageable(_ server: GluonServer)
+    mutating func tick_damageable(_ server: any Server)
     
     mutating func damage_damageable(cause: DamageCause, amount: Double) -> DamageResult
 }
@@ -26,7 +26,7 @@ public extension Damageable {
         return context
     }
     
-    mutating func tick_damageable(_ server: GluonServer) {
+    mutating func tick_damageable(_ server: any Server) {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
         if fire_ticks > 0 {
             fire_ticks -= 1

@@ -9,6 +9,8 @@ import Foundation
 import huge_numbers
 
 public struct GluonWorld : World {
+    public typealias TargetChunk = GluonChunk
+    
     public let uuid:UUID
     public let seed:Int64
     public let name:String
@@ -19,14 +21,15 @@ public struct GluonWorld : World {
     public var time:UInt64
     public var border:WorldBorder?
     
-    public var y_min:HugeInt
-    public var y_max:HugeInt
-    public var y_sea_level:HugeInt
+    public var y_min:HugeFloat
+    public var y_max:HugeFloat
+    public var y_sea_level:HugeFloat
+    public var chunks_loaded:Set<GluonChunk>
     
-    public var allows_animals: Bool
-    public var allows_monsters: Bool
-    public var allows_pvp: Bool
-    public var beds_work: Bool
+    public var allows_animals:Bool
+    public var allows_monsters:Bool
+    public var allows_pvp:Bool
+    public var beds_work:Bool
     
     
     public mutating func load_chunk(x: HugeInt, z: HugeInt) async {

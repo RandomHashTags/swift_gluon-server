@@ -9,17 +9,23 @@ import Foundation
 import huge_numbers
 
 public protocol Chunk : Jsonable, Tickable, Saveable {
-    var world : any World { get }
+    associatedtype TargetWorld : World
+    associatedtype TargetBlock : Block
+    associatedtype TargetEntity : Entity
+    associatedtype TargetLivingEntity : LivingEntity
+    associatedtype TargetPlayer : Player
+    
+    var world : TargetWorld { get }
     var x : HugeInt { get }
     var z : HugeInt { get }
     
-    var blocks:Set<Block> { get set }
+    var blocks:Set<TargetBlock> { get set }
     
-    init(world: any World, x: HugeInt, z: HugeInt)
+    init(world: TargetWorld, x: HugeInt, z: HugeInt)
     
-    var entities : [any Entity] { get }
-    var living_entities : [any LivingEntity] { get }
-    var players : [any Player] { get }
+    var entities : [TargetEntity] { get }
+    var living_entities : [TargetLivingEntity] { get }
+    var players : [TargetPlayer] { get }
     
     func load() async
     func unload()
@@ -27,7 +33,7 @@ public protocol Chunk : Jsonable, Tickable, Saveable {
 
 public extension Chunk {
     static func == (lhs: any Chunk, rhs: any Chunk) -> Bool {
-        return lhs.world == rhs.world && lhs.x == rhs.x && lhs.z == rhs.z
+        return lhs.world.equals(rhs.world) && lhs.x == rhs.x && lhs.z == rhs.z
     }
     
     func hash(into hasher: inout Hasher) {
@@ -36,18 +42,18 @@ public extension Chunk {
         hasher.combine(z)
     }
     
-    var entities : [any Entity] {
-        let entities:Set<Entity> = world.entities
+    var entities : [TargetEntity] {
+        let entities:Set<TargetEntity> = world.entities
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-    var living_entities : [any LivingEntity] {
-        let entities:Set<LivingEntity> = world.living_entities
+    var living_entities : [TargetLivingEntity] {
+        let entities:Set<TargetLivingEntity> = world.living_entities
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-    var players : [any Player] {
-        let entities:Set<any Player> = world.players
+    var players : [TargetPlayer] {
+        let entities:Set<TargetPlayer> = world.players
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }

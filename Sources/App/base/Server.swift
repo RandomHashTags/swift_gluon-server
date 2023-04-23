@@ -7,7 +7,9 @@
 
 import Foundation
 
-public protocol Server : Tickable, Saveable {
+public protocol Server : NSObject, Tickable, Saveable {
+    associatedtype TargetWorld : World
+    
     var ticks_per_second : UInt8 { get set }
     var ticks_per_second_multiplier : Double { get set }
     var server_tick_interval_nano : UInt64 { get set }
@@ -25,7 +27,7 @@ public protocol Server : Tickable, Saveable {
     var banned_ip_addresses : Set<BanEntry> { get set }
     
     var difficulties : [String:Difficulty] { get set }
-    var worlds : [String:any World] { get set }
+    var worlds : [String:TargetWorld] { get set }
     
     var event_types : [String:EventType] { get set }
     
@@ -53,18 +55,45 @@ public protocol Server : Tickable, Saveable {
     
     func call_event(event: Event)
 }
+
+
+public extension Server {
+    func wake_up() {
+        guard !server_is_awake else { return }
+        server_is_awake = true
+        server_loop = Task {
+            do {
+                while server_is_awake {
+                    tick(self)
+                    
+                    try await Task.sleep(nanoseconds: server_tick_interval_nano)
+                }
+            } catch {
+                print("Server;encountered error during server loop: \(error)")
+            }
+        }
+    }
+    
+    func call_event(event: Event) {
+        guard let event_listeners:[any EventListener] = event_listeners[event.type.identifier] else { return }
+        for listener in event_listeners {
+            listener.handle(event: event)
+        }
+    }
+}
+
 public extension Server {
     func get_event_type(identifier: String) -> EventType? {
         return event_types[identifier]
     }
-    mutating func register_event_type(type: EventType) throws {
+    func register_event_type(type: EventType) throws {
         event_types[type.identifier] = type
     }
     
     func get_entity_type(identifier: String) -> EntityType? {
         return entity_types[identifier]
     }
-    func get_world(name: String) -> (any World)? {
+    func get_world(name: String) -> TargetWorld? {
         return worlds[name]
     }
     
@@ -111,12 +140,13 @@ public extension Server {
         return map.isEmpty ? nil : Set<Recipe>(map)
     }
 }
-
 public extension Server {
-    func call_event(event: Event) {
-        guard let event_listeners:[any EventListener] = event_listeners[event.type.identifier] else { return }
-        for listener in event_listeners {
-            listener.handle(event: event)
+    func get_entity(uuid: UUID) -> (any Entity)? {
+        for world in worlds {
+            if let entity:any Entity = world.entities.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
         }
+        return nil
     }
 }
