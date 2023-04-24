@@ -15,6 +15,8 @@ public final class GluonServer : GluonSharedInstance, Server {
     public typealias TargetLivingEntity = GluonLivingEntity
     public typealias TargetPlayer = GluonPlayer
     public typealias TargetMaterial = GluonMaterial
+    public typealias TargetInventoryType = GluonInventoryType
+    public typealias TargetStatistic = GluonStatistic
     public typealias TargetRecipe = GluonRecipe
     
     public var ticks_per_second:UInt8
@@ -44,14 +46,14 @@ public final class GluonServer : GluonSharedInstance, Server {
     public var biomes:Set<Biome>
     public var enchantment_types:[String:EnchantmentType]
     public var entity_types:[String:EntityType]
-    public var inventory_types:Set<InventoryType>
+    public var inventory_types:[String:TargetInventoryType]
     public var potion_effect_types:[String:PotionEffectType]
     public var game_modes:[String:GameMode]
     public var advancements:[String:Advancement]
     public var art:Set<Art>
     public var attributes:Set<Attribute>
     public var instruments:Set<Instrument>
-    public var statistics:Set<Statistic>
+    public var statistics:[String:TargetStatistic]
     public var commands:[String:Command]
     public var permissions:[String:Permission]
     public var recipes:[String:TargetRecipe]
@@ -119,8 +121,7 @@ public final class GluonServer : GluonSharedInstance, Server {
         entity_types = [
             "minecraft.player" : EntityType(identifier: "minecraft.player", name: MultilingualStrings(english: "Player"), is_affected_by_gravity: true, is_damageable: true, receives_fall_damage: true, no_damage_ticks_maximum: 20, fire_ticks_maximum: 20, freeze_ticks_maximum: 20)
         ]
-        inventory_types = [
-        ]
+        inventory_types = [:]
         potion_effect_types = [:]
         game_modes = [
             "minecraft.survival" : GameMode(identifier: "minecraft.survival", name: MultilingualStrings(english: "Survival"), allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
@@ -129,7 +130,7 @@ public final class GluonServer : GluonSharedInstance, Server {
         art = []
         attributes = []
         instruments = []
-        statistics = []
+        statistics = [:]
         commands = [:]
         permissions = [:]
         

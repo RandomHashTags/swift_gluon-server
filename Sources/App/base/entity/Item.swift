@@ -8,7 +8,9 @@
 import Foundation
 
 public protocol Item : Entity {
-    var item_stack : ItemStack { get set }
+    associatedtype TargetItemStack : ItemStack
+    
+    var item_stack : TargetItemStack { get set }
     var pickup_delay : UInt8 { get set }
     
     mutating func tick_item(_ server: any Server)

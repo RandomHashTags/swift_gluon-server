@@ -8,6 +8,7 @@
 import Foundation
 
 public struct GluonMaterialBlockConfiguration : MaterialBlockConfiguration {
+    public typealias TargetMaterialBlockLiquidConfiguration = GluonMaterialBlockLiquidConfiguration
     public typealias TargetMaterial = GluonMaterial
     
     public let type:BlockType
@@ -16,7 +17,7 @@ public struct GluonMaterialBlockConfiguration : MaterialBlockConfiguration {
     
     public let growable:MaterialBlockGrowableConfiguration?
     
-    public let liquid:MaterialBlockLiquidConfiguration?
+    public let liquid:TargetMaterialBlockLiquidConfiguration?
     
     public let can_passthrough:Bool
     public let passthrough_velocity_dampen_x:Float

@@ -9,6 +9,7 @@ import Foundation
 
 public struct GluonItem : Item {
     public typealias TargetLocation = GluonLocation
+    public typealias TargetItemStack = GluonItemStack
     
     public var uuid:UUID
     public var type:EntityType
@@ -34,7 +35,7 @@ public struct GluonItem : Item {
     
     public var passenger_uuids:Set<UUID>
     public var passengers : [any Entity] {
-        return GluonServer.get_entities(uuids: passenger_uuids)
+        return GluonServer.shared_instance.get_entities(uuids: passenger_uuids)
     }
     public var vehicle_uuid:UUID?
     public var vehicle : (any Entity)? {
@@ -42,7 +43,7 @@ public struct GluonItem : Item {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    public var item_stack:ItemStack
+    public var item_stack:TargetItemStack
     public var pickup_delay:UInt8
     
     public mutating func tick(_ server: any Server) {

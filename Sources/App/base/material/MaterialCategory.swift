@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct MaterialCategory : Jsonable {
-    public let identifier:String
-    public let configuration:MaterialConfiguration
+public protocol MaterialCategory : Jsonable, Identifiable {
+    associatedtype TargetMaterialConfiguration : MaterialConfiguration
+    
+    var configuration : TargetMaterialConfiguration { get }
 }

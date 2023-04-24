@@ -10,7 +10,7 @@ import Foundation
 public struct AdvancementActive : Jsonable {
     public let identifier:String
     public var type : Advancement? {
-        return GluonServer.get_advancement(identifier: identifier)
+        return GluonServer.shared_instance.get_advancement(identifier: identifier)
     }
     public var value:Float
 }

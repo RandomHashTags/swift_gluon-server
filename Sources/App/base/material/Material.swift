@@ -8,10 +8,11 @@
 import Foundation
 
 public protocol Material : Jsonable, Identifiable, MultilingualName {
+    associatedtype TargetMaterialCategory : MaterialCategory
     associatedtype TargetMaterialConfiguration : MaterialConfiguration
     associatedtype TargetRecipe : Recipe
     
-    var categories:[MaterialCategory] { get }
+    var categories:[TargetMaterialCategory] { get }
     var configuration:TargetMaterialConfiguration { get }
     /// The ``Recipe`` identifier this material can be crafted by.
     var recipe_identifier:String? { get }

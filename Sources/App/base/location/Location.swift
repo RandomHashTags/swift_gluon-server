@@ -38,7 +38,7 @@ public protocol Location : Jsonable {
 }
 public extension Location {
     var chunk_coordinates : (x: HugeInt, z: HugeInt) {
-        return (x: Int64(floor(x / 16)), z: Int64(floor(z / 16)))
+        return (x: (x / 16).integer, z: (z / 16).integer)
     }
     
     func is_similar(_ location: Self) -> Bool {

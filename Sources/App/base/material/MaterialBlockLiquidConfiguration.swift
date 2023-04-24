@@ -7,5 +7,5 @@
 
 import Foundation
 
-public struct MaterialBlockLiquidConfiguration : Jsonable {
+public protocol MaterialBlockLiquidConfiguration : Jsonable {
 }

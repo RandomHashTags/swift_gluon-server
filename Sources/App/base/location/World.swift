@@ -54,7 +54,7 @@ public protocol World : Jsonable, Tickable {
     func get_entity(uuid: UUID) -> TargetEntity?
     func get_entities(uuids: Set<UUID>) -> [TargetEntity]
     
-    func get_living_entity(uuid: UUID) -> (TargetLivingEntity)?
+    func get_living_entity(uuid: UUID) -> TargetLivingEntity?
     func get_living_entities(uuids: Set<UUID>) -> [TargetLivingEntity]
     
     func get_player(uuid: UUID) -> TargetPlayer?
@@ -118,14 +118,14 @@ public extension World {
     func get_living_entity(uuid: UUID) -> TargetLivingEntity? {
         return living_entities.first(where: { $0.uuid == uuid })
     }
-    func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity] {
+    func get_living_entities(uuids: Set<UUID>) -> [TargetLivingEntity] {
         return living_entities.filter({ uuids.contains($0.uuid) })
     }
     
-    func get_player(uuid: UUID) -> (any Player)? {
+    func get_player(uuid: UUID) -> TargetPlayer? {
         return players.first(where: { $0.uuid == uuid })
     }
-    func get_players(uuids: Set<UUID>) -> [any Player] {
+    func get_players(uuids: Set<UUID>) -> [TargetPlayer] {
         return players.filter({ uuids.contains($0.uuid) })
     }
 }

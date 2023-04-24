@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol MaterialBlockConfiguration : Jsonable {
+    associatedtype TargetMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration
     associatedtype TargetMaterial : Material
     
     var type : BlockType { get }
@@ -19,7 +20,7 @@ public protocol MaterialBlockConfiguration : Jsonable {
     var growable : MaterialBlockGrowableConfiguration? { get }
     
     /// The liquid configuration of this block, if it is a liquid.
-    var liquid : MaterialBlockLiquidConfiguration? { get }
+    var liquid : TargetMaterialBlockLiquidConfiguration? { get }
     
     /// If entities can passthrough (walk/sprint/swim through) this block or not.
     var can_passthrough : Bool { get }

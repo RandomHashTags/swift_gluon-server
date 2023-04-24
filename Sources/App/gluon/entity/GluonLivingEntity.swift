@@ -58,7 +58,7 @@ public struct GluonLivingEntity : LivingEntity {
     
     public var passenger_uuids:Set<UUID>
     public var passengers : [any Entity] {
-        return GluonServer.get_entities(uuids: passenger_uuids)
+        return GluonServer.shared_instance.get_entities(uuids: passenger_uuids)
     }
     
     public var vehicle_uuid:UUID?

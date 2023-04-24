@@ -14,6 +14,8 @@ public protocol Server : Tickable, Saveable {
     associatedtype TargetLivingEntity : LivingEntity
     associatedtype TargetPlayer : Player
     associatedtype TargetMaterial : Material
+    associatedtype TargetInventoryType : InventoryType
+    associatedtype TargetStatistic : Statistic
     associatedtype TargetRecipe : Recipe
     
     var ticks_per_second : UInt8 { get }
@@ -43,14 +45,14 @@ public protocol Server : Tickable, Saveable {
     var biomes : Set<Biome> { get set }
     var enchantment_types : [String:EnchantmentType] { get set }
     var entity_types : [String:EntityType] { get set }
-    var inventory_types : Set<InventoryType> { get set }
+    var inventory_types : [String:TargetInventoryType] { get set }
     var potion_effect_types : [String:PotionEffectType] { get set }
     var game_modes : [String:GameMode] { get set }
     var advancements : [String:Advancement] { get set }
     var art : Set<Art> { get set }
     var attributes : Set<Attribute> { get set }
     var instruments : Set<Instrument> { get set }
-    var statistics : Set<Statistic> { get set }
+    var statistics : [String:TargetStatistic] { get set }
     var commands : [String:Command] { get set }
     var permissions : [String:Permission] { get set }
     var recipes : [String:TargetRecipe] { get set }
@@ -112,8 +114,8 @@ public extension Server {
     func get_game_mode(identifier: String) -> GameMode? {
         return game_modes[identifier]
     }
-    func get_inventory_type(identifier: String) -> InventoryType? {
-        return inventory_types.first(where: { $0.identifier.elementsEqual(identifier) })
+    func get_inventory_type(identifier: String) -> TargetInventoryType? {
+        return inventory_types[identifier]
     }
     
     func get_material(identifier: String) -> TargetMaterial? {
@@ -130,8 +132,8 @@ public extension Server {
     func get_potion_effect_type(identifier: String) -> PotionEffectType? {
         return potion_effect_types[identifier]
     }
-    func get_statistic(identifier: String) -> Statistic? {
-        return statistics.first(where: { $0.identifier.elementsEqual(identifier) })
+    func get_statistic(identifier: String) -> TargetStatistic? {
+        return statistics[identifier]
     }
     
     func get_recipe(identifier: String) -> TargetRecipe? {

@@ -7,28 +7,28 @@
 
 import Foundation
 
-public struct MaterialItemConfiguration : Jsonable {
+public protocol MaterialItemConfiguration : Jsonable {
     /// Maximum amount of the same item that can be stacked in one slot.
-    public let item_stack_size_maximum:Int
+    var item_stack_size_maximum : Int { get }
     
     /// If the item has durability.
-    public let has_durability:Bool
+    var has_durability : Bool { get }
     /// The item's maximum durability.
-    public let durability:UInt
+    var durability : UInt { get }
     
-    public let consumable:MaterialItemConsumableConfiguration?
+    var consumable : MaterialItemConsumableConfiguration? { get }
     
     /// Amount of health points this item inflicts to a ``LivingEntity``.
-    public let attack_damage:Double
+    var attack_damage : Double { get }
     /// Amount of durability to reduced this item by when attacking a ``LivingEntity``.
-    public let attack_durability_damage:UInt
+    var attack_durability_damage : UInt { get }
     /// Amount of durability to reduce an item of the material by if the block broken does prefer the item's material.
-    public let break_preferred_block_durability_damage:UInt
+    var break_preferred_block_durability_damage : UInt { get }
     /// Amount of durability to reduce an item of this material by if the block broken doesn't prefer the item's material.
-    public let break_nonpreferred_block_durability_damage:UInt
+    var break_nonpreferred_block_durability_damage : UInt { get }
     
     /// The material identifiers this item can only be placed on.
-    public let place_block_whitelist:Set<String>?
+    var place_block_whitelist : Set<String>? { get }
     /// The material identifiers this item cannot be placed on.
-    public let place_block_blacklist:Set<String>?
+    var place_block_blacklist : Set<String>? { get }
 }

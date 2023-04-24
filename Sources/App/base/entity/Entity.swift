@@ -20,8 +20,9 @@ public protocol Entity : Nameable, Tickable, Saveable {
     var boundaries : [Boundary] { get set }
     /// The current location of this entity.
     var location : TargetLocation { get set }
-    /// The current velocity this entity is experiencing.
+    /// The current velocity of this entity.
     var velocity : Vector { get set }
+    /// The total fall distance of this entity, measured in blocks.
     var fall_distance : Float { get set }
     
     var is_glowing : Bool { get set }

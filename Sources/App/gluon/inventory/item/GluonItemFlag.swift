@@ -8,5 +8,5 @@
 import Foundation
 
 public struct GluonItemFlag : ItemFlag {
-    let identifier:String
+    public let identifier:String
 }

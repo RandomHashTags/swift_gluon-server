@@ -9,14 +9,14 @@ import Foundation
 
 public struct EventType : Hashable {
     public static func parse(_ identifier: String) -> EventType? {
-        return GluonServer.get_event_type(identifier: identifier)
+        return GluonServer.shared_instance.get_event_type(identifier: identifier)
     }
     
     public let identifier:String
     
     public init(identifier: String) {
         self.identifier = identifier
-        try? GluonServer.register_event_type(type: self) // TODO: handle
+        try? GluonServer.shared_instance.register_event_type(type: self) // TODO: handle
     }
 }
 internal extension EventType {

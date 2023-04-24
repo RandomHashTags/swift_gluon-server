@@ -8,12 +8,13 @@
 import Foundation
 
 public struct GluonMaterial : Material {
+    public typealias TargetMaterialCategory = GluonMaterialCategory
     public typealias TargetMaterialConfiguration = GluonMaterialConfiguration
     public typealias TargetRecipe = GluonRecipe
     
     public let identifier:String
     public let name:MultilingualStrings
-    public let categories:[MaterialCategory]
+    public let categories:[TargetMaterialCategory]
     public let configuration:TargetMaterialConfiguration
     
     public let recipe_identifier:String?

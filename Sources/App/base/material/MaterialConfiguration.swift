@@ -8,13 +8,14 @@
 import Foundation
 
 public protocol MaterialConfiguration : Jsonable {
+    associatedtype TargetMaterialItemConfiguration : MaterialItemConfiguration
     associatedtype TargetMaterialBlockConfiguration : MaterialBlockConfiguration
     
     var is_only_item : Bool { get }
     var is_only_block : Bool { get }
     var is_block_and_item : Bool { get }
     
-    var item : MaterialItemConfiguration? { get }
+    var item : TargetMaterialItemConfiguration? { get }
     var block : TargetMaterialBlockConfiguration? { get }
 }
 public extension MaterialConfiguration {
