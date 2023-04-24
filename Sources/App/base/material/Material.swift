@@ -7,17 +7,13 @@
 
 import Foundation
 
-public struct Material : Jsonable {
-    public let identifier:String
-    public let name:MultilingualStrings
-    public let categories:[MaterialCategory]
-    public let configuration:MaterialConfiguration
+public protocol Material : Jsonable, Identifiable, MultilingualName {
+    associatedtype TargetMaterialConfiguration : MaterialConfiguration
+    associatedtype TargetRecipe : Recipe
+    
+    var categories:[MaterialCategory] { get }
+    var configuration:TargetMaterialConfiguration { get }
     /// The ``Recipe`` identifier this material can be crafted by.
-    public let recipe_identifier:String?
-}
-public extension Material {
-    var recipe : Recipe? {
-        guard let identifier:String = recipe_identifier else { return nil }
-        return GluonServer.get_recipe(identifier: identifier)
-    }
+    var recipe_identifier:String? { get }
+    var recipe : TargetRecipe? { get }
 }

@@ -54,6 +54,7 @@ public protocol Entity : Nameable, Tickable, Saveable {
         display_name: String?,
         boundaries: [Boundary],
         location: TargetLocation,
+        velocity: Vector,
         fall_distance: Float,
         is_glowing: Bool,
         is_on_fire: Bool,

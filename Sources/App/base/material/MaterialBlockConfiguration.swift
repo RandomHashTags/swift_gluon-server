@@ -7,39 +7,34 @@
 
 import Foundation
 
-public struct MaterialBlockConfiguration : Jsonable {
-    public let type:BlockType
+public protocol MaterialBlockConfiguration : Jsonable {
+    associatedtype TargetMaterial : Material
+    
+    var type : BlockType { get }
     
     /// The reaction of this block when moved via in-game mechanics.
-    public let block_move_reaction:BlockMoveReaction
+    var block_move_reaction : BlockMoveReaction { get }
     
     /// The growing configuration of this block, if it grows.
-    public let growable:MaterialBlockGrowableConfiguration?
+    var growable : MaterialBlockGrowableConfiguration? { get }
     
     /// The liquid configuration of this block, if it is a liquid.
-    public let liquid:MaterialBlockLiquidConfiguration?
+    var liquid : MaterialBlockLiquidConfiguration? { get }
     
     /// If entities can passthrough (walk/sprint/swim through) this block or not.
-    public let can_passthrough:Bool
-    public let passthrough_velocity_dampen_x:Float
-    public let passthrough_velocity_dampen_y:Float
-    public let passthrough_velocity_dampen_z:Float
+    var can_passthrough : Bool { get }
+    var passthrough_velocity_dampen_x : Float { get }
+    var passthrough_velocity_dampen_y : Float { get }
+    var passthrough_velocity_dampen_z : Float { get }
     
     /// Whether an Entity receives fall damage when falling on this block or not.
-    public let breaks_fall:Bool
+    var breaks_fall : Bool { get }
     
-    /// If this block breaks instantly when punched.
-    public let breaks_instantly:Bool
-    public let resistance:Int
-    public let hardness:Float
-    public let preferred_break_material_identifiers:Set<String>?
+    var resistance : Int { get }
+    var hardness : Float { get }
+    var preferred_break_material_identifiers : Set<String>? { get }
+    var preferred_break_materials : Set<TargetMaterial>? { get }
     
     /// The items that can be dropped when this block is broken.
-    public let loot:LootTable?
-}
-public extension MaterialBlockConfiguration {
-    var preferred_break_materials : Set<Material>? {
-        guard let identifiers:Set<String> = preferred_break_material_identifiers else { return nil }
-        return GluonServer.get_materials(identifiers: identifiers)
-    }
+    var loot : LootTable? { get }
 }

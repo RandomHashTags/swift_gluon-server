@@ -7,10 +7,11 @@
 
 import Foundation
 
-public struct Recipe : Jsonable {
+public protocol Recipe : Jsonable {
+    associatedtype TargetItemStack : ItemStack
     /// - Returns: The slot and material identifiers required to craft the result.
-    public let ingredients:[UInt:Set<String>]
+    var ingredients:[UInt:Set<String>] { get }
     
     /// - Returns: The ``ItemStack`` crafted by this recipe.
-    public let result:ItemStack
+    var result:TargetItemStack { get }
 }

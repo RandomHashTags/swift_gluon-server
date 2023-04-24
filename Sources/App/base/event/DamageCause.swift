@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DamageCause {
+public enum DamageCause : Identifiable {
     case contact
     case entity_attack(damager: any Entity)
     case projectile(projectile: any Projectile)
@@ -31,7 +31,7 @@ public enum DamageCause {
     
     case custom(identifier: String, value: Any? = nil)
     
-    var identifier : String {
+    public var identifier : String {
         switch self {
         case .contact,
                 .suffocation,

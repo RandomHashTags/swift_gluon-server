@@ -9,10 +9,12 @@ import Foundation
 import huge_numbers
 
 public struct GluonBlock : Block {
+    public typealias TargetMaterial = GluonMaterial
+    public typealias TargetItemStack = GluonItemStack
     public typealias TargetLocation = GluonLocation
     
     public var material_identifier:String
-    public var material : Material? {
+    public var material : TargetMaterial? {
         return GluonServer.shared_instance.get_material(identifier: material_identifier)
     }
     public var light_level:UInt8
@@ -28,7 +30,7 @@ public struct GluonBlock : Block {
     }
     
     public func break_naturally() {
-        if let loot:[ItemStack] = loot_table?.loot_normal, let world:any World = location.world {
+        if let loot:[TargetItemStack] = loot_table?.loot_normal, let world:any World = location.world {
             let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second/2
             let half:HugeFloat = HugeFloat("0.5")
             let item_location:TargetLocation = location.advanced_by(x: half, y: half, z: half)
@@ -38,12 +40,12 @@ public struct GluonBlock : Block {
             }
         }
     }
-    public func get_breaking_speed(_ item_stack: ItemStack) -> Float {
+    public func get_breaking_speed(_ item_stack: TargetItemStack) -> Float {
        guard let block_configuration:MaterialBlockConfiguration = material?.configuration.block else {
            return 0
        }
        
-       let item_material:Material = item_stack.material
+       let item_material:TargetMaterial = item_stack.material
        let hardness:Float = block_configuration.hardness
        
        let is_preferred_tool:Bool = block_configuration.preferred_break_materials?.contains(item_material) ?? false

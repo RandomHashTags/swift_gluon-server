@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct ItemFlag : Jsonable {
-    public let identifier:String
+public protocol ItemFlag : Jsonable, Identifiable {
 }

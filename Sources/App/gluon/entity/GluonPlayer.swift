@@ -46,6 +46,8 @@ public struct GluonPlayer : Player {
     public var is_sleeping:Bool
     public var is_swimming:Bool
     
+    public var potion_effects:[String:TargetPotionEffect]
+    
     public var no_damage_ticks:UInt16
     public var no_damage_ticks_maximum:UInt16
     

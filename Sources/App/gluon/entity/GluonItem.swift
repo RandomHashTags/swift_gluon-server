@@ -33,7 +33,14 @@ public struct GluonItem : Item {
     public var freeze_ticks_maximum:UInt16
     
     public var passenger_uuids:Set<UUID>
+    public var passengers : [any Entity] {
+        return GluonServer.get_entities(uuids: passenger_uuids)
+    }
     public var vehicle_uuid:UUID?
+    public var vehicle : (any Entity)? {
+        guard let uuid:UUID = vehicle_uuid else { return nil }
+        return GluonServer.shared_instance.get_entity(uuid: uuid)
+    }
     
     public var item_stack:ItemStack
     public var pickup_delay:UInt8

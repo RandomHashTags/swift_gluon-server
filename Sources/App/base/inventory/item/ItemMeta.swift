@@ -7,9 +7,11 @@
 
 import Foundation
 
-public struct ItemMeta : Jsonable {
-    public var display_name:String?
-    public var lore:[String]?
-    public var flags:Set<ItemFlag>?
-    public var enchants:[EnchantmentType:Int]?
+public protocol ItemMeta : Jsonable {
+    associatedtype TargetItemFlag : ItemFlag
+    
+    var display_name : String? { get set }
+    var lore : [String]? { get set }
+    var flags : Set<TargetItemFlag>? { get set }
+    var enchants : [EnchantmentType:Int]? { get set }
 }

@@ -77,7 +77,7 @@ public extension Event {
         let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
         switch values[0] {
         case "has_potion_effect":
-            return ExecutableLogicalContext(value_type: .boolean, value: entity.potion_effects.first(where: { $0.type_identifier.elementsEqual(value) }))
+            return ExecutableLogicalContext(value_type: .boolean, value: entity.potion_effects.values.first(where: { $0.type_identifier.elementsEqual(value) }))
         default:
             return parse_function_damageable_context(key: key, damageable: entity)
         }

@@ -7,13 +7,20 @@
 
 import Foundation
 
-public struct ItemStack : Jsonable {
-    public var material:Material
-    public var meta:ItemMeta?
-    public var amount:UInt16
-    public var durability:UInt16
+public protocol ItemStack : Jsonable {
+    associatedtype TargetMaterial : Material
+    associatedtype TargetItemMeta : ItemMeta
     
-    public func is_similar(_ item_stack: ItemStack?) -> Bool {
-        return material == item_stack?.material && meta == item_stack?.meta
+    var material : TargetMaterial { get set }
+    var meta : TargetItemMeta? { get set }
+    var amount : UInt16 { get set }
+    var durability : UInt16 { get set }
+    
+    func is_similar(_ item_stack: (any ItemStack)?) -> Bool
+}
+
+public extension ItemStack {
+    func is_similar(_ item_stack: (any ItemStack)?) -> Bool {
+        return material.identifier == item_stack?.material.identifier && meta == item_stack?.meta
     }
 }

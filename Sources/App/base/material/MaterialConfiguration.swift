@@ -7,11 +7,18 @@
 
 import Foundation
 
-public struct MaterialConfiguration : Jsonable {
-    public var is_only_item : Bool { item != nil && block == nil }
-    public var is_only_block : Bool { item == nil && block != nil }
-    public var is_block_and_item : Bool { item != nil && block != nil }
+public protocol MaterialConfiguration : Jsonable {
+    associatedtype TargetMaterialBlockConfiguration : MaterialBlockConfiguration
     
-    public let item:MaterialItemConfiguration?
-    public let block:MaterialBlockConfiguration?
+    var is_only_item : Bool { get }
+    var is_only_block : Bool { get }
+    var is_block_and_item : Bool { get }
+    
+    var item : MaterialItemConfiguration? { get }
+    var block : TargetMaterialBlockConfiguration? { get }
+}
+public extension MaterialConfiguration {
+    var is_only_item : Bool { item != nil && block == nil }
+    var is_only_block : Bool { item == nil && block != nil }
+    var is_block_and_item : Bool { item != nil && block != nil }
 }

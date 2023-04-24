@@ -7,17 +7,23 @@
 
 import Foundation
 
-public protocol Server : NSObject, Tickable, Saveable {
+public protocol Server : Tickable, Saveable {
     associatedtype TargetWorld : World
+    associatedtype TargetLocation : Location
+    associatedtype TargetEntity : Entity
+    associatedtype TargetLivingEntity : LivingEntity
+    associatedtype TargetPlayer : Player
+    associatedtype TargetMaterial : Material
+    associatedtype TargetRecipe : Recipe
     
-    var ticks_per_second : UInt8 { get set }
-    var ticks_per_second_multiplier : Double { get set }
-    var server_tick_interval_nano : UInt64 { get set }
-    var server_is_awake : Bool { get set }
-    var server_loop : Task<Void, Error>! { get set }
-    var gravity : Double { get set }
-    var gravity_per_tick : Double { get set }
-    var void_damage_per_tick : Double { get set }
+    var ticks_per_second : UInt8 { get }
+    var ticks_per_second_multiplier : Double { get }
+    var server_tick_interval_nano : UInt64 { get }
+    var server_is_awake : Bool { get }
+    var server_loop : Task<Void, Error>! { get }
+    var gravity : Double { get }
+    var gravity_per_tick : Double { get }
+    var void_damage_per_tick : Double { get }
     
     var max_players : UInt64 { get set }
     var port : Int { get }
@@ -33,7 +39,7 @@ public protocol Server : NSObject, Tickable, Saveable {
     
     var sound_categories : Set<SoundCategory> { get set }
     var sounds : Set<Sound> { get set }
-    var materials : [String:Material] { get set }
+    var materials : [String:TargetMaterial] { get set }
     var biomes : Set<Biome> { get set }
     var enchantment_types : [String:EnchantmentType] { get set }
     var entity_types : [String:EntityType] { get set }
@@ -47,33 +53,29 @@ public protocol Server : NSObject, Tickable, Saveable {
     var statistics : Set<Statistic> { get set }
     var commands : [String:Command] { get set }
     var permissions : [String:Permission] { get set }
-    var recipes : [String:Recipe] { get set }
+    var recipes : [String:TargetRecipe] { get set }
     
     var event_listeners : [String:[any EventListener]] { get set }
     
     func set_tick_rate(ticks_per_second: UInt8)
+    mutating func wake_up()
     
     func call_event(event: Event)
+    
+    func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity]
+    
+    func get_entity(uuid: UUID) -> TargetEntity?
+    func get_entities(uuids: Set<UUID>) -> [TargetEntity]
+    
+    func get_living_entity(uuid: UUID) -> TargetLivingEntity?
+    func get_living_entities(uuids: Set<UUID>) -> [TargetLivingEntity]
+    
+    func get_player(uuid: UUID) -> TargetPlayer?
+    func get_players(uuids: Set<UUID>) -> [TargetPlayer]
 }
 
 
 public extension Server {
-    func wake_up() {
-        guard !server_is_awake else { return }
-        server_is_awake = true
-        server_loop = Task {
-            do {
-                while server_is_awake {
-                    tick(self)
-                    
-                    try await Task.sleep(nanoseconds: server_tick_interval_nano)
-                }
-            } catch {
-                print("Server;encountered error during server loop: \(error)")
-            }
-        }
-    }
-    
     func call_event(event: Event) {
         guard let event_listeners:[any EventListener] = event_listeners[event.type.identifier] else { return }
         for listener in event_listeners {
@@ -86,7 +88,7 @@ public extension Server {
     func get_event_type(identifier: String) -> EventType? {
         return event_types[identifier]
     }
-    func register_event_type(type: EventType) throws {
+    mutating func register_event_type(type: EventType) throws {
         event_types[type.identifier] = type
     }
     
@@ -114,12 +116,12 @@ public extension Server {
         return inventory_types.first(where: { $0.identifier.elementsEqual(identifier) })
     }
     
-    func get_material(identifier: String) -> Material? {
+    func get_material(identifier: String) -> TargetMaterial? {
         return materials[identifier]
     }
-    func get_materials(identifiers: any Collection<String>) -> Set<Material>? {
-        let map:[Material] = identifiers.compactMap({ materials[$0] })
-        return map.isEmpty ? nil : Set<Material>(map)
+    func get_materials(identifiers: any Collection<String>) -> Set<TargetMaterial>? {
+        let map:[TargetMaterial] = identifiers.compactMap({ materials[$0] })
+        return map.isEmpty ? nil : Set<TargetMaterial>(map)
     }
     
     func get_permission(identifier: String) -> Permission? {
@@ -132,21 +134,11 @@ public extension Server {
         return statistics.first(where: { $0.identifier.elementsEqual(identifier) })
     }
     
-    func get_recipe(identifier: String) -> Recipe? {
+    func get_recipe(identifier: String) -> TargetRecipe? {
         return recipes[identifier]
     }
-    func get_recipes(identifiers: any Collection<String>) -> Set<Recipe>? {
-        let map:[Recipe] = identifiers.compactMap({ recipes[$0] })
-        return map.isEmpty ? nil : Set<Recipe>(map)
-    }
-}
-public extension Server {
-    func get_entity(uuid: UUID) -> (any Entity)? {
-        for world in worlds {
-            if let entity:any Entity = world.entities.first(where: { $0.uuid == uuid }) {
-                return entity
-            }
-        }
-        return nil
+    func get_recipes(identifiers: any Collection<String>) -> Set<TargetRecipe>? {
+        let map:[TargetRecipe] = identifiers.compactMap({ recipes[$0] })
+        return map.isEmpty ? nil : Set<TargetRecipe>(map)
     }
 }

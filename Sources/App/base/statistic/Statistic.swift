@@ -7,8 +7,6 @@
 
 import Foundation
 
-public struct Statistic : Jsonable {
-    public let identifier:String
-    public let name:MultilingualStrings
-    public let value_type:ValueType
+public protocol Statistic : Jsonable, Identifiable, MultilingualName {
+    var value_type : ValueType { get }
 }

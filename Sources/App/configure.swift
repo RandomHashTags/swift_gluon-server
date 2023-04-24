@@ -52,7 +52,10 @@ private func test() {
         allows_animals: true,
         allows_monsters: true,
         allows_pvp: true,
-        beds_work: true
+        beds_work: true,
+        entities: [],
+        living_entities: [],
+        players: []
     )
     let chunk:any Chunk = GluonChunk.init(world: world, x: HugeInt.zero, z: HugeInt.zero)
     BlockPopulator.populate(chunk: chunk)
