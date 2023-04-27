@@ -7,10 +7,10 @@
 
 import Foundation
 
-public struct GluonLootTableEntry : Jsonable {
-    public typealias TargetItemStack = GluonItemStack
+struct GluonLootTableEntry : LootTableEntry {
+    typealias TargetItemStack = GluonItemStack
     
-    public let item:TargetItemStack
-    public let amount_min:UInt16, amount_max:UInt16
-    public let chance:UInt8
+    let item:TargetItemStack
+    let amount_min:UInt16, amount_max:UInt16
+    let chance:UInt8
 }

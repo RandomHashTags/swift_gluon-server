@@ -8,53 +8,53 @@
 import Foundation
 import huge_numbers
 
-public struct GluonWorld : World {
-    public typealias TargetChunk = GluonChunk
-    public typealias TargetEntity = GluonEntity
-    public typealias TargetLivingEntity = GluonLivingEntity
-    public typealias TargetPlayer = GluonPlayer
-    public typealias TargetLocation = GluonLocation
+struct GluonWorld : World {
+    typealias TargetChunk = GluonChunk
+    typealias TargetEntity = GluonEntity
+    typealias TargetLivingEntity = GluonLivingEntity
+    typealias TargetPlayer = GluonPlayer
+    typealias TargetLocation = GluonLocation
     
-    public let uuid:UUID
-    public let seed:Int64
-    public let name:String
+    let uuid:UUID
+    let seed:Int64
+    let name:String
     
-    public var spawn_location:Vector
-    public var difficulty:Difficulty
-    public var game_rules:Set<GameRule>
-    public var time:UInt64
-    public var border:WorldBorder?
+    var spawn_location:Vector
+    var difficulty:Difficulty
+    var game_rules:Set<GameRule>
+    var time:UInt64
+    var border:WorldBorder?
     
-    public var y_min:HugeFloat
-    public var y_max:HugeFloat
-    public var y_sea_level:HugeFloat
-    public var chunks_loaded:Set<TargetChunk>
+    var y_min:HugeFloat
+    var y_max:HugeFloat
+    var y_sea_level:HugeFloat
+    var chunks_loaded:[TargetChunk]
     
-    public var allows_animals:Bool
-    public var allows_monsters:Bool
-    public var allows_pvp:Bool
-    public var beds_work:Bool
+    var allows_animals:Bool
+    var allows_monsters:Bool
+    var allows_pvp:Bool
+    var beds_work:Bool
     
-    public var entities:Set<TargetEntity>
-    public var living_entities:Set<TargetLivingEntity>
-    public var players:Set<TargetPlayer>
+    var entities:[TargetEntity]
+    var living_entities:[TargetLivingEntity]
+    var players:[TargetPlayer]
     
     
-    public mutating func load_chunk(x: HugeInt, z: HugeInt) async {
+    mutating func load_chunk(x: HugeInt, z: HugeInt) async {
         let chunk:TargetChunk = TargetChunk(world: self, x: x, z: z)
-        guard !chunks_loaded.contains(chunk) else { return }
+        guard chunks_loaded.firstIndex(of: chunk) == nil else { return }
         await chunk.load()
-        chunks_loaded.insert(chunk)
+        chunks_loaded.append(chunk)
         let event:ChunkLoadEvent = ChunkLoadEvent(chunk: chunk)
         GluonServer.shared_instance.call_event(event: event)
     }
-    public mutating func unload_chunk(x: HugeInt, z: HugeInt) async {
+    mutating func unload_chunk(x: HugeInt, z: HugeInt) async {
         let chunk:TargetChunk = TargetChunk(world: self, x: x, z: z)
-        guard chunks_loaded.contains(chunk) else { return }
+        guard let index:Int = chunks_loaded.firstIndex(of: chunk) else { return }
         let event:ChunkUnloadEvent = ChunkUnloadEvent(chunk: chunk)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
-        chunks_loaded.remove(chunk)
+        chunks_loaded.remove(at: index)
         chunk.unload()
     }
 }

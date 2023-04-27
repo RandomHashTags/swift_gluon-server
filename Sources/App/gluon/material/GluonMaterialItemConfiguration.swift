@@ -7,19 +7,19 @@
 
 import Foundation
 
-public struct GluonMaterialItemConfiguration : MaterialItemConfiguration {
-    public let item_stack_size_maximum:Int
+struct GluonMaterialItemConfiguration : MaterialItemConfiguration {
+    let item_stack_size_maximum:Int
     
-    public let has_durability:Bool
-    public let durability:UInt
+    let has_durability:Bool
+    let durability:UInt
     
-    public let consumable:MaterialItemConsumableConfiguration?
+    let consumable:MaterialItemConsumableConfiguration?
     
-    public let attack_damage:Double
-    public let attack_durability_damage:UInt
-    public let break_preferred_block_durability_damage:UInt
-    public let break_nonpreferred_block_durability_damage:UInt
+    let attack_damage:Double
+    let attack_durability_damage:UInt
+    let break_preferred_block_durability_damage:UInt
+    let break_nonpreferred_block_durability_damage:UInt
     
-    public let place_block_whitelist:Set<String>?
-    public let place_block_blacklist:Set<String>?
+    let place_block_whitelist:Set<String>?
+    let place_block_blacklist:Set<String>?
 }

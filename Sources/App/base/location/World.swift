@@ -29,7 +29,7 @@ public protocol World : Jsonable, Tickable {
     var y_max : HugeFloat { get set }
     var y_sea_level : HugeFloat { get set }
     
-    var chunks_loaded : Set<TargetChunk> { get set }
+    var chunks_loaded : [TargetChunk] { get set }
     
     var allows_animals : Bool { get set }
     var allows_monsters : Bool { get set }
@@ -37,9 +37,9 @@ public protocol World : Jsonable, Tickable {
     
     var beds_work : Bool { get set}
     
-    var entities : Set<TargetEntity> { get set }
-    var living_entities : Set<TargetLivingEntity> { get set }
-    var players : Set<TargetPlayer> { get set }
+    var entities : [TargetEntity] { get set }
+    var living_entities : [TargetLivingEntity] { get set }
+    var players : [TargetPlayer] { get set }
     
     func equals(_ world: any World) -> Bool
     mutating func load_chunk(x: HugeInt, z: HugeInt) async
@@ -47,6 +47,12 @@ public protocol World : Jsonable, Tickable {
     
     mutating func spawn_entity(_ entity: TargetEntity)
     mutating func remove_entity(_ entity: TargetEntity)
+    
+    mutating func spawn_living_entity(_ entity: TargetLivingEntity)
+    mutating func remove_living_entity(_ entity: TargetLivingEntity)
+    
+    mutating func spawn_player(_ entity: TargetPlayer)
+    mutating func remove_player(_ entity: TargetPlayer)
     
     func get_nearby_entities(center: TargetLocation, x: Double, y: Double, z: Double) -> [TargetEntity]
     func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity]
@@ -76,12 +82,18 @@ public extension World {
         return uuid == world.uuid && seed == world.seed && name.elementsEqual(world.name)
     }
     mutating func tick(_ server: any Server) {
-        for chunk in chunks_loaded {
-            chunk.tick(server)
+        for index in chunks_loaded.indices {
+            chunks_loaded[index].tick(server)
         }
         
-        for entity in entities {
-            entity.tick(server)
+        for index in entities.indices {
+            entities[index].tick(server)
+        }
+        for index in living_entities.indices {
+            living_entities[index].tick(server)
+        }
+        for index in players.indices {
+            players[index].tick(server)
         }
     }
     
@@ -93,12 +105,28 @@ public extension World {
             entity.save()
         }
     }
-    
+}
+public extension World {
     mutating func spawn_entity(_ entity: TargetEntity) {
-        entities.insert(entity)
+        entities.append(entity)
     }
     mutating func remove_entity(_ entity: TargetEntity) {
-        entities.remove(entity)
+        guard let index:Int = entities.firstIndex(of: entity) else { return }
+        entities.remove(at: index)
+    }
+    mutating func spawn_living_entity(_ entity: TargetLivingEntity) {
+        living_entities.append(entity)
+    }
+    mutating func remove_living_entity(_ entity: TargetLivingEntity) {
+        guard let index:Int = living_entities.firstIndex(of: entity) else { return }
+        living_entities.remove(at: index)
+    }
+    mutating func spawn_player(_ entity: TargetPlayer) {
+        players.append(entity)
+    }
+    mutating func remove_player(_ entity: TargetPlayer) {
+        guard let index:Int = players.firstIndex(of: entity) else { return }
+        players.remove(at: index)
     }
     
     func get_nearby_entities(center: TargetLocation, x: Double, y: Double, z: Double) -> [TargetEntity] {

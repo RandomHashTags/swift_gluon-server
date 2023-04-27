@@ -47,32 +47,10 @@ public protocol Entity : Nameable, Tickable, Saveable {
     
     var entity_executable_context : [String:ExecutableLogicalContext] { get }
     
-    init(
-        uuid: UUID,
-        type: EntityType,
-        ticks_lived: UInt64,
-        custom_name: String?,
-        display_name: String?,
-        boundaries: [Boundary],
-        location: TargetLocation,
-        velocity: Vector,
-        fall_distance: Float,
-        is_glowing: Bool,
-        is_on_fire: Bool,
-        is_on_ground: Bool,
-        height: Float,
-        fire_ticks: UInt16,
-        fire_ticks_maximum: UInt16,
-        freeze_ticks: UInt16,
-        freeze_ticks_maximum: UInt16,
-        passenger_uuids: Set<UUID>,
-        vehicle_uuid: UUID?
-    )
-    
     mutating func tick_entity(_ server: any Server)
     
     /// Removes this entity from the server. Like it never existed (or "despawned").
-    func remove()
+    mutating func remove()
     
     /// Teleport this entity to a certain location.
     mutating func teleport(_ location: TargetLocation)
@@ -114,16 +92,5 @@ public extension Entity {
             
             "ticks_lived" : ExecutableLogicalContext(value_type: .long_unsigned, value: ticks_lived)
         ]
-    }
-    
-    func remove() {
-        location.world?.remove_entity(self)
-    }
-    
-    mutating func teleport(_ location: TargetLocation) {
-        let event:EntityTeleportEvent = EntityTeleportEvent(entity: self, new_location: location)
-        GluonServer.shared_instance.call_event(event: event)
-        guard !event.is_cancelled else { return }
-        self.location = location
     }
 }

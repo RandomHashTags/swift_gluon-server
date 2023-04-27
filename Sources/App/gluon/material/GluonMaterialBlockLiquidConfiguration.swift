@@ -7,5 +7,5 @@
 
 import Foundation
 
-public struct GluonMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration {
+struct GluonMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration {
 }

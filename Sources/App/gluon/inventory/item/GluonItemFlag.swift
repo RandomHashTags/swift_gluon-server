@@ -7,6 +7,6 @@
 
 import Foundation
 
-public struct GluonItemFlag : ItemFlag {
-    public let identifier:String
+struct GluonItemFlag : ItemFlag {
+    let identifier:String
 }

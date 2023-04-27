@@ -10,6 +10,7 @@ import Foundation
 public protocol MaterialBlockConfiguration : Jsonable {
     associatedtype TargetMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration
     associatedtype TargetMaterial : Material
+    associatedtype TargetLootTable : LootTable
     
     var type : BlockType { get }
     
@@ -37,5 +38,5 @@ public protocol MaterialBlockConfiguration : Jsonable {
     var preferred_break_materials : Set<TargetMaterial>? { get }
     
     /// The items that can be dropped when this block is broken.
-    var loot : LootTable? { get }
+    var loot : TargetLootTable? { get }
 }

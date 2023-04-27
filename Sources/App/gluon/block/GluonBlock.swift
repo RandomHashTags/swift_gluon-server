@@ -8,38 +8,37 @@
 import Foundation
 import huge_numbers
 
-public struct GluonBlock : Block {
-    public typealias TargetMaterial = GluonMaterial
-    public typealias TargetItemStack = GluonItemStack
-    public typealias TargetLocation = GluonLocation
+struct GluonBlock : Block {
+    typealias TargetMaterial = GluonMaterial
+    typealias TargetItemStack = GluonItemStack
+    typealias TargetLocation = GluonLocation
+    typealias TargetLootTable = GluonLootTable
     
-    public var material_identifier:String
-    public var material : TargetMaterial? {
+    var material_identifier:String
+    var material : TargetMaterial? {
         return GluonServer.shared_instance.get_material(identifier: material_identifier)
     }
-    public var light_level:UInt8
-    public var location:TargetLocation
+    var light_level:UInt8
+    var location:TargetLocation
     
-    public var growable_age:UInt8?
+    var growable_age:UInt8?
     
-    public var loot_table:LootTable?
+    var loot_table:TargetLootTable?
     
-    public func tick(_ server: any Server) {
-    }
-    public func save() {
+    func tick(_ server: any Server) {
     }
     
-    public func break_naturally() {
+    func break_naturally() {
         guard let loot:[TargetItemStack] = loot_table?.loot_normal, let world:any World = location.world else { return }
         let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second / 2
         let half:HugeFloat = HugeFloat("0.5")
         let item_location:TargetLocation = location.advanced_by(x: half, y: half, z: half)
         for item_stack in loot {
-            let item:GluonItem = GluonItem(item_stack: item_stack, pickup_delay: pickup_delay, location: item_location)
-            world.spawn_entity(item)
+            //let item:GluonItem = GluonItem(item_stack: item_stack, pickup_delay: pickup_delay, location: item_location)
+            //world.spawn_entity(item)
         }
     }
-    public func get_breaking_speed(_ item_stack: TargetItemStack) -> Float {
+    func get_breaking_speed(_ item_stack: TargetItemStack) -> Float {
        guard let block_configuration:GluonMaterialBlockConfiguration = material?.configuration.block else {
            return 0
        }
@@ -60,7 +59,7 @@ public struct GluonBlock : Block {
        
        return hardness * tool_multiplier * penalties_multiplier * additional_multiplier
     }
-    public func get_breaking_speed(_ player: any Player) -> Float {
+    func get_breaking_speed(_ player: any Player) -> Float {
         var speed_multiplier:Float = 1.0
         
         let potion_effects:[String:any PotionEffect] = player.potion_effects

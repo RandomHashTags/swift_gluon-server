@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct GluonStatistic : Statistic {
-    public let identifier:String
-    public let name:MultilingualStrings
-    public let value_type:ValueType
+struct GluonStatistic : Statistic {
+    let identifier:String
+    let name:MultilingualStrings
+    let value_type:ValueType
 }

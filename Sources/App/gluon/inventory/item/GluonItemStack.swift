@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct GluonItemStack : ItemStack {
-    public typealias TargetMaterial = GluonMaterial
-    public typealias TargetItemMeta = GluonItemMeta
+struct GluonItemStack : ItemStack {
+    typealias TargetMaterial = GluonMaterial
+    typealias TargetItemMeta = GluonItemMeta
     
-    public var material:TargetMaterial
-    public var meta:TargetItemMeta?
-    public var amount:UInt16
-    public var durability:UInt16
+    var material:TargetMaterial
+    var meta:TargetItemMeta?
+    var amount:UInt16
+    var durability:UInt16
 }

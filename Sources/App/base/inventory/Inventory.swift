@@ -32,7 +32,7 @@ public protocol Inventory : Jsonable {
 }
 public extension Inventory {
     static func == (lhs: any Inventory, rhs: any Inventory) -> Bool {
-        return lhs.type == rhs.type && lhs.items.elementsEqual(rhs.items)
+        return lhs.type.identifier.elementsEqual(rhs.type.identifier) && lhs.items.elementsEqual(rhs.items)
     }
     
     func hash(into hasher: inout Hasher) {
@@ -48,7 +48,8 @@ public extension Inventory {
     }
     
     func first(_ material: TargetMaterial) -> TargetItemStack? {
-        return items.first(where: { $0?.material == material }) ?? nil
+        let identifier:String = material.identifier
+        return items.first(where: { $0?.material.identifier.elementsEqual(identifier) ?? false }) ?? nil
     }
     func first(_ item: TargetItemStack) -> TargetItemStack? {
         return items.first(where: {  item.is_similar($0) }) ?? nil

@@ -8,6 +8,10 @@
 import Foundation
 
 public protocol Player : LivingEntity {
+    associatedtype TargetStatisticActive : StatisticActive
+    associatedtype TargetPlayerInventory : PlayerInventory
+    associatedtype TargetItemStack : ItemStack
+    
     var connection : PlayerConnection { get }
     
     var name : String { get }
@@ -18,7 +22,7 @@ public protocol Player : LivingEntity {
     var food_level : UInt64 { get set }
     
     var permissions : Set<String> { get set }
-    var statistics : Set<StatisticActive> { get set }
+    var statistics : [String:TargetStatisticActive] { get set }
     
     var game_mode : GameMode { get set }
     var is_blocking : Bool { get set }
@@ -27,7 +31,7 @@ public protocol Player : LivingEntity {
     var is_sneaking : Bool { get set }
     var is_sprinting : Bool { get set }
     
-    var inventory : any PlayerInventory { get set }
+    var inventory : TargetPlayerInventory { get set }
     
     var player_executable_context : [String:ExecutableLogicalContext] { get }
     
@@ -39,10 +43,14 @@ public protocol Player : LivingEntity {
     
     func kick(reason: String)
     
-    func consumed(item: inout ItemStack)
+    func consumed(item: inout TargetItemStack)
 }
 
 public extension Player {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.uuid == rhs.uuid && lhs.name.elementsEqual(rhs.name)
+    }
+    
     var player_executable_context : [String:ExecutableLogicalContext] {
         var context:[String:ExecutableLogicalContext] = living_entity_executable_context
         context["ping"] = ExecutableLogicalContext(value_type: .short_unsigned, value: connection.ping)
@@ -66,29 +74,5 @@ public extension Player {
     
     func has_permission(_ permission: String) -> Bool {
         return permissions.contains(permission)
-    }
-    
-    mutating func set_game_mode(_ game_mode: GameMode) {
-        guard self.game_mode != game_mode else { return }
-        let event:PlayerGameModeChangeEvent = PlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
-        GluonServer.shared_instance.call_event(event: event)
-        guard !event.is_cancelled else { return }
-        self.game_mode = game_mode
-    }
-    
-    func kick(reason: String) {
-        GluonServer.boot_player(player: self, reason: reason)
-    }
-    
-    func consumed(item: inout ItemStack) {
-        guard let consumable_configuration:MaterialItemConsumableConfiguration = item.material.configuration.item?.consumable else { return }
-        let event:PlayerItemConsumeEvent = PlayerItemConsumeEvent(player: self, item: &item)
-        GluonServer.shared_instance.call_event(event: event)
-        guard !event.is_cancelled else { return }
-        item.amount -= 1
-        guard let context:[String:ExecutableLogicalContext] = event.context else { return }
-        for logic in consumable_configuration.executable_logic {
-            logic.execute(context: context)
-        }
     }
 }

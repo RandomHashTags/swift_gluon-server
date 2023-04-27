@@ -12,7 +12,7 @@ public protocol Location : Jsonable {
     associatedtype TargetWorld : World
     
     var world_name : String { get }
-    var world : TargetWorld? { get set }
+    var world : TargetWorld? { get }
     var x : HugeFloat { get set }
     var y : HugeFloat { get set }
     var z : HugeFloat { get set }

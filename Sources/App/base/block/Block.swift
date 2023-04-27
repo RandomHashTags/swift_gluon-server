@@ -11,6 +11,7 @@ public protocol Block : Jsonable, Tickable, Saveable {
     associatedtype TargetMaterial : Material
     associatedtype TargetItemStack : ItemStack
     associatedtype TargetLocation : Location
+    associatedtype TargetLootTable : LootTable
     
     var material_identifier : String { get set }
     var material : TargetMaterial? { get }
@@ -19,7 +20,7 @@ public protocol Block : Jsonable, Tickable, Saveable {
     
     var growable_age : UInt8? { get set }
     
-    var loot_table : LootTable? { get set }
+    var loot_table : TargetLootTable? { get set }
     
     func break_naturally()
     func is_preferred_tool(_ material: TargetMaterial) -> Bool
@@ -35,6 +36,7 @@ public extension Block {
     }
     
     func is_preferred_tool(_ material: TargetMaterial) -> Bool {
-        return self.material?.configuration.block?.preferred_break_materials?.contains(material) ?? false
+        let identifier:String = material.identifier
+        return self.material?.configuration.block?.preferred_break_material_identifiers?.contains(identifier) ?? false
     }
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct AnimalBreedingConfiguration : Jsonable {
-    public let identifier:String
-    public let breed_item:ItemStack
+public protocol AnimalBreedingConfiguration : Jsonable, Identifiable {
+    associatedtype TargetItemStack : ItemStack
+    
+    var breed_item : TargetItemStack { get }
 }

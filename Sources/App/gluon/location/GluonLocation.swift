@@ -8,26 +8,17 @@
 import Foundation
 import huge_numbers
 
-public struct GluonLocation : Location {
-    public typealias TargetWorld = GluonWorld
+struct GluonLocation : Location {
+    typealias TargetWorld = GluonWorld
     
-    public var world_name:String
-    public var world : TargetWorld? {
+    var world_name:String
+    var world : TargetWorld? {
         return GluonServer.shared_instance.get_world(name: world_name)
     }
-    public var x:HugeFloat
-    public var y:HugeFloat
-    public var z:HugeFloat
+    var x:HugeFloat
+    var y:HugeFloat
+    var z:HugeFloat
     
-    public var yaw:Double
-    public var pitch:Double
-    
-    public init(world_name: String, x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double, pitch: Double) {
-        self.world_name = world_name
-        self.x = x
-        self.y = y
-        self.z = z
-        self.yaw = yaw
-        self.pitch = pitch
-    }
+    var yaw:Double
+    var pitch:Double
 }

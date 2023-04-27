@@ -8,71 +8,72 @@
 import Foundation
 import huge_numbers
 
-public final class GluonServer : GluonSharedInstance, Server {
-    public typealias TargetWorld = GluonWorld
-    public typealias TargetLocation = GluonLocation
-    public typealias TargetEntity = GluonEntity
-    public typealias TargetLivingEntity = GluonLivingEntity
-    public typealias TargetPlayer = GluonPlayer
-    public typealias TargetMaterial = GluonMaterial
-    public typealias TargetInventoryType = GluonInventoryType
-    public typealias TargetStatistic = GluonStatistic
-    public typealias TargetRecipe = GluonRecipe
+final class GluonServer : GluonSharedInstance, Server {
+    typealias TargetWorld = GluonWorld
+    typealias TargetEventType = GluonEventType
+    typealias TargetLocation = GluonLocation
+    typealias TargetEntity = GluonEntity
+    typealias TargetLivingEntity = GluonLivingEntity
+    typealias TargetPlayer = GluonPlayer
+    typealias TargetMaterial = GluonMaterial
+    typealias TargetInventoryType = GluonInventoryType
+    typealias TargetStatistic = GluonStatistic
+    typealias TargetRecipe = GluonRecipe
     
-    public var ticks_per_second:UInt8
-    public var ticks_per_second_multiplier:Double
-    public var server_tick_interval_nano:UInt64
-    public var server_is_awake:Bool
-    public var server_loop:Task<Void, Error>!
-    public var gravity:Double
-    public var gravity_per_tick:Double
-    public var void_damage_per_tick:Double
+    var ticks_per_second:UInt8
+    var ticks_per_second_multiplier:HugeFloat
+    var server_tick_interval_nano:UInt64
+    var server_is_awake:Bool
+    var server_loop:Task<Void, Error>!
+    var gravity:HugeFloat
+    var gravity_per_tick:HugeFloat
+    var void_damage_per_tick:Double
     
-    public var max_players:UInt64
-    public var port:Int
-    public var has_whitelist:Bool
-    public var whitelisted_players:Set<UUID>
-    public var banned_players:Set<BanEntry>
-    public var banned_ip_addresses:Set<BanEntry>
+    var max_players:UInt64
+    var port:Int
+    var has_whitelist:Bool
+    var whitelisted_players:Set<UUID>
+    var banned_players:Set<BanEntry>
+    var banned_ip_addresses:Set<BanEntry>
     
-    public var difficulties:[String:Difficulty]
-    public var worlds:[String:TargetWorld]
+    var difficulties:[String:Difficulty]
+    var worlds:[String:TargetWorld]
     
-    public var event_types:[String:EventType]
+    var event_types:[String:TargetEventType]
     
-    public var sound_categories:Set<SoundCategory>
-    public var sounds:Set<Sound>
-    public var materials:[String:TargetMaterial]
-    public var biomes:Set<Biome>
-    public var enchantment_types:[String:EnchantmentType]
-    public var entity_types:[String:EntityType]
-    public var inventory_types:[String:TargetInventoryType]
-    public var potion_effect_types:[String:PotionEffectType]
-    public var game_modes:[String:GameMode]
-    public var advancements:[String:Advancement]
-    public var art:Set<Art>
-    public var attributes:Set<Attribute>
-    public var instruments:Set<Instrument>
-    public var statistics:[String:TargetStatistic]
-    public var commands:[String:Command]
-    public var permissions:[String:Permission]
-    public var recipes:[String:TargetRecipe]
+    var sound_categories:Set<SoundCategory>
+    var sounds:Set<Sound>
+    var materials:[String:TargetMaterial]
+    var biomes:Set<Biome>
+    var enchantment_types:[String:EnchantmentType]
+    var entity_types:[String:EntityType]
+    var inventory_types:[String:TargetInventoryType]
+    var potion_effect_types:[String:PotionEffectType]
+    var game_modes:[String:GameMode]
+    var advancements:[String:Advancement]
+    var art:Set<Art>
+    var attributes:Set<Attribute>
+    var instruments:Set<Instrument>
+    var statistics:[String:TargetStatistic]
+    var commands:[String:Command]
+    var permissions:[String:Permission]
+    var recipes:[String:TargetRecipe]
     
-    public var event_listeners:[String:[any EventListener]]
+    var event_listeners:[String:[any EventListener]]
     
-    convenience public init() {
+    convenience init() {
         self.init(ticks_per_second: 1)
     }
     private init(ticks_per_second: UInt8) {
-        let ticks_per_second_float:Double = Double(ticks_per_second)
+        let ticks_per_second_float:HugeFloat = HugeFloat(ticks_per_second)
         self.ticks_per_second = ticks_per_second
         ticks_per_second_multiplier = ticks_per_second_float / 20
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
-        let gravity:Double = 9.80665
+        let gravity:HugeFloat = HugeFloat("9.80665")
         self.gravity = gravity
         gravity_per_tick = gravity / ticks_per_second_float
-        void_damage_per_tick = 1 / ticks_per_second_float
+        void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
         
         print("server_ticks_per_second=" + ticks_per_second.description + "; 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
         
@@ -150,29 +151,59 @@ public final class GluonServer : GluonSharedInstance, Server {
             material_retrictions: nil,
             allowed_recipe_identifiers: nil
         )
-        let inventory:Inventory = Inventory(type: inventory_type, items: [], viewers: [])
+        let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, items: [], viewers: [])
         let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
         let player:GluonPlayer = GluonPlayer(
             connection: connection,
-            uuid: UUID(),
             name: "RandomHashTags",
-            list_name: nil,
-            custom_name: nil,
-            display_name: nil,
             experience: 0,
             experience_level: 0,
             food_level: 20,
             permissions: [],
-            statistics: [],
+            statistics: [:],
             game_mode: game_modes.first!.value,
             is_blocking: false,
             is_flying: false,
-            is_op: true,
+            is_op: false,
             is_sneaking: false,
             is_sprinting: false,
-            inventory: inventory
+            inventory: inventory,
+            can_breathe_underwater: false,
+            can_pickup_items: true,
+            has_ai: false,
+            is_climbing: false,
+            is_collidable: true,
+            is_gliding: false,
+            is_invisible: false,
+            is_leashed: false,
+            is_riptiding: false,
+            is_sleeping: false,
+            is_swimming: false,
+            potion_effects: [:],
+            no_damage_ticks: 0,
+            no_damage_ticks_maximum: 20,
+            air_remaining: 20,
+            air_maximum: 20,
+            health: 20,
+            health_maximum: 20,
+            uuid: UUID(),
+            type: entity_types["minecraft.player"]!,
+            ticks_lived: 0,
+            boundaries: [],
+            location: TargetLocation(world_name: "overworld", x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
+            velocity: Vector(x: 0, y: 0, z: 0),
+            fall_distance: 0,
+            is_glowing: false,
+            is_on_fire: false,
+            is_on_ground: false,
+            height: 5,
+            fire_ticks: 0,
+            fire_ticks_maximum: 20,
+            freeze_ticks: 0,
+            freeze_ticks_maximum: 20,
+            passenger_uuids: []
         )
-        player.location.world?.spawn_entity(player)
+        worlds["overworld"]!.spawn_player(player)
         call_event(event: PlayerJoinEvent(player: player))
         
         if !server_is_awake {
@@ -180,7 +211,7 @@ public final class GluonServer : GluonSharedInstance, Server {
         }
     }
     
-    public func wake_up() {
+    func wake_up() {
         guard !server_is_awake else { return }
         server_is_awake = true
         server_loop = Task {
@@ -195,26 +226,26 @@ public final class GluonServer : GluonSharedInstance, Server {
             }
         }
     }
-    public func set_tick_rate(ticks_per_second: UInt8) {
+    func set_tick_rate(ticks_per_second: UInt8) {
         self.ticks_per_second = ticks_per_second
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         gravity_per_tick = gravity / Double(ticks_per_second)
     }
     
-    public func save() {
+    func save() {
         for (identifier, _) in worlds {
             worlds[identifier]!.save()
         }
     }
     
-    public func tick(_ server: any Server) {
+    func tick(_ server: any Server) {
         for (identifier, _) in worlds {
             worlds[identifier]!.tick(server)
         }
     }
 }
 
-public extension GluonServer {
+extension GluonServer {
     func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity] {
         return center.world?.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) }) ?? []
     }
@@ -256,12 +287,14 @@ public extension GluonServer {
     }
 }
 
-public extension GluonServer {
+extension GluonServer {
     func boot_player(player: TargetPlayer, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
-        let instance:GluonServer = GluonServer.shared_instance
-        player.location.world?.players.remove(player)
+        let location:TargetLocation = player.location
+        guard let _:TargetWorld = location.world, let index:Int = worlds[location.world_name]!.players.firstIndex(of: player) else { return }
+        worlds[location.world_name]!.players.remove(at: index)
         player.connection.close()
         
+        let instance:GluonServer = GluonServer.shared_instance
         if ban_user {
             instance.banned_players.insert(BanEntry(target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))
         }

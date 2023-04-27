@@ -16,11 +16,11 @@ public protocol ItemStack : Jsonable {
     var amount : UInt16 { get set }
     var durability : UInt16 { get set }
     
-    func is_similar(_ item_stack: (any ItemStack)?) -> Bool
+    func is_similar(_ item_stack: Self?) -> Bool
 }
 
 public extension ItemStack {
-    func is_similar(_ item_stack: (any ItemStack)?) -> Bool {
+    func is_similar(_ item_stack: Self?) -> Bool {
         return material.identifier == item_stack?.material.identifier && meta == item_stack?.meta
     }
 }

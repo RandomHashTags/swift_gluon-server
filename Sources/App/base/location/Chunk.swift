@@ -43,17 +43,17 @@ public extension Chunk {
     }
     
     var entities : [TargetEntity] {
-        let entities:Set<TargetEntity> = world.entities
+        let entities:[TargetEntity] = world.entities
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
     var living_entities : [TargetLivingEntity] {
-        let entities:Set<TargetLivingEntity> = world.living_entities
+        let entities:[TargetLivingEntity] = world.living_entities
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
     var players : [TargetPlayer] {
-        let entities:Set<TargetPlayer> = world.players
+        let entities:[TargetPlayer] = world.players
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
@@ -67,6 +67,10 @@ public extension Chunk {
         let seed:Int64 = world.seed
     }
     func unload() {
+        for player in players {
+            player.save()
+            player.remove()
+        }
         for entity in entities {
             entity.save()
             entity.remove()
@@ -74,10 +78,6 @@ public extension Chunk {
         for living_entity in living_entities {
             living_entity.save()
             living_entity.remove()
-        }
-        for player in players {
-            player.save()
-            player.remove()
         }
         
         save()

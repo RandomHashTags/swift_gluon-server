@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct GluonItemMeta : ItemMeta {
-    public typealias TargetItemFlag = GluonItemFlag
+struct GluonItemMeta : ItemMeta {
+    typealias TargetItemFlag = GluonItemFlag
     
-    public var display_name:String?
-    public var lore:[String]?
-    public var flags:Set<TargetItemFlag>?
-    public var enchants:[EnchantmentType:Int]?
+    var display_name:String?
+    var lore:[String]?
+    var flags:Set<TargetItemFlag>?
+    var enchants:[EnchantmentType:Int]?
 }

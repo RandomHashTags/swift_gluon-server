@@ -7,10 +7,9 @@
 
 import Foundation
 
-public struct StatisticActive : Jsonable {
-    public let identifier:String
-    public var type : Statistic? {
-        return GluonServer.get_statistic(identifier: identifier)
-    }
-    public var value:Float
+public protocol StatisticActive : Jsonable, Identifiable {
+    associatedtype TargetStatistic : Statistic
+    
+    var type : TargetStatistic? { get }
+    var value : Float { get }
 }

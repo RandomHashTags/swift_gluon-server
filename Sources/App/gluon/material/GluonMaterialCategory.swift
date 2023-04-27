@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct GluonMaterialCategory : MaterialCategory {
-    public typealias TargetMaterialConfiguration = GluonMaterialConfiguration
+struct GluonMaterialCategory : MaterialCategory {
+    typealias TargetMaterialConfiguration = GluonMaterialConfiguration
     
-    public let identifier:String
-    public let configuration:TargetMaterialConfiguration
+    let identifier:String
+    let configuration:TargetMaterialConfiguration
 }

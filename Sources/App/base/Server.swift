@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import huge_numbers
 
 public protocol Server : Tickable, Saveable {
     associatedtype TargetWorld : World
+    associatedtype TargetEventType : EventType
     associatedtype TargetLocation : Location
     associatedtype TargetEntity : Entity
     associatedtype TargetLivingEntity : LivingEntity
@@ -19,12 +21,12 @@ public protocol Server : Tickable, Saveable {
     associatedtype TargetRecipe : Recipe
     
     var ticks_per_second : UInt8 { get }
-    var ticks_per_second_multiplier : Double { get }
+    var ticks_per_second_multiplier : HugeFloat { get }
     var server_tick_interval_nano : UInt64 { get }
     var server_is_awake : Bool { get }
     var server_loop : Task<Void, Error>! { get }
-    var gravity : Double { get }
-    var gravity_per_tick : Double { get }
+    var gravity : HugeFloat { get }
+    var gravity_per_tick : HugeFloat { get }
     var void_damage_per_tick : Double { get }
     
     var max_players : UInt64 { get set }
@@ -37,7 +39,7 @@ public protocol Server : Tickable, Saveable {
     var difficulties : [String:Difficulty] { get set }
     var worlds : [String:TargetWorld] { get set }
     
-    var event_types : [String:EventType] { get set }
+    var event_types : [String:TargetEventType] { get set }
     
     var sound_categories : Set<SoundCategory> { get set }
     var sounds : Set<Sound> { get set }
@@ -87,10 +89,10 @@ public extension Server {
 }
 
 public extension Server {
-    func get_event_type(identifier: String) -> EventType? {
+    func get_event_type(identifier: String) -> TargetEventType? {
         return event_types[identifier]
     }
-    mutating func register_event_type(type: EventType) throws {
+    mutating func register_event_type(type: TargetEventType) throws {
         event_types[type.identifier] = type
     }
     

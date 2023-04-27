@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct GluonLootTable : Jsonable {
-    public typealias TargetLootTableEntry = GluonLootTableEntry
-    public typealias TargetItemStack = GluonItemStack
+struct GluonLootTable : LootTable {
+    typealias TargetLootTableEntry = GluonLootTableEntry
+    typealias TargetItemStack = GluonItemStack
     
-    public let entries:[TargetLootTableEntry]
+    let entries:[TargetLootTableEntry]
     
-    public var loot_normal : [TargetItemStack]? {
+    var loot_normal : [TargetItemStack]? {
         let loot:[TargetItemStack] = entries.compactMap({ entry in
             let chance:UInt8 = UInt8.random(in: 0..<100)
             guard chance <= entry.chance else { return nil }

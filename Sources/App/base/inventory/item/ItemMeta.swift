@@ -15,3 +15,8 @@ public protocol ItemMeta : Jsonable {
     var flags : Set<TargetItemFlag>? { get set }
     var enchants : [EnchantmentType:Int]? { get set }
 }
+public extension ItemMeta {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.display_name == rhs.display_name && lhs.lore == rhs.lore && lhs.flags == rhs.flags && lhs.enchants == rhs.enchants
+    }
+}
