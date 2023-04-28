@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol EventListener {
-    var priority:UInt8 { get }
+    var priority : UInt8 { get }
     func handle(event: any Event)
 }
 

@@ -9,6 +9,7 @@ import Foundation
 
 public protocol Player : LivingEntity {
     associatedtype TargetStatisticActive : StatisticActive
+    associatedtype TargetGameMode : GameMode
     associatedtype TargetPlayerInventory : PlayerInventory
     associatedtype TargetItemStack : ItemStack
     
@@ -24,7 +25,7 @@ public protocol Player : LivingEntity {
     var permissions : Set<String> { get set }
     var statistics : [String:TargetStatisticActive] { get set }
     
-    var game_mode : GameMode { get set }
+    var game_mode : TargetGameMode { get set }
     var is_blocking : Bool { get set }
     var is_flying : Bool { get set }
     var is_op : Bool { get set }
@@ -39,7 +40,7 @@ public protocol Player : LivingEntity {
     
     func has_permission(_ permission: String) -> Bool
     
-    mutating func set_game_mode(_ game_mode: GameMode)
+    mutating func set_game_mode(_ game_mode: TargetGameMode)
     
     func kick(reason: String)
     

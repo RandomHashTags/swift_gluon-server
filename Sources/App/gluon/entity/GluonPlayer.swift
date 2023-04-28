@@ -9,6 +9,7 @@ import Foundation
 
 struct GluonPlayer : Player {
     typealias TargetStatisticActive = GluonStatisticActive
+    typealias TargetGameMode = GluonGameMode
     typealias TargetPlayerInventory = GluonPlayerInventory
     typealias TargetLocation = GluonLocation
     typealias TargetPotionEffect = GluonPotionEffect
@@ -26,7 +27,7 @@ struct GluonPlayer : Player {
     var permissions:Set<String>
     var statistics:[String:TargetStatisticActive]
     
-    var game_mode:GameMode
+    var game_mode:TargetGameMode
     
     var is_blocking:Bool
     var is_flying:Bool
@@ -99,8 +100,8 @@ struct GluonPlayer : Player {
         tick_player(server)
     }
     
-    mutating func set_game_mode(_ game_mode: GameMode) {
-        guard self.game_mode != game_mode else { return }
+    mutating func set_game_mode(_ game_mode: TargetGameMode) {
+        guard !self.game_mode.identifier.elementsEqual(game_mode.identifier) else { return }
         let event:PlayerGameModeChangeEvent = PlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
@@ -122,5 +123,4 @@ struct GluonPlayer : Player {
             logic.execute(context: context)
         }
     }
-    
 }

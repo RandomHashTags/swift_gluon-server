@@ -8,7 +8,9 @@
 import Foundation
 
 public protocol Event {
-    var type:EventType { get }
+    associatedtype TargetEventType : EventType
+    
+    var type:TargetEventType { get }
     var context:[String:ExecutableLogicalContext]? { get }
 }
 
