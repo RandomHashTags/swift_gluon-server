@@ -68,7 +68,13 @@ public extension Player {
         return context
     }
     
+    mutating func tick(_ server: any Server) {
+        tick_player(server)
+    }
     mutating func tick_player(_ server: any Server) {
+        default_tick_player(server)
+    }
+    mutating func default_tick_player(_ server: any Server) {
         print("player " + name + " has been ticked")
         tick_living_entity(server)
     }

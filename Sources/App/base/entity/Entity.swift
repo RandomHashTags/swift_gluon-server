@@ -66,20 +66,17 @@ public extension Entity {
         hasher.combine(type)
     }
     
+    mutating func tick(_ server: any Server) {
+        tick_entity(server)
+    }
     mutating func tick_entity(_ server: any Server) {
+        default_tick_entity(server)
+    }
+    mutating func default_tick_entity(_ server: any Server) {
         ticks_lived += 1
         
         if type.is_affected_by_gravity && !is_on_ground {
             location.y -= server.gravity_per_tick
-        }
-        
-        if type.is_damageable, let world:any World = location.world {
-            let y:HugeFloat = location.y
-            
-            if y < world.y_min {
-                
-                let result:DamageResult = (self as! (any Damageable)).damage_damageable(cause: DamageCause.void, amount: server.void_damage_per_tick)
-            }
         }
     }
     

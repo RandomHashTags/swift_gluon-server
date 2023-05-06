@@ -7,16 +7,6 @@
 
 import Foundation
 
-public class EntityDeathEvent : EntityEvent {
-    public let type:EventType
-    public let entity:any Entity
-    
-    public init(entity: any Entity) {
-        type = EventType.entity_death
-        self.entity = entity
-    }
-    
-    public var context : [String:ExecutableLogicalContext]? {
-        return entity.entity_executable_context
-    }
+public protocol EntityDeathEvent : EntityEvent {
+    init(entity: any Entity)
 }

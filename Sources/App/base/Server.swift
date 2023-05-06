@@ -17,6 +17,7 @@ public protocol Server : Tickable, Saveable {
     associatedtype TargetPlayer : Player
     associatedtype TargetMaterial : Material
     associatedtype TargetInventoryType : InventoryType
+    associatedtype TargetGameMode : GameMode
     associatedtype TargetStatistic : Statistic
     associatedtype TargetRecipe : Recipe
     
@@ -49,7 +50,7 @@ public protocol Server : Tickable, Saveable {
     var entity_types : [String:EntityType] { get set }
     var inventory_types : [String:TargetInventoryType] { get set }
     var potion_effect_types : [String:PotionEffectType] { get set }
-    var game_modes : [String:GameMode] { get set }
+    var game_modes : [String:TargetGameMode] { get set }
     var advancements : [String:Advancement] { get set }
     var art : Set<Art> { get set }
     var attributes : Set<Attribute> { get set }
@@ -64,9 +65,9 @@ public protocol Server : Tickable, Saveable {
     func set_tick_rate(ticks_per_second: UInt8)
     mutating func wake_up()
     
-    func call_event(event: Event)
+    func call_event(event: some Event)
     
-    func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity]
+    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity]
     
     func get_entity(uuid: UUID) -> TargetEntity?
     func get_entities(uuids: Set<UUID>) -> [TargetEntity]
@@ -80,7 +81,7 @@ public protocol Server : Tickable, Saveable {
 
 
 public extension Server {
-    func call_event(event: Event) {
+    func call_event(event: some Event) {
         guard let event_listeners:[any EventListener] = event_listeners[event.type.identifier] else { return }
         for listener in event_listeners {
             listener.handle(event: event)
@@ -113,7 +114,7 @@ public extension Server {
     func get_enchantment_type(identifier: String) -> EnchantmentType? {
         return enchantment_types[identifier]
     }
-    func get_game_mode(identifier: String) -> GameMode? {
+    func get_game_mode(identifier: String) -> TargetGameMode? {
         return game_modes[identifier]
     }
     func get_inventory_type(identifier: String) -> TargetInventoryType? {

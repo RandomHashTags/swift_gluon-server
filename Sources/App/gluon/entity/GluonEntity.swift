@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import huge_numbers
 
 struct GluonEntity : Entity {
     typealias TargetLocation = GluonLocation

@@ -7,12 +7,10 @@
 
 import Foundation
 
-public final class PlayerGameModeChangeEvent : PlayerEventCancellable {
-    public let type:EventType
-    public var is_cancelled:Bool
-    public let player:any Player, new_game_mode:GameMode
+public protocol PlayerGameModeChangeEvent : PlayerEventCancellable {
+    var new_game_mode : any GameMode { get }
     
-    public init(player: any Player, new_game_mode: GameMode) {
+    /*public init(player: any Player, new_game_mode: GameMode) {
         type = EventType.player_change_game_mode
         is_cancelled = false
         self.player = player
@@ -23,5 +21,5 @@ public final class PlayerGameModeChangeEvent : PlayerEventCancellable {
         var context:[String:ExecutableLogicalContext] = player.player_executable_context
         context["new_game_mode"] = ExecutableLogicalContext(value_type: .string, value: new_game_mode.identifier)
         return context
-    }
+    }*/
 }

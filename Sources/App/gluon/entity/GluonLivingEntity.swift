@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import huge_numbers
 
 struct GluonLivingEntity : LivingEntity {
     typealias TargetPotionEffect = GluonPotionEffect
@@ -66,9 +67,5 @@ struct GluonLivingEntity : LivingEntity {
     var vehicle : (any Entity)? {
         guard let uuid:UUID = vehicle_uuid else { return nil }
         return GluonServer.shared_instance.get_entity(uuid: uuid)
-    }
-    
-    mutating func tick(_ server: any Server) {
-        tick_living_entity(server)
     }
 }

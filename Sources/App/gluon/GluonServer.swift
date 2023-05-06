@@ -17,6 +17,7 @@ final class GluonServer : GluonSharedInstance, Server {
     typealias TargetPlayer = GluonPlayer
     typealias TargetMaterial = GluonMaterial
     typealias TargetInventoryType = GluonInventoryType
+    typealias TargetGameMode = GluonGameMode
     typealias TargetStatistic = GluonStatistic
     typealias TargetRecipe = GluonRecipe
     
@@ -49,7 +50,7 @@ final class GluonServer : GluonSharedInstance, Server {
     var entity_types:[String:EntityType]
     var inventory_types:[String:TargetInventoryType]
     var potion_effect_types:[String:PotionEffectType]
-    var game_modes:[String:GameMode]
+    var game_modes:[String:TargetGameMode]
     var advancements:[String:Advancement]
     var art:Set<Art>
     var attributes:Set<Attribute>
@@ -124,8 +125,10 @@ final class GluonServer : GluonSharedInstance, Server {
         ]
         inventory_types = [:]
         potion_effect_types = [:]
+        
+        let survival_game_mode:GluonGameMode = GluonGameMode(identifier: "minecraft.survival", name: MultilingualStrings(english: "Survival"), allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
         game_modes = [
-            "minecraft.survival" : GameMode(identifier: "minecraft.survival", name: MultilingualStrings(english: "Survival"), allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
+            "minecraft.survival" : survival_game_mode
         ]
         advancements = [:]
         art = []
@@ -204,7 +207,7 @@ final class GluonServer : GluonSharedInstance, Server {
             passenger_uuids: []
         )
         worlds["overworld"]!.spawn_player(player)
-        call_event(event: PlayerJoinEvent(player: player))
+        call_event(event: GluonPlayerJoinEvent(player))
         
         if !server_is_awake {
             wake_up()
@@ -246,7 +249,7 @@ final class GluonServer : GluonSharedInstance, Server {
 }
 
 extension GluonServer {
-    func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity] {
+    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity] {
         return center.world?.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) }) ?? []
     }
     

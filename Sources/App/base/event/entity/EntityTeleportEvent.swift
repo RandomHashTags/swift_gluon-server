@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class EntityTeleportEvent : EntityEventCancellable {
-    public let type:EventType
-    public var is_cancelled:Bool
-    public let entity:any Entity, new_location:any Location
+public protocol EntityTeleportEvent : EntityEventCancellable {
+    var new_location : any Location { get set }
     
-    public init(entity: any Entity, new_location: any Location) {
+    init(entity: any Entity, new_location: any Location)
+    
+    /*public init(entity: any Entity, new_location: any Location) {
         type = EventType.entity_teleport
         is_cancelled = false
         self.entity = entity
@@ -23,5 +23,5 @@ public class EntityTeleportEvent : EntityEventCancellable {
         var context:[String:ExecutableLogicalContext] = entity.entity_executable_context
         context["new_location"] = ExecutableLogicalContext(value_type: .location, value: new_location)
         return context
-    }
+    }*/
 }

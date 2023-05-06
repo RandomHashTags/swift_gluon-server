@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import huge_numbers
 
 public protocol Damageable : Entity {
     var health : Double { get set }
@@ -26,7 +27,13 @@ public extension Damageable {
         return context
     }
     
+    mutating func tick(_ server: any Server) {
+        tick_damageable(server)
+    }
     mutating func tick_damageable(_ server: any Server) {
+        default_tick_damageable(server)
+    }
+    mutating func default_tick_damageable(_ server: any Server) {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
         if fire_ticks > 0 {
             fire_ticks -= 1
@@ -34,6 +41,15 @@ public extension Damageable {
         if freeze_ticks > 0 {
             freeze_ticks -= 1
         }
+        
+        if let world:any World = location.world {
+            let y:HugeFloat = location.y
+            
+            if y < world.y_min {
+                let result:DamageResult = damage_damageable(cause: DamageCause.void, amount: server.void_damage_per_tick)
+            }
+        }
+        
         tick_entity(server)
     }
 }

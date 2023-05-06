@@ -54,8 +54,8 @@ public protocol World : Jsonable, Tickable {
     mutating func spawn_player(_ entity: TargetPlayer)
     mutating func remove_player(_ entity: TargetPlayer)
     
-    func get_nearby_entities(center: TargetLocation, x: Double, y: Double, z: Double) -> [TargetEntity]
-    func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity]
+    func get_nearby_entities(center: TargetLocation, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [TargetEntity]
+    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity]
     
     func get_entity(uuid: UUID) -> TargetEntity?
     func get_entities(uuids: Set<UUID>) -> [TargetEntity]
@@ -129,10 +129,10 @@ public extension World {
         players.remove(at: index)
     }
     
-    func get_nearby_entities(center: TargetLocation, x: Double, y: Double, z: Double) -> [TargetEntity] {
+    func get_nearby_entities(center: TargetLocation, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [TargetEntity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x, y_radius: y, z_radius: z) })
     }
-    func get_nearby_entities(center: TargetLocation, x_radius: Double, y_radius: Double, z_radius: Double) -> [TargetEntity] {
+    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
