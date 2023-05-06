@@ -94,8 +94,6 @@ struct GluonPlayer : Player {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    
-    
     mutating func tick(_ server: any Server) {
         tick_player(server)
     }

@@ -43,15 +43,16 @@ struct GluonWorld : World {
     mutating func load_chunk(x: HugeInt, z: HugeInt) async {
         let chunk:TargetChunk = TargetChunk(world: self, x: x, z: z)
         guard chunks_loaded.firstIndex(of: chunk) == nil else { return }
+        let event:GluonChunkLoadEvent = GluonChunkLoadEvent(chunk: chunk)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else { return }
         await chunk.load()
         chunks_loaded.append(chunk)
-        let event:ChunkLoadEvent = ChunkLoadEvent(chunk: chunk)
-        GluonServer.shared_instance.call_event(event: event)
     }
     mutating func unload_chunk(x: HugeInt, z: HugeInt) async {
         let chunk:TargetChunk = TargetChunk(world: self, x: x, z: z)
         guard let index:Int = chunks_loaded.firstIndex(of: chunk) else { return }
-        let event:ChunkUnloadEvent = ChunkUnloadEvent(chunk: chunk)
+        let event:GluonChunkUnloadEvent = GluonChunkUnloadEvent(chunk: chunk)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
         chunks_loaded.remove(at: index)

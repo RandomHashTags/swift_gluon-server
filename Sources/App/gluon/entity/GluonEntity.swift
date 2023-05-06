@@ -54,7 +54,7 @@ extension Entity {
         GluonServer.shared_instance.worlds[location.world_name]?.remove_entity(self as! GluonWorld.TargetEntity)
     }
     mutating func teleport(_ location: TargetLocation) {
-        let event:EntityTeleportEvent = EntityTeleportEvent(entity: self, new_location: location)
+        let event:GluonEntityTeleportEvent = GluonEntityTeleportEvent(entity: self, new_location: location)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
         self.location = location

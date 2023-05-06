@@ -7,6 +7,5 @@
 
 import Foundation
 
-public protocol ChunkLoadEvent : ChunkEvent {
-    var context : [String:ExecutableLogicalContext]? { get }
+public protocol ChunkLoadEvent : ChunkEvent, Cancellable {
 }
