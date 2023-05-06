@@ -73,6 +73,7 @@ public extension Entity {
         default_tick_entity(server)
     }
     mutating func default_tick_entity(_ server: any Server) {
+        print("entity with uuid " + uuid.description + " has been ticked")
         ticks_lived += 1
         
         if type.is_affected_by_gravity && !is_on_ground {

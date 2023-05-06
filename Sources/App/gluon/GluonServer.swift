@@ -156,7 +156,7 @@ final class GluonServer : GluonSharedInstance, Server {
         )
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, items: [], viewers: [])
         let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
-        var player:GluonPlayer = GluonPlayer(
+        let player:GluonPlayer = GluonPlayer(
             connection: connection,
             name: "RandomHashTags",
             experience: 0,
@@ -219,14 +219,9 @@ final class GluonServer : GluonSharedInstance, Server {
         guard !server_is_awake else { return }
         server_is_awake = true
         server_loop = Task {
-            do {
-                while server_is_awake {
-                    tick(self)
-                    
-                    try await Task.sleep(nanoseconds: server_tick_interval_nano)
-                }
-            } catch {
-                print("GluonServer;encountered error during server loop: \(error)")
+            while server_is_awake {
+                tick(self)
+                try! await Task.sleep(nanoseconds: server_tick_interval_nano)
             }
         }
     }
