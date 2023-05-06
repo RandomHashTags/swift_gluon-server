@@ -13,5 +13,9 @@ Adding/improving functionality is always welcome, just make a PR.
 ## Current Features
 - TODO :)
 
+## Funding
+Support the development of this project by sponsoring the developers.
+- [RandomHashTags](https://github.com/sponsors/RandomHashTags)
+
 ## License
 Apache License 2.0
