@@ -39,7 +39,6 @@ public protocol LivingEntity : Damageable {
 }
 
 public extension LivingEntity {
-    
     var living_entity_executable_context : [String:ExecutableLogicalContext] {
         var context:[String:ExecutableLogicalContext] = damageable_executable_context
         context["air_remaining"] = ExecutableLogicalContext(value_type: .short_unsigned, value: air_remaining)
@@ -84,4 +83,27 @@ public extension LivingEntity {
         }
         return result
     }
+}
+
+public enum LivingEntityCodingKeys : CodingKey {
+    case can_breathe_underwater
+    case can_pickup_items
+    case has_ai
+    
+    case is_climbing
+    case is_collidable
+    case is_gliding
+    case is_invisible
+    case is_leashed
+    case is_riptiding
+    case is_sleeping
+    case is_swimming
+
+    case potion_effects
+    
+    case no_damage_ticks
+    case no_damage_ticks_maximum
+    
+    case air_remaining
+    case air_maximum
 }

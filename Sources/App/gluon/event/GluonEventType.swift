@@ -16,12 +16,10 @@ struct GluonEventType : EventType {
 
     init(identifier: String) {
         self.identifier = identifier
-        try? GluonServer.shared_instance.register_event_type(type: self) // TODO: handle
+        //try? GluonServer.shared_instance.register_event_type(type: self) // TODO: handle
     }
 }
-
-
-internal extension GluonEventType {
+extension GluonEventType {
     static var chunk_load:GluonEventType = GluonEventType(identifier: "minecraft.chunk_load")
     static var chunk_unload:GluonEventType = GluonEventType(identifier: "minecraft.chunk_unload")
 

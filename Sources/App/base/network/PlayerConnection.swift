@@ -8,6 +8,10 @@
 import Foundation
 
 public class PlayerConnection {
+    public static func == (lhs: PlayerConnection, rhs: PlayerConnection) -> Bool {
+        return false
+    }
+    
     private var socket:URLSessionWebSocketTask
     public internal(set) var ping:UInt16
     
@@ -43,7 +47,7 @@ public class PlayerConnection {
             guard let message:URLSessionWebSocketTask.Message = try await receive() else { return }
             process_packet(message)
         } catch {
-            print("PlayerConnection;encountered error while trying to `process_packets` (\(error)")
+            //print("PlayerConnection;encountered error while trying to `process_packets` (\(error)") // TODO: handle
         }
         Task {
             await process_packets()

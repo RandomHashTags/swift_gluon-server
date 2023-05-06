@@ -101,7 +101,7 @@ public extension Server {
         return entity_types[identifier]
     }
     func get_world(name: String) -> TargetWorld? {
-        return worlds[name]
+        return worlds[name] // TODO: fix (Simultaneous accesses to 0x103a04ea8, but modification requires exclusive access)
     }
     
     

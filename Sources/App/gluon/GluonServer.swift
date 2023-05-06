@@ -156,7 +156,7 @@ final class GluonServer : GluonSharedInstance, Server {
         )
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, items: [], viewers: [])
         let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
-        let player:GluonPlayer = GluonPlayer(
+        var player:GluonPlayer = GluonPlayer(
             connection: connection,
             name: "RandomHashTags",
             experience: 0,
@@ -204,7 +204,8 @@ final class GluonServer : GluonSharedInstance, Server {
             fire_ticks_maximum: 20,
             freeze_ticks: 0,
             freeze_ticks_maximum: 20,
-            passenger_uuids: []
+            passenger_uuids: [],
+            vehicle_uuid: nil
         )
         worlds["overworld"]!.spawn_player(player)
         call_event(event: GluonPlayerJoinEvent(player))

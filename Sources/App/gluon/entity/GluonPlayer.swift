@@ -94,13 +94,9 @@ struct GluonPlayer : Player {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    mutating func tick(_ server: any Server) {
-        tick_player(server)
-    }
-    
     mutating func set_game_mode(_ game_mode: TargetGameMode) {
         guard !self.game_mode.identifier.elementsEqual(game_mode.identifier) else { return }
-        let event:PlayerGameModeChangeEvent = PlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
+        let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
         self.game_mode = game_mode
@@ -112,7 +108,7 @@ struct GluonPlayer : Player {
     
     func consumed(item: inout TargetItemStack) {
         guard let consumable_configuration:MaterialItemConsumableConfiguration = item.material.configuration.item?.consumable else { return }
-        let event:PlayerItemConsumeEvent = PlayerItemConsumeEvent(player: self, item: &item)
+        let event:GluonPlayerItemConsumeEvent = GluonPlayerItemConsumeEvent(player: self, item: &item)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
         item.amount -= 1
@@ -121,4 +117,204 @@ struct GluonPlayer : Player {
             logic.execute(context: context)
         }
     }
+}
+extension GluonPlayer {
+    init(
+        connection: PlayerConnection,
+        name: String,
+        experience: UInt64,
+        experience_level: UInt64,
+        food_level: UInt64,
+        permissions: Set<String>,
+        statistics: [String:TargetStatisticActive],
+        game_mode: TargetGameMode,
+        is_blocking: Bool,
+        is_flying: Bool,
+        is_op: Bool,
+        is_sneaking: Bool,
+        is_sprinting: Bool,
+        inventory: TargetPlayerInventory,
+        can_breathe_underwater: Bool,
+        can_pickup_items: Bool,
+        has_ai: Bool,
+        is_climbing: Bool,
+        is_collidable: Bool,
+        is_gliding: Bool,
+        is_invisible: Bool,
+        is_leashed: Bool,
+        is_riptiding: Bool,
+        is_sleeping: Bool,
+        is_swimming: Bool,
+        potion_effects: [String:TargetPotionEffect],
+        no_damage_ticks: UInt16,
+        no_damage_ticks_maximum: UInt16,
+        air_remaining: UInt16,
+        air_maximum: UInt16,
+        health: Double,
+        health_maximum: Double,
+        uuid: UUID,
+        type: EntityType,
+        ticks_lived: UInt64,
+        boundaries: [Boundary],
+        location: TargetLocation,
+        velocity: Vector,
+        fall_distance: Float,
+        is_glowing: Bool,
+        is_on_fire: Bool,
+        is_on_ground: Bool,
+        height: Float,
+        fire_ticks: UInt16,
+        fire_ticks_maximum: UInt16,
+        freeze_ticks: UInt16,
+        freeze_ticks_maximum: UInt16,
+        passenger_uuids: Set<UUID>,
+        vehicle_uuid: UUID?
+    ) {
+        self.connection = connection
+        self.name = name
+        self.experience = experience
+        self.experience_level = experience_level
+        self.food_level = food_level
+        self.permissions = permissions
+        self.statistics = statistics
+        self.game_mode = game_mode
+        self.is_blocking = is_blocking
+        self.is_flying = is_flying
+        self.is_op = is_op
+        self.is_sneaking = is_sneaking
+        self.is_sprinting = is_sprinting
+        self.inventory = inventory
+        self.can_breathe_underwater = can_breathe_underwater
+        self.can_pickup_items = can_pickup_items
+        self.has_ai = has_ai
+        self.is_climbing = is_climbing
+        self.is_collidable = is_collidable
+        self.is_gliding = is_gliding
+        self.is_invisible = is_invisible
+        self.is_leashed = is_leashed
+        self.is_riptiding = is_riptiding
+        self.is_sleeping = is_sleeping
+        self.is_swimming = is_swimming
+        self.potion_effects = potion_effects
+        self.no_damage_ticks = no_damage_ticks
+        self.no_damage_ticks_maximum = no_damage_ticks_maximum
+        self.air_remaining = air_remaining
+        self.air_maximum = air_maximum
+        self.health = health
+        self.health_maximum = health_maximum
+        self.uuid = uuid
+        self.type = type
+        self.ticks_lived = ticks_lived
+        self.boundaries = boundaries
+        self.location = location
+        self.velocity = velocity
+        self.fall_distance = fall_distance
+        self.is_glowing = is_glowing
+        self.is_on_fire = is_on_fire
+        self.is_on_ground = is_on_ground
+        self.height = height
+        self.fire_ticks = fire_ticks
+        self.fire_ticks_maximum = fire_ticks_maximum
+        self.freeze_ticks = freeze_ticks
+        self.freeze_ticks_maximum = freeze_ticks_maximum
+        self.passenger_uuids = passenger_uuids
+        self.vehicle_uuid = vehicle_uuid
+    }
+}
+extension GluonPlayer {
+    init(from decoder: Decoder) throws {
+        let living_entity:GluonLivingEntity = try GluonLivingEntity(from: decoder)
+        
+        var container:KeyedDecodingContainer = try decoder.container(keyedBy: GluonPlayerCodingKeys.self)
+        connection = PlayerConnection("")
+        
+        name = try container.decode(String.self, forKey: .name)
+        list_name = try container.decodeIfPresent(String.self, forKey: .list_name)
+        experience = try container.decode(UInt64.self, forKey: .experience)
+        experience_level = try container.decode(UInt64.self, forKey: .experience_level)
+        food_level = try container.decode(UInt64.self, forKey: .food_level)
+        
+        permissions = try container.decode(Set<String>.self, forKey: .permissions)
+        statistics = try container.decode([String:TargetStatisticActive].self, forKey: .statistics)
+        
+        let game_mode_identifier:String = try container.decode(String.self, forKey: .game_mode)
+        game_mode = GluonServer.shared_instance.get_game_mode(identifier: game_mode_identifier)!
+        
+        is_blocking = try container.decode(Bool.self, forKey: .is_blocking)
+        is_flying = try container.decode(Bool.self, forKey: .is_flying)
+        is_op = try container.decode(Bool.self, forKey: .is_op)
+        is_sneaking = try container.decode(Bool.self, forKey: .is_sneaking)
+        is_sprinting = try container.decode(Bool.self, forKey: .is_sprinting)
+        
+        inventory = try container.decode(GluonPlayerInventory.self, forKey: .inventory)
+        
+        can_breathe_underwater = living_entity.can_breathe_underwater
+        can_pickup_items = living_entity.can_pickup_items
+        has_ai = living_entity.has_ai
+        
+        is_climbing = living_entity.is_climbing
+        is_collidable = living_entity.is_collidable
+        is_gliding = living_entity.is_gliding
+        is_invisible = living_entity.is_invisible
+        is_leashed = living_entity.is_leashed
+        is_riptiding = living_entity.is_riptiding
+        is_sleeping = living_entity.is_sleeping
+        is_swimming = living_entity.is_swimming
+        
+        potion_effects = living_entity.potion_effects
+        
+        no_damage_ticks = living_entity.no_damage_ticks
+        no_damage_ticks_maximum = living_entity.no_damage_ticks_maximum
+        
+        air_remaining = living_entity.air_remaining
+        air_maximum = living_entity.air_maximum
+        
+        health = living_entity.health
+        health_maximum = living_entity.health_maximum
+        
+        uuid = living_entity.uuid
+        type = living_entity.type
+        ticks_lived = living_entity.ticks_lived
+        custom_name = living_entity.custom_name
+        display_name = living_entity.display_name
+        boundaries = living_entity.boundaries
+        location = living_entity.location
+        velocity = living_entity.velocity
+        fall_distance = living_entity.fall_distance
+        
+        is_glowing = living_entity.is_glowing
+        is_on_fire = living_entity.is_on_fire
+        is_on_ground = living_entity.is_on_ground
+        
+        height = living_entity.height
+        
+        fire_ticks = living_entity.fire_ticks
+        fire_ticks_maximum = living_entity.fire_ticks_maximum
+        
+        freeze_ticks = living_entity.freeze_ticks
+        freeze_ticks_maximum = living_entity.freeze_ticks_maximum
+        
+        passenger_uuids = living_entity.passenger_uuids
+        vehicle_uuid = living_entity.vehicle_uuid
+    }
+    func encode(to encoder: Encoder) throws {
+        var container:KeyedEncodingContainer = encoder.container(keyedBy: GluonPlayerCodingKeys.self)
+    }
+}
+
+enum GluonPlayerCodingKeys : CodingKey {
+    case name
+    case list_name
+    case experience
+    case experience_level
+    case food_level
+    case permissions
+    case statistics
+    case game_mode
+    case is_blocking
+    case is_flying
+    case is_op
+    case is_sneaking
+    case is_sprinting
+    case inventory
 }

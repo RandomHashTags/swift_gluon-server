@@ -31,8 +31,8 @@ public func configure(_ app: Application) throws {
     //app.http.server.configuration.serverName = Settings.get_server_name()
     //app.http.server.configuration.supportVersions = [.one]
     
-    test()
-    //start_server(app)
+    //test()
+    start_server(app)
 }
 
 private func test() {

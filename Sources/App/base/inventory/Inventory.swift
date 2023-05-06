@@ -32,7 +32,7 @@ public protocol Inventory : Jsonable {
 }
 public extension Inventory {
     static func == (lhs: any Inventory, rhs: any Inventory) -> Bool {
-        return lhs.type.identifier.elementsEqual(rhs.type.identifier) && lhs.items.elementsEqual(rhs.items)
+        return lhs.type.identifier.elementsEqual(rhs.type.identifier) /*&& lhs.items.elementsEqual(rhs.items)*/ // TODO: fix
     }
     
     func hash(into hasher: inout Hasher) {
