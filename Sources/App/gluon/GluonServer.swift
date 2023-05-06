@@ -193,7 +193,7 @@ final class GluonServer : GluonSharedInstance, Server {
             type: entity_types["minecraft.player"]!,
             ticks_lived: 0,
             boundaries: [],
-            location: TargetLocation(world_name: "overworld", x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
+            location: TargetLocation(world: worlds.first!.value, x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
             fall_distance: 0,
             is_glowing: false,
@@ -251,7 +251,7 @@ final class GluonServer : GluonSharedInstance, Server {
 
 extension GluonServer {
     func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity] {
-        return center.world?.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) }) ?? []
+        return center.world.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
     func get_entity(uuid: UUID) -> TargetEntity? {
@@ -293,9 +293,9 @@ extension GluonServer {
 
 extension GluonServer {
     func boot_player(player: TargetPlayer, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
-        let location:TargetLocation = player.location
-        guard let _:TargetWorld = location.world, let index:Int = worlds[location.world_name]!.players.firstIndex(of: player) else { return }
-        worlds[location.world_name]!.players.remove(at: index)
+        let location:TargetLocation = player.location, world:TargetWorld = location.world
+        guard let index:Int = world.players.firstIndex(of: player) else { return }
+        world.players.remove(at: index)
         player.connection.close()
         
         let instance:GluonServer = GluonServer.shared_instance

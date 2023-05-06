@@ -68,7 +68,7 @@ public protocol World : Jsonable, Tickable {
 }
 
 public extension World {
-    static func == (lhs: any World, rhs: any World) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.uuid == rhs.uuid && lhs.seed == rhs.seed && lhs.name.elementsEqual(rhs.name)
     }
     

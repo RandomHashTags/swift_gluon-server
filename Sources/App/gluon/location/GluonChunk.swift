@@ -16,7 +16,7 @@ struct GluonChunk : Chunk {
     typealias TargetLivingEntity = GluonLivingEntity
     typealias TargetPlayer = GluonPlayer
     
-    let world:TargetWorld
+    var world:TargetWorld
     let x:HugeInt
     let z:HugeInt
     

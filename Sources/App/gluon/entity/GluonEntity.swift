@@ -50,8 +50,15 @@ struct GluonEntity : Entity {
 }
 
 extension Entity {
-    func remove() {
-        GluonServer.shared_instance.worlds[location.world_name]?.remove_entity(self as! GluonWorld.TargetEntity)
+    mutating func remove() { // TODO: fix
+    }
+    mutating func teleport(_ location: TargetLocation) { // TODO: fix
+    }
+}
+
+extension GluonEntity {
+    mutating func remove() {
+        location.world.remove_entity(self)
     }
     mutating func teleport(_ location: TargetLocation) {
         let event:GluonEntityTeleportEvent = GluonEntityTeleportEvent(entity: self, new_location: location)

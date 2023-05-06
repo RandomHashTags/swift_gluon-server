@@ -11,10 +11,7 @@ import huge_numbers
 struct GluonLocation : Location {
     typealias TargetWorld = GluonWorld
     
-    var world_name:String
-    var world : TargetWorld? {
-        return GluonServer.shared_instance.get_world(name: world_name)
-    }
+    var world:TargetWorld
     var x:HugeFloat
     var y:HugeFloat
     var z:HugeFloat

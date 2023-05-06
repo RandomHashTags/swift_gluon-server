@@ -42,12 +42,10 @@ public extension Damageable {
             freeze_ticks -= 1
         }
         
-        if let world:any World = location.world {
-            let y:HugeFloat = location.y
-            
-            if y < world.y_min {
-                let result:DamageResult = damage_damageable(cause: DamageCause.void, amount: server.void_damage_per_tick)
-            }
+        let world:any World = location.world
+        let y:HugeFloat = location.y
+        if y < world.y_min {
+            let result:DamageResult = damage_damageable(cause: DamageCause.void, amount: server.void_damage_per_tick)
         }
         
         tick_entity(server)

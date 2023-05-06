@@ -11,15 +11,14 @@ import huge_numbers
 public protocol Location : Jsonable {
     associatedtype TargetWorld : World
     
-    var world_name : String { get }
-    var world : TargetWorld? { get }
+    var world : TargetWorld { get set }
     var x : HugeFloat { get set }
     var y : HugeFloat { get set }
     var z : HugeFloat { get set }
     var yaw : Double { get set }
     var pitch : Double { get set }
     
-    init(world_name: String, x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double, pitch: Double)
+    init(world: TargetWorld, x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double, pitch: Double)
     
     var chunk_coordinates : (x: HugeInt, z: HugeInt) { get }
     
@@ -42,7 +41,7 @@ public extension Location {
     }
     
     func is_similar(_ location: Self) -> Bool {
-        return world_name.elementsEqual(location.world_name) && x == location.x && y == location.y && z == location.z
+        return world == location.world && x == location.x && y == location.y && z == location.z
     }
     
     func is_nearby(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> Bool {
@@ -64,6 +63,6 @@ public extension Location {
     }
     
     func advanced_by(x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double = 0, pitch: Double = 0) -> Self {
-        return Self(world_name: world_name, x: self.x + x, y: self.y + y, z: self.z + z, yaw: self.yaw + yaw, pitch: self.pitch + pitch)
+        return Self(world: world, x: self.x + x, y: self.y + y, z: self.z + z, yaw: self.yaw + yaw, pitch: self.pitch + pitch)
     }
 }

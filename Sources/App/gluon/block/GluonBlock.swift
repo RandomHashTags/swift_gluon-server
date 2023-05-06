@@ -29,7 +29,8 @@ struct GluonBlock : Block {
     }
     
     func break_naturally() {
-        guard let loot:[TargetItemStack] = loot_table?.loot_normal, let world:any World = location.world else { return }
+        guard let loot:[TargetItemStack] = loot_table?.loot_normal else { return }
+        let world:GluonWorld = location.world
         let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second / 2
         let half:HugeFloat = HugeFloat("0.5")
         let item_location:TargetLocation = location.advanced_by(x: half, y: half, z: half)

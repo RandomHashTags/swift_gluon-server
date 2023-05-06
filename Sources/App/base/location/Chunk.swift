@@ -15,7 +15,7 @@ public protocol Chunk : Jsonable, Tickable, Saveable {
     associatedtype TargetLivingEntity : LivingEntity
     associatedtype TargetPlayer : Player
     
-    var world : TargetWorld { get }
+    var world : TargetWorld { get set }
     var x : HugeInt { get }
     var z : HugeInt { get }
     
@@ -27,8 +27,8 @@ public protocol Chunk : Jsonable, Tickable, Saveable {
     var living_entities : [TargetLivingEntity] { get }
     var players : [TargetPlayer] { get }
     
-    func load() async
-    func unload()
+    mutating func load() async
+    mutating func unload() async
 }
 
 public extension Chunk {
@@ -45,23 +45,31 @@ public extension Chunk {
     func save() {
     }
     
-    func load() async {
+    mutating func load() async {
         let seed:Int64 = world.seed
     }
-    func unload() {
-        for player in players {
-            player.save()
-            player.remove()
+    mutating func unload() async {
+        save()
+        
+        for index in world.entities.indices {
+            world.entities[index].save()
         }
-        for entity in entities {
-            entity.save()
-            entity.remove()
+        for index in world.living_entities.indices {
+            world.living_entities[index].save()
         }
-        for living_entity in living_entities {
-            living_entity.save()
-            living_entity.remove()
+        for index in world.players.indices {
+            world.players[index].save()
         }
         
-        save()
+        for index in world.entities.indices {
+            world.entities[index].remove()
+        }
+        for index in world.living_entities.indices {
+            world.living_entities[index].remove()
+        }
+        for index in world.players.indices {
+            world.players[index].remove()
+        }
+        
     }
 }
