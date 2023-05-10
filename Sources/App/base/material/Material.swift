@@ -12,9 +12,9 @@ public protocol Material : Jsonable, Identifiable, MultilingualName {
     associatedtype TargetMaterialConfiguration : MaterialConfiguration
     associatedtype TargetRecipe : Recipe
     
-    var categories:[TargetMaterialCategory] { get }
-    var configuration:TargetMaterialConfiguration { get }
+    var categories : [TargetMaterialCategory] { get }
+    var configuration : TargetMaterialConfiguration { get }
     /// The ``Recipe`` identifier this material can be crafted by.
-    var recipe_identifier:String? { get }
+    var recipe_identifier : String? { get }
     var recipe : TargetRecipe? { get }
 }

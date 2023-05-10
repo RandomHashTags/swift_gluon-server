@@ -29,6 +29,7 @@ public protocol Server : Tickable, Saveable {
     var gravity : HugeFloat { get }
     var gravity_per_tick : HugeFloat { get }
     var void_damage_per_tick : Double { get }
+    var fire_damage_per_second : Double { get }
     
     var max_players : UInt64 { get set }
     var port : Int { get }

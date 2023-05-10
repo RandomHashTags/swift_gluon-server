@@ -26,7 +26,7 @@ private func damage_gluon_damageable<T: Damageable>(_ damageable: inout T, cause
         return DamageResult.failure(.cancelled)
     }
     damageable.health = new_health
-    guard damageable.health == 0 else {
+    guard damageable.health != 0 else {
         // TODO: finish
         let event:GluonEntityDeathEvent = GluonEntityDeathEvent(entity: damageable)
         GluonServer.shared_instance.call_event(event: event)

@@ -29,6 +29,7 @@ final class GluonServer : GluonSharedInstance, Server {
     var gravity:HugeFloat
     var gravity_per_tick:HugeFloat
     var void_damage_per_tick:Double
+    var fire_damage_per_second:Double
     
     var max_players:UInt64
     var port:Int
@@ -75,6 +76,7 @@ final class GluonServer : GluonSharedInstance, Server {
         self.gravity = gravity
         gravity_per_tick = gravity / ticks_per_second_float
         void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
+        fire_damage_per_second = 1
         
         print("server_ticks_per_second=" + ticks_per_second.description + "; 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
         

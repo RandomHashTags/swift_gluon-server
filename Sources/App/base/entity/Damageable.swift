@@ -37,6 +37,9 @@ public extension Damageable {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
         if fire_ticks > 0 {
             fire_ticks -= 1
+            if fire_ticks != 0 && fire_ticks % UInt16(server.ticks_per_second) == 0 {
+                let result:DamageResult = damage_damageable(cause: DamageCause.fire_tick, amount: server.fire_damage_per_second)
+            }
         }
         if freeze_ticks > 0 {
             freeze_ticks -= 1
@@ -50,4 +53,9 @@ public extension Damageable {
         
         tick_entity(server)
     }
+}
+
+public enum DamageableCodingKeys : CodingKey {
+    case health
+    case health_maximum
 }

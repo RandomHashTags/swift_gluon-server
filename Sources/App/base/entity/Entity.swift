@@ -77,7 +77,9 @@ public extension Entity {
         ticks_lived += 1
         
         if type.is_affected_by_gravity && !is_on_ground {
-            location.y -= server.gravity_per_tick
+            var new_location:HugeFloat = location.y - server.gravity_per_tick
+            // TODO: check distance to closest block at Y position
+            location.y = new_location
         }
     }
     
@@ -91,4 +93,26 @@ public extension Entity {
             "ticks_lived" : ExecutableLogicalContext(value_type: .long_unsigned, value: ticks_lived)
         ]
     }
+}
+
+public enum EntityCodingKeys : CodingKey {
+    case uuid
+    case type
+    case ticks_lived
+    case custom_name
+    case display_name
+    case boundaries
+    case location
+    case velocity
+    case fall_distance
+    case is_glowing
+    case is_on_fire
+    case is_on_ground
+    case height
+    case fire_ticks
+    case fire_ticks_maximum
+    case freeze_ticks
+    case freeze_ticks_maximum
+    case passenger_uuids
+    case vehicle_uuid
 }

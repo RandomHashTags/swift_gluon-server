@@ -11,7 +11,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.69.2"),
         .package(url: "https://github.com/swift-server/swift-backtrace.git", from: "1.3.3"),
-        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.0.10")
+        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.0.12")
     ],
     targets: [
         .target(
