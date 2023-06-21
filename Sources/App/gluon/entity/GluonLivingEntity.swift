@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 struct GluonLivingEntity : LivingEntity {
     typealias TargetPotionEffect = GluonPotionEffect

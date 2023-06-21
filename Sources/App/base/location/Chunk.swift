@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 public protocol Chunk : Jsonable, Tickable, Saveable {
     associatedtype TargetWorld : World

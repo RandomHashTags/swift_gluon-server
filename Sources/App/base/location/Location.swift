@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 public protocol Location : Jsonable {
     associatedtype TargetWorld : World

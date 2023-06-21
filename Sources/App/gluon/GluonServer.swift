@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 final class GluonServer : GluonSharedInstance, Server {
     typealias TargetWorld = GluonWorld
@@ -78,7 +78,7 @@ final class GluonServer : GluonSharedInstance, Server {
         void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
         fire_damage_per_second = 1
         
-        print("server_ticks_per_second=" + ticks_per_second.description + "; 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
+        print("server_ticks_per_second=\(ticks_per_second); 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
         
         max_players = 1
         port = 25565

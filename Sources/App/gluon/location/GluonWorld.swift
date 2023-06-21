@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 final class GluonWorld : World {
     typealias TargetChunk = GluonChunk

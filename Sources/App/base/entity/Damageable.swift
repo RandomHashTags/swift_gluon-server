@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 public protocol Damageable : Entity {
     var health : Double { get set }

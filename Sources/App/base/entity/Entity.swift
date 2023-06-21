@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import huge_numbers
+import HugeNumbers
 
 public protocol Entity : Nameable, Tickable, Saveable {
     associatedtype TargetLocation : Location

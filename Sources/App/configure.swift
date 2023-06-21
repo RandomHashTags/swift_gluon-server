@@ -6,7 +6,7 @@
 //
 
 import Vapor
-import huge_numbers
+import HugeNumbers
 
 public func configure(_ app: Application) throws {
     let directory:DirectoryConfiguration = app.directory
