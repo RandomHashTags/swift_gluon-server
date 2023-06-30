@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ValueType : Jsonable {
+public enum ValueType : String {
     case string
     case char//(Int8)
     case char_unsigned//(UInt8)

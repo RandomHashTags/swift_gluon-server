@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct BossBar : Jsonable {
-    public var title:String
-    public var progress:Double
-    public var color:Color
+public protocol BossBar {
+    var title : String { get set }
+    var progress : Double { get set }
+    var color : Color { get set }
 }

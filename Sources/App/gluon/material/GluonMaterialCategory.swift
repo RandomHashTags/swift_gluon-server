@@ -8,8 +8,9 @@
 import Foundation
 
 struct GluonMaterialCategory : MaterialCategory {
-    typealias TargetMaterialConfiguration = GluonMaterialConfiguration
-    
-    let identifier:String
-    let configuration:TargetMaterialConfiguration
+    let id:String
+    let configuration_id:String
+    var configuration : (any MaterialConfiguration)? {
+        return nil // TODO: fix
+    }
 }

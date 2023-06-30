@@ -8,27 +8,21 @@
 import Foundation
 import HugeNumbers
 
-public protocol Chunk : Jsonable, Tickable, Saveable {
-    associatedtype TargetWorld : World
-    associatedtype TargetBlock : Block
-    associatedtype TargetEntity : Entity
-    associatedtype TargetLivingEntity : LivingEntity
-    associatedtype TargetPlayer : Player
-    
-    var world : TargetWorld { get set }
+public protocol Chunk : AnyObject, Tickable {
+    var world : any World { get }
     var x : HugeInt { get }
     var z : HugeInt { get }
     
-    var blocks:Set<TargetBlock> { get set }
+    var blocks:[any Block] { get set }
     
-    init(world: TargetWorld, x: HugeInt, z: HugeInt)
+    init(world: any World, x: HugeInt, z: HugeInt)
     
-    var entities : [TargetEntity] { get }
-    var living_entities : [TargetLivingEntity] { get }
-    var players : [TargetPlayer] { get }
+    var entities : [any Entity] { get }
+    var living_entities : [any LivingEntity] { get }
+    var players : [any Player] { get }
     
-    mutating func load() async
-    mutating func unload() async
+    func load() async
+    func unload() async
 }
 
 public extension Chunk {
@@ -42,9 +36,7 @@ public extension Chunk {
         hasher.combine(z)
     }
     
-    func save() {
-    }
-    
+    /*
     mutating func load() async {
         let seed:Int64 = world.seed
     }
@@ -71,5 +63,5 @@ public extension Chunk {
             world.players[index].remove()
         }
         
-    }
+    }*/
 }

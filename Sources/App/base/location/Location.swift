@@ -8,17 +8,15 @@
 import Foundation
 import HugeNumbers
 
-public protocol Location : Jsonable {
-    associatedtype TargetWorld : World
-    
-    var world : TargetWorld { get set }
+public protocol Location : Hashable {
+    var world : any World { get set }
     var x : HugeFloat { get set }
     var y : HugeFloat { get set }
     var z : HugeFloat { get set }
     var yaw : Double { get set }
     var pitch : Double { get set }
     
-    init(world: TargetWorld, x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double, pitch: Double)
+    init(world: any World, x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double, pitch: Double)
     
     var chunk_coordinates : (x: HugeInt, z: HugeInt) { get }
     
@@ -36,12 +34,27 @@ public protocol Location : Jsonable {
     func advanced_by(x: HugeFloat, y: HugeFloat, z: HugeFloat, yaw: Double, pitch: Double) -> Self
 }
 public extension Location {
+    static func == (left: any Location, right: any Location) -> Bool {
+        return left.world.uuid == right.world.uuid && left.x == right.x && left.y == right.y && left.z == right.z && left.yaw == right.yaw && left.pitch == right.pitch
+    }
+    static func == (left: Self, right: Self) -> Bool {
+        return left == right
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(world.uuid)
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
+        hasher.combine(yaw)
+        hasher.combine(pitch)
+    }
+    
     var chunk_coordinates : (x: HugeInt, z: HugeInt) {
         return (x: (x / 16).integer, z: (z / 16).integer)
     }
     
     func is_similar(_ location: Self) -> Bool {
-        return world == location.world && x == location.x && y == location.y && z == location.z
+        return world.uuid == location.world.uuid && x == location.x && y == location.y && z == location.z
     }
     
     func is_nearby(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> Bool {

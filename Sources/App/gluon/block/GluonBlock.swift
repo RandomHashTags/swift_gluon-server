@@ -9,45 +9,38 @@ import Foundation
 import HugeNumbers
 
 struct GluonBlock : Block {
-    typealias TargetMaterial = GluonMaterial
-    typealias TargetItemStack = GluonItemStack
-    typealias TargetLocation = GluonLocation
-    typealias TargetLootTable = GluonLootTable
-    
-    var material_identifier:String
-    var material : TargetMaterial? {
-        return GluonServer.shared_instance.get_material(identifier: material_identifier)
+    var material_id:String
+    var material : (any Material)? {
+        return GluonServer.shared_instance.get_material(identifier: material_id)
     }
+    
     var light_level:UInt8
-    var location:TargetLocation
+    var location:any Location
     
     var growable_age:UInt8?
     
-    var loot_table:TargetLootTable?
+    var loot_table:(any LootTable)?
     
     func tick(_ server: any Server) {
     }
     
     func break_naturally() {
-        guard let loot:[TargetItemStack] = loot_table?.loot_normal else { return }
-        let world:GluonWorld = location.world
+        guard let loot:[any ItemStack] = loot_table?.loot_normal else { return }
+        let world:any World = location.world
         let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second / 2
         let half:HugeFloat = HugeFloat("0.5")
-        let item_location:TargetLocation = location.advanced_by(x: half, y: half, z: half)
+        let item_location:any Location = location.advanced_by(x: half, y: half, z: half)
         for item_stack in loot {
-            //let item:GluonItem = GluonItem(item_stack: item_stack, pickup_delay: pickup_delay, location: item_location)
-            //world.spawn_entity(item)
+            /*let item:GluonItem = GluonItem(item_stack: item_stack, pickup_delay: pickup_delay, location: item_location)
+            world.spawn_entity(item)*/
         }
     }
-    func get_breaking_speed(_ item_stack: TargetItemStack) -> Float {
-       guard let block_configuration:GluonMaterialBlockConfiguration = material?.configuration.block else {
+    func get_breaking_speed(_ item_stack: any ItemStack) -> Float {
+       guard let block_configuration:any MaterialBlockConfiguration = material?.configuration.block else {
            return 0
        }
-       
-       let item_material:TargetMaterial = item_stack.material
        let hardness:Float = block_configuration.hardness
-       
-       let is_preferred_tool:Bool = block_configuration.preferred_break_materials?.contains(item_material) ?? false
+       let is_preferred_tool:Bool = block_configuration.preferred_break_material_identifiers?.contains(item_stack.material_id) ?? false
        let tool_multiplier:Float, additional_multiplier:Float
        if is_preferred_tool {
            tool_multiplier = 1.5

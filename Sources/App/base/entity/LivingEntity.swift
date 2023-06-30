@@ -8,8 +8,6 @@
 import Foundation
 
 public protocol LivingEntity : Damageable {
-    associatedtype TargetPotionEffect : PotionEffect
-    
     var can_breathe_underwater : Bool { get set }
     var can_pickup_items : Bool { get set }
     var has_ai : Bool { get set }
@@ -23,7 +21,7 @@ public protocol LivingEntity : Damageable {
     var is_sleeping : Bool { get set }
     var is_swimming : Bool { get set }
     
-    var potion_effects:[String:TargetPotionEffect] { get set }
+    var potion_effects:[String : any PotionEffect] { get set }
     
     var no_damage_ticks : UInt16 { get set }
     var no_damage_ticks_maximum : UInt16 { get set }

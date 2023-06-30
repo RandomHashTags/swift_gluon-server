@@ -7,5 +7,5 @@
 
 import Foundation
 
-public struct InventoryView : Jsonable {
+public protocol InventoryView {
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum BlockMoveReaction : String, Jsonable {
+public enum BlockMoveReaction : String {
     case move
     case `break`
     case block

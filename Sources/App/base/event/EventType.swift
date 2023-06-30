@@ -7,6 +7,5 @@
 
 import Foundation
 
-public protocol EventType : Hashable, Identifiable {
-    static func parse(_ identifier: String) -> Self?
+public protocol EventType : Hashable, Identifiable where ID == String {
 }

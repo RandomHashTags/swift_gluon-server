@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct BiomeConfiguration : Jsonable {
-    public let temperature:Float
-    public let temperature_starting_y:Int64
-    public let temperature_ending_y:Int64
-    public let temperature_drop_rate:Float
+public protocol BiomeConfiguration : Hashable {
+    var temperature : Float { get }
+    var temperature_starting_y : Int64 { get }
+    var temperature_ending_y : Int64 { get }
+    var temperature_drop_rate : Float { get }
     
-    public let downfall:Float
+    var downfall : Float { get }
 }

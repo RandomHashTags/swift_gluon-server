@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct Objective : Jsonable {
-    public let name:String
-    public let display_name:String
-    public let criteria:String
+public protocol Objective {
+    var name : String { get }
+    var display_name : String { get }
+    var criteria : String { get }
 }

@@ -8,17 +8,17 @@
 import Foundation
 
 struct GluonItem : Item {
-    typealias TargetLocation = GluonLocation
-    typealias TargetItemStack = GluonItemStack
-    
     var uuid:UUID
-    var type:EntityType
+    var type_id:String
+    var type : (any EntityType)? {
+        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+    }
     var ticks_lived:UInt64
     var custom_name:String?
     var display_name:String?
     
     var boundaries:[Boundary]
-    var location:TargetLocation
+    var location:any Location
     var velocity:Vector
     var fall_distance:Float
     var is_glowing:Bool
@@ -43,7 +43,7 @@ struct GluonItem : Item {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    var item_stack:TargetItemStack
+    var item_stack:any ItemStack
     var pickup_delay:UInt8
     
     mutating func tick(_ server: any Server) {

@@ -8,9 +8,7 @@
 import Foundation
 
 public protocol PlayerItemConsumeEvent : PlayerEvent, Cancellable {
-    associatedtype TargetItemStack : ItemStack
+    var item : any ItemStack { get set }
     
-    var item : TargetItemStack { get set }
-    
-    init(player: any Player, item: inout TargetItemStack)
+    init(player: any Player, item: inout any ItemStack)
 }

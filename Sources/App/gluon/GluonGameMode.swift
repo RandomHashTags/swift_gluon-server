@@ -8,8 +8,8 @@
 import Foundation
 
 struct GluonGameMode : GameMode {
-    let identifier:String
-    let name:MultilingualStrings
+    let id:String
+    let name:LocalizedStringResource
     
     let allows_flight:Bool
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum BoundaryType : String, Jsonable {
+public enum BoundaryType : String {
     case box
     case circle
 }

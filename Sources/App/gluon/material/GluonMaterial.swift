@@ -8,18 +8,14 @@
 import Foundation
 
 struct GluonMaterial : Material {
-    typealias TargetMaterialCategory = GluonMaterialCategory
-    typealias TargetMaterialConfiguration = GluonMaterialConfiguration
-    typealias TargetRecipe = GluonRecipe
+    let id:String
+    let name:LocalizedStringResource
+    let categories:[any MaterialCategory]
+    let configuration:any MaterialConfiguration
     
-    let identifier:String
-    let name:MultilingualStrings
-    let categories:[TargetMaterialCategory]
-    let configuration:TargetMaterialConfiguration
-    
-    let recipe_identifier:String?
-    var recipe : TargetRecipe? {
-        guard let identifier:String = recipe_identifier else { return nil }
+    let recipe_id:String?
+    var recipe : (any Recipe)? {
+        guard let identifier:String = recipe_id else { return nil }
         return GluonServer.shared_instance.get_recipe(identifier: identifier)
     }
 }

@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonPlayerGameModeChangeEvent : PlayerGameModeChangeEvent {
-    typealias TargetEventType = GluonEventType
-    
-    let type:TargetEventType = GluonEventType.player_change_game_mode
+    let type:any EventType = GluonEventType.player_change_game_mode
     var player:any Player
     var new_game_mode:any GameMode
     var is_cancelled:Bool = false
@@ -22,7 +20,7 @@ struct GluonPlayerGameModeChangeEvent : PlayerGameModeChangeEvent {
     
     var context : [String:ExecutableLogicalContext]? {
         var context:[String:ExecutableLogicalContext] = player.player_executable_context
-        context["new_game_mode"] = ExecutableLogicalContext(value_type: .string, value: new_game_mode.identifier)
+        context["new_game_mode"] = ExecutableLogicalContext(value_type: .string, value: new_game_mode.id)
         return context
     }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol MultilingualName {
-    var name : MultilingualStrings { get }
+    var name : LocalizedStringResource { get }
 }

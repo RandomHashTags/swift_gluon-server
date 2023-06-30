@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol MaterialItemConfiguration : Jsonable {
+public protocol MaterialItemConfiguration {
     /// Maximum amount of the same item that can be stacked in one slot.
     var item_stack_size_maximum : Int { get }
     
@@ -16,7 +16,7 @@ public protocol MaterialItemConfiguration : Jsonable {
     /// The item's maximum durability.
     var durability : UInt { get }
     
-    var consumable : MaterialItemConsumableConfiguration? { get }
+    var consumable : (any MaterialItemConsumableConfiguration)? { get }
     
     /// Amount of health points this item inflicts to a ``LivingEntity``.
     var attack_damage : Double { get }

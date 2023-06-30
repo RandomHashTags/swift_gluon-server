@@ -7,67 +7,66 @@
 
 import Foundation
 
-public protocol Inventory : Jsonable {
-    associatedtype TargetInventoryType : InventoryType
-    associatedtype TargetItemStack : ItemStack
-    associatedtype TargetMaterial : Material
-    associatedtype TargetPlayer : Player
+public protocol Inventory {
+    var type : any InventoryType { get }
+    var items : [(any ItemStack)?] { get set }
+    var viewers : [any Player] { get set }
     
-    var type : TargetInventoryType { get }
-    var items : [TargetItemStack?] { get set }
-    var viewers : Set<TargetPlayer> { get set }
+    init(type: any InventoryType, items: [(any ItemStack)?], viewers: [any Player])
     
-    init(type: TargetInventoryType, items: [TargetItemStack?], viewers: Set<TargetPlayer>)
+    func contains(_ material: any Material) -> Bool
+    func contains(_ item: any ItemStack) -> Bool
     
-    func contains(_ material: TargetMaterial) -> Bool
-    func contains(_ item: TargetItemStack) -> Bool
+    func first(_ material: any Material) -> (any ItemStack)?
+    func first(_ item: any ItemStack) -> (any ItemStack)?
     
-    func first(_ material: TargetMaterial) -> TargetItemStack?
-    func first(_ item: TargetItemStack) -> TargetItemStack?
-    
-    func get_item(slot: Int) -> TargetItemStack?
-    mutating func set_item(slot: Int, item: TargetItemStack?)
-    mutating func set_items(items: [TargetItemStack?])
-    mutating func add_item(item: TargetItemStack)
+    func get_item(slot: Int) -> (any ItemStack)?
+    mutating func set_item(slot: Int, item: (any ItemStack)?)
+    mutating func set_items(items: [(any ItemStack)?])
+    mutating func add_item(item: (any ItemStack))
 }
 public extension Inventory {
     static func == (lhs: any Inventory, rhs: any Inventory) -> Bool {
-        return lhs.type.identifier.elementsEqual(rhs.type.identifier) /*&& lhs.items.elementsEqual(rhs.items)*/ // TODO: fix
+        return lhs.type.id.elementsEqual(rhs.type.id) /*&& lhs.items.elementsEqual(rhs.items)*/ // TODO: fix
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(type)
-        hasher.combine(items)
+        hasher.combine(type.id)
+        for item in items {
+            if let item:any ItemStack = item {
+                hasher.combine(item)
+            }
+        }
     }
     
-    func contains(_ material: TargetMaterial) -> Bool {
+    func contains(_ material: any Material) -> Bool {
         return first(material) != nil
     }
-    func contains(_ item: TargetItemStack) -> Bool {
+    func contains(_ item: any ItemStack) -> Bool {
         return first(item) != nil
     }
     
-    func first(_ material: TargetMaterial) -> TargetItemStack? {
-        let identifier:String = material.identifier
-        return items.first(where: { $0?.material.identifier.elementsEqual(identifier) ?? false }) ?? nil
+    func first(_ material: any Material) -> (any ItemStack)? {
+        let identifier:String = material.id
+        return items.first(where: { $0?.material?.id.elementsEqual(identifier) ?? false }) ?? nil
     }
-    func first(_ item: TargetItemStack) -> TargetItemStack? {
-        return items.first(where: {  item.is_similar($0) }) ?? nil
+    func first(_ item: any ItemStack) -> (any ItemStack)? {
+        return items.first(where: { item.is_similar($0) }) ?? nil
     }
     
     
-    func get_item(slot: Int) -> TargetItemStack? {
+    func get_item(slot: Int) -> (any ItemStack)? {
         return items.get(slot) ?? nil
     }
     
-    mutating func set_item(slot: Int, item: TargetItemStack?) {
+    mutating func set_item(slot: Int, item: (any ItemStack)?) {
         items[slot] = item
     }
-    mutating func set_items(items: Array<TargetItemStack?>) {
+    mutating func set_items(items: [(any ItemStack)?]) {
         self.items = items
     }
     
-    mutating func add_item(item: TargetItemStack) {
+    mutating func add_item(item: (any ItemStack)) {
         // TODO: finish
     }
 }

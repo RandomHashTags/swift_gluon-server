@@ -9,16 +9,17 @@ import Foundation
 import HugeNumbers
 
 struct GluonEntity : Entity {
-    typealias TargetLocation = GluonLocation
-    
     let uuid:UUID
-    let type:EntityType
+    let type_id:String
+    var type : (any EntityType)? {
+        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+    }
     var ticks_lived:UInt64
     var custom_name:String?
     var display_name:String?
     
     var boundaries:[Boundary]
-    var location:TargetLocation
+    var location:any Location
     var velocity:Vector
     var fall_distance:Float
     
@@ -48,7 +49,7 @@ struct GluonEntity : Entity {
         tick_entity(server)
     }
     
-    init(from decoder: Decoder) throws {
+    /*init(from decoder: Decoder) throws {
         let container:KeyedDecodingContainer = try decoder.container(keyedBy: EntityCodingKeys.self)
         self.uuid = try container.decode(UUID.self, forKey: .uuid)
         let type_identifier:String = try container.decode(String.self, forKey: .type)
@@ -70,13 +71,13 @@ struct GluonEntity : Entity {
         self.freeze_ticks_maximum = try container.decode(UInt16.self, forKey: .freeze_ticks_maximum)
         self.passenger_uuids = try container.decode(Set<UUID>.self, forKey: .passenger_uuids)
         self.vehicle_uuid = try container.decodeIfPresent(UUID.self, forKey: .vehicle_uuid)
-    }
+    }*/
 }
 
 extension Entity {
     mutating func remove() { // TODO: fix
     }
-    mutating func teleport(_ location: TargetLocation) { // TODO: fix
+    mutating func teleport(_ location: any Location) { // TODO: fix
     }
 }
 
@@ -84,7 +85,7 @@ extension GluonEntity {
     mutating func remove() {
         location.world.remove_entity(self)
     }
-    mutating func teleport(_ location: TargetLocation) {
+    mutating func teleport(_ location: any Location) {
         let event:GluonEntityTeleportEvent = GluonEntityTeleportEvent(entity: self, new_location: location)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }

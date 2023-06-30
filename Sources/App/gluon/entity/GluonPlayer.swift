@@ -8,13 +8,6 @@
 import Foundation
 
 struct GluonPlayer : Player {
-    typealias TargetStatisticActive = GluonStatisticActive
-    typealias TargetGameMode = GluonGameMode
-    typealias TargetPlayerInventory = GluonPlayerInventory
-    typealias TargetLocation = GluonLocation
-    typealias TargetPotionEffect = GluonPotionEffect
-    typealias TargetItemStack = GluonItemStack
-    
     let connection:PlayerConnection
     
     var name:String
@@ -25,9 +18,9 @@ struct GluonPlayer : Player {
     var food_level:UInt64
     
     var permissions:Set<String>
-    var statistics:[String:TargetStatisticActive]
+    var statistics:[String : any StatisticActive]
     
-    var game_mode:TargetGameMode
+    var game_mode:any GameMode
     
     var is_blocking:Bool
     var is_flying:Bool
@@ -35,7 +28,7 @@ struct GluonPlayer : Player {
     var is_sneaking:Bool
     var is_sprinting:Bool
     
-    var inventory:TargetPlayerInventory
+    var inventory:any PlayerInventory
     
     var can_breathe_underwater:Bool
     var can_pickup_items:Bool
@@ -50,7 +43,7 @@ struct GluonPlayer : Player {
     var is_sleeping:Bool
     var is_swimming:Bool
     
-    var potion_effects:[String:TargetPotionEffect]
+    var potion_effects:[String:any PotionEffect]
     
     var no_damage_ticks:UInt16
     var no_damage_ticks_maximum:UInt16
@@ -62,12 +55,16 @@ struct GluonPlayer : Player {
     var health_maximum:Double
     
     var uuid:UUID
-    var type:EntityType
+    var type_id:String
+    var type : (any EntityType)? {
+        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+    }
+    
     var ticks_lived:UInt64
     var custom_name:String?
     var display_name:String?
     var boundaries:[Boundary]
-    var location:TargetLocation
+    var location:any Location
     var velocity:Vector
     var fall_distance:Float
     
@@ -94,8 +91,8 @@ struct GluonPlayer : Player {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    mutating func set_game_mode(_ game_mode: TargetGameMode) {
-        guard !self.game_mode.identifier.elementsEqual(game_mode.identifier) else { return }
+    mutating func set_game_mode(_ game_mode: any GameMode) {
+        guard !self.game_mode.id.elementsEqual(game_mode.id) else { return }
         let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
@@ -106,8 +103,8 @@ struct GluonPlayer : Player {
         GluonServer.shared_instance.boot_player(player: self, reason: reason)
     }
     
-    func consumed(item: inout TargetItemStack) {
-        guard let consumable_configuration:MaterialItemConsumableConfiguration = item.material.configuration.item?.consumable else { return }
+    func consumed(item: inout any ItemStack) {
+        guard let consumable_configuration:any MaterialItemConsumableConfiguration = item.material?.configuration.item?.consumable else { return }
         let event:GluonPlayerItemConsumeEvent = GluonPlayerItemConsumeEvent(player: self, item: &item)
         GluonServer.shared_instance.call_event(event: event)
         guard !event.is_cancelled else { return }
@@ -126,14 +123,14 @@ extension GluonPlayer {
         experience_level: UInt64,
         food_level: UInt64,
         permissions: Set<String>,
-        statistics: [String:TargetStatisticActive],
-        game_mode: TargetGameMode,
+        statistics: [String:any StatisticActive],
+        game_mode: any GameMode,
         is_blocking: Bool,
         is_flying: Bool,
         is_op: Bool,
         is_sneaking: Bool,
         is_sprinting: Bool,
-        inventory: TargetPlayerInventory,
+        inventory: any PlayerInventory,
         can_breathe_underwater: Bool,
         can_pickup_items: Bool,
         has_ai: Bool,
@@ -145,7 +142,7 @@ extension GluonPlayer {
         is_riptiding: Bool,
         is_sleeping: Bool,
         is_swimming: Bool,
-        potion_effects: [String:TargetPotionEffect],
+        potion_effects: [String:any PotionEffect],
         no_damage_ticks: UInt16,
         no_damage_ticks_maximum: UInt16,
         air_remaining: UInt16,
@@ -153,10 +150,10 @@ extension GluonPlayer {
         health: Double,
         health_maximum: Double,
         uuid: UUID,
-        type: EntityType,
+        type_id: String,
         ticks_lived: UInt64,
         boundaries: [Boundary],
-        location: TargetLocation,
+        location: any Location,
         velocity: Vector,
         fall_distance: Float,
         is_glowing: Bool,
@@ -203,7 +200,7 @@ extension GluonPlayer {
         self.health = health
         self.health_maximum = health_maximum
         self.uuid = uuid
-        self.type = type
+        self.type_id = type_id
         self.ticks_lived = ticks_lived
         self.boundaries = boundaries
         self.location = location
@@ -222,7 +219,7 @@ extension GluonPlayer {
     }
 }
 extension GluonPlayer {
-    init(from decoder: Decoder) throws {
+    /*init(from decoder: Decoder) throws {
         let living_entity:GluonLivingEntity = try GluonLivingEntity(from: decoder)
         
         var container:KeyedDecodingContainer = try decoder.container(keyedBy: GluonPlayerCodingKeys.self)
@@ -299,7 +296,7 @@ extension GluonPlayer {
     }
     func encode(to encoder: Encoder) throws {
         var container:KeyedEncodingContainer = encoder.container(keyedBy: GluonPlayerCodingKeys.self)
-    }
+    }*/
 }
 
 enum GluonPlayerCodingKeys : CodingKey {

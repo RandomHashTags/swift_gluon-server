@@ -8,11 +8,9 @@
 import Foundation
 
 struct GluonStatisticActive : StatisticActive {
-    typealias TargetStatistic = GluonStatistic
-    
-    let identifier:String
-    var type : GluonStatistic? {
-        return GluonServer.shared_instance.get_statistic(identifier: identifier)
+    let id:String
+    var type : (any Statistic)? {
+        return GluonServer.shared_instance.get_statistic(identifier: id)
     }
     var value:Float
 }

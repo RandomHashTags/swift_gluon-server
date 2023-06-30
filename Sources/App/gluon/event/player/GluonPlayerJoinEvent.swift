@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonPlayerJoinEvent : PlayerJoinEvent {
-    typealias TargetEventType = GluonEventType
-    
-    let type:GluonEventType = GluonEventType.player_join
+    let type:any EventType = GluonEventType.player_join
     var player:any Player
     var context : [String : ExecutableLogicalContext]? {
         return player.player_executable_context

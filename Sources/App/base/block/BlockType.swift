@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct BlockType : Jsonable {
-    public let identifier:String
+public protocol BlockType : Identifiable where ID == String {
 }

@@ -7,9 +7,7 @@
 
 import Foundation
 
-public struct EnchantmentType : Jsonable {
-    public let identifier:String
-    public let name:MultilingualStrings
-    public var weight:UInt16
-    public var max_level:UInt16
+public protocol EnchantmentType : MultilingualName, Identifiable where ID == String {
+    var weight : UInt16 { get }
+    var max_level : UInt16 { get }
 }

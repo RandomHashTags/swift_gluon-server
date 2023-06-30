@@ -8,43 +8,41 @@
 import Foundation
 import HugeNumbers
 
-struct GluonChunk : Chunk {
-    typealias TargetWorld = GluonWorld
-    typealias TargetBlock = GluonBlock
-    
-    typealias TargetEntity = GluonEntity
-    typealias TargetLivingEntity = GluonLivingEntity
-    typealias TargetPlayer = GluonPlayer
-    
-    var world:TargetWorld
+final class GluonChunk : Chunk {
+    let world:any World
     let x:HugeInt
     let z:HugeInt
     
-    var blocks:Set<TargetBlock>
+    var blocks:[any Block]
     
-    var entities : [TargetEntity] {
-        let entities:[TargetEntity] = world.entities
+    var entities : [any Entity] {
+        let entities:[any Entity] = world.entities
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-    var living_entities : [TargetLivingEntity] {
-        let entities:[TargetLivingEntity] = world.living_entities
+    var living_entities : [any LivingEntity] {
+        let entities:[any LivingEntity] = world.living_entities
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
-    var players : [TargetPlayer] {
-        let entities:[TargetPlayer] = world.players
+    var players : [any Player] {
+        let entities:[any Player] = world.players
         let this_chunk:(HugeInt, HugeInt) = (x, z)
         return entities.filter({ $0.location.chunk_coordinates == this_chunk })
     }
     
-    init(world: TargetWorld, x: HugeInt, z: HugeInt) {
+    init(world: any World, x: HugeInt, z: HugeInt) {
         self.world = world
         self.x = x
         self.z = z
-        blocks = Set<TargetBlock>()
+        blocks = []
     }
     
-    mutating func tick(_ server: any Server) {
+    func tick(_ server: any Server) {
+    }
+    
+    func load() async {
+    }
+    func unload() async {
     }
 }

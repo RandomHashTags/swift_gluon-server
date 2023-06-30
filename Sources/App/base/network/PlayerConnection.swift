@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class PlayerConnection {
+public final class PlayerConnection {
     public static func == (lhs: PlayerConnection, rhs: PlayerConnection) -> Bool {
         return false
     }

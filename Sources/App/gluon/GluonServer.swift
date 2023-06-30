@@ -9,18 +9,6 @@ import Foundation
 import HugeNumbers
 
 final class GluonServer : GluonSharedInstance, Server {
-    typealias TargetWorld = GluonWorld
-    typealias TargetEventType = GluonEventType
-    typealias TargetLocation = GluonLocation
-    typealias TargetEntity = GluonEntity
-    typealias TargetLivingEntity = GluonLivingEntity
-    typealias TargetPlayer = GluonPlayer
-    typealias TargetMaterial = GluonMaterial
-    typealias TargetInventoryType = GluonInventoryType
-    typealias TargetGameMode = GluonGameMode
-    typealias TargetStatistic = GluonStatistic
-    typealias TargetRecipe = GluonRecipe
-    
     var ticks_per_second:UInt8
     var ticks_per_second_multiplier:HugeFloat
     var server_tick_interval_nano:UInt64
@@ -38,28 +26,28 @@ final class GluonServer : GluonSharedInstance, Server {
     var banned_players:Set<BanEntry>
     var banned_ip_addresses:Set<BanEntry>
     
-    var difficulties:[String:Difficulty]
-    var worlds:[String:TargetWorld]
+    var difficulties:[String : any Difficulty]
+    var worlds:[String : any World]
     
-    var event_types:[String:TargetEventType]
+    var event_types:[String : any EventType]
     
-    var sound_categories:Set<SoundCategory>
-    var sounds:Set<Sound>
-    var materials:[String:TargetMaterial]
-    var biomes:Set<Biome>
-    var enchantment_types:[String:EnchantmentType]
-    var entity_types:[String:EntityType]
-    var inventory_types:[String:TargetInventoryType]
-    var potion_effect_types:[String:PotionEffectType]
-    var game_modes:[String:TargetGameMode]
-    var advancements:[String:Advancement]
-    var art:Set<Art>
-    var attributes:Set<Attribute>
-    var instruments:Set<Instrument>
-    var statistics:[String:TargetStatistic]
-    var commands:[String:Command]
-    var permissions:[String:Permission]
-    var recipes:[String:TargetRecipe]
+    var sound_categories:[String : any SoundCategory]
+    var sounds:[String : any Sound]
+    var materials:[String : any Material]
+    var biomes:[String : any Biome]
+    var enchantment_types:[String : any EnchantmentType]
+    var entity_types:[String : any EntityType]
+    var inventory_types:[String : any InventoryType]
+    var potion_effect_types:[String : any PotionEffectType]
+    var game_modes:[String : any GameMode]
+    var advancements:[String : any Advancement]
+    var art:[String : any Art]
+    var attributes:[String : any Attribute]
+    var instruments:[String : any Instrument]
+    var statistics:[String : any Statistic]
+    var commands:[String : any Command]
+    var permissions:[String : any Permission]
+    var recipes:[String : any Recipe]
     
     var event_listeners:[String:[any EventListener]]
     
@@ -78,7 +66,7 @@ final class GluonServer : GluonSharedInstance, Server {
         void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
         fire_damage_per_second = 1
         
-        print("server_ticks_per_second=\(ticks_per_second); 1 every " + ((1000 / Int(ticks_per_second)).description + " milliseconds"))
+        print("server_ticks_per_second=\(ticks_per_second); 1 every \(1000 / Int(ticks_per_second)) milliseconds")
         
         max_players = 1
         port = 25565
@@ -88,7 +76,7 @@ final class GluonServer : GluonSharedInstance, Server {
         banned_ip_addresses = []
         
         difficulties = [
-            "minecraft.normal" : Difficulty(identifier: "minecraft.normal", name: MultilingualStrings(english: "Normal"))
+            "minecraft.normal" : GluonDifficulty(id: "minecraft.normal", name: "Normal")
         ]
         let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
@@ -117,25 +105,25 @@ final class GluonServer : GluonSharedInstance, Server {
         
         event_types = [:]
         
-        sound_categories = []
-        sounds = []
+        sound_categories = [:]
+        sounds = [:]
         materials = [:]
-        biomes = []
+        biomes = [:]
         enchantment_types = [:]
         entity_types = [
-            "minecraft.player" : EntityType(identifier: "minecraft.player", name: MultilingualStrings(english: "Player"), is_affected_by_gravity: true, is_damageable: true, receives_fall_damage: true, no_damage_ticks_maximum: 20, fire_ticks_maximum: 20, freeze_ticks_maximum: 20)
+            "minecraft.player" : GluonEntityType(id: "minecraft.player", name: "Player", is_affected_by_gravity: true, is_damageable: true, receives_fall_damage: true, no_damage_ticks_maximum: 20, fire_ticks_maximum: 20, freeze_ticks_maximum: 20)
         ]
         inventory_types = [:]
         potion_effect_types = [:]
         
-        let survival_game_mode:GluonGameMode = GluonGameMode(identifier: "minecraft.survival", name: MultilingualStrings(english: "Survival"), allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
+        let survival_game_mode:GluonGameMode = GluonGameMode(id: "minecraft.survival", name: "Survival", allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
         game_modes = [
             "minecraft.survival" : survival_game_mode
         ]
         advancements = [:]
-        art = []
-        attributes = []
-        instruments = []
+        art = [:]
+        attributes = [:]
+        instruments = [:]
         statistics = [:]
         commands = [:]
         permissions = [:]
@@ -149,7 +137,7 @@ final class GluonServer : GluonSharedInstance, Server {
     
     func player_joined() {
         let inventory_type:GluonInventoryType = GluonInventoryType(
-            identifier: "minecraft.player_hotbar",
+            id: "minecraft.player_hotbar",
             categories: [],
             size: 9,
             material_category_restrictions: nil,
@@ -192,10 +180,10 @@ final class GluonServer : GluonSharedInstance, Server {
             health: 20,
             health_maximum: 20,
             uuid: UUID(),
-            type: entity_types["minecraft.player"]!,
+            type_id: "minecraft.player",
             ticks_lived: 0,
             boundaries: [],
-            location: TargetLocation(world: worlds.first!.value, x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
+            location: GluonLocation(world: worlds.first!.value, x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
             fall_distance: 0,
             is_glowing: false,
@@ -247,60 +235,61 @@ final class GluonServer : GluonSharedInstance, Server {
 }
 
 extension GluonServer {
-    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity] {
+    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity] {
         return center.world.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
-    func get_entity(uuid: UUID) -> TargetEntity? {
+    func get_entity(uuid: UUID) -> (any Entity)? {
         for (_, world) in worlds {
-            if let entity:TargetEntity = world.entities.first(where: { $0.uuid == uuid }) {
+            if let entity:any Entity = world.entities.first(where: { $0.uuid == uuid }) {
                 return entity
             }
         }
         return nil
     }
-    func get_entities(uuids: Set<UUID>) -> [TargetEntity] {
+    func get_entities(uuids: Set<UUID>) -> [any Entity] {
         return worlds.values.map({ $0.entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
     
-    func get_living_entity(uuid: UUID) -> TargetLivingEntity? {
+    func get_living_entity(uuid: UUID) -> (any LivingEntity)? {
         for (_, world) in worlds {
-            if let entity:TargetLivingEntity = world.living_entities.first(where: { $0.uuid == uuid }) {
+            if let entity:any LivingEntity = world.living_entities.first(where: { $0.uuid == uuid }) {
                 return entity
             }
         }
         return nil
     }
-    func get_living_entities(uuids: Set<UUID>) -> [TargetLivingEntity] {
+    func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity] {
         return worlds.values.map({ $0.living_entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
     
-    func get_player(uuid: UUID) -> TargetPlayer? {
+    func get_player(uuid: UUID) -> (any Player)? {
         for (_, world) in worlds {
-            if let entity:TargetPlayer = world.players.first(where: { $0.uuid == uuid }) {
+            if let entity:any Player = world.players.first(where: { $0.uuid == uuid }) {
                 return entity
             }
         }
         return nil
     }
-    func get_players(uuids: Set<UUID>) -> [TargetPlayer] {
+    func get_players(uuids: Set<UUID>) -> [any Player] {
         return worlds.values.map({ $0.players.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
 }
 
 extension GluonServer {
-    func boot_player(player: TargetPlayer, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
-        let location:TargetLocation = player.location, world:TargetWorld = location.world
-        guard let index:Int = world.players.firstIndex(of: player) else { return }
+    func boot_player(player: any Player, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
+        let location:any Location = player.location, world:any World = location.world
+        let player_uuid:UUID = player.uuid
+        guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
         world.players.remove(at: index)
         player.connection.close()
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {
-            instance.banned_players.insert(BanEntry(target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))
+            instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))
         }
         if ban_ip {
-            instance.banned_ip_addresses.insert(BanEntry(target: "PLAYER_IP_ADDRESS", ban_time: 0, expiration: ban_ip_expiration, reason: reason))
+            instance.banned_ip_addresses.insert(BanEntry(banned_by: UUID(), target: "PLAYER_IP_ADDRESS", ban_time: 0, expiration: ban_ip_expiration, reason: reason))
         }
         // TODO: send packets
     }

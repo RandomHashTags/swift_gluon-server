@@ -7,20 +7,17 @@
 
 import Foundation
 
-public protocol LootTable : Jsonable {
-    associatedtype TargetLootTableEntry : LootTableEntry
-    associatedtype TargetItemStack : ItemStack
+public protocol LootTable {
+    var entries : [any LootTableEntry] { get }
     
-    var entries : [TargetLootTableEntry] { get }
-    
-    var loot_normal : [TargetItemStack]? { get }
+    var loot_normal : [any ItemStack]? { get }
 }
 public extension LootTable {
-    var loot_normal : [TargetItemStack]? {
-        let loot:[TargetItemStack] = entries.compactMap({ entry in
+    var loot_normal : [any ItemStack]? {
+        let loot:[any ItemStack] = entries.compactMap({ entry in
             let chance:UInt8 = UInt8.random(in: 0..<100)
             guard chance <= entry.chance else { return nil }
-            var item:TargetItemStack = entry.item as! Self.TargetItemStack
+            var item:any ItemStack = entry.item
             item.amount = UInt16.random(in: entry.amount_min...entry.amount_max)
             return item
         })

@@ -8,8 +8,5 @@
 import Foundation
 
 struct GluonLootTable : LootTable {
-    typealias TargetLootTableEntry = GluonLootTableEntry
-    typealias TargetItemStack = GluonItemStack
-    
-    let entries:[TargetLootTableEntry]
+    let entries:[any LootTableEntry]
 }

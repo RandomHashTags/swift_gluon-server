@@ -8,9 +8,9 @@
 import Foundation
 
 struct GluonPotionEffect : PotionEffect {
-    let type_identifier:String
-    var type : PotionEffectType? {
-        return GluonServer.shared_instance.get_potion_effect_type(identifier: type_identifier)
+    let type_id:String
+    var type : (any PotionEffectType)? {
+        return GluonServer.shared_instance.get_potion_effect_type(identifier: type_id)
     }
     
     var has_icon:Bool

@@ -7,6 +7,6 @@
 
 import Foundation
 
-public struct Boundary : Jsonable {
+public struct Boundary {
     public let type:BoundaryType
 }

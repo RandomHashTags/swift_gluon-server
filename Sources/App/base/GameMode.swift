@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol GameMode : Jsonable, Identifiable, MultilingualName {    
+public protocol GameMode : MultilingualName, Identifiable where ID == String {    
     var allows_flight : Bool { get }
     
     var can_break_blocks : Bool { get }

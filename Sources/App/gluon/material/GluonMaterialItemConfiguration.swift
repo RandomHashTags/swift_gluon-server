@@ -13,7 +13,7 @@ struct GluonMaterialItemConfiguration : MaterialItemConfiguration {
     let has_durability:Bool
     let durability:UInt
     
-    let consumable:MaterialItemConsumableConfiguration?
+    let consumable:(any MaterialItemConsumableConfiguration)?
     
     let attack_damage:Double
     let attack_durability_damage:UInt

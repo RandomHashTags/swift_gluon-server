@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MaterialBlockGrowableConfiguration : Jsonable {
-    public let maximum_age:UInt8
-    public let minimum_light_level_to_grow:UInt8
+public protocol MaterialBlockGrowableConfiguration {
+    var maximum_age : UInt8 { get }
+    var minimum_light_level_to_grow : UInt8 { get }
 }

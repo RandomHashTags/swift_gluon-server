@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol Statistic : Jsonable, Identifiable, MultilingualName {
+public protocol Statistic : MultilingualName, Identifiable where ID == String {
     var value_type : ValueType { get }
 }

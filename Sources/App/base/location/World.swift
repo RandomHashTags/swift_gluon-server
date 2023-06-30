@@ -8,20 +8,14 @@
 import Foundation
 import HugeNumbers
 
-public protocol World : Jsonable, Tickable {
-    associatedtype TargetChunk : Chunk
-    associatedtype TargetEntity : Entity
-    associatedtype TargetLivingEntity : LivingEntity
-    associatedtype TargetPlayer : Player
-    associatedtype TargetLocation : Location
-    
+public protocol World : AnyObject, Hashable, Tickable {
     var uuid : UUID { get }
     var seed : Int64 { get }
     var name : String { get }
     
     var spawn_location : Vector { get set }
-    var difficulty : Difficulty { get set }
-    var game_rules : Set<GameRule> { get set }
+    var difficulty : any Difficulty { get set }
+    var game_rules : [any GameRule] { get set }
     var time : UInt64 { get set }
     var border : WorldBorder? { get set }
     
@@ -29,7 +23,7 @@ public protocol World : Jsonable, Tickable {
     var y_max : HugeFloat { get set }
     var y_sea_level : HugeFloat { get set }
     
-    var chunks_loaded : [TargetChunk] { get set }
+    var chunks_loaded : [any Chunk] { get set }
     
     var allows_animals : Bool { get set }
     var allows_monsters : Bool { get set }
@@ -37,34 +31,34 @@ public protocol World : Jsonable, Tickable {
     
     var beds_work : Bool { get set}
     
-    var entities : [TargetEntity] { get set }
-    var living_entities : [TargetLivingEntity] { get set }
-    var players : [TargetPlayer] { get set }
+    var entities : [any Entity] { get set }
+    var living_entities : [any LivingEntity] { get set }
+    var players : [any Player] { get set }
     
     func equals(_ world: any World) -> Bool
-    mutating func load_chunk(x: HugeInt, z: HugeInt) async
-    mutating func unload_chunk(x: HugeInt, z: HugeInt) async
+    func load_chunk(x: HugeInt, z: HugeInt) async
+    func unload_chunk(x: HugeInt, z: HugeInt) async
     
-    mutating func spawn_entity(_ entity: TargetEntity)
-    mutating func remove_entity(_ entity: TargetEntity)
+    func spawn_entity(_ entity: any Entity)
+    func remove_entity(_ entity: any Entity)
     
-    mutating func spawn_living_entity(_ entity: TargetLivingEntity)
-    mutating func remove_living_entity(_ entity: TargetLivingEntity)
+    func spawn_living_entity(_ entity: any LivingEntity)
+    func remove_living_entity(_ entity: any LivingEntity)
     
-    mutating func spawn_player(_ entity: TargetPlayer)
-    mutating func remove_player(_ entity: TargetPlayer)
+    func spawn_player(_ entity: any Player)
+    func remove_player(_ entity: any Player)
     
-    func get_nearby_entities(center: TargetLocation, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [TargetEntity]
-    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity]
+    func get_nearby_entities(center: any Location, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [any Entity]
+    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity]
     
-    func get_entity(uuid: UUID) -> TargetEntity?
-    func get_entities(uuids: Set<UUID>) -> [TargetEntity]
+    func get_entity(uuid: UUID) -> (any Entity)?
+    func get_entities(uuids: Set<UUID>) -> [any Entity]
     
-    func get_living_entity(uuid: UUID) -> TargetLivingEntity?
-    func get_living_entities(uuids: Set<UUID>) -> [TargetLivingEntity]
+    func get_living_entity(uuid: UUID) -> (any LivingEntity)?
+    func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity]
     
-    func get_player(uuid: UUID) -> TargetPlayer?
-    func get_players(uuids: Set<UUID>) -> [TargetPlayer]
+    func get_player(uuid: UUID) -> (any Player)?
+    func get_players(uuids: Set<UUID>) -> [any Player]
 }
 
 public extension World {
@@ -81,7 +75,7 @@ public extension World {
     func equals(_ world: any World) -> Bool {
         return uuid == world.uuid && seed == world.seed && name.elementsEqual(world.name)
     }
-    mutating func tick(_ server: any Server) {
+    func tick(_ server: any Server) {
         for index in chunks_loaded.indices {
             chunks_loaded[index].tick(server)
         }
@@ -98,62 +92,65 @@ public extension World {
     }
     
     func save() {
-        for chunk in chunks_loaded {
+        /*for chunk in chunks_loaded {
             chunk.save()
         }
         for entity in entities {
             entity.save()
-        }
+        }*/
     }
 }
 public extension World {
-    mutating func spawn_entity(_ entity: TargetEntity) {
+    func spawn_entity(_ entity: any Entity) {
         entities.append(entity)
     }
-    mutating func remove_entity(_ entity: TargetEntity) {
-        guard let index:Int = entities.firstIndex(of: entity) else { return }
+    func remove_entity(_ entity: any Entity) {
+        let entity_uuid:UUID = entity.uuid
+        guard let index:Int = entities.firstIndex(where: { $0.uuid == entity_uuid }) else { return }
         entities.remove(at: index)
     }
-    mutating func spawn_living_entity(_ entity: TargetLivingEntity) {
+    func spawn_living_entity(_ entity: any LivingEntity) {
         living_entities.append(entity)
     }
-    mutating func remove_living_entity(_ entity: TargetLivingEntity) {
-        guard let index:Int = living_entities.firstIndex(of: entity) else { return }
+    func remove_living_entity(_ entity: any LivingEntity) {
+        let entity_uuid:UUID = entity.uuid
+        guard let index:Int = living_entities.firstIndex(where: { $0.uuid == entity_uuid }) else { return }
         living_entities.remove(at: index)
     }
-    mutating func spawn_player(_ entity: TargetPlayer) {
-        players.append(entity)
+    func spawn_player(_ player: any Player) {
+        players.append(player)
     }
-    mutating func remove_player(_ entity: TargetPlayer) {
-        guard let index:Int = players.firstIndex(of: entity) else { return }
+    func remove_player(_ player: any Player) {
+        let player_uuid:UUID = player.uuid
+        guard let index:Int = players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
         players.remove(at: index)
     }
     
-    func get_nearby_entities(center: TargetLocation, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [TargetEntity] {
+    func get_nearby_entities(center: any Location, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [any Entity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x, y_radius: y, z_radius: z) })
     }
-    func get_nearby_entities(center: TargetLocation, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [TargetEntity] {
+    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
-    func get_entity(uuid: UUID) -> TargetEntity? {
+    func get_entity(uuid: UUID) -> (any Entity)? {
         return entities.first(where: { $0.uuid == uuid })
     }
-    func get_entities(uuids: Set<UUID>) -> [TargetEntity] {
+    func get_entities(uuids: Set<UUID>) -> [any Entity] {
         return entities.filter({ uuids.contains($0.uuid) })
     }
     
-    func get_living_entity(uuid: UUID) -> TargetLivingEntity? {
+    func get_living_entity(uuid: UUID) -> (any LivingEntity)? {
         return living_entities.first(where: { $0.uuid == uuid })
     }
-    func get_living_entities(uuids: Set<UUID>) -> [TargetLivingEntity] {
+    func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity] {
         return living_entities.filter({ uuids.contains($0.uuid) })
     }
     
-    func get_player(uuid: UUID) -> TargetPlayer? {
+    func get_player(uuid: UUID) -> (any Player)? {
         return players.first(where: { $0.uuid == uuid })
     }
-    func get_players(uuids: Set<UUID>) -> [TargetPlayer] {
+    func get_players(uuids: Set<UUID>) -> [any Player] {
         return players.filter({ uuids.contains($0.uuid) })
     }
 }

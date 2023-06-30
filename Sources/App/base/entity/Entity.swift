@@ -8,18 +8,19 @@
 import Foundation
 import HugeNumbers
 
-public protocol Entity : Nameable, Tickable, Saveable {
-    associatedtype TargetLocation : Location
-    
+public protocol Entity : Nameable, Tickable {
     var uuid : UUID { get }
-    var type : EntityType { get }
+    /// the ``EntityType`` id
+    var type_id : String { get }
+    var type : (any EntityType)? { get }
+    
     var ticks_lived : UInt64 { get set }
     var custom_name : String? { get set }
     var display_name : String? { get set }
     
     var boundaries : [Boundary] { get set }
     /// The current location of this entity.
-    var location : TargetLocation { get set }
+    var location : any Location { get set }
     /// The current velocity of this entity.
     var velocity : Vector { get set }
     /// The total fall distance of this entity, measured in blocks.
@@ -53,17 +54,17 @@ public protocol Entity : Nameable, Tickable, Saveable {
     mutating func remove()
     
     /// Teleport this entity to a certain location.
-    mutating func teleport(_ location: TargetLocation)
+    mutating func teleport(_ location: any Location)
 }
 
 public extension Entity {
     static func == (lhs: any Entity, rhs: any Entity) -> Bool {
-        return lhs.uuid.uuidString.elementsEqual(rhs.uuid.uuidString) && lhs.type == rhs.type
+        return lhs.uuid.uuidString.elementsEqual(rhs.uuid.uuidString) && lhs.type_id == rhs.type_id
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
-        hasher.combine(type)
+        hasher.combine(type_id)
     }
     
     mutating func tick(_ server: any Server) {
@@ -76,7 +77,7 @@ public extension Entity {
         print("entity with uuid " + uuid.description + " has been ticked")
         ticks_lived += 1
         
-        if type.is_affected_by_gravity && !is_on_ground {
+        if let type:any EntityType = type, type.is_affected_by_gravity && !is_on_ground {
             var new_location:HugeFloat = location.y - server.gravity_per_tick
             // TODO: check distance to closest block at Y position
             location.y = new_location
@@ -85,7 +86,7 @@ public extension Entity {
     
     var entity_executable_context : [String:ExecutableLogicalContext] {
         return [
-            "entity_type" : ExecutableLogicalContext(value_type: .string, value: type.identifier),
+            "entity_type" : ExecutableLogicalContext(value_type: .string, value: type_id),
             
             "is_on_fire" : ExecutableLogicalContext(value_type: .boolean, value: is_on_fire),
             "is_on_ground" : ExecutableLogicalContext(value_type: .boolean, value: is_on_ground),
@@ -97,7 +98,7 @@ public extension Entity {
 
 public enum EntityCodingKeys : CodingKey {
     case uuid
-    case type
+    case type_id
     case ticks_lived
     case custom_name
     case display_name

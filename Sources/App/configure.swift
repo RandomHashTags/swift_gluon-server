@@ -36,7 +36,7 @@ public func configure(_ app: Application) throws {
 }
 
 private func test() {
-    let difficulty:Difficulty = Difficulty.init(identifier: "minecraft.normal", name: MultilingualStrings.init(english: "Normal"))
+    let difficulty:any Difficulty = GluonDifficulty(id: "minecraft.normal", name: "Normal")
     let world:GluonWorld = GluonWorld.init(
         uuid: UUID(),
         seed: 420,
@@ -47,7 +47,7 @@ private func test() {
         time: 0,
         y_min: HugeFloat("-64"),
         y_max: HugeFloat("365"),
-        y_sea_level: HugeFloat("0"),
+        y_sea_level: HugeFloat.zero,
         chunks_loaded: [],
         allows_animals: true,
         allows_monsters: true,

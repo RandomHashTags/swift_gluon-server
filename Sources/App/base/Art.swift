@@ -7,8 +7,9 @@
 
 import Foundation
 
-public struct Art : Jsonable {
-    public let identifier:String
-    public let width:UInt
-    public let height:UInt
+public protocol Art : Identifiable where ID == String {
+    /// measured in blocks
+    var width : UInt { get }
+    /// measured in blocks
+    var height : UInt { get }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class Vector : Jsonable {
+public class Vector : Hashable {
     public static func == (lhs: Vector, rhs: Vector) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
     }

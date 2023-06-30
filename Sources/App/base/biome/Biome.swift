@@ -7,7 +7,6 @@
 
 import Foundation
 
-public struct Biome : Jsonable {
-    public let identifier:String
-    public let configuration:BiomeConfiguration
+public protocol Biome : Identifiable where ID == String {
+    var configuration : any BiomeConfiguration { get }
 }

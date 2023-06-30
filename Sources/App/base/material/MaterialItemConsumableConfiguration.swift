@@ -7,10 +7,9 @@
 
 import Foundation
 
-public struct MaterialItemConsumableConfiguration : Jsonable {
-    public let identifier:String
+public protocol MaterialItemConsumableConfiguration : Identifiable where ID == String {
     /// Amount of ticks required of consuming to consider this item to be consumed.
-    public internal(set) var duration:UInt64
+    var duration : UInt64 { get set }
     /// The logic executed when this item is considered consumed.
-    public let executable_logic:[ExecutableLogic]
+    var executable_logic : [ExecutableLogic] { get }
 }

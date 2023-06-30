@@ -8,24 +8,19 @@
 import Foundation
 
 struct GluonPlayerInventory : PlayerInventory {
-    typealias TargetInventoryType = GluonInventoryType
-    typealias TargetItemStack = GluonItemStack
-    typealias TargetMaterial = GluonMaterial
-    typealias TargetPlayer = GluonPlayer
+    var helmet:(any ItemStack)?
+    var chestplate:(any ItemStack)?
+    var leggings:(any ItemStack)?
+    var boots:(any ItemStack)?
     
-    var helmet:TargetItemStack?
-    var chestplate:TargetItemStack?
-    var leggings:TargetItemStack?
-    var boots:TargetItemStack?
+    var item_in_main_hand:(any ItemStack)?
+    var item_in_off_hand:(any ItemStack)?
     
-    var item_in_main_hand:TargetItemStack?
-    var item_in_off_hand:TargetItemStack?
+    var type:any InventoryType
+    var items:[(any ItemStack)?]
+    var viewers:[any Player]
     
-    var type:TargetInventoryType
-    var items:[TargetItemStack?]
-    var viewers:Set<TargetPlayer>
-    
-    init(type: TargetInventoryType, items: [TargetItemStack?], viewers: Set<TargetPlayer>) {
+    init(type: any InventoryType, items: [(any ItemStack)?], viewers: [any Player]) {
         self.type = type
         self.items = items
         self.viewers = viewers

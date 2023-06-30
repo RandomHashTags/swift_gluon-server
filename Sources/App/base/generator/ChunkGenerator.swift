@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct ChunkGenerator : Jsonable {
-    public let identifier:String
+public protocol ChunkGenerator : Identifiable where ID == String {
 }

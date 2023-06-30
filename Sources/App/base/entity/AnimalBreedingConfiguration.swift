@@ -7,8 +7,6 @@
 
 import Foundation
 
-public protocol AnimalBreedingConfiguration : Jsonable, Identifiable {
-    associatedtype TargetItemStack : ItemStack
-    
-    var breed_item : TargetItemStack { get }
+public protocol AnimalBreedingConfiguration : Identifiable where ID == String {
+    var breed_item : any ItemStack { get }
 }

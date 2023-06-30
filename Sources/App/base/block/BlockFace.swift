@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct BlockFace : Jsonable {
-    public let identifier:String
-    public let opposite_face_identifier:String
+public protocol AnyBlockFace : Hashable {
+    var opposite_face_identifier : String { get }
+}
+
+public protocol BlockFace : AnyBlockFace, Identifiable where ID == String {
 }

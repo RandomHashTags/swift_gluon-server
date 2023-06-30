@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct WorldType : Jsonable {
-    public let identifier:String
+public protocol WorldType : Identifiable where ID == String {
 }

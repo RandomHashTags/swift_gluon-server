@@ -8,8 +8,6 @@
 import Foundation
 
 struct GluonAnimalBreedingConfiguration : AnimalBreedingConfiguration {
-    typealias TargetItemStack = GluonItemStack
-    
-    let identifier:String
-    let breed_item:TargetItemStack
+    let id:String
+    let breed_item:any ItemStack
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SemanticVersion : Jsonable, Comparable {
+public struct SemanticVersion : Comparable {
     public static func < (lhs: SemanticVersion, rhs: SemanticVersion) -> Bool {
         let leftMajor:Int = lhs.major, rightMajor:Int = rhs.major
         let leftMinor:Int = lhs.minor, rightMinor:Int = rhs.minor

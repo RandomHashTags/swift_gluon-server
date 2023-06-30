@@ -8,11 +8,6 @@
 import Foundation
 
 public protocol Player : LivingEntity {
-    associatedtype TargetStatisticActive : StatisticActive
-    associatedtype TargetGameMode : GameMode
-    associatedtype TargetPlayerInventory : PlayerInventory
-    associatedtype TargetItemStack : ItemStack
-    
     var connection : PlayerConnection { get }
     
     var name : String { get }
@@ -23,28 +18,28 @@ public protocol Player : LivingEntity {
     var food_level : UInt64 { get set }
     
     var permissions : Set<String> { get set }
-    var statistics : [String:TargetStatisticActive] { get set }
+    var statistics : [String : any StatisticActive] { get set }
     
-    var game_mode : TargetGameMode { get set }
+    var game_mode : any GameMode { get set }
     var is_blocking : Bool { get set }
     var is_flying : Bool { get set }
     var is_op : Bool { get set }
     var is_sneaking : Bool { get set }
     var is_sprinting : Bool { get set }
     
-    var inventory : TargetPlayerInventory { get set }
+    var inventory : any PlayerInventory { get set }
     
-    var player_executable_context : [String:ExecutableLogicalContext] { get }
+    var player_executable_context : [String : ExecutableLogicalContext] { get }
     
     mutating func tick_player(_ server: any Server)
     
     func has_permission(_ permission: String) -> Bool
     
-    mutating func set_game_mode(_ game_mode: TargetGameMode)
+    mutating func set_game_mode(_ game_mode: any GameMode)
     
     func kick(reason: String)
     
-    func consumed(item: inout TargetItemStack)
+    func consumed(item: inout any ItemStack)
 }
 
 public extension Player {
@@ -55,7 +50,7 @@ public extension Player {
     var player_executable_context : [String:ExecutableLogicalContext] {
         var context:[String:ExecutableLogicalContext] = living_entity_executable_context
         context["ping"] = ExecutableLogicalContext(value_type: .short_unsigned, value: connection.ping)
-        context["game_mode"] = ExecutableLogicalContext(value_type: .string, value: game_mode.identifier)
+        context["game_mode"] = ExecutableLogicalContext(value_type: .string, value: game_mode.id)
         context["experience"] = ExecutableLogicalContext(value_type: .long_unsigned, value: experience)
         context["experience_level"] = ExecutableLogicalContext(value_type: .long_unsigned, value: experience_level)
         context["food_level"] = ExecutableLogicalContext(value_type: .long_unsigned, value: food_level)

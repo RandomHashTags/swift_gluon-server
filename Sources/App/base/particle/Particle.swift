@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct Particle : Jsonable {
-    public let identifier:String
+public protocol Particle : Identifiable where ID == String {
 }

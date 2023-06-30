@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct WorldBorder : Jsonable {
-    public var size:Double
-    public var center:Vector
+public protocol WorldBorder {
+    var size : Double { get set }
+    var center : Vector { get set }
     
-    public var warning_distance:UInt
+    var warning_distance : UInt { get set }
 }

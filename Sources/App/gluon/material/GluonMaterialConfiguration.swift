@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonMaterialConfiguration : MaterialConfiguration {
-    typealias TargetMaterialItemConfiguration = GluonMaterialItemConfiguration
-    typealias TargetMaterialBlockConfiguration = GluonMaterialBlockConfiguration
-    
-    let item:TargetMaterialItemConfiguration?
-    let block:TargetMaterialBlockConfiguration?
+    let id:String
+    let item:(any MaterialItemConfiguration)?
+    let block:(any MaterialBlockConfiguration)?
 }

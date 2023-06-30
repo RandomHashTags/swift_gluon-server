@@ -1,0 +1,114 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Adventure" : {
+      "comment" : "A default GameMode type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adventure"
+          }
+        }
+      }
+    },
+    "Creative" : {
+      "comment" : "A default GameMode type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creative"
+          }
+        }
+      }
+    },
+    "Easy" : {
+      "comment" : "A default Difficulty type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Easy"
+          }
+        }
+      }
+    },
+    "Hard" : {
+      "comment" : "A default Difficulty type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hard"
+          }
+        }
+      }
+    },
+    "Hardcore" : {
+      "comment" : "A default Difficulty type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hardcore"
+          }
+        }
+      }
+    },
+    "Normal" : {
+      "comment" : "A default Difficulty type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        }
+      }
+    },
+    "Peaceful" : {
+      "comment" : "A default Difficulty type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peaceful"
+          }
+        }
+      }
+    },
+    "Spectator" : {
+      "comment" : "A default GameMode type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spectator"
+          }
+        }
+      }
+    },
+    "Survival" : {
+      "comment" : "A default GameMode type",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Survival"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

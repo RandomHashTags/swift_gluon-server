@@ -7,25 +7,20 @@
 
 import Foundation
 
-public protocol Block : Jsonable, Tickable, Saveable {
-    associatedtype TargetMaterial : Material
-    associatedtype TargetItemStack : ItemStack
-    associatedtype TargetLocation : Location
-    associatedtype TargetLootTable : LootTable
-    
-    var material_identifier : String { get set }
-    var material : TargetMaterial? { get }
+public protocol Block : Tickable {
+    var material_id : String { get set }
+    var material : (any Material)? { get }
     var light_level : UInt8 { get set }
-    var location : TargetLocation { get set }
+    var location : any Location { get set }
     
     var growable_age : UInt8? { get set }
     
-    var loot_table : TargetLootTable? { get set }
+    var loot_table : (any LootTable)? { get set }
     
     func break_naturally()
-    func is_preferred_tool(_ material: TargetMaterial) -> Bool
+    func is_preferred_tool(_ material: any Material) -> Bool
     /// Measured in ticks.
-    func get_breaking_speed(_ item_stack: TargetItemStack) -> Float
+    func get_breaking_speed(_ item_stack: any ItemStack) -> Float
     /// Measured in ticks.
     func get_breaking_speed(_ player: any Player) -> Float
 }
@@ -35,8 +30,8 @@ public extension Block {
         return growable_age ?? 0 >= material?.configuration.block?.growable?.maximum_age ?? 0
     }
     
-    func is_preferred_tool(_ material: TargetMaterial) -> Bool {
-        let identifier:String = material.identifier
+    func is_preferred_tool(_ material: any Material) -> Bool {
+        let identifier:String = material.id
         return self.material?.configuration.block?.preferred_break_material_identifiers?.contains(identifier) ?? false
     }
 }

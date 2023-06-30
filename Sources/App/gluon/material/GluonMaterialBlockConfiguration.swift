@@ -8,17 +8,11 @@
 import Foundation
 
 struct GluonMaterialBlockConfiguration : MaterialBlockConfiguration {
-    typealias TargetMaterialBlockLiquidConfiguration = GluonMaterialBlockLiquidConfiguration
-    typealias TargetMaterial = GluonMaterial
-    typealias TargetLootTable = GluonLootTable
-    
-    let type:BlockType
-    
     let block_move_reaction:BlockMoveReaction
     
     let growable:MaterialBlockGrowableConfiguration?
     
-    let liquid:TargetMaterialBlockLiquidConfiguration?
+    let liquid:(any MaterialBlockLiquidConfiguration)?
     
     let can_passthrough:Bool
     let passthrough_velocity_dampen_x:Float
@@ -30,10 +24,10 @@ struct GluonMaterialBlockConfiguration : MaterialBlockConfiguration {
     let resistance:Int
     let hardness:Float
     let preferred_break_material_identifiers:Set<String>?
-    var preferred_break_materials : Set<TargetMaterial>? {
+    var preferred_break_materials : [any Material]? {
         guard let identifiers:Set<String> = preferred_break_material_identifiers else { return nil }
         return GluonServer.shared_instance.get_materials(identifiers: identifiers)
     }
     
-    let loot:TargetLootTable?
+    let loot:(any LootTable)?
 }

@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol Nameable : Jsonable {
+public protocol Nameable {
     var custom_name : String? { get set }
 }

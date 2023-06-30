@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct SoundCategory : Jsonable {
-    public let identifier:String
+public protocol SoundCategory : Identifiable where ID == String {
 }

@@ -9,9 +9,7 @@ import Foundation
 import HugeNumbers
 
 struct GluonLocation : Location {
-    typealias TargetWorld = GluonWorld
-    
-    var world:TargetWorld
+    var world:any World
     var x:HugeFloat
     var y:HugeFloat
     var z:HugeFloat

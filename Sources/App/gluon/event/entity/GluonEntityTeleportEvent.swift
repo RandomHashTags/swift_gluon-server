@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonEntityTeleportEvent : EntityTeleportEvent {
-    typealias TargetEventType = GluonEventType
-    
-    let type:TargetEventType = GluonEventType.entity_teleport
+    let type:any EventType = GluonEventType.entity_teleport
     var entity:any Entity
     var new_location:any Location
     var is_cancelled:Bool = false

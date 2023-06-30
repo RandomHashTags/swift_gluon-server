@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonChunkUnloadEvent : ChunkUnloadEvent {
-    typealias TargetEventType = GluonEventType
-    
-    let type:TargetEventType = GluonEventType.chunk_unload
+    let type:any EventType = GluonEventType.chunk_unload
     var chunk:any Chunk
     var is_cancelled:Bool = false
     

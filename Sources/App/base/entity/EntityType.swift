@@ -7,16 +7,13 @@
 
 import Foundation
 
-public struct EntityType : Jsonable {
-    public let identifier:String
-    public let name:MultilingualStrings
+public protocol EntityType : MultilingualName, Identifiable where ID == String {
+    var is_affected_by_gravity : Bool { get }
+    var is_damageable : Bool { get }
     
-    public let is_affected_by_gravity:Bool
-    public let is_damageable:Bool
+    var receives_fall_damage : Bool { get }
     
-    public let receives_fall_damage:Bool
-    
-    public internal(set) var no_damage_ticks_maximum:UInt16
-    public internal(set) var fire_ticks_maximum:UInt16
-    public internal(set) var freeze_ticks_maximum:UInt16
+    var no_damage_ticks_maximum : UInt16 { get set }
+    var fire_ticks_maximum : UInt16 { get set }
+    var freeze_ticks_maximum : UInt16 { get set }
 }

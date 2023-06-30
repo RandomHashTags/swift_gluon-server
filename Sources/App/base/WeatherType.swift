@@ -7,6 +7,5 @@
 
 import Foundation
 
-public struct WeatherType : Jsonable {
-    public let identifier:String
+public protocol WeatherType : Identifiable where ID == String {
 }

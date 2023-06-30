@@ -8,11 +8,11 @@
 import Foundation
 
 struct GluonItemStack : ItemStack {
-    typealias TargetMaterial = GluonMaterial
-    typealias TargetItemMeta = GluonItemMeta
-    
-    var material:TargetMaterial
-    var meta:TargetItemMeta?
+    var material_id:String
+    var material : (any Material)? {
+        return GluonServer.shared_instance.get_material(identifier: material_id)
+    }
+    var meta:(any ItemMeta)?
     var amount:UInt16
     var durability:UInt16
 }

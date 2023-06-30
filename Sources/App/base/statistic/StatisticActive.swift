@@ -7,9 +7,7 @@
 
 import Foundation
 
-public protocol StatisticActive : Jsonable, Identifiable {
-    associatedtype TargetStatistic : Statistic
-    
-    var type : TargetStatistic? { get }
+public protocol StatisticActive : Identifiable where ID == String {
+    var type : (any Statistic)? { get }
     var value : Float { get }
 }

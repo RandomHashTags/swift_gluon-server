@@ -7,13 +7,7 @@
 
 import Foundation
 
-public protocol MaterialBlockConfiguration : Jsonable {
-    associatedtype TargetMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration
-    associatedtype TargetMaterial : Material
-    associatedtype TargetLootTable : LootTable
-    
-    var type : BlockType { get }
-    
+public protocol MaterialBlockConfiguration {
     /// The reaction of this block when moved via in-game mechanics.
     var block_move_reaction : BlockMoveReaction { get }
     
@@ -21,7 +15,7 @@ public protocol MaterialBlockConfiguration : Jsonable {
     var growable : MaterialBlockGrowableConfiguration? { get }
     
     /// The liquid configuration of this block, if it is a liquid.
-    var liquid : TargetMaterialBlockLiquidConfiguration? { get }
+    var liquid : (any MaterialBlockLiquidConfiguration)? { get }
     
     /// If entities can passthrough (walk/sprint/swim through) this block or not.
     var can_passthrough : Bool { get }
@@ -35,8 +29,8 @@ public protocol MaterialBlockConfiguration : Jsonable {
     var resistance : Int { get }
     var hardness : Float { get }
     var preferred_break_material_identifiers : Set<String>? { get }
-    var preferred_break_materials : Set<TargetMaterial>? { get }
+    var preferred_break_materials : [any Material]? { get }
     
     /// The items that can be dropped when this block is broken.
-    var loot : TargetLootTable? { get }
+    var loot : (any LootTable)? { get }
 }

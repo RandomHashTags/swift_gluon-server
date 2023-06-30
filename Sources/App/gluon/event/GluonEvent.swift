@@ -8,8 +8,6 @@
 import Foundation
 
 struct GluonEvent : Event {
-    typealias TargetEventType = GluonEventType
-    
-    var type:TargetEventType
+    var type:any EventType
     var context:[String : ExecutableLogicalContext]?
 }

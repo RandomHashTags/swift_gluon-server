@@ -8,10 +8,8 @@
 import Foundation
 
 public protocol Event {
-    associatedtype TargetEventType : EventType
-    
-    var type:TargetEventType { get }
-    var context:[String:ExecutableLogicalContext]? { get }
+    var type : any EventType { get }
+    var context : [String : ExecutableLogicalContext]? { get }
 }
 
 public extension Event {
@@ -35,7 +33,7 @@ public extension Event {
     func parse_entity_context(key: String, entity: any Entity) -> ExecutableLogicalContext? {
         switch key {
         case "entity_type":
-            return ExecutableLogicalContext(value_type: .string, value: entity.type.identifier)
+            return ExecutableLogicalContext(value_type: .string, value: entity.type_id)
             
         case "is_on_fire":
             return ExecutableLogicalContext(value_type: .boolean, value: entity.is_on_fire)
@@ -79,7 +77,7 @@ public extension Event {
         let values:[Substring] = key.split(separator: "("), value:String = String(values[1].split(separator: ")")[0])
         switch values[0] {
         case "has_potion_effect":
-            return ExecutableLogicalContext(value_type: .boolean, value: entity.potion_effects.values.first(where: { $0.type_identifier.elementsEqual(value) }))
+            return ExecutableLogicalContext(value_type: .boolean, value: entity.potion_effects.values.first(where: { $0.type_id.elementsEqual(value) }))
         default:
             return parse_function_damageable_context(key: key, damageable: entity)
         }

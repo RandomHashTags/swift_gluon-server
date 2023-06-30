@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol PlayerInventory : Inventory {
-    var helmet : TargetItemStack? { get set }
-    var chestplate : TargetItemStack? { get set }
-    var leggings : TargetItemStack? { get set }
-    var boots : TargetItemStack? { get set }
+    var helmet : (any ItemStack)? { get set }
+    var chestplate : (any ItemStack)? { get set }
+    var leggings : (any ItemStack)? { get set }
+    var boots : (any ItemStack)? { get set }
     
-    var item_in_main_hand : TargetItemStack? { get set }
-    var item_in_off_hand : TargetItemStack? { get set }
+    var item_in_main_hand : (any ItemStack)? { get set }
+    var item_in_off_hand : (any ItemStack)? { get set }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Scoreboard : Jsonable {
-    public let objectives:Set<Objective>
-    public let teams:Set<Team>
+public protocol Scoreboard {
+    var objectives : [any Objective] { get set }
+    var teams : [any Team] { get set }
 }

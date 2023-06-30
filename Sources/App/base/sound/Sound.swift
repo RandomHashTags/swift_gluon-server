@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Sound : Jsonable {
-    public let identifier:String
-    public let category:SoundCategory
+public protocol Sound : MultilingualName, Identifiable where ID == String {
+    var category_id : String { get }
+    var category : (any SoundCategory)? { get }
 }

@@ -7,9 +7,8 @@
 
 import Foundation
 
-public struct Command : Jsonable {
-    public let identifier:String
-    public let slug:String
-    public let description:MultilingualStrings
-    public let aliases:Set<String>
+public protocol Command : Hashable, Identifiable where ID == String {
+    var slug : LocalizedStringResource { get }
+    var description : LocalizedStringResource { get }
+    var aliases : Set<LocalizedStringResource> { get }
 }

@@ -8,8 +8,9 @@
 import Foundation
 
 struct GluonRecipe : Recipe {
-    typealias TargetItemStack = GluonItemStack
-    
     var ingredients:[UInt:Set<String>]
-    var result:TargetItemStack
+    var result_id:String
+    var result : (any RecipeResult)? { // TODO: fix
+        return nil
+    }
 }

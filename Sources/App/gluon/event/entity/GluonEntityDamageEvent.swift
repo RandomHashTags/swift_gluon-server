@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonEntityDamageEvent : EntityDamageEvent {
-    typealias TargetEventType = GluonEventType
-    
-    let type:TargetEventType = GluonEventType.entity_damage
+    let type:any EventType = GluonEventType.entity_damage
     var cause:DamageCause
     var amount:Double
     
@@ -31,7 +29,7 @@ struct GluonEntityDamageEvent : EntityDamageEvent {
         var context:[String:ExecutableLogicalContext] = entity.entity_executable_context
         context["damage_amount"] = ExecutableLogicalContext(value_type: .double, value: amount)
         context["will_die"] = ExecutableLogicalContext(value_type: .boolean, value: will_die)
-        context["damage_cause"] = ExecutableLogicalContext(value_type: .string, value: cause.identifier)
+        context["damage_cause"] = ExecutableLogicalContext(value_type: .string, value: cause.id)
         return context
     }
 }

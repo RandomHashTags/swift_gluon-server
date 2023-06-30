@@ -8,9 +8,7 @@
 import Foundation
 
 struct GluonLootTableEntry : LootTableEntry {
-    typealias TargetItemStack = GluonItemStack
-    
-    let item:TargetItemStack
+    let item:any ItemStack
     let amount_min:UInt16, amount_max:UInt16
     let chance:UInt8
 }

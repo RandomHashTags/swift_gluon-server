@@ -7,10 +7,18 @@
 
 import Foundation
 
-public struct GameRule : Jsonable {
-    public let identifier:String
-    public let value_type:ValueType
+public protocol GameRule : Hashable, Identifiable where ID == String {
+    var value_type : ValueType { get }
     
-    public var value_boolean:Bool?
-    public var value_integer:Int?
+    var value_boolean : Bool? { get }
+    var value_integer : Int? { get }
+}
+
+public extension GameRule {
+    static func == (left: any GameRule, right: any GameRule) -> Bool {
+        return left.id == right.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

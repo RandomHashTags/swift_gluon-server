@@ -8,7 +8,7 @@
 import Foundation
 import HugeNumbers
 
-public struct BlockPopulator : Jsonable {
+public struct BlockPopulator {
     
     static func populate(chunk: any Chunk) {
         /*let world:any World = chunk.world, world_name:String = world.name

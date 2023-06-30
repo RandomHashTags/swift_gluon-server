@@ -9,9 +9,6 @@ import Foundation
 import HugeNumbers
 
 struct GluonLivingEntity : LivingEntity {
-    typealias TargetPotionEffect = GluonPotionEffect
-    typealias TargetLocation = GluonLocation
-    
     var can_breathe_underwater:Bool
     var can_pickup_items:Bool
     var has_ai:Bool
@@ -25,7 +22,7 @@ struct GluonLivingEntity : LivingEntity {
     var is_sleeping:Bool
     var is_swimming:Bool
     
-    var potion_effects:[String:GluonPotionEffect]
+    var potion_effects:[String:any PotionEffect]
     var no_damage_ticks:UInt16
     var no_damage_ticks_maximum:UInt16
     
@@ -36,13 +33,16 @@ struct GluonLivingEntity : LivingEntity {
     var health_maximum:Double
     
     var uuid:UUID
-    var type:EntityType
+    var type_id:String
+    var type : (any EntityType)? {
+        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+    }
     var ticks_lived:UInt64
     var custom_name:String?
     var display_name:String?
     
     var boundaries:[Boundary]
-    var location:TargetLocation
+    var location:any Location
     var velocity:Vector
     
     var fall_distance:Float
@@ -69,6 +69,7 @@ struct GluonLivingEntity : LivingEntity {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
+    /*
     init(from decoder: Decoder) throws {
         let living_entity_container:KeyedDecodingContainer = try decoder.container(keyedBy: LivingEntityCodingKeys.self)
         self.can_breathe_underwater = try living_entity_container.decode(Bool.self, forKey: .can_breathe_underwater)
@@ -113,5 +114,5 @@ struct GluonLivingEntity : LivingEntity {
         self.freeze_ticks_maximum = try entity_container.decode(UInt16.self, forKey: .freeze_ticks_maximum)
         self.passenger_uuids = try entity_container.decode(Set<UUID>.self, forKey: .passenger_uuids)
         self.vehicle_uuid = try entity_container.decodeIfPresent(UUID.self, forKey: .vehicle_uuid)
-    }
+    }*/
 }

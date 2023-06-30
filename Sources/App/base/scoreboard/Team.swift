@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct Team : Jsonable {
-    public let name:String
-    public var display_name:String
-    public var prefix:String
-    public var suffix:String
+public protocol Team {
+    var name : String { get set }
+    var display_name : String { get set }
+    var prefix : String { get set }
+    var suffix : String { get set }
     
-    public var allows_friendly_fire:Bool
-    public var can_see_friendly_invisibles:Bool
+    var allows_friendly_fire : Bool { get set }
+    var can_see_friendly_invisibles : Bool { get set }
 }

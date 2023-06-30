@@ -7,8 +7,20 @@
 
 import Foundation
 
-public protocol MaterialCategory : Jsonable, Identifiable {
-    associatedtype TargetMaterialConfiguration : MaterialConfiguration
+public protocol MaterialCategory : Hashable, Identifiable where ID == String {
+    var configuration_id : String { get }
+    var configuration : (any MaterialConfiguration)? { get }
+}
+
+public extension MaterialCategory {
+    static func == (left: any MaterialCategory, right: any MaterialCategory) -> Bool {
+        return left.id.elementsEqual(right.id)
+    }
+    static func == (left: Self, right: Self) -> Bool {
+        return left == right
+    }
     
-    var configuration : TargetMaterialConfiguration { get }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
