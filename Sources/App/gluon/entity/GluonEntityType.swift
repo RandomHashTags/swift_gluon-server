@@ -9,7 +9,7 @@ import Foundation
 
 struct GluonEntityType : EntityType {
     let id:String
-    let name:LocalizedStringResource
+    let name:String
     
     let is_affected_by_gravity:Bool
     let is_damageable:Bool

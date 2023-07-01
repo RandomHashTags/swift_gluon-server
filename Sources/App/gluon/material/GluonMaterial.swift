@@ -9,7 +9,7 @@ import Foundation
 
 struct GluonMaterial : Material {
     let id:String
-    let name:LocalizedStringResource
+    let name:String
     let categories:[any MaterialCategory]
     let configuration:any MaterialConfiguration
     

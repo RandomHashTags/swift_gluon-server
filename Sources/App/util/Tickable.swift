@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol Tickable {
-    /// The logic executed per server tick.
+    /// Logic executed per server tick.
     mutating func tick(_ server: any Server)
 }

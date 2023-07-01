@@ -133,8 +133,16 @@ final class GluonServer : GluonSharedInstance, Server {
         attributes = [:]
         instruments = [:]
         statistics = [:]
+        
         commands = [:]
+        for command in DefaultCommands.allCases {
+            commands[command.id] = command
+        }
+        
         permissions = [:]
+        for permission in DefaultPermissions.allCases {
+            permissions[permission.id] = permission
+        }
         
         recipes = [:]
         

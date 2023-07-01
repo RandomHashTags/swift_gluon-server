@@ -8,9 +8,12 @@
 import Foundation
 
 public protocol Command : Hashable, Identifiable where ID == String {
-    var label : LocalizedStringResource { get }
-    var description : LocalizedStringResource { get }
-    var aliases : Set<LocalizedStringResource> { get }
+    var label : String { get }
+    var description : String { get }
+    var aliases : Set<String> { get }
     var permission : any Permission { get }
-    var permission_message : LocalizedStringResource { get }
+    var permission_message : String { get }
+    
+    func execute(_ sender: any CommandSender)
+    func get_options(_ sender: any CommandSender, index: Int) -> [String]
 }

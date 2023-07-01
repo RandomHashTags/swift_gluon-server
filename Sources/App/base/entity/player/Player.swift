@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Player : LivingEntity, CommandSender {
+public protocol Player : LivingEntity, CommandSender, Permissible {
     var connection : PlayerConnection { get }
     
     var list_name : String? { get set }
@@ -16,7 +16,6 @@ public protocol Player : LivingEntity, CommandSender {
     var experience_level : UInt64 { get set }
     var food_level : UInt64 { get set }
     
-    var permissions : Set<String> { get set }
     var statistics : [String : any StatisticActive] { get set }
     
     var game_mode : any GameMode { get set }
@@ -32,8 +31,6 @@ public protocol Player : LivingEntity, CommandSender {
     var player_executable_context : [String : ExecutableLogicalContext] { get }
     
     mutating func tick_player(_ server: any Server)
-    
-    func has_permission(_ permission: String) -> Bool
     
     mutating func set_game_mode(_ game_mode: any GameMode)
     

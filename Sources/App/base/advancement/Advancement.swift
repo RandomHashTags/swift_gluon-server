@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol Advancement : MultilingualName, Identifiable where ID == String {
-    var description : LocalizedStringResource { get }
+    var description : String { get }
     var criteria : [String] { get }
 }

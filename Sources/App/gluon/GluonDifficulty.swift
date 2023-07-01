@@ -9,6 +9,6 @@ import Foundation
 
 struct GluonDifficulty : Difficulty {
     let id:String
-    let name:LocalizedStringResource
+    let name:String
     let damage_multiplier:Double
 }

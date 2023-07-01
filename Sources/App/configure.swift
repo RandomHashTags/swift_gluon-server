@@ -97,3 +97,8 @@ private func start_server(_ app: Application) {
         server.player_joined()
     }
 }
+
+func get_localized_string(key: String, table: String) -> String {
+    let value:String.LocalizationValue = String.LocalizationValue(stringLiteral: key)
+    return String(localized: value, table: table, bundle: Bundle.module)
+}

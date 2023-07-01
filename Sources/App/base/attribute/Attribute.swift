@@ -9,7 +9,5 @@ import Foundation
 
 public protocol Attribute : MultilingualName, Identifiable where ID == String {
     var base_value : Double { get set }
-    
-    var value : Double { get set }
-    var default_value : Double { get set }
+    var description : String { get }
 }

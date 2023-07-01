@@ -9,6 +9,6 @@ import Foundation
 
 struct GluonStatistic : Statistic {
     let id:String
-    let name:LocalizedStringResource
+    let name:String
     let value_type:ValueType
 }

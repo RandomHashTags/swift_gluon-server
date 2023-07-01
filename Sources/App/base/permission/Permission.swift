@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol Permission : Identifiable where ID == String {
-    var description : LocalizedStringResource { get }
     var children : Set<String> { get }
     var default_value : any PermissionDefaultValue { get }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 struct GluonGameMode : GameMode {
     let id:String
-    let name:LocalizedStringResource
+    let name:String
     
     let allows_flight:Bool
     
