@@ -8,7 +8,7 @@
 import Foundation
 import HugeNumbers
 
-public protocol Entity : Nameable, Tickable {
+public protocol Entity : AnyObject, Nameable, Tickable {
     var uuid : UUID { get }
     /// the ``EntityType`` id
     var type_id : String { get }
@@ -48,13 +48,13 @@ public protocol Entity : Nameable, Tickable {
     
     var entity_executable_context : [String:ExecutableLogicalContext] { get }
     
-    mutating func tick_entity(_ server: any Server)
+    func tick_entity(_ server: any Server)
     
     /// Removes this entity from the server. Like it never existed (or "despawned").
-    mutating func remove()
+    func remove()
     
     /// Teleport this entity to a certain location.
-    mutating func teleport(_ location: any Location)
+    func teleport(_ location: any Location)
 }
 
 public extension Entity {
@@ -67,13 +67,13 @@ public extension Entity {
         hasher.combine(type_id)
     }
     
-    mutating func tick(_ server: any Server) {
+    func tick(_ server: any Server) {
         tick_entity(server)
     }
-    mutating func tick_entity(_ server: any Server) {
+    func tick_entity(_ server: any Server) {
         default_tick_entity(server)
     }
-    mutating func default_tick_entity(_ server: any Server) {
+    func default_tick_entity(_ server: any Server) {
         print("entity with uuid \(uuid) has been ticked")
         ticks_lived += 1
         
@@ -93,6 +93,21 @@ public extension Entity {
             
             "ticks_lived" : ExecutableLogicalContext(value_type: .long_unsigned, value: ticks_lived)
         ]
+    }
+    
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        fire_ticks /= divisor
+        fire_ticks_maximum /= divisor
+        
+        freeze_ticks /= divisor
+        freeze_ticks_maximum /= divisor
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        fire_ticks *= multiplier
+        fire_ticks_maximum *= multiplier
+        
+        freeze_ticks *= multiplier
+        freeze_ticks_maximum *= multiplier
     }
 }
 

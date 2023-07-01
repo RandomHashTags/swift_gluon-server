@@ -7,18 +7,19 @@
 
 import Foundation
 
+/*
 extension GluonLivingEntity {
-    mutating func damage_damageable(cause: DamageCause, amount: Double) -> DamageResult {
-        return damage_gluon_damageable(&self, cause: cause, amount: amount)
+    func damage_damageable(cause: DamageCause, amount: Double) -> DamageResult {
+        return damage_gluon_damageable(self, cause: cause, amount: amount)
     }
 }
 extension GluonPlayer {
-    mutating func damage_damageable(cause: DamageCause, amount: Double) -> DamageResult {
-        return damage_gluon_damageable(&self, cause: cause, amount: amount)
+    func damage_damageable(cause: DamageCause, amount: Double) -> DamageResult {
+        return damage_gluon_damageable(self, cause: cause, amount: amount)
     }
 }
 
-private func damage_gluon_damageable<T: Damageable>(_ damageable: inout T, cause: DamageCause, amount: Double) -> DamageResult {
+private func damage_gluon_damageable(_ damageable: inout any Damageable, cause: DamageCause, amount: Double) -> DamageResult {
     let new_health:Double = max(0, min(damageable.health-amount, damageable.health_maximum))
     let event:GluonEntityDamageEvent = GluonEntityDamageEvent(entity: damageable, cause: cause, amount: amount)
     GluonServer.shared_instance.call_event(event: event)
@@ -34,3 +35,4 @@ private func damage_gluon_damageable<T: Damageable>(_ damageable: inout T, cause
     }
     return DamageResult.success(.normal)
 }
+*/

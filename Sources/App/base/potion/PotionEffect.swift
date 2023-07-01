@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol PotionEffect : Tickable {
+public protocol PotionEffect : AnyObject, Tickable {
     var type_id : String { get }
     var type : (any PotionEffectType)? { get }
     var has_icon : Bool { get set }
@@ -28,5 +28,12 @@ public extension PotionEffect {
         hasher.combine(type_id)
         hasher.combine(amplifier)
         hasher.combine(duration)
+    }
+    
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        duration /= divisor
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        duration *= multiplier
     }
 }

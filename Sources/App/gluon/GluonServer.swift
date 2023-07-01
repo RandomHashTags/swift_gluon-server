@@ -232,9 +232,59 @@ final class GluonServer : GluonSharedInstance, Server {
         }
     }
     func set_tick_rate(ticks_per_second: UInt8) {
-        self.ticks_per_second = ticks_per_second
+        let previous_ticks_per_second:UInt8 = self.ticks_per_second
+        let was_slowed:Bool = ticks_per_second < previous_ticks_per_second
+        
+        if ticks_per_second != 20 {
+            ticks_per_second_multiplier = HugeFloat("\(ticks_per_second / 20)")
+        }
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         gravity_per_tick = gravity / Double(ticks_per_second)
+        
+        if was_slowed {
+            server_tps_slowed(to: ticks_per_second, divisor: UInt16(previous_ticks_per_second / ticks_per_second))
+        } else {
+            server_tps_increased(to: ticks_per_second, multiplier: UInt16(ticks_per_second / previous_ticks_per_second))
+        }
+        self.ticks_per_second = ticks_per_second
+    }
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        for (_, entity_type) in entity_types {
+            entity_type.server_tps_slowed(to: tps, divisor: divisor)
+        }
+        
+        for (_, material) in materials {
+            let configuration:any MaterialConfiguration = material.configuration
+            if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
+                test.server_tps_slowed(to: tps, divisor: divisor)
+            }
+            if let test:any MaterialBlockLiquidConfiguration = configuration.block?.liquid {
+                test.server_tps_slowed(to: tps, divisor: divisor)
+            }
+        }
+        
+        for (_, world) in worlds {
+            world.server_tps_slowed(to: tps, divisor: divisor)
+        }
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        for (_, entity_type) in entity_types {
+            entity_type.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+        
+        for (_, material) in materials {
+            let configuration:any MaterialConfiguration = material.configuration
+            if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
+                test.server_tps_increased(to: tps, multiplier: multiplier)
+            }
+            if let test:any MaterialBlockLiquidConfiguration = configuration.block?.liquid {
+                test.server_tps_increased(to: tps, multiplier: multiplier)
+            }
+        }
+        
+        for (_, world) in worlds {
+            world.server_tps_increased(to: tps, multiplier: multiplier)
+        }
     }
     
     /*func save() {

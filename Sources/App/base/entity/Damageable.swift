@@ -14,9 +14,9 @@ public protocol Damageable : Entity {
     
     var damageable_executable_context : [String:ExecutableLogicalContext] { get }
     
-    mutating func tick_damageable(_ server: any Server)
+    func tick_damageable(_ server: any Server)
     
-    mutating func damage_damageable(cause: DamageCause, amount: Double) -> DamageResult
+    func damage(cause: DamageCause, amount: Double) -> DamageResult
 }
 public extension Damageable {
     
@@ -27,18 +27,18 @@ public extension Damageable {
         return context
     }
     
-    mutating func tick(_ server: any Server) {
+    func tick(_ server: any Server) {
         tick_damageable(server)
     }
-    mutating func tick_damageable(_ server: any Server) {
+    func tick_damageable(_ server: any Server) {
         default_tick_damageable(server)
     }
-    mutating func default_tick_damageable(_ server: any Server) {
+    func default_tick_damageable(_ server: any Server) {
         print("damageable with uuid " + uuid.uuidString + " has been ticked")
         if fire_ticks > 0 {
             fire_ticks -= 1
             if fire_ticks != 0 && fire_ticks % UInt16(server.ticks_per_second) == 0 {
-                let result:DamageResult = damage_damageable(cause: DamageCause.fire_tick, amount: server.fire_damage_per_second)
+                let result:DamageResult = damage(cause: DamageCause.fire_tick, amount: server.fire_damage_per_second)
             }
         }
         if freeze_ticks > 0 {
@@ -48,10 +48,27 @@ public extension Damageable {
         let world:any World = location.world
         let y:HugeFloat = location.y
         if y < world.y_min {
-            let result:DamageResult = damage_damageable(cause: DamageCause.void, amount: server.void_damage_per_tick)
+            let result:DamageResult = damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
         }
         
         tick_entity(server)
+    }
+    
+    func damage(cause: DamageCause, amount: Double) -> DamageResult {
+        let new_health:Double = max(0, min(health-amount, health_maximum))
+        let event:GluonEntityDamageEvent = GluonEntityDamageEvent(entity: self, cause: cause, amount: amount)
+        GluonServer.shared_instance.call_event(event: event)
+        guard !event.is_cancelled else {
+            return DamageResult.failure(.cancelled)
+        }
+        health = new_health
+        guard health != 0 else {
+            // TODO: finish
+            let event:GluonEntityDeathEvent = GluonEntityDeathEvent(entity: self)
+            GluonServer.shared_instance.call_event(event: event)
+            return DamageResult.success(.killed)
+        }
+        return DamageResult.success(.normal)
     }
 }
 

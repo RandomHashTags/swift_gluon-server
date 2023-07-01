@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Tickable {
+public protocol Tickable : ServerTickChangeListener {
     /// Logic executed per server tick.
     mutating func tick(_ server: any Server)
 }

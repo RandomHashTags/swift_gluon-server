@@ -26,6 +26,19 @@ public protocol Chunk : AnyObject, Tickable {
 }
 
 public extension Chunk {
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        for block in blocks {
+            block.server_tps_slowed(to: tps, divisor: divisor)
+        }
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        for block in blocks {
+            block.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+    }
+}
+
+public extension Chunk {
     static func == (lhs: any Chunk, rhs: any Chunk) -> Bool {
         return lhs.world.equals(rhs.world) && lhs.x == rhs.x && lhs.z == rhs.z
     }

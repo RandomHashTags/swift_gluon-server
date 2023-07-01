@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GluonEntityType : EntityType {
+final class GluonEntityType : EntityType {
     let id:String
     let name:String
     
@@ -19,4 +19,24 @@ struct GluonEntityType : EntityType {
     var no_damage_ticks_maximum:UInt16
     var fire_ticks_maximum:UInt16
     var freeze_ticks_maximum:UInt16
+    
+    init(
+        id: String,
+        name: String,
+        is_affected_by_gravity: Bool,
+        is_damageable: Bool,
+        receives_fall_damage: Bool,
+        no_damage_ticks_maximum: UInt16,
+        fire_ticks_maximum: UInt16,
+        freeze_ticks_maximum: UInt16
+    ) {
+        self.id = id
+        self.name = name
+        self.is_affected_by_gravity = is_affected_by_gravity
+        self.is_damageable = is_damageable
+        self.receives_fall_damage = receives_fall_damage
+        self.no_damage_ticks_maximum = no_damage_ticks_maximum
+        self.fire_ticks_maximum = fire_ticks_maximum
+        self.freeze_ticks_maximum = freeze_ticks_maximum
+    }
 }

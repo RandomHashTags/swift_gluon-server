@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct GluonMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration {
-    let distances_per_tick:[String:Double]
+final class GluonMaterialBlockLiquidConfiguration : MaterialBlockLiquidConfiguration {
+    var distances_per_tick:[String:Double]
     
-    func distance_per_tick(_ world: any World) -> Double {
-        return distances_per_tick[world.name] ?? 0
+    init(distances_per_tick: [String:Double]) {
+        self.distances_per_tick = distances_per_tick
     }
 }

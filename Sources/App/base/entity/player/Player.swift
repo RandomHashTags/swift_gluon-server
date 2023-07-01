@@ -30,9 +30,9 @@ public protocol Player : LivingEntity, CommandSender, Permissible {
     
     var player_executable_context : [String : ExecutableLogicalContext] { get }
     
-    mutating func tick_player(_ server: any Server)
+    func tick_player(_ server: any Server)
     
-    mutating func set_game_mode(_ game_mode: any GameMode)
+    func set_game_mode(_ game_mode: any GameMode)
     
     func kick(reason: String)
     
@@ -60,18 +60,34 @@ public extension Player {
         return context
     }
     
-    mutating func tick(_ server: any Server) {
+    func tick(_ server: any Server) {
         tick_player(server)
     }
-    mutating func tick_player(_ server: any Server) {
+    func tick_player(_ server: any Server) {
         default_tick_player(server)
     }
-    mutating func default_tick_player(_ server: any Server) {
+    func default_tick_player(_ server: any Server) {
         print("player " + name + " has been ticked")
         tick_living_entity(server)
     }
     
     func has_permission(_ permission: String) -> Bool {
         return permissions.contains(permission)
+    }
+}
+
+public extension Player {
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        player_server_tps_slowed(to: tps, divisor: divisor)
+    }
+    internal func player_server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        player_server_tps_increased(to: tps, multiplier: divisor)
+    }
+    
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        player_server_tps_increased(to: tps, multiplier: multiplier)
+    }
+    internal func player_server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        living_entity_server_tps_increased(to: tps, multiplier: multiplier)
     }
 }

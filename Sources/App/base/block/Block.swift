@@ -39,3 +39,12 @@ public extension Block {
         return self.material?.configuration.block?.preferred_break_material_identifiers?.contains(identifier) ?? false
     }
 }
+
+public extension Block {
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        // TODO: fix?
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        // TODO: fix?
+    }
+}

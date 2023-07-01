@@ -100,6 +100,38 @@ public extension World {
         }
     }*/
 }
+
+public extension World {
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        for entity in entities {
+            entity.server_tps_slowed(to: tps, divisor: divisor)
+        }
+        for entity in living_entities {
+            entity.server_tps_slowed(to: tps, divisor: divisor)
+        }
+        for entity in players {
+            entity.server_tps_slowed(to: tps, divisor: divisor)
+        }
+        for chunk in chunks_loaded {
+            chunk.server_tps_slowed(to: tps, divisor: divisor)
+        }
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        for entity in entities {
+            entity.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+        for entity in living_entities {
+            entity.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+        for entity in players {
+            entity.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+        for chunk in chunks_loaded {
+            chunk.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+    }
+}
+
 public extension World {
     func spawn_entity(_ entity: any Entity) {
         entities.append(entity)

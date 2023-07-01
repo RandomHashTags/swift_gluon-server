@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GluonPlayer : Player {
+final class GluonPlayer : Player {
     let connection:PlayerConnection
     
     var name:String
@@ -48,8 +48,8 @@ struct GluonPlayer : Player {
     var no_damage_ticks:UInt16
     var no_damage_ticks_maximum:UInt16
     
-    var air_remaining:UInt16
-    var air_maximum:UInt16
+    var air_remaining_ticks:UInt16
+    var air_maximum_ticks:UInt16
     
     var health:Double
     var health_maximum:Double
@@ -92,7 +92,7 @@ struct GluonPlayer : Player {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    mutating func set_game_mode(_ game_mode: any GameMode) {
+    func set_game_mode(_ game_mode: any GameMode) {
         guard !self.game_mode.id.elementsEqual(game_mode.id) else { return }
         let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
         GluonServer.shared_instance.call_event(event: event)
@@ -119,8 +119,7 @@ struct GluonPlayer : Player {
     func send(message: String) async {
         await GluonServer.shared_instance.chat_manager.send(sender: name, message: message)
     }
-}
-extension GluonPlayer {
+    
     init(
         connection: PlayerConnection,
         name: String,
@@ -200,8 +199,8 @@ extension GluonPlayer {
         self.potion_effects = potion_effects
         self.no_damage_ticks = no_damage_ticks
         self.no_damage_ticks_maximum = no_damage_ticks_maximum
-        self.air_remaining = air_remaining
-        self.air_maximum = air_maximum
+        self.air_remaining_ticks = air_remaining
+        self.air_maximum_ticks = air_maximum
         self.health = health
         self.health_maximum = health_maximum
         self.uuid = uuid
