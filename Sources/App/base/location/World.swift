@@ -76,18 +76,18 @@ public extension World {
         return uuid == world.uuid && seed == world.seed && name.elementsEqual(world.name)
     }
     func tick(_ server: any Server) {
-        for index in chunks_loaded.indices {
-            chunks_loaded[index].tick(server)
+        for chunk in chunks_loaded {
+            chunk.tick(server)
         }
         
-        for index in entities.indices {
-            entities[index].tick(server)
+        for entity in entities {
+            entity.tick(server)
         }
-        for index in living_entities.indices {
-            living_entities[index].tick(server)
+        for entity in living_entities {
+            entity.tick(server)
         }
-        for index in players.indices {
-            players[index].tick(server)
+        for entity in players {
+            entity.tick(server)
         }
     }
     

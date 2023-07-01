@@ -8,7 +8,7 @@
 import Foundation
 import HugeNumbers
 
-public protocol Server : Tickable {
+public protocol Server : AnyObject, Tickable {
     
     var chat_manager : ChatManager { get }
     var version : SemanticVersion { get }
@@ -19,9 +19,9 @@ public protocol Server : Tickable {
     var server_is_awake : Bool { get }
     var server_loop : Task<Void, Error>! { get }
     var gravity : HugeFloat { get }
-    var gravity_per_tick : HugeFloat { get }
-    var void_damage_per_tick : Double { get }
-    var fire_damage_per_second : Double { get }
+    var gravity_per_tick : HugeFloat { get set }
+    var void_damage_per_tick : Double { get set }
+    var fire_damage_per_second : Double { get set }
     
     var max_players : UInt64 { get set }
     var port : Int { get }
@@ -56,7 +56,7 @@ public protocol Server : Tickable {
     var event_listeners : [String : [any EventListener]] { get set }
     
     func set_tick_rate(ticks_per_second: UInt8)
-    mutating func wake_up()
+    func wake_up()
     
     func call_event(event: some Event)
     
@@ -74,6 +74,57 @@ public protocol Server : Tickable {
 
 
 public extension Server {
+    func tick(_ server: any Server) {
+        for (_, world) in worlds {
+            world.tick(server)
+        }
+    }
+    
+    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
+        gravity_per_tick *= HugeFloat("\(divisor)")
+        void_damage_per_tick *= Double(divisor)
+        
+        for (_, entity_type) in entity_types {
+            entity_type.server_tps_slowed(to: tps, divisor: divisor)
+        }
+        
+        for (_, material) in materials {
+            let configuration:any MaterialConfiguration = material.configuration
+            if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
+                test.server_tps_slowed(to: tps, divisor: divisor)
+            }
+            if let test:any MaterialBlockLiquidConfiguration = configuration.block?.liquid {
+                test.server_tps_slowed(to: tps, divisor: divisor)
+            }
+        }
+        
+        for (_, world) in worlds {
+            world.server_tps_slowed(to: tps, divisor: divisor)
+        }
+    }
+    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
+        gravity_per_tick /= HugeFloat("\(multiplier)")
+        void_damage_per_tick /= Double(multiplier)
+        
+        for (_, entity_type) in entity_types {
+            entity_type.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+        
+        for (_, material) in materials {
+            let configuration:any MaterialConfiguration = material.configuration
+            if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
+                test.server_tps_increased(to: tps, multiplier: multiplier)
+            }
+            if let test:any MaterialBlockLiquidConfiguration = configuration.block?.liquid {
+                test.server_tps_increased(to: tps, multiplier: multiplier)
+            }
+        }
+        
+        for (_, world) in worlds {
+            world.server_tps_increased(to: tps, multiplier: multiplier)
+        }
+    }
+    
     func call_event(event: some Event) {
         guard let event_listeners:[any EventListener] = event_listeners[event.type.id] else { return }
         for listener in event_listeners {
@@ -86,7 +137,7 @@ public extension Server {
     func get_event_type(identifier: String) -> (any EventType)? {
         return event_types[identifier]
     }
-    mutating func register_event_type<T: EventType>(type: T) throws {
+    func register_event_type(type: any EventType) throws {
         event_types[type.id] = type
     }
     
@@ -138,5 +189,47 @@ public extension Server {
     func get_recipes(identifiers: any Collection<String>) -> [any Recipe]? {
         let map:[any Recipe] = identifiers.compactMap({ recipes[$0] })
         return map.isEmpty ? nil : map
+    }
+}
+
+public extension Server {
+    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity] {
+        return center.world.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
+    }
+    
+    func get_entity(uuid: UUID) -> (any Entity)? {
+        for (_, world) in worlds {
+            if let entity:any Entity = world.entities.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
+        }
+        return nil
+    }
+    func get_entities(uuids: Set<UUID>) -> [any Entity] {
+        return worlds.values.map({ $0.entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
+    }
+    
+    func get_living_entity(uuid: UUID) -> (any LivingEntity)? {
+        for (_, world) in worlds {
+            if let entity:any LivingEntity = world.living_entities.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
+        }
+        return nil
+    }
+    func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity] {
+        return worlds.values.map({ $0.living_entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
+    }
+    
+    func get_player(uuid: UUID) -> (any Player)? {
+        for (_, world) in worlds {
+            if let entity:any Player = world.players.first(where: { $0.uuid == uuid }) {
+                return entity
+            }
+        }
+        return nil
+    }
+    func get_players(uuids: Set<UUID>) -> [any Player] {
+        return worlds.values.map({ $0.players.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
     }
 }

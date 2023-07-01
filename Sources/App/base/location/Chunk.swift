@@ -26,6 +26,9 @@ public protocol Chunk : AnyObject, Tickable {
 }
 
 public extension Chunk {
+    func tick(_ server: Server) {
+    }
+    
     func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
         for block in blocks {
             block.server_tps_slowed(to: tps, divisor: divisor)

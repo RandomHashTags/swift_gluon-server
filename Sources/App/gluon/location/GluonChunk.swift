@@ -38,9 +38,6 @@ final class GluonChunk : Chunk {
         blocks = []
     }
     
-    func tick(_ server: any Server) {
-    }
-    
     func load() async {
     }
     func unload() async {

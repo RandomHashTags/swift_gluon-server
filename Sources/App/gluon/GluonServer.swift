@@ -81,11 +81,10 @@ final class GluonServer : GluonSharedInstance, Server {
         banned_players = []
         banned_ip_addresses = []
         
-        difficulties = [
-            "minecraft.easy" : GluonDifficulty(id: "minecraft.easy", name: "Easy", damage_multiplier: 0.5),
-            "minecraft.normal" : GluonDifficulty(id: "minecraft.normal", name: "Normal", damage_multiplier: 1),
-            "minecraft.hard" : GluonDifficulty(id: "minecraft.hard", name: "Hard", damage_multiplier: 1.5),
-        ]
+        difficulties = [:]
+        for difficulty in DefaultDifficulties.allCases {
+            difficulties[difficulty.id] = difficulty
+        }
         let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
             "overworld" : GluonWorld(
@@ -93,7 +92,7 @@ final class GluonServer : GluonSharedInstance, Server {
                 seed: 0,
                 name: "overworld",
                 spawn_location: spawn_location,
-                difficulty: difficulties.first!.value,
+                difficulty: DefaultDifficulties.normal,
                 game_rules: [],
                 time: 0,
                 border: nil,
@@ -248,102 +247,10 @@ final class GluonServer : GluonSharedInstance, Server {
         }
         self.ticks_per_second = ticks_per_second
     }
-    func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
-        for (_, entity_type) in entity_types {
-            entity_type.server_tps_slowed(to: tps, divisor: divisor)
-        }
-        
-        for (_, material) in materials {
-            let configuration:any MaterialConfiguration = material.configuration
-            if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
-                test.server_tps_slowed(to: tps, divisor: divisor)
-            }
-            if let test:any MaterialBlockLiquidConfiguration = configuration.block?.liquid {
-                test.server_tps_slowed(to: tps, divisor: divisor)
-            }
-        }
-        
-        for (_, world) in worlds {
-            world.server_tps_slowed(to: tps, divisor: divisor)
-        }
-    }
-    func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
-        for (_, entity_type) in entity_types {
-            entity_type.server_tps_increased(to: tps, multiplier: multiplier)
-        }
-        
-        for (_, material) in materials {
-            let configuration:any MaterialConfiguration = material.configuration
-            if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
-                test.server_tps_increased(to: tps, multiplier: multiplier)
-            }
-            if let test:any MaterialBlockLiquidConfiguration = configuration.block?.liquid {
-                test.server_tps_increased(to: tps, multiplier: multiplier)
-            }
-        }
-        
-        for (_, world) in worlds {
-            world.server_tps_increased(to: tps, multiplier: multiplier)
-        }
-    }
-    
-    /*func save() {
-        for (identifier, _) in worlds {
-            worlds[identifier]!.save()
-        }
-    }*/
-    
-    func tick(_ server: any Server) {
-        for (identifier, _) in worlds {
-            worlds[identifier]!.tick(server)
-        }
-    }
 }
 
 extension GluonServer {
-    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity] {
-        return center.world.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
-    }
-    
-    func get_entity(uuid: UUID) -> (any Entity)? {
-        for (_, world) in worlds {
-            if let entity:any Entity = world.entities.first(where: { $0.uuid == uuid }) {
-                return entity
-            }
-        }
-        return nil
-    }
-    func get_entities(uuids: Set<UUID>) -> [any Entity] {
-        return worlds.values.map({ $0.entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
-    }
-    
-    func get_living_entity(uuid: UUID) -> (any LivingEntity)? {
-        for (_, world) in worlds {
-            if let entity:any LivingEntity = world.living_entities.first(where: { $0.uuid == uuid }) {
-                return entity
-            }
-        }
-        return nil
-    }
-    func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity] {
-        return worlds.values.map({ $0.living_entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
-    }
-    
-    func get_player(uuid: UUID) -> (any Player)? {
-        for (_, world) in worlds {
-            if let entity:any Player = world.players.first(where: { $0.uuid == uuid }) {
-                return entity
-            }
-        }
-        return nil
-    }
-    func get_players(uuids: Set<UUID>) -> [any Player] {
-        return worlds.values.map({ $0.players.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
-    }
-}
-
-extension GluonServer {
-    func boot_player(player: any Player, reason: String, ban_user: Bool = false, ban_user_expiration: UInt64? = nil, ban_ip: Bool = false, ban_ip_expiration: UInt64? = nil) {
+    func boot_player(player: any Player, reason: String, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) {
         let location:any Location = player.location, world:any World = location.world
         let player_uuid:UUID = player.uuid
         guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
@@ -352,10 +259,10 @@ extension GluonServer {
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {
-            instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: 0, expiration: ban_user_expiration, reason: reason))
+            instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: Date(), expiration: ban_expiration, reason: reason))
         }
         if ban_ip {
-            instance.banned_ip_addresses.insert(BanEntry(banned_by: UUID(), target: "PLAYER_IP_ADDRESS", ban_time: 0, expiration: ban_ip_expiration, reason: reason))
+            instance.banned_ip_addresses.insert(BanEntry(banned_by: UUID(), target: "PLAYER_IP_ADDRESS", ban_time: Date(), expiration: ban_expiration, reason: reason))
         }
         // TODO: send packets
     }
