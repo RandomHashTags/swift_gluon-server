@@ -8,15 +8,17 @@
 import Foundation
 
 public enum DefaultInventoryClickType : String, CaseIterable, InventoryClickType {
-    case pickup = "minecraft.pickup"
-    case quick_move = "minecraft.quick_move"
-    case swap = "minecraft.swap"
-    case clone = "minecraft.clone"
-    case `throw` = "minecraft.throw"
-    case quick_craft = "minecraft.quick_craft"
-    case pickup_all = "minecraft.pickup_all"
+    case clone
+    case pickup
+    case pickup_all
+    case quick_move
+    case quick_craft
+    case set
+    case set_all
+    case swap
+    case `throw`
     
     public var id : String {
-        return rawValue
+        return "minecraft." + rawValue
     }
 }

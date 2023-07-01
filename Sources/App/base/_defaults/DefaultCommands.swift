@@ -69,7 +69,7 @@ public enum DefaultCommands : String, CaseIterable, Command {
     case publish
     
     public var id : String {
-        return rawValue
+        return "minecraft." + rawValue
     }
     
     public var label : String {
@@ -235,7 +235,7 @@ public enum DefaultPermissions : String, CaseIterable, Permission {
     case publish
     
     public var id : String {
-        return rawValue
+        return "minecraft." + rawValue
     }
     public var children : Set<String> {
         return []

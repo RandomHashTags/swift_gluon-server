@@ -1,62 +1,46 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Easy" : {
-      "comment" : "A default Difficulty type",
+    "Adventure" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Easy"
+            "value" : "Adventure"
           }
         }
       }
     },
-    "Hard" : {
-      "comment" : "A default Difficulty type",
+    "Creative" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hard"
+            "value" : "Creative"
           }
         }
       }
     },
-    "Hardcore" : {
-      "comment" : "A default Difficulty type",
+    "Spectator" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hardcore"
+            "value" : "Spectator"
           }
         }
       }
     },
-    "Normal" : {
-      "comment" : "A default Difficulty type",
+    "Survival" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Normal"
-          }
-        }
-      }
-    },
-    "Peaceful" : {
-      "comment" : "A default Difficulty type",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peaceful"
+            "value" : "Survival"
           }
         }
       }

@@ -124,10 +124,10 @@ final class GluonServer : GluonSharedInstance, Server {
         inventory_types = [:]
         potion_effect_types = [:]
         
-        let survival_game_mode:GluonGameMode = GluonGameMode(id: "minecraft.survival", name: "Survival", allows_flight: false, can_break_blocks: true, can_breathe_underwater: false, can_pickup_items: true, can_place_blocks: true, is_affected_by_gravity: true, is_damageable: true, is_invisible: false, loses_hunger: true)
-        game_modes = [
-            "minecraft.survival" : survival_game_mode
-        ]
+        game_modes = [:]
+        for game_mode in DefaultGameModes.allCases {
+            game_modes[game_mode.id] = game_mode
+        }
         advancements = [:]
         art = [:]
         attributes = [:]
@@ -170,7 +170,7 @@ final class GluonServer : GluonSharedInstance, Server {
             food_level: 20,
             permissions: [],
             statistics: [:],
-            game_mode: game_modes.first!.value,
+            game_mode: DefaultGameModes.survival,
             is_blocking: false,
             is_flying: false,
             is_op: false,
