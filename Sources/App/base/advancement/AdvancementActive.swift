@@ -8,9 +8,9 @@
 import Foundation
 
 public struct AdvancementActive : Hashable {
-    public let identifier:String
+    public let type_id:String
     public var type : (any Advancement)? {
-        return GluonServer.shared_instance.get_advancement(id: identifier)
+        return GluonServer.shared_instance.get_advancement(id: type_id)
     }
-    public var value:Float
+    public var value:Double
 }

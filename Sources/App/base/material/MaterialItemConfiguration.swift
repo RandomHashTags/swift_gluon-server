@@ -27,8 +27,8 @@ public protocol MaterialItemConfiguration {
     /// Amount of durability to reduce an item of this material by if the block broken doesn't prefer the item's material.
     var break_nonpreferred_block_durability_damage : UInt { get }
     
-    /// The material identifiers this item can only be placed on.
+    /// The ``Material`` identifiers this item can only be placed on.
     var place_block_whitelist : Set<String>? { get }
-    /// The material identifiers this item cannot be placed on.
+    /// The ``Material`` identifiers this item cannot be placed on.
     var place_block_blacklist : Set<String>? { get }
 }

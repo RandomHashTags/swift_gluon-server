@@ -9,6 +9,9 @@ import Foundation
 import HugeNumbers
 
 final class GluonServer : GluonSharedInstance, Server {
+    var chat_manager:any ChatManager
+    var version:SemanticVersion
+    
     var ticks_per_second:UInt8
     var ticks_per_second_multiplier:HugeFloat
     var server_tick_interval_nano:UInt64
@@ -55,6 +58,9 @@ final class GluonServer : GluonSharedInstance, Server {
         self.init(ticks_per_second: 1)
     }
     private init(ticks_per_second: UInt8) {
+        chat_manager = GluonChatManager()
+        version = SemanticVersion(major: 1, minor: 20, patch: 1)
+        
         let ticks_per_second_float:HugeFloat = HugeFloat(ticks_per_second)
         self.ticks_per_second = ticks_per_second
         ticks_per_second_multiplier = ticks_per_second_float / 20
@@ -76,7 +82,9 @@ final class GluonServer : GluonSharedInstance, Server {
         banned_ip_addresses = []
         
         difficulties = [
-            "minecraft.normal" : GluonDifficulty(id: "minecraft.normal", name: "Normal")
+            "minecraft.easy" : GluonDifficulty(id: "minecraft.easy", name: "Easy", damage_multiplier: 0.5),
+            "minecraft.normal" : GluonDifficulty(id: "minecraft.normal", name: "Normal", damage_multiplier: 1),
+            "minecraft.hard" : GluonDifficulty(id: "minecraft.hard", name: "Hard", damage_multiplier: 1.5),
         ]
         let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
@@ -142,9 +150,9 @@ final class GluonServer : GluonSharedInstance, Server {
             size: 9,
             material_category_restrictions: nil,
             material_retrictions: nil,
-            allowed_recipe_identifiers: nil
+            allowed_recipe_ids: nil
         )
-        let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, items: [], viewers: [])
+        let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
         let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
         let player:GluonPlayer = GluonPlayer(
             connection: connection,
@@ -221,11 +229,11 @@ final class GluonServer : GluonSharedInstance, Server {
         gravity_per_tick = gravity / Double(ticks_per_second)
     }
     
-    func save() {
+    /*func save() {
         for (identifier, _) in worlds {
             worlds[identifier]!.save()
         }
-    }
+    }*/
     
     func tick(_ server: any Server) {
         for (identifier, _) in worlds {

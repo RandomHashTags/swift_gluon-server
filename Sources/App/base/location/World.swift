@@ -17,7 +17,7 @@ public protocol World : AnyObject, Hashable, Tickable {
     var difficulty : any Difficulty { get set }
     var game_rules : [any GameRule] { get set }
     var time : UInt64 { get set }
-    var border : WorldBorder? { get set }
+    var border : (any WorldBorder)? { get set }
     
     var y_min : HugeFloat { get set }
     var y_max : HugeFloat { get set }
@@ -91,14 +91,14 @@ public extension World {
         }
     }
     
-    func save() {
-        /*for chunk in chunks_loaded {
+    /*func save() {
+        for chunk in chunks_loaded {
             chunk.save()
         }
         for entity in entities {
             entity.save()
-        }*/
-    }
+        }
+    }*/
 }
 public extension World {
     func spawn_entity(_ entity: any Entity) {

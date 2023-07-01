@@ -15,4 +15,6 @@ public protocol PlayerInventory : Inventory {
     
     var item_in_main_hand : (any ItemStack)? { get set }
     var item_in_off_hand : (any ItemStack)? { get set }
+    
+    var held_item_slot : Int { get set }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SemanticVersion : Comparable {
+public struct SemanticVersion : Hashable, Comparable {
     public static func < (lhs: SemanticVersion, rhs: SemanticVersion) -> Bool {
         let leftMajor:Int = lhs.major, rightMajor:Int = rhs.major
         let leftMinor:Int = lhs.minor, rightMinor:Int = rhs.minor
@@ -24,9 +24,9 @@ public struct SemanticVersion : Comparable {
     }
     public init(string: String) {
         let values:[String] = string.components(separatedBy: ".")
-        major = Int(values[0])!
-        minor = Int(values[1])!
-        patch = Int(values[2])!
+        major = Int(values[0]) ?? 0
+        minor = Int(values[1]) ?? 0
+        patch = Int(values[2]) ?? 0
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -40,6 +40,6 @@ public struct SemanticVersion : Comparable {
     }
     
     public var description : String {
-        return major.description + "." + minor.description + "." + patch.description
+        return "\(major).\(minor).\(patch)"
     }
 }

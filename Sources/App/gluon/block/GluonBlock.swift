@@ -14,6 +14,8 @@ struct GluonBlock : Block {
         return GluonServer.shared_instance.get_material(identifier: material_id)
     }
     
+    let step_sound:(any Sound)?
+    
     var light_level:UInt8
     var location:any Location
     

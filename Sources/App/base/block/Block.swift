@@ -10,6 +10,9 @@ import Foundation
 public protocol Block : Tickable {
     var material_id : String { get set }
     var material : (any Material)? { get }
+    
+    var step_sound : (any Sound)? { get }
+    
     var light_level : UInt8 { get set }
     var location : any Location { get set }
     
@@ -18,6 +21,7 @@ public protocol Block : Tickable {
     var loot_table : (any LootTable)? { get set }
     
     func break_naturally()
+    
     func is_preferred_tool(_ material: any Material) -> Bool
     /// Measured in ticks.
     func get_breaking_speed(_ item_stack: any ItemStack) -> Float

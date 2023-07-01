@@ -7,5 +7,6 @@
 
 import Foundation
 
-public protocol MaterialBlockLiquidConfiguration {
+public protocol MaterialBlockLiquidConfiguration : Hashable {
+    func distance_per_tick(_ world: any World) -> Double
 }

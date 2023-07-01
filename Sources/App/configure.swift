@@ -36,7 +36,7 @@ public func configure(_ app: Application) throws {
 }
 
 private func test() {
-    let difficulty:any Difficulty = GluonDifficulty(id: "minecraft.normal", name: "Normal")
+    let difficulty:any Difficulty = GluonDifficulty(id: "minecraft.normal", name: "Normal", damage_multiplier: 1)
     let world:GluonWorld = GluonWorld.init(
         uuid: UUID(),
         seed: 420,

@@ -9,6 +9,10 @@ import Foundation
 import HugeNumbers
 
 public protocol Server : Tickable {
+    
+    var chat_manager : ChatManager { get }
+    var version : SemanticVersion { get }
+    
     var ticks_per_second : UInt8 { get }
     var ticks_per_second_multiplier : HugeFloat { get }
     var server_tick_interval_nano : UInt64 { get }

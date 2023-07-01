@@ -55,7 +55,7 @@ public extension LivingEntity {
         default_tick_living_entity(server)
     }
     mutating func default_tick_living_entity(_ server: any Server) {
-        print("living entity with uuid " + uuid.uuidString + " has been ticked")
+        print("living entity with uuid \(uuid) has been ticked")
         if no_damage_ticks > 0 {
             no_damage_ticks -= 1
         }

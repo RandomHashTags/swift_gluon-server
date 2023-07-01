@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol BossBar {
+public protocol BossBar : Hashable {
     var title : String { get set }
     var progress : Double { get set }
     var color : Color { get set }

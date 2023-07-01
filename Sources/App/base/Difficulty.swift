@@ -8,4 +8,5 @@
 import Foundation
 
 public protocol Difficulty : MultilingualName, Identifiable where ID == String {
+    var damage_multiplier : Double { get }
 }

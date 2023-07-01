@@ -7,10 +7,9 @@
 
 import Foundation
 
-public protocol Player : LivingEntity {
+public protocol Player : LivingEntity, CommandSender {
     var connection : PlayerConnection { get }
     
-    var name : String { get }
     var list_name : String? { get set }
     
     var experience : UInt64 { get set }
@@ -26,6 +25,7 @@ public protocol Player : LivingEntity {
     var is_op : Bool { get set }
     var is_sneaking : Bool { get set }
     var is_sprinting : Bool { get set }
+    var last_slept_location : (any Location)? { get set }
     
     var inventory : any PlayerInventory { get set }
     

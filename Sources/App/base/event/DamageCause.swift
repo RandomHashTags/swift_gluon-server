@@ -18,6 +18,7 @@ public enum DamageCause : Identifiable {
     case melting
     case lava
     case drowning
+    case block(block: any Block)
     case block_explosion(block: any Block)
     case entity_explosion(entity: any Entity)
     case void
@@ -51,6 +52,8 @@ public enum DamageCause : Identifiable {
             return "entity_attack"
         case .projectile(projectile: _):
             return "projectile"
+        case .block(block: _):
+            return "block"
         case .block_explosion(block: _):
             return "block_explosion"
         case .entity_explosion(entity: _):

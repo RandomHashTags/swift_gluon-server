@@ -11,13 +11,13 @@ public protocol InventoryType : Hashable, Identifiable where ID == String {
     var categories : [String] { get }
     /// Maximum amount of slots this inventory type contains.
     var size : UInt { get }
-    /// Whitelisted slots that only allow specific materials that belong to specific material categories
+    /// Whitelisted slots where specific ``MaterialCategory`` ids can only be placed at, if applicable.
     var material_category_restrictions : [UInt:Set<String>]? { get }
-    /// Whitelisted slots that only allow specific material identifiers, if applicable.
+    /// Whitelisted slots where specific ``Material`` ids can only be placed at, if applicable.
     var material_retrictions : [UInt:Set<String>]? { get }
-    /// The allowed Recipe identifiers that can be created when inside this inventory type, if applicable.
-    var allowed_recipe_identifiers : Set<String>? { get }
-    /// The allowed Recipes that can be created when inside this inventory type, if applicable.
+    /// The allowed ``Recipe`` ids that can be created when inside this inventory type, if applicable.
+    var allowed_recipe_ids : Set<String>? { get }
+    /// The allowed ``Recipe``s that can be created when inside this inventory type, if applicable.
     var allowed_recipes : [any Recipe]? { get }
 }
 

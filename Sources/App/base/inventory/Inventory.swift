@@ -11,9 +11,7 @@ public protocol Inventory {
     var type : any InventoryType { get }
     var items : [(any ItemStack)?] { get set }
     var viewers : [any Player] { get set }
-    
-    init(type: any InventoryType, items: [(any ItemStack)?], viewers: [any Player])
-    
+        
     func contains(_ material: any Material) -> Bool
     func contains(_ item: any ItemStack) -> Bool
     

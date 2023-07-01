@@ -65,6 +65,7 @@ struct GluonPlayer : Player {
     var display_name:String?
     var boundaries:[Boundary]
     var location:any Location
+    var last_slept_location:(any Location)?
     var velocity:Vector
     var fall_distance:Float
     
@@ -113,6 +114,10 @@ struct GluonPlayer : Player {
         for logic in consumable_configuration.executable_logic {
             logic.execute(context: context)
         }
+    }
+    
+    func send(message: String) async {
+        await GluonServer.shared_instance.chat_manager.send(sender: name, message: message)
     }
 }
 extension GluonPlayer {
