@@ -130,6 +130,9 @@ public enum ClientMojangPacketPlay : UInt, ClientPacketGameplayID { // https://w
         case .block_update:             return ClientMojangPacket.BlockUpdate.self
         case .boss_bar:                 return ClientMojangPacket.BossBar.self
         case .change_difficulty:        return ClientMojangPacket.ChangeDifficulty.self
+            
+        case .update_recipes:           return ClientMojangPacket.UpdateRecipes.self
+        case .update_tags:              return ClientMojangPacket.UpdateTags.self
         default:
             return nil
         }
