@@ -124,7 +124,7 @@ public enum ClientMojangPacketPlay : UInt, ClientPacketGameplayID { // https://w
         case .entity_animation:         return ClientMojangPacket.EntityAnimation.self
         case .award_statistic:          return ClientMojangPacket.AwardStatistics.self
         case .acknowledge_block_change: return ClientMojangPacket.AcknowledgeBlockChange.self
-        case .set_block_destroy_stage:  return ClientMojangPacketSetBlockDestroyStage.self
+        case .set_block_destroy_stage:  return ClientMojangPacket.SetBlockDestroyStage.self
         case .block_entity_data:        return nil
         case .block_action:             return ClientMojangPacket.BlockAction.self
         case .block_update:             return ClientMojangPacket.BlockUpdate.self
