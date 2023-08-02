@@ -8,5 +8,4 @@
 import Foundation
 
 public protocol ClientPacketGameplayID : RawRepresentable where RawValue == UInt {
-    func decode<T>(data: Data) -> T?
 }

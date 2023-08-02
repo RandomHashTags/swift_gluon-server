@@ -1,5 +1,5 @@
 //
-//  ClientMojangPacketGameplayID.swift
+//  ClientMojangPacketPlay.swift
 //  
 //
 //  Created by Evan Anderson on 2/4/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ClientMojangPacketGameplayID : UInt, ClientPacketGameplayID { // https://wiki.vg/Protocol
+public enum ClientMojangPacketPlay : UInt, ClientPacketGameplayID { // https://wiki.vg/Protocol
     case bundle_delimiter = 0
     case spawn_entity =     1
     case spawn_experience_orb
@@ -116,8 +116,17 @@ public enum ClientMojangPacketGameplayID : UInt, ClientPacketGameplayID { // htt
     case update_recipes
     case update_tags
     
-    public func decode<T>(data: Data) -> T? {
+    public var packet_mojang : (any ClientMojangPacketProtocol.Type)? {
         switch self {
+        case .spawn_entity:             return ClientMojangPacket.SpawnEntity.self
+        case .spawn_experience_orb:     return ClientMojangPacket.SpawnExperienceOrb.self
+        case .spawn_player:             return ClientMojangPacket.SpawnPlayer.self
+        case .entity_animation:         return ClientMojangPacket.EntityAnimation.self
+        case .award_statistic:          return ClientMojangPacket.AwardStatistics.self
+        case .acknowledge_block_change: return ClientMojangPacket.AcknowledgeBlockChange.self
+        case .set_block_destroy_stage:  return ClientMojangPacketSetBlockDestroyStage.self
+        case .block_entity_data:        return nil
+        case .block_action:             return ClientMojangPacket.BlockAction.self
         default:
             return nil
         }

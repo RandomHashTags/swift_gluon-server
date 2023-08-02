@@ -7,5 +7,6 @@
 
 import Foundation
 
-public struct ClientPacket : Hashable {
+public protocol ClientPacket : Hashable, Codable {
+    var platform : ClientPacketType { get }
 }

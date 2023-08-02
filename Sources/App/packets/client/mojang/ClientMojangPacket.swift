@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol ClientMojangPacket : Codable {
+public enum ClientMojangPacket {
     
 }
