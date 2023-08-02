@@ -8,7 +8,7 @@
 import Foundation
 import HugeNumbers
 
-public protocol Entity : AnyObject, Nameable, Tickable {
+public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
     var uuid : UUID { get }
     /// the ``EntityType`` id
     var type_id : String { get }
@@ -59,7 +59,10 @@ public protocol Entity : AnyObject, Nameable, Tickable {
 
 public extension Entity {
     static func == (lhs: any Entity, rhs: any Entity) -> Bool {
-        return lhs.uuid.uuidString.elementsEqual(rhs.uuid.uuidString) && lhs.type_id == rhs.type_id
+        return lhs.uuid == rhs.uuid && lhs.type_id == rhs.type_id
+    }
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.uuid == rhs.uuid && lhs.type_id == rhs.type_id
     }
     
     func hash(into hasher: inout Hasher) {

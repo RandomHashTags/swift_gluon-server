@@ -102,7 +102,7 @@ public extension LivingEntity {
         for (_, potion_effect) in potion_effects {
             potion_effect.server_tps_slowed(to: tps, divisor: divisor)
         }
-        (self as Entity).server_tps_slowed(to: tps, divisor: divisor)
+        (self as any Entity).server_tps_slowed(to: tps, divisor: divisor)
     }
     
     func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
@@ -118,7 +118,7 @@ public extension LivingEntity {
         for (_, potion_effect) in potion_effects {
             potion_effect.server_tps_increased(to: tps, multiplier: multiplier)
         }
-        (self as Entity).server_tps_increased(to: tps, multiplier: multiplier)
+        (self as any Entity).server_tps_increased(to: tps, multiplier: multiplier)
     }
 }
 
