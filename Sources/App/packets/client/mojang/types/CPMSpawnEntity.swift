@@ -1,5 +1,5 @@
 //
-//  CMPSpawnEntity.swift
+//  CPMSpawnEntity.swift
 //
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-public extension ClientMojangPacket {
+public extension ClientPacketMojang {
     /// Sent by the server when a vehicle or other non-living entity is created.
-    struct SpawnEntity : ClientMojangPacketProtocol {
+    struct SpawnEntity : ClientPacketMojangProtocol {
         /// A unique integer ID mostly used to identify the entity.
         let entity_id:Int
         /// A unique identifier that is mostly used in persistence and places where the uniqueness matters more.

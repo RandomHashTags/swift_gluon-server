@@ -1,5 +1,5 @@
 //
-//  ClientMojangPacketPlay.swift
+//  ClientPacketMojangPlay.swift
 //  
 //
 //  Created by Evan Anderson on 2/4/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ClientMojangPacketPlay : UInt, ClientPacketGameplayID { // https://wiki.vg/Protocol
+public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg/Protocol
     case bundle_delimiter = 0
     case spawn_entity =     1
     case spawn_experience_orb
@@ -116,23 +116,23 @@ public enum ClientMojangPacketPlay : UInt, ClientPacketGameplayID { // https://w
     case update_recipes
     case update_tags
     
-    public var packet_mojang : (any ClientMojangPacketProtocol.Type)? {
+    public var packet_mojang : (any ClientPacketMojangProtocol.Type)? {
         switch self {
-        case .spawn_entity:             return ClientMojangPacket.SpawnEntity.self
-        case .spawn_experience_orb:     return ClientMojangPacket.SpawnExperienceOrb.self
-        case .spawn_player:             return ClientMojangPacket.SpawnPlayer.self
-        case .entity_animation:         return ClientMojangPacket.EntityAnimation.self
-        case .award_statistic:          return ClientMojangPacket.AwardStatistics.self
-        case .acknowledge_block_change: return ClientMojangPacket.AcknowledgeBlockChange.self
-        case .set_block_destroy_stage:  return ClientMojangPacket.SetBlockDestroyStage.self
+        case .spawn_entity:             return ClientPacketMojang.SpawnEntity.self
+        case .spawn_experience_orb:     return ClientPacketMojang.SpawnExperienceOrb.self
+        case .spawn_player:             return ClientPacketMojang.SpawnPlayer.self
+        case .entity_animation:         return ClientPacketMojang.EntityAnimation.self
+        case .award_statistic:          return ClientPacketMojang.AwardStatistics.self
+        case .acknowledge_block_change: return ClientPacketMojang.AcknowledgeBlockChange.self
+        case .set_block_destroy_stage:  return ClientPacketMojang.SetBlockDestroyStage.self
         case .block_entity_data:        return nil
-        case .block_action:             return ClientMojangPacket.BlockAction.self
-        case .block_update:             return ClientMojangPacket.BlockUpdate.self
-        case .boss_bar:                 return ClientMojangPacket.BossBar.self
-        case .change_difficulty:        return ClientMojangPacket.ChangeDifficulty.self
+        case .block_action:             return ClientPacketMojang.BlockAction.self
+        case .block_update:             return ClientPacketMojang.BlockUpdate.self
+        case .boss_bar:                 return ClientPacketMojang.BossBar.self
+        case .change_difficulty:        return ClientPacketMojang.ChangeDifficulty.self
             
-        case .update_recipes:           return ClientMojangPacket.UpdateRecipes.self
-        case .update_tags:              return ClientMojangPacket.UpdateTags.self
+        case .update_recipes:           return ClientPacketMojang.UpdateRecipes.self
+        case .update_tags:              return ClientPacketMojang.UpdateTags.self
         default:
             return nil
         }

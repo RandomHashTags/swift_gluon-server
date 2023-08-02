@@ -1,5 +1,5 @@
 //
-//  CMPSpawnExperienceOrb.swift
+//  CPMSpawnExperienceOrb.swift
 //
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-public extension ClientMojangPacket {
+public extension ClientPacketMojang {
     /// Spawns one or more experience orbs.
-    struct SpawnExperienceOrb : ClientMojangPacketProtocol {
+    struct SpawnExperienceOrb : ClientPacketMojangProtocol {
         let entity_id:Int
         let x:Double
         let y:Double

@@ -1,5 +1,5 @@
 //
-//  CMPUpdateTags.swift
+//  CPMUpdateTags.swift
 //  
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-public extension ClientMojangPacket {
-    struct UpdateTags : ClientMojangPacketProtocol {
+public extension ClientPacketMojang {
+    struct UpdateTags : ClientPacketMojangProtocol {
         /// Number of elements in `tags`.
         let tags_count:Int
         let tags:[UpdateTag]

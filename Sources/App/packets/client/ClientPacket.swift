@@ -7,6 +7,5 @@
 
 import Foundation
 
-public protocol ClientPacket : Hashable, Codable {
-    var platform : ClientPacketType { get }
+public protocol ClientPacket : Packet {
 }

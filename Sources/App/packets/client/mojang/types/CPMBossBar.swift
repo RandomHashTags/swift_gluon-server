@@ -1,5 +1,5 @@
 //
-//  CMPBossBar.swift
+//  CPMBossBar.swift
 //  
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-public extension ClientMojangPacket {
-    struct BossBar : ClientMojangPacketProtocol {
+public extension ClientPacketMojang {
+    struct BossBar : ClientPacketMojangProtocol {
         /// Unique ID for this bar.
         let uuid:UUID
         /// Determines the layout of the remaining packet.
         let action:BossBar.Action
         
         // add, update_title
-        let title:ChatPacket?
+        let title:ChatPacketMojang?
         // add, update_health
         /// From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5.
         let health:Float?

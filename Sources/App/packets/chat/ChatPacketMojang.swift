@@ -1,5 +1,5 @@
 //
-//  ChatPacket.swift
+//  ChatPacketMojang.swift
 //  
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatPacket : Hashable, Codable {
+public struct ChatPacketMojang : ChatPacket {
     let text:String
     let bold:Bool?
     let italic:Bool?
@@ -17,13 +17,17 @@ public struct ChatPacket : Hashable, Codable {
     let font:String?
     let color:String?
     let insertion:String?
-    let clickEvent:ChatPacket.ClickEvent?
-    let hoverEvent:ChatPacket.HoverEvent?
+    let clickEvent:ChatPacketMojang.ClickEvent?
+    let hoverEvent:ChatPacketMojang.HoverEvent?
     
-    let extra:[ChatPacket]?
+    let extra:[ChatPacketMojang]?
+    
+    public var platform : PacketPlatform {
+        return PacketPlatform.mojang
+    }
 }
 
-public extension ChatPacket {
+public extension ChatPacketMojang {
     /// Defines an event that occurs when this component is clicked. Contains an `action` key and a `value` key. `value` is internally handled as a String, although it can be any type of JSON primitive.
     struct ClickEvent : Hashable, Codable {
         let action:ClickEventAction
@@ -55,7 +59,7 @@ public extension ChatPacket {
     }
 }
 
-public extension ChatPacket {
+public extension ChatPacketMojang {
     /// Defines an event that occurs when this component hovered over. Contains an `action` key and a `contents key`; `action` is a String and `contents` is a JSON object. However, since text components can be serialized as primitives as well as arrays and objects, this can directly be a String
     struct HoverEvent : Hashable, Codable {
         let action:HoverEventAction
