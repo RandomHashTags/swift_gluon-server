@@ -7,8 +7,7 @@
 
 import Foundation
 
-public protocol ChatMessage : Identifiable {
-    var id : UUID { get }
+public protocol ChatMessage : Identifiable where ID == UUID {
     var timestamp : Date { get }
     var sender : any CommandSender { get }
     var message : String { get }

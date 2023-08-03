@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StatisticActive : Identifiable where ID == String {
+public protocol StatisticActive : Codable, Identifiable where ID == String {
     var type : (any Statistic)? { get }
     var value : Float { get }
 }

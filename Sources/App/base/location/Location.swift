@@ -50,7 +50,8 @@ public extension Location {
     }
     
     var chunk_coordinates : (x: HugeInt, z: HugeInt) {
-        return (x: (x / 16).integer, z: (z / 16).integer)
+        let sixteen:HugeFloat = HugeFloat("16")
+        return (x: (x / sixteen).integer, z: (z / sixteen).integer)
     }
     
     func is_similar(_ location: Self) -> Bool {
@@ -71,7 +72,13 @@ public extension Location {
         self.y += y
         self.z += z
         self.yaw += yaw
+        if self.yaw >= 360 {
+            self.yaw -= 360
+        }
         self.pitch += pitch
+        if self.pitch >= 360 {
+            self.pitch -= 360
+        }
         return self
     }
     

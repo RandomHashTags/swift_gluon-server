@@ -60,7 +60,7 @@ public extension ChatPacketMojang {
 }
 
 public extension ChatPacketMojang {
-    /// Defines an event that occurs when this component hovered over. Contains an `action` key and a `contents key`; `action` is a String and `contents` is a JSON object. However, since text components can be serialized as primitives as well as arrays and objects, this can directly be a String
+    /// Defines an event that occurs when this component hovered over. Contains an `action` key and a `contents` key; `action` is a String and `contents` is a JSON object. However, since text components can be serialized as primitives as well as arrays and objects, this can directly be a String
     struct HoverEvent : Hashable, Codable {
         let action:HoverEventAction
         let contents:String // TODO: fix (make codable)

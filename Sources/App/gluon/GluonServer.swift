@@ -85,7 +85,7 @@ final class GluonServer : GluonSharedInstance, Server {
         for difficulty in DefaultDifficulties.allCases {
             difficulties[difficulty.id] = difficulty
         }
-        let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
+        let spawn_location:Vector = Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero)
         worlds = [
             "overworld" : GluonWorld(
                 uuid: UUID(),
@@ -199,7 +199,7 @@ final class GluonServer : GluonSharedInstance, Server {
             ticks_lived: 0,
             boundaries: [],
             location: GluonLocation(world: worlds.first!.value, x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
-            velocity: Vector(x: 0, y: 0, z: 0),
+            velocity: Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero),
             fall_distance: 0,
             is_glowing: false,
             is_on_fire: false,

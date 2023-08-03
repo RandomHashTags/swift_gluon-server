@@ -16,7 +16,7 @@ public protocol GameRule : Hashable, Identifiable where ID == String {
 
 public extension GameRule {
     static func == (left: any GameRule, right: any GameRule) -> Bool {
-        return left.id == right.id
+        return left.id.elementsEqual(right.id)
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

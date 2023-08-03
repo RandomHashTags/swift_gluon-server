@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import HugeNumbers
 
 public class Vector : Hashable {
     public static func == (lhs: Vector, rhs: Vector) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
     }
     
-    public var x:Double
-    public var y:Double
-    public var z:Double
+    public var x:HugeFloat
+    public var y:HugeFloat
+    public var z:HugeFloat
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(x)
@@ -22,7 +23,7 @@ public class Vector : Hashable {
         hasher.combine(z)
     }
     
-    public init(x: Double, y: Double, z: Double) {
+    public init(x: HugeFloat, y: HugeFloat, z: HugeFloat) {
         self.x = x
         self.y = y
         self.z = z

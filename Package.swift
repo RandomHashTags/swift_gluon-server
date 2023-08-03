@@ -11,13 +11,14 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.77.0"),
         .package(url: "https://github.com/vapor/console-kit.git", from: "4.6.0"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
-        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.7.2"),
-        .package(url: "https://github.com/vapor/postgres-nio.git", from: "1.16.0"),
-        .package(url: "https://github.com/vapor/postgres-kit.git", from: "2.11.3"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
+        .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.5.0"),
+        .package(url: "https://github.com/vapor/postgres-nio.git", from: "1.17.0"),
+        .package(url: "https://github.com/vapor/postgres-kit.git", from: "2.12.0"),
         
         .package(url: "https://github.com/swift-server/swift-backtrace.git", from: "1.3.3"),
-        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.0.14")
+        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.0.16")
     ],
     targets: [
         .target(

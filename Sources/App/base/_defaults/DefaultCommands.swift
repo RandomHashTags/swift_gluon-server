@@ -75,7 +75,7 @@ public enum DefaultCommands : String, CaseIterable, Command {
     public var label : String {
         return get_localized_string(key: rawValue, table: "Commands").lowercased()
     }
-    public var description: String {
+    public var description : String {
         return get_localized_string(key: rawValue + "_description", table: "Commands")
     }
     public var aliases : Set<String> {
