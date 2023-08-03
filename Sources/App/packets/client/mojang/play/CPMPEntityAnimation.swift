@@ -1,5 +1,5 @@
 //
-//  CPMEntityAnimation.swift
+//  CPMPEntityAnimation.swift
 //
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacketMojang {
+public extension ClientPacketMojang.Play {
     /// Sent whenever an entity should change animation.
     struct EntityAnimation : ClientPacketMojangProtocol {
         let entity_id:Int

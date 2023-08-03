@@ -21,10 +21,11 @@ public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg
     case block_update
     case boss_bar
     case change_difficulty
+    case chunk_biomes
     case clear_titles
     case command_suggestions_response
     case commands
-    case clone_container
+    case close_container
     case set_container_content
     case set_container_property
     case set_container_slot
@@ -116,23 +117,29 @@ public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg
     case update_recipes
     case update_tags
     
-    public var packet_mojang : (any ClientPacketMojangProtocol.Type)? {
+    public var packet : (any ClientPacketMojangProtocol.Type)? {
         switch self {
-        case .spawn_entity:             return ClientPacketMojang.SpawnEntity.self
-        case .spawn_experience_orb:     return ClientPacketMojang.SpawnExperienceOrb.self
-        case .spawn_player:             return ClientPacketMojang.SpawnPlayer.self
-        case .entity_animation:         return ClientPacketMojang.EntityAnimation.self
-        case .award_statistic:          return ClientPacketMojang.AwardStatistics.self
-        case .acknowledge_block_change: return ClientPacketMojang.AcknowledgeBlockChange.self
-        case .set_block_destroy_stage:  return ClientPacketMojang.SetBlockDestroyStage.self
-        case .block_entity_data:        return nil
-        case .block_action:             return ClientPacketMojang.BlockAction.self
-        case .block_update:             return ClientPacketMojang.BlockUpdate.self
-        case .boss_bar:                 return ClientPacketMojang.BossBar.self
-        case .change_difficulty:        return ClientPacketMojang.ChangeDifficulty.self
+        case .spawn_entity:                 return ClientPacketMojang.Play.SpawnEntity.self
+        case .spawn_experience_orb:         return ClientPacketMojang.Play.SpawnExperienceOrb.self
+        case .spawn_player:                 return ClientPacketMojang.Play.SpawnPlayer.self
+        case .entity_animation:             return ClientPacketMojang.Play.EntityAnimation.self
+        case .award_statistic:              return ClientPacketMojang.Play.AwardStatistics.self
+        case .acknowledge_block_change:     return ClientPacketMojang.Play.AcknowledgeBlockChange.self
+        case .set_block_destroy_stage:      return ClientPacketMojang.Play.SetBlockDestroyStage.self
+        case .block_entity_data:            return nil
+        case .block_action:                 return ClientPacketMojang.Play.BlockAction.self
+        case .block_update:                 return ClientPacketMojang.Play.BlockUpdate.self
+        case .boss_bar:                     return ClientPacketMojang.Play.BossBar.self
+        case .change_difficulty:            return ClientPacketMojang.Play.ChangeDifficulty.self
+        case .chunk_biomes:                 return ClientPacketMojang.Play.ChunkBiomes.self
+        case .clear_titles:                 return ClientPacketMojang.Play.ClearTitles.self
+        case .command_suggestions_response: return ClientPacketMojang.Play.CommandSuggestionsResponse.self
+        case .commands:                     return ClientPacketMojang.Play.Commands.self
+        case .close_container:              return ClientPacketMojang.Play.CloseContainer.self
+        case .set_container_content:        return ClientPacketMojang.Play.SetContainerContent.self
             
-        case .update_recipes:           return ClientPacketMojang.UpdateRecipes.self
-        case .update_tags:              return ClientPacketMojang.UpdateTags.self
+        case .update_recipes:               return ClientPacketMojang.Play.UpdateRecipes.self
+        case .update_tags:                  return ClientPacketMojang.Play.UpdateTags.self
         default:
             return nil
         }

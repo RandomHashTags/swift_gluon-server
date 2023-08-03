@@ -1,5 +1,5 @@
 //
-//  CPMBlockAction.swift
+//  CPMPBlockAction.swift
 //
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacketMojang {
+public extension ClientPacketMojang.Play {
     /// This packet is used for a number of actions and animations performed by blocks, usually non-persistent. The client ignores the provided block type and instead uses the block state in their world.
     /// - Warning: This packet uses a block ID from the `minecraft:block` registry, not a block state.
     struct BlockAction : ClientPacketMojangProtocol {

@@ -1,13 +1,13 @@
 //
-//  CPMUpdateRecipes.swift
-//  
+//  CPMPUpdateRecipes.swift
+//
 //
 //  Created by Evan Anderson on 8/2/23.
 //
 
 import Foundation
 
-public extension ClientPacketMojang {
+public extension ClientPacketMojang.Play {
     struct UpdateRecipes : ClientPacketMojangProtocol {
         /// Number of elements in `recipes`.
         let count:Int

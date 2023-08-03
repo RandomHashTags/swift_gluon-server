@@ -8,4 +8,8 @@
 import Foundation
 
 public enum ClientPacketMojang {
+    public enum Login {
+    }
+    public enum Play {
+    }
 }

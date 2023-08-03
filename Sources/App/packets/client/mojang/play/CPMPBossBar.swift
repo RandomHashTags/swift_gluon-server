@@ -1,5 +1,5 @@
 //
-//  CPMBossBar.swift
+//  CPMPBossBar.swift
 //  
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacketMojang {
+public extension ClientPacketMojang.Play {
     struct BossBar : ClientPacketMojangProtocol {
         /// Unique ID for this bar.
         let uuid:UUID

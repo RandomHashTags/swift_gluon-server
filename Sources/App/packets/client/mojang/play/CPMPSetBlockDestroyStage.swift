@@ -1,5 +1,5 @@
 //
-//  CPMSetBlockDestroyStage.swift
+//  CPMPSetBlockDestroyStage.swift
 //
 //
 //  Created by Evan Anderson on 8/2/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacketMojang {
+public extension ClientPacketMojang.Play {
     /// 0–9 are the displayable destroy stages and each other number means that there is no animation on this coordinate.
     ///
     /// Block break animations can still be applied on air; the animation will remain visible although there is no block being broken. However, if this is applied to a transparent block, odd graphical effects may happen, including water losing its transparency. (An effect similar to this can be seen in normal gameplay when breaking ice blocks)
