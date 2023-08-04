@@ -32,6 +32,7 @@ public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg
     case set_cooldown
     case chat_suggestions
     case plugin_message
+    case damage_event
     case delete_message
     case disconnect
     case disguised_chat_message
@@ -137,6 +138,20 @@ public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg
         case .commands:                     return ClientPacketMojang.Play.Commands.self
         case .close_container:              return ClientPacketMojang.Play.CloseContainer.self
         case .set_container_content:        return ClientPacketMojang.Play.SetContainerContent.self
+        case .set_container_property:       return ClientPacketMojang.Play.SetContainerProperty.self
+        case .set_container_slot:           return ClientPacketMojang.Play.SetContainerSlot.self
+        case .set_cooldown:                 return ClientPacketMojang.Play.SetCooldown.self
+        case .chat_suggestions:             return ClientPacketMojang.Play.ChatSuggestions.self
+        case .plugin_message:               return ClientPacketMojang.Play.PluginMessage.self
+        case .damage_event:                 return ClientPacketMojang.Play.DamageEvent.self
+        case .delete_message:               return ClientPacketMojang.Play.DeleteMessage.self
+        case .disconnect:                   return ClientPacketMojang.Play.Disconnect.self
+        case .disguised_chat_message:       return ClientPacketMojang.Play.DisguisedChatMessage.self
+        case .entity_event:                 return ClientPacketMojang.Play.EntityEvent.self
+        case .explosion:                    return ClientPacketMojang.Play.Explosion.self
+        case .unload_chunk:                 return ClientPacketMojang.Play.UnloadChunk.self
+        case .game_event:                   return ClientPacketMojang.Play.GameEvent.self
+        case .open_horse_screen:            return ClientPacketMojang.Play.OpenHorseScreen.self
             
         case .update_recipes:               return ClientPacketMojang.Play.UpdateRecipes.self
         case .update_tags:                  return ClientPacketMojang.Play.UpdateTags.self
