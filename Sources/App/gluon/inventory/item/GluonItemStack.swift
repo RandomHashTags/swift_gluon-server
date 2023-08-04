@@ -13,6 +13,6 @@ struct GluonItemStack : ItemStack {
         return GluonServer.shared_instance.get_material(identifier: material_id)
     }
     var meta:(any ItemMeta)?
-    var amount:UInt16
-    var durability:UInt16
+    var amount:UInt
+    var durability:UInt
 }

@@ -15,7 +15,7 @@ public extension ClientPacketMojang.Login {
     /// In Notchian client, the maximum data length is 1048576 bytes.
     struct LoginPluginRequest : ClientPacketMojangLoginProtocol {
         public let message_id:Int
-        public let channel:String // TODO: fix (make `Identifier`)
+        public let channel:Namespace
         public let data:Data
     }
 }

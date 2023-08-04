@@ -21,7 +21,8 @@ public extension ClientPacketMojang.Play {
         public let matches:[CommandSuggestionsResponse.Match]
         
         public struct Match : Hashable, Codable {
-            /// One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for `count`. Note that for instance this doesn't include a leading `/` on commands.
+            /// One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for `count`.
+            /// > Note: Doesn't include a leading `/` on commands.
             public let match:String
             public let has_tooltip:Bool
             /// Tooltip to display; only present if `has_tooltip` is true.

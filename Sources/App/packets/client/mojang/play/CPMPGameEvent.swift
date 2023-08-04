@@ -14,7 +14,7 @@ public extension ClientPacketMojang.Play {
         public let value:Float
         
         public enum Event : UInt, Hashable, Codable {
-            /// Value: Note: Displays message 'block.minecraft.spawn.not\_valid' (You have no home bed or charged respawn anchor, or it was obstructed) to the player.
+            /// > Note: Displays message 'block.minecraft.spawn.not\_valid' (You have no home bed or charged respawn anchor, or it was obstructed) to the player.
             case no_respawn_block_available
             case begin_raining
             case end_raining
@@ -32,7 +32,7 @@ public extension ClientPacketMojang.Play {
             /// - 0: Just respawn player.
             /// - 1: Roll the credits and respawn player.
             ///
-            /// Note that 1 is only sent by notchian server when player has not yet achieved advancement "The end?", else 0 is sent.
+            /// > Note: 1 is only sent by notchian server when player has not yet achieved advancement "The end?", else 0 is sent.
             case win_game
             /// !
             ///
@@ -43,19 +43,17 @@ public extension ClientPacketMojang.Play {
             /// - 103: Tell inventory control.
             /// - 104: Tell that the demo is over and print a message about how to take a screenshot.
             case demo_event
-            /// Value: Note: Sent when any player is struck by an arrow.
+            /// > Note: Sent when any player is struck by an arrow.
             case arrow_hit_player
             /// !
             ///
-            /// Value: Note: Seems to change both sky color and lighting.
-            ///
-            /// Rain level ranging from 0 to 1.
+            /// Value: Rain level ranging from 0 to 1.
+            /// > Note: Seems to change both sky color and lighting.
             case rain_level_change
             /// !
             ///
-            /// Value: Note: Seems to change both sky color and lighting (same as Rain level change, but doesn't start rain). It also requires rain to render by notchian client.
-            ///
-            /// Thunder level ranging from 0 to 1.
+            /// Value: Thunder level ranging from 0 to 1.
+            /// > Note: Seems to change both sky color and lighting (same as Rain level change, but doesn't start rain). It also requires rain to render by notchian client.
             case thunder_level_change
             case play_pufferfish_sting_sound
             case play_elder_guardian_mob_appearance // effect and sound

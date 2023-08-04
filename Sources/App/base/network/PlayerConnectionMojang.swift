@@ -60,7 +60,7 @@ public final class PlayerConnectionMojang : PlayerConnection {
             guard let message:URLSessionWebSocketTask.Message = try await receive() else { return }
             process_packet(message)
         } catch {
-            print("PlayerConnectionMojang;encountered error while trying to `process_packets` (\(error)") // TODO: handle
+            print("PlayerConnectionMojang;encountered error while trying to `process_packets` (\(error)")
         }
         Task {
             await process_packets()

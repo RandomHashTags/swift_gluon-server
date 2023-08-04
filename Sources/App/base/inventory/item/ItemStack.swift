@@ -11,9 +11,10 @@ public protocol ItemStack : Hashable {
     var material_id : String { get set }
     var material : (any Material)? { get }
     var meta : (any ItemMeta)? { get set }
-    var amount : UInt16 { get set }
-    var durability : UInt16 { get set }
+    var amount : UInt { get set }
+    var durability : UInt { get set }
     
+    /// Whether or not two ``ItemStack`` are equal, regardless of amount.
     func is_similar(_ item_stack: (any ItemStack)?) -> Bool
 }
 

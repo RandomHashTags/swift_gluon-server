@@ -8,7 +8,7 @@
 import Foundation
 
 final class GluonPlayer : Player {
-    let connection:PlayerConnectionMojang
+    let connection:any PlayerConnection
     
     var name:String
     var list_name:String?

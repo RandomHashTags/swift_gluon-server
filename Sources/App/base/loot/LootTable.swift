@@ -18,7 +18,7 @@ public extension LootTable {
             let chance:UInt8 = UInt8.random(in: 0..<100)
             guard chance <= entry.chance else { return nil }
             var item:any ItemStack = entry.item
-            item.amount = UInt16.random(in: entry.amount_min...entry.amount_max)
+            item.amount = UInt.random(in: entry.amount_min...entry.amount_max)
             return item
         })
         return loot.isEmpty ? nil : loot

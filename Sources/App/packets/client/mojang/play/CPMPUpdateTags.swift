@@ -22,7 +22,7 @@ public extension ClientPacketMojang.Play {
         }
         public struct Tag : Hashable, Codable {
             public let length:Int
-            public let tag_name:String // TODO: make Identifier
+            public let tag_name:Namespace
             public let count:Int
             public let entries:[Int]
         }

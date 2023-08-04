@@ -10,6 +10,15 @@ import Foundation
 public protocol ClientPacketMojangProtocol : ClientPacket, PacketMojang {
 }
 
+// MARK: ClientPacketMojangStatusProtocol
+public protocol ClientPacketMojangStatusProtocol : ClientPacketMojangProtocol {
+}
+public extension ClientPacketMojangStatusProtocol {
+    var category : Category {
+        return Category.client_handshaking
+    }
+}
+
 // MARK: ClientPacketMojangLoginProtocol
 public protocol ClientPacketMojangLoginProtocol : ClientPacketMojangProtocol {
 }

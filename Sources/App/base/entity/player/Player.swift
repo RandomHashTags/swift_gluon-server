@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol Player : LivingEntity, CommandSender, Permissible {
-    var connection : PlayerConnectionMojang { get }
+    var connection : any PlayerConnection { get }
     
     var list_name : String? { get set }
     
