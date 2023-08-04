@@ -9,15 +9,15 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     /// Sent as a response to Client Command (id 1). Will only send the changed values if previously requested.
-    struct AwardStatistics : ClientPacketMojangProtocol {
+    struct AwardStatistics : ClientPacketMojangPlayProtocol {
         /// Number of elements in `statistics`.
-        let count:Int
-        let statistics:AwardStatistics.Statistic
+        public let count:Int
+        public let statistics:AwardStatistics.Statistic
         
-        struct Statistic : Hashable, Codable {
-            let category_id:[Int]
-            let statistic_id:[Int]
-            let value:[Int]
+        public struct Statistic : Hashable, Codable {
+            public let category_id:[Int]
+            public let statistic_id:[Int]
+            public let value:[Int]
         }
     }
 }

@@ -120,41 +120,60 @@ public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg
     
     public var packet : (any ClientPacketMojangProtocol.Type)? {
         switch self {
-        case .spawn_entity:                 return ClientPacketMojang.Play.SpawnEntity.self
-        case .spawn_experience_orb:         return ClientPacketMojang.Play.SpawnExperienceOrb.self
-        case .spawn_player:                 return ClientPacketMojang.Play.SpawnPlayer.self
-        case .entity_animation:             return ClientPacketMojang.Play.EntityAnimation.self
-        case .award_statistic:              return ClientPacketMojang.Play.AwardStatistics.self
-        case .acknowledge_block_change:     return ClientPacketMojang.Play.AcknowledgeBlockChange.self
-        case .set_block_destroy_stage:      return ClientPacketMojang.Play.SetBlockDestroyStage.self
-        case .block_entity_data:            return nil
-        case .block_action:                 return ClientPacketMojang.Play.BlockAction.self
-        case .block_update:                 return ClientPacketMojang.Play.BlockUpdate.self
-        case .boss_bar:                     return ClientPacketMojang.Play.BossBar.self
-        case .change_difficulty:            return ClientPacketMojang.Play.ChangeDifficulty.self
-        case .chunk_biomes:                 return ClientPacketMojang.Play.ChunkBiomes.self
-        case .clear_titles:                 return ClientPacketMojang.Play.ClearTitles.self
-        case .command_suggestions_response: return ClientPacketMojang.Play.CommandSuggestionsResponse.self
-        case .commands:                     return ClientPacketMojang.Play.Commands.self
-        case .close_container:              return ClientPacketMojang.Play.CloseContainer.self
-        case .set_container_content:        return ClientPacketMojang.Play.SetContainerContent.self
-        case .set_container_property:       return ClientPacketMojang.Play.SetContainerProperty.self
-        case .set_container_slot:           return ClientPacketMojang.Play.SetContainerSlot.self
-        case .set_cooldown:                 return ClientPacketMojang.Play.SetCooldown.self
-        case .chat_suggestions:             return ClientPacketMojang.Play.ChatSuggestions.self
-        case .plugin_message:               return ClientPacketMojang.Play.PluginMessage.self
-        case .damage_event:                 return ClientPacketMojang.Play.DamageEvent.self
-        case .delete_message:               return ClientPacketMojang.Play.DeleteMessage.self
-        case .disconnect:                   return ClientPacketMojang.Play.Disconnect.self
-        case .disguised_chat_message:       return ClientPacketMojang.Play.DisguisedChatMessage.self
-        case .entity_event:                 return ClientPacketMojang.Play.EntityEvent.self
-        case .explosion:                    return ClientPacketMojang.Play.Explosion.self
-        case .unload_chunk:                 return ClientPacketMojang.Play.UnloadChunk.self
-        case .game_event:                   return ClientPacketMojang.Play.GameEvent.self
-        case .open_horse_screen:            return ClientPacketMojang.Play.OpenHorseScreen.self
+        case .spawn_entity:                   return ClientPacketMojang.Play.SpawnEntity.self
+        case .spawn_experience_orb:           return ClientPacketMojang.Play.SpawnExperienceOrb.self
+        case .spawn_player:                   return ClientPacketMojang.Play.SpawnPlayer.self
+        case .entity_animation:               return ClientPacketMojang.Play.EntityAnimation.self
+        case .award_statistic:                return ClientPacketMojang.Play.AwardStatistics.self
+        case .acknowledge_block_change:       return ClientPacketMojang.Play.AcknowledgeBlockChange.self
+        case .set_block_destroy_stage:        return ClientPacketMojang.Play.SetBlockDestroyStage.self
+        case .block_entity_data:              return nil
+        case .block_action:                   return ClientPacketMojang.Play.BlockAction.self
+        case .block_update:                   return ClientPacketMojang.Play.BlockUpdate.self
+        case .boss_bar:                       return ClientPacketMojang.Play.BossBar.self
+        case .change_difficulty:              return ClientPacketMojang.Play.ChangeDifficulty.self
+        case .chunk_biomes:                   return ClientPacketMojang.Play.ChunkBiomes.self
+        case .clear_titles:                   return ClientPacketMojang.Play.ClearTitles.self
+        case .command_suggestions_response:   return ClientPacketMojang.Play.CommandSuggestionsResponse.self
+        case .commands:                       return ClientPacketMojang.Play.Commands.self
+        case .close_container:                return ClientPacketMojang.Play.CloseContainer.self
+        case .set_container_content:          return ClientPacketMojang.Play.SetContainerContent.self
+        case .set_container_property:         return ClientPacketMojang.Play.SetContainerProperty.self
+        case .set_container_slot:             return ClientPacketMojang.Play.SetContainerSlot.self
+        case .set_cooldown:                   return ClientPacketMojang.Play.SetCooldown.self
+        case .chat_suggestions:               return ClientPacketMojang.Play.ChatSuggestions.self
+        case .plugin_message:                 return ClientPacketMojang.Play.PluginMessage.self
+        case .damage_event:                   return ClientPacketMojang.Play.DamageEvent.self
+        case .delete_message:                 return ClientPacketMojang.Play.DeleteMessage.self
+        case .disconnect:                     return ClientPacketMojang.Play.Disconnect.self
+        case .disguised_chat_message:         return ClientPacketMojang.Play.DisguisedChatMessage.self
+        case .entity_event:                   return ClientPacketMojang.Play.EntityEvent.self
+        case .explosion:                      return ClientPacketMojang.Play.Explosion.self
+        case .unload_chunk:                   return ClientPacketMojang.Play.UnloadChunk.self
+        case .game_event:                     return ClientPacketMojang.Play.GameEvent.self
+        case .open_horse_screen:              return ClientPacketMojang.Play.OpenHorseScreen.self
             
-        case .update_recipes:               return ClientPacketMojang.Play.UpdateRecipes.self
-        case .update_tags:                  return ClientPacketMojang.Play.UpdateTags.self
+        case .link_entities:                  return ClientPacketMojang.Play.LinkEntities.self
+            
+        case .set_experience:                 return ClientPacketMojang.Play.SetExperience.self
+        case .set_health:                     return ClientPacketMojang.Play.SetHealth.self
+            
+        case .set_simulation_distance:        return ClientPacketMojang.Play.SetSimulationDistance.self
+        case .set_subtitle_text:              return ClientPacketMojang.Play.SetSubtitleText.self
+        case .update_time:                    return ClientPacketMojang.Play.UpdateTime.self
+        case .set_title_text:                 return ClientPacketMojang.Play.SetTitleText.self
+        case .set_title_animation_times:      return ClientPacketMojang.Play.SetTitleAnimationTimes.self
+        case .entity_sound_effect:            return ClientPacketMojang.Play.EntitySoundEffect.self
+        case .sound_effect:                   return ClientPacketMojang.Play.SoundEffect.self
+        case .stop_sound:                     return ClientPacketMojang.Play.StopSound.self
+        case .system_chat_message:            return ClientPacketMojang.Play.SystemChatMessage.self
+        case .set_tab_list_header_and_footer: return ClientPacketMojang.Play.SetTabListHeaderAndFooter.self
+        case .tag_query_response:             return ClientPacketMojang.Play.TagQueryResponse.self
+        case .pickup_item:                    return ClientPacketMojang.Play.PickupItem.self
+        case .teleport_entity:                return ClientPacketMojang.Play.TeleportEntity.self
+            
+        case .update_recipes:                 return ClientPacketMojang.Play.UpdateRecipes.self
+        case .update_tags:                    return ClientPacketMojang.Play.UpdateTags.self
         default:
             return nil
         }

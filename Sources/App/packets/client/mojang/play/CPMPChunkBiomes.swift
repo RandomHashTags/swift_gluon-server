@@ -8,20 +8,20 @@
 import Foundation
 
 public extension ClientPacketMojang.Play {
-    struct ChunkBiomes : ClientPacketMojangProtocol {
+    struct ChunkBiomes : ClientPacketMojangPlayProtocol {
         /// Number of elements in `data`.
-        let number_of_chunks:Int
-        let data:[ChunkBiomes.BiomeData]
+        public let number_of_chunks:Int
+        public let data:[ChunkBiomes.BiomeData]
         
-        struct BiomeData : Hashable, Codable {
+        public struct BiomeData : Hashable, Codable {
             /// Chunk coordinate (block coordinate divided by 16, rounded down)
-            let x:Int
+            public let x:Int
             /// Chunk coordinate (block coordinate divided by 16, rounded down)
-            let z:Int
+            public let z:Int
             /// Size of `data` in bytes
-            let size:Int
+            public let size:Int
             /// Chunk data structure, with sections containing only the `Biomes` field
-            let data:Data
+            public let data:Data
         }
     }
 }

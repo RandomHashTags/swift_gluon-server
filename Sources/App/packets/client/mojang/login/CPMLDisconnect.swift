@@ -8,8 +8,8 @@
 import Foundation
 
 public extension ClientPacketMojang.Login {
-    struct Disconnect : ClientPacketMojangProtocol {
+    struct Disconnect : ClientPacketMojangLoginProtocol {
         /// The reason why the player was disconnected.
-        let reason:ChatPacketMojang
+        public let reason:ChatPacketMojang
     }
 }

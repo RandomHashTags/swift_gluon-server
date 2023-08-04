@@ -8,15 +8,15 @@
 import Foundation
 
 public extension ClientPacketMojang.Play {
-    struct SetContainerContent : ClientPacketMojangProtocol {
+    struct SetContainerContent : ClientPacketMojangPlayProtocol {
         /// The ID of window which items are being sent for. 0 for player inventory.
-        let window_id:UInt8
+        public let window_id:UInt8
         /// The last received State ID from either a Set Container Slot or a Set Container Content packet.
-        let state_id:Int
+        public let state_id:Int
         /// Number of elements in `slot_data`.
-        let count:Int
-        let slot_data:[SlotMojang]
+        public let count:Int
+        public let slot_data:[SlotMojang]
         /// Item held by player.
-        let carried_item:SlotMojang
+        public let carried_item:SlotMojang
     }
 }

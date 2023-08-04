@@ -7,11 +7,23 @@
 
 import Foundation
 
-public protocol ClientPacketMojangProtocol : ClientPacket {
+public protocol ClientPacketMojangProtocol : ClientPacket, PacketMojang {
 }
 
-public extension ClientPacketMojangProtocol {
-    var platform : PacketPlatform {
-        return PacketPlatform.mojang
+// MARK: ClientPacketMojangLoginProtocol
+public protocol ClientPacketMojangLoginProtocol : ClientPacketMojangProtocol {
+}
+public extension ClientPacketMojangLoginProtocol {
+    var category : Category {
+        return Category.client_login
+    }
+}
+
+// MARK: ClientPacketMojangPlayProtocol
+public protocol ClientPacketMojangPlayProtocol : ClientPacketMojangProtocol {
+}
+public extension ClientPacketMojangPlayProtocol {
+    var category : Category {
+        return Category.client_play
     }
 }

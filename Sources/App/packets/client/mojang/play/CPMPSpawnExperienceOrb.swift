@@ -9,12 +9,12 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     /// Spawns one or more experience orbs.
-    struct SpawnExperienceOrb : ClientPacketMojangProtocol {
-        let entity_id:Int
-        let x:Double
-        let y:Double
-        let z:Double
+    struct SpawnExperienceOrb : ClientPacketMojangPlayProtocol {
+        public let entity_id:Int
+        public let x:Double
+        public let y:Double
+        public let z:Double
         /// The amount of experience this orb will reward once collected.
-        let count:Int
+        public let count:Int
     }
 }

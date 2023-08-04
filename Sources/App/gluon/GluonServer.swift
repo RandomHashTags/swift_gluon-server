@@ -160,7 +160,8 @@ final class GluonServer : GluonSharedInstance, Server {
             allowed_recipe_ids: nil
         )
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
-        let connection:PlayerConnection = PlayerConnection("ws://0.0.0.0:25565")
+        let player_uuid:UUID = UUID()
+        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, "ws://0.0.0.0:25565")
         let player:GluonPlayer = GluonPlayer(
             connection: connection,
             name: "RandomHashTags",
@@ -194,7 +195,7 @@ final class GluonServer : GluonSharedInstance, Server {
             air_maximum: 20,
             health: 20,
             health_maximum: 20,
-            uuid: UUID(),
+            uuid: player_uuid,
             type_id: "minecraft.player",
             ticks_lived: 0,
             boundaries: [],
@@ -255,7 +256,7 @@ extension GluonServer {
         let player_uuid:UUID = player.uuid
         guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
         world.players.remove(at: index)
-        player.connection.close()
+        player.connection.close(reason: reason.data(using: .utf8))
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {

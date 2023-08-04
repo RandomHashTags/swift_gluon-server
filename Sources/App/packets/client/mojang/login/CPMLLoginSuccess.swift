@@ -11,19 +11,19 @@ public extension ClientPacketMojang.Login {
     /// This packet switches the connection state to play.
     /// - Warning: The (notchian) server might take a bit to fully transition to the Play state, so it's recommended to wait for the Login (play) packet from the server.
     /// - Warning: The notchian client doesn't send any packets until the Login (play) packet.
-    struct LoginSuccess : ClientPacketMojangProtocol {
-        let uuid:UUID
-        let username:String
+    struct LoginSuccess : ClientPacketMojangLoginProtocol {
+        public let uuid:UUID
+        public let username:String
         /// Number of elements in `properties`.
-        let number_of_properties:Int
-        let properties:[LoginSuccess.Property]
+        public let number_of_properties:Int
+        public let properties:[LoginSuccess.Property]
         
-        struct Property : Hashable, Codable {
-            let name:String
-            let value:String
-            let is_signed:Bool
+        public struct Property : Hashable, Codable {
+            public let name:String
+            public let value:String
+            public let is_signed:Bool
             /// Only if `is_signed` is `true`.
-            let signature:String?
+            public let signature:String?
         }
     }
 }

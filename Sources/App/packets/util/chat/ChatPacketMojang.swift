@@ -7,31 +7,31 @@
 
 import Foundation
 
-public struct ChatPacketMojang : ChatPacket {
-    let text:String
-    let bold:Bool?
-    let italic:Bool?
-    let underlined:Bool?
-    let strikethrough:Bool?
-    let obfuscated:Bool?
-    let font:String?
-    let color:String?
-    let insertion:String?
-    let clickEvent:ChatPacketMojang.ClickEvent?
-    let hoverEvent:ChatPacketMojang.HoverEvent?
-    
-    let extra:[ChatPacketMojang]?
-    
-    public var platform : PacketPlatform {
-        return PacketPlatform.mojang
+public struct ChatPacketMojang : ChatPacket, PacketMojang {
+    public var category : PacketCategoryMojang {
+        return PacketCategoryMojang.middleware
     }
+    
+    public let text:String
+    public let bold:Bool?
+    public let italic:Bool?
+    public let underlined:Bool?
+    public let strikethrough:Bool?
+    public let obfuscated:Bool?
+    public let font:String?
+    public let color:String?
+    public let insertion:String?
+    public let clickEvent:ChatPacketMojang.ClickEvent?
+    public let hoverEvent:ChatPacketMojang.HoverEvent?
+    
+    public let extra:[ChatPacketMojang]?
 }
 
 public extension ChatPacketMojang {
     /// Defines an event that occurs when this component is clicked. Contains an `action` key and a `value` key. `value` is internally handled as a String, although it can be any type of JSON primitive.
     struct ClickEvent : Hashable, Codable {
-        let action:ClickEventAction
-        let value:String
+        public let action:ClickEventAction
+        public let value:String
     }
     enum ClickEventAction : String, Hashable, Codable {
         /// Opens the given URL in the default web browser. Ignored if the player has opted to disable links in chat; may open a GUI prompting the user if the setting for that is enabled. The link's protocol must be set and must be `http` or `https`, for security reasons.

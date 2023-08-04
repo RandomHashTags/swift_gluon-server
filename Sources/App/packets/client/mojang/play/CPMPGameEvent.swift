@@ -8,10 +8,10 @@
 import Foundation
 
 public extension ClientPacketMojang.Play {
-    struct GameEvent : ClientPacketMojangProtocol {
-        let event:GameEvent.Event
+    struct GameEvent : ClientPacketMojangPlayProtocol {
+        public let event:GameEvent.Event
         /// Depends on Event.
-        let value:Float
+        public let value:Float
         
         public enum Event : UInt, Hashable, Codable {
             /// Value: Note: Displays message 'block.minecraft.spawn.not\_valid' (You have no home bed or charged respawn anchor, or it was obstructed) to the player.

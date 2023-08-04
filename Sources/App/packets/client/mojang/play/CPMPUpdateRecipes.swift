@@ -8,16 +8,16 @@
 import Foundation
 
 public extension ClientPacketMojang.Play {
-    struct UpdateRecipes : ClientPacketMojangProtocol {
+    struct UpdateRecipes : ClientPacketMojangPlayProtocol {
         /// Number of elements in `recipes`.
-        let count:Int
-        let recipes:[UpdateRecipes.UpdateRecipe]
+        public let count:Int
+        public let recipes:[UpdateRecipes.UpdateRecipe]
         
-        struct UpdateRecipe : Hashable, Codable {
-            let identifiers:[String]
-            let recipe_ids:[Int]
+        public struct UpdateRecipe : Hashable, Codable {
+            public let identifiers:[String]
+            public let recipe_ids:[Int]
             /// Additional data for the recipe.
-            let data:[String] // TODO: fix (make codable)
+            public let data:[Data]
         }
     }
 }

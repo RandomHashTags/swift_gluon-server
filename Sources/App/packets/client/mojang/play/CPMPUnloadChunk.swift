@@ -11,10 +11,10 @@ public extension ClientPacketMojang.Play {
     /// Tells the client to unload a chunk column.
     ///
     /// It is legal to send this packet even if the given chunk is not currently loaded.
-    struct UnloadChunk : ClientPacketMojangProtocol {
+    struct UnloadChunk : ClientPacketMojangPlayProtocol {
         /// Block coordinate divided by 16, rounded down.
-        let chunk_x:Int
+        public let chunk_x:Int
         /// Block coordinate divided by 16, rounded down.
-        let chunk_z:Int
+        public let chunk_z:Int
     }
 }

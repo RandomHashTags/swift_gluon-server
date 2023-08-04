@@ -8,7 +8,7 @@
 import Foundation
 
 final class GluonPlayer : Player {
-    let connection:PlayerConnection
+    let connection:PlayerConnectionMojang
     
     var name:String
     var list_name:String?
@@ -121,7 +121,7 @@ final class GluonPlayer : Player {
     }
     
     init(
-        connection: PlayerConnection,
+        connection: PlayerConnectionMojang,
         name: String,
         experience: UInt64,
         experience_level: UInt64,
@@ -227,7 +227,7 @@ extension GluonPlayer {
         let living_entity:GluonLivingEntity = try GluonLivingEntity(from: decoder)
         
         var container:KeyedDecodingContainer = try decoder.container(keyedBy: GluonPlayerCodingKeys.self)
-        connection = PlayerConnection("")
+        connection = PlayerConnectionMojang("")
         
         name = try container.decode(String.self, forKey: .name)
         list_name = try container.decodeIfPresent(String.self, forKey: .list_name)
