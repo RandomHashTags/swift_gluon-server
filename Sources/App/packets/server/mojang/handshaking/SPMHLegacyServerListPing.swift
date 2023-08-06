@@ -12,6 +12,10 @@ public extension ServerPacketMojang.Handshaking {
     /// - Warning: This packet uses a nonstandard format. It is never length-prefixed, and the packet ID is an Unsigned Byte instead of a VarInt.
     struct LegacyServerListPing : ServerPacketMojangHandshakingProtocol {
         /// always 1 (`0x01`).
-        public let payload:UInt
+        public let payload:Int
+        
+        public func get_encoded_values() -> [PacketByteEncodableMojang?] {
+            return [payload]
+        }
     }
 }

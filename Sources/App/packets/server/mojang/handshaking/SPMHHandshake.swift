@@ -23,6 +23,7 @@ public extension ServerPacketMojang.Handshaking {
             }
             return Handshake(protocol_version: protocol_version, server_address: server_address, server_port: server_port, next_state: next_state)
         }
+        
         /// See https://wiki.vg/Protocol_version_numbers .
         public let protocol_version:MinecraftProtocolVersion
         /// Hostname or IP, e.g. localhost or 127.0.0.1, that was used to connect. The Notchian server does not use this information.
@@ -31,5 +32,9 @@ public extension ServerPacketMojang.Handshaking {
         /// Default is 25565. The Notchian server does not use this information.
         public let server_port:Int
         public let next_state:ServerPacketMojang.Status
+        
+        public func get_encoded_values() -> [PacketByteEncodableMojang?] {
+            return [protocol_version, server_address, server_port, next_state]
+        }
     }
 }

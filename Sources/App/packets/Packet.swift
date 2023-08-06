@@ -18,10 +18,19 @@ public protocol Packet : Hashable, Codable {
     var category : Category { get }
     
     //func to_sendable(category: Category, id: IDValue) -> (any SendablePacket)?
+    
+    func get_encoded_bytes() -> [UInt8]
+    func get_encoded_values() -> [PacketByteEncodableMojang?]
+    
+    func to_general() -> PacketType
 }
 public extension Packet {
     static func parse(_ packet: inout PacketType) throws -> Self {
         throw GeneralPacketError.not_implemented(packet_type: Self.self)
+    }
+    
+    func to_general() -> PacketType {
+        return PacketType(bytes: get_encoded_bytes())
     }
 }
 

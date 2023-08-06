@@ -64,6 +64,12 @@ public struct GeneralPacketMojang : GeneralPacket {
     public mutating func read_short() throws -> Int {
         return try read_int(bytes: 2)
     }
+    public mutating func read_int() throws -> Int {
+        return try read_int(bytes: 4)
+    }
+    public mutating func read_long() throws -> Int {
+        return try read_int(bytes: 8)
+    }
     
     public mutating func read_string() throws -> String {
         let size:Int = try read_var_int()

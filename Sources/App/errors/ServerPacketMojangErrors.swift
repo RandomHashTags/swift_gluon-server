@@ -22,7 +22,7 @@ public enum ServerPacketMojangErrors {
     public enum Status : Error, CustomStringConvertible {
         case doesnt_exist(id: Int)
         
-        public var description: String {
+        public var description : String {
             switch self {
             case .doesnt_exist(let id):
                 return "`ServerPacketMojang.Status` with rawValue \(id) doesn't exist"

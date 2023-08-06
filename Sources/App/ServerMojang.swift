@@ -67,6 +67,9 @@ final class ServerMojangHandler : ChannelInboundHandler {
         case .handshaking_received_packet:
             context.read()
             break
+        case .status:
+            print("ServerMojang;channelRegistered;state==status")
+            break
         default:
             let response:String = "bro"
             var buffer:ByteBuffer = context.channel.allocator.buffer(capacity: response.utf8.count)
@@ -123,7 +126,18 @@ final class ServerMojangHandler : ChannelInboundHandler {
             return
         }
         if let handshake:ServerPacketMojang.Handshaking.Handshake = client_packet as? ServerPacketMojang.Handshaking.Handshake {
-            print("ServerMojang;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(handshake.next_state)")
+            let next_state:ServerPacketMojang.Status = handshake.next_state
+            print("ServerMojang;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(next_state)")
+            switch next_state {
+            case .status:
+                state = ServerMojangStatus.status
+                let status_request:ServerPacketMojang.Status.StatusRequest = ServerPacketMojang.Status.StatusRequest()
+                
+                break
+            case .login:
+                break
+            }
+            
         }
     }
 }
