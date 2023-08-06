@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ServerPacketMojangPlay : UInt, PacketGameplayID {
+public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
     case confirm_teleportation = 0
     case query_block_entity_tag = 1
     case change_difficulty

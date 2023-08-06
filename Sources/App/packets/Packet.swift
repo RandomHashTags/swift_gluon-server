@@ -10,11 +10,19 @@ import Foundation
 public protocol Packet : Hashable, Codable {
     associatedtype IDValue : Codable
     associatedtype Category : PacketCategory
+    associatedtype PacketType : GeneralPacket
+    
+    static func parse(_ packet: inout PacketType) throws -> Self
     
     var platform : PacketPlatform { get }
     var category : Category { get }
     
     //func to_sendable(category: Category, id: IDValue) -> (any SendablePacket)?
+}
+public extension Packet {
+    static func parse(_ packet: inout PacketType) throws -> Self {
+        throw GeneralPacketError.not_implemented(packet_type: Self.self)
+    }
 }
 
 /*

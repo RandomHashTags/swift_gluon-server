@@ -7,5 +7,5 @@
 
 import Foundation
 
-public protocol PacketGameplayID : RawRepresentable where RawValue == UInt {
+public protocol PacketGameplayID : RawRepresentable where RawValue == UInt8 {
 }

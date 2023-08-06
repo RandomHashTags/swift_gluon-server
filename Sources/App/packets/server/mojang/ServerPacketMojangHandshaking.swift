@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ServerPacketMojangHandshaking : UInt, PacketGameplayID {
+public enum ServerPacketMojangHandshaking : UInt8, PacketGameplayID {
     case handshake = 0
     case legacy_server_list_ping = 254
     

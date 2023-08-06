@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ServerPacketMojangProtocol : ServerPacket, PacketMojang where IDValue == UInt, Category == PacketCategoryMojang {
+public protocol ServerPacketMojangProtocol : ServerPacket, PacketMojang {
 }
 
 // MARK: ServerPacketMojangHandshakingProtocol

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ClientPacketMojangLogin : UInt, PacketGameplayID {
+public enum ClientPacketMojangLogin : UInt8, PacketGameplayID {
     case disconnect = 0
     case encryption_request = 1
     case login_success

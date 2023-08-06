@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ClientPacketMojangPlay : UInt, PacketGameplayID { // https://wiki.vg/Protocol
+public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.vg/Protocol
     case bundle_delimiter = 0
     case spawn_entity =     1
     case spawn_experience_orb

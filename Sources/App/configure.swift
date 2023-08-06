@@ -26,7 +26,7 @@ public func configure(_ app: Application) throws {
     app.http.client.configuration.redirectConfiguration = .follow(max: 3, allowCycles: false)
     app.clients.use(.http)
     
-    //app.http.server.configuration.hostname = productionMode ? Settings.get_hostname() : "localhost"
+    app.http.server.configuration.hostname = "192.168.1.96"
     app.http.server.configuration.port = 25565
     //app.http.server.configuration.serverName = Settings.get_server_name()
     //app.http.server.configuration.supportVersions = [.one]
@@ -62,6 +62,25 @@ private func test() {
 }
 
 private func start_server(_ app: Application) {
+    // TODO: support (gluon server implementation below)
+
+    /*app.webSocket("**") { request, server_socket in
+        print("test1")
+        
+        server_socket.onText { client_socket, text in
+            print("test2")
+        }
+        server_socket.onPing { client_socket in
+            print("test3")
+        }
+        server_socket.onPong { client_socket in
+            print("test4")
+        }
+        
+        server_socket.onBinary { client_socket, buffer in
+            print("test5")
+        }
+    }*/
     app.webSocket("connection") { request, server_socket in
         
         server_socket.onText { client_socket, text in
@@ -80,6 +99,7 @@ private func start_server(_ app: Application) {
         }
     }
     
+    return;
     Task {
         let seconds_to_sleep:UInt64 = 1
         try await Task.sleep(nanoseconds: 1_000_000_000 * seconds_to_sleep)

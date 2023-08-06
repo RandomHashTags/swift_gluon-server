@@ -9,6 +9,8 @@ let package = Package(
         .macOS(.v13)
     ],
     dependencies: [
+        //.package(url: "https://github.com/Kitura/BlueSocket.git", from: "2.0.2"),
+        //.package(url: "https://github.com/apple/swift-nio.git", from: "2.57.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.77.0"),
         .package(url: "https://github.com/vapor/console-kit.git", from: "4.6.0"),
         .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
@@ -24,6 +26,7 @@ let package = Package(
         .target(
             name: "App",
             dependencies: [
+                //.product(name: "BlueSocket", package: "BlueSocket"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),

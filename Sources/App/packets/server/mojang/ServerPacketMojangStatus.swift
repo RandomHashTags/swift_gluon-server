@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ServerPacketMojangStatus : UInt, PacketGameplayID {
+public enum ServerPacketMojangStatus : UInt8, PacketGameplayID {
     case status_request = 0
     case ping_request   = 1
     

@@ -8,11 +8,18 @@
 import App
 import Vapor
 import Backtrace
+import NIO
 
 Backtrace.install()
-var env:Environment = try Environment.detect()
+
+let server:ServerMojang = ServerMojang(host: "192.168.1.96", port: 25565)
+defer { server.shutdown() }
+try server.run()
+
+
+/*var env:Environment = try Environment.detect()
 try LoggingSystem.bootstrap(from: &env)
 let app:Application = Application(env)
 defer { app.shutdown() }
 try configure(app)
-try app.run()
+try app.run()*/

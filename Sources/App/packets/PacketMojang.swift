@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol PacketMojang : Packet where IDValue == UInt, Category == PacketCategoryMojang {
+public protocol PacketMojang : Packet where IDValue == UInt, Category == PacketCategoryMojang, PacketType == GeneralPacketMojang {
 }
 
 public extension PacketMojang {
