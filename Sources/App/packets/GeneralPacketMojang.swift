@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NIO
 
 public struct GeneralPacketMojang : GeneralPacket {
     public static let segment_bits:UInt8 = 0x7F
@@ -15,7 +16,6 @@ public struct GeneralPacketMojang : GeneralPacket {
     public let packet_id:UInt8
     public let data:ArraySlice<UInt8>
     
-    public private(set) var reading:Bool = false
     public private(set) var reading_index:Int = 0
     
     public init(bytes: [UInt8]) {
@@ -48,7 +48,6 @@ public struct GeneralPacketMojang : GeneralPacket {
                 throw GeneralPacketError.varint_is_too_big
             }
         }
-        print("GeneralPacketMojang;read_var_int;returned \(value)")
         return value
     }
     
@@ -71,5 +70,14 @@ public struct GeneralPacketMojang : GeneralPacket {
         let string:String = String((0..<size).map({ i in data[reading_index + i].char }))
         reading_index += size
         return string
+    }
+    
+    public mutating func read_json<T: Decodable>() throws -> T {
+        let size:Int = try read_var_int()
+        let bytes:ArraySlice<UInt8> = data[reading_index..<size]
+        let buffer:ByteBuffer = ByteBuffer(bytes: bytes)
+        let json:T = try JSONDecoder().decode(T.self, from: buffer)
+        reading_index += size
+        return json
     }
 }
