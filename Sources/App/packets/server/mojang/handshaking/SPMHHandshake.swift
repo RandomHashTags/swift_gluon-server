@@ -13,7 +13,7 @@ public extension ServerPacketMojang.Handshaking {
         public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
             let protocol_version:Int = try packet.read_var_int()
             let server_address:String = try packet.read_string()
-            let server_port:Int = 0
+            let server_port:Int = try packet.read_short()
             let next_state:ServerPacketMojang.Status = .login
             
             return Handshake(protocol_version: protocol_version, server_address: server_address, server_port: server_port, next_state: next_state)

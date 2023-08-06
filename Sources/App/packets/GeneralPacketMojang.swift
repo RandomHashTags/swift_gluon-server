@@ -13,7 +13,7 @@ public struct GeneralPacketMojang : GeneralPacket {
     
     public let length:UInt8
     public let packet_id:UInt8
-    public let data:[UInt8]
+    public let data:ArraySlice<UInt8>
     
     public private(set) var reading:Bool = false
     public private(set) var reading_index:Int = 0
@@ -21,7 +21,8 @@ public struct GeneralPacketMojang : GeneralPacket {
     public init(bytes: [UInt8]) {
         length = bytes[0]
         packet_id = bytes[1]
-        data = [UInt8](bytes[2..<bytes.count])
+        data = bytes[2..<bytes.count]
+        reading_index = 2
         print("GeneralPacketMojang;data=" + data.description)
     }
     
@@ -37,7 +38,7 @@ public struct GeneralPacketMojang : GeneralPacket {
         while true {
             current_byte = data[reading_index]
             reading_index += 1
-            value |= Int( (current_byte & GeneralPacketMojang.segment_bits) << position )
+            value |= Int(current_byte & GeneralPacketMojang.segment_bits) << position
             
             if ((current_byte & GeneralPacketMojang.continue_bit) == 0) {
                 break
@@ -51,12 +52,23 @@ public struct GeneralPacketMojang : GeneralPacket {
         return value
     }
     
+    private mutating func read_int(bytes: Int) throws -> Int {
+        var value:Int = 0
+        var position:Int = (bytes - 1) * 8
+        for _ in 0..<bytes {
+            value |= Int(data[reading_index]) << position
+            reading_index += 1
+            position -= 8
+        }
+        return value
+    }
+    public mutating func read_short() throws -> Int {
+        return try read_int(bytes: 2)
+    }
+    
     public mutating func read_string() throws -> String {
         let size:Int = try read_var_int()
-        var string:String = ""
-        for i in 0..<size {
-            string.append(data[reading_index + i].char)
-        }
+        let string:String = String((0..<size).map({ i in data[reading_index + i].char }))
         reading_index += size
         return string
     }
