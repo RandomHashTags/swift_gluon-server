@@ -31,5 +31,18 @@ public extension ClientPacketMojang.Play {
         public let source_position_y:Double?
         /// Only present if `has_source_position` is `true`.
         public let source_position_z:Double?
+        
+        public var encoded_values: [PacketEncodableMojang?] {
+            return [
+                entity_id,
+                source_type_id,
+                source_cause_id,
+                source_direct_id,
+                has_source_position,
+                source_position_x,
+                source_position_y,
+                source_position_z
+            ]
+        }
     }
 }

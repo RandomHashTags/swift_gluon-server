@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketByteEncodableMojang {
+public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketEncodableMojang {
     public var category : PacketCategoryMojang {
         return PacketCategoryMojang.middleware
     }
@@ -47,14 +47,11 @@ public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketByteEncodableMo
     public let extra:[ChatPacketMojang]?
     
     
-    public var packet_bytes_mojang : [UInt8] {
-        return get_encoded_bytes()
-    }
-    public func get_encoded_bytes() -> [UInt8] {
-        var array:[UInt8] = text.packet_bytes_mojang
+    public var packet_bytes : [UInt8] { // TODO: fix
+        var array:[UInt8] = text.packet_bytes
         return array
     }
-    public func get_encoded_values() -> [PacketByteEncodableMojang?] {
+    public var encoded_values : [PacketEncodableMojang?] { // TODO: fix
         return []
     }
 }

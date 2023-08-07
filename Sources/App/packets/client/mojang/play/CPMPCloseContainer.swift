@@ -12,5 +12,9 @@ public extension ClientPacketMojang.Play {
     struct CloseContainer : ClientPacketMojangPlayProtocol {
         /// This is the ID of the window that was closed. 0 for inventory.
         let window_id:UInt8
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [window_id]
+        }
     }
 }

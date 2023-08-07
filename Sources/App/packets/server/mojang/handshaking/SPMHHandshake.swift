@@ -11,16 +11,10 @@ public extension ServerPacketMojang.Handshaking {
     /// This causes the server to switch into the target state.
     struct Handshake : ServerPacketMojangHandshakingProtocol {
         public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
-            let protocol_version_raw_value:Int = try packet.read_var_int()
-            guard let protocol_version:MinecraftProtocolVersion = MinecraftProtocolVersion.init(rawValue: protocol_version_raw_value) else {
-                throw ServerPacketMojangErrors.ProtocolVersion.doesnt_exist(id: protocol_version_raw_value)
-            }
+            let protocol_version:MinecraftProtocolVersion = try packet.read_enum()
             let server_address:String = try packet.read_string()
             let server_port:Int = try packet.read_short()
-            let next_state_raw_value:Int = try packet.read_var_int()
-            guard let next_state:ServerPacketMojang.Status = ServerPacketMojang.Status.init(rawValue: next_state_raw_value) else {
-                throw ServerPacketMojangErrors.Status.doesnt_exist(id: next_state_raw_value)
-            }
+            let next_state:ServerPacketMojang.Status = try packet.read_enum()
             return Handshake(protocol_version: protocol_version, server_address: server_address, server_port: server_port, next_state: next_state)
         }
         
@@ -33,7 +27,7 @@ public extension ServerPacketMojang.Handshaking {
         public let server_port:Int
         public let next_state:ServerPacketMojang.Status
         
-        public func get_encoded_values() -> [PacketByteEncodableMojang?] {
+        public var encoded_values : [PacketEncodableMojang?] {
             return [protocol_version, server_address, server_port, next_state]
         }
     }

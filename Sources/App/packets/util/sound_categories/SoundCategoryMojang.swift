@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum SoundCategoryMojang : UInt, Hashable, Codable {
+public enum SoundCategoryMojang : Int, Hashable, Codable, PacketEncodableMojang {
     case master = 0
     case music
     case record

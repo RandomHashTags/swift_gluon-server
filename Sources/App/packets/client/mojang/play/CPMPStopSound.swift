@@ -13,7 +13,7 @@ public extension ClientPacketMojang.Play {
         public let flags:Int
         /// Only if flags is 3 or 1 (bit mask 0x1). See below. If not present, then sounds from all sources are cleared.
         public let source:Int?
-        /// Only if flags is 2 or 3 (bit mask 0x2). A sound effect name, see Custom Sound Effect. If not present, then all sounds are cleared.
-        public let sound:String?
+        /// Only if flags is 2 or 3 (bit mask 0x2). A sound effect name, see [Custom Sound Effect](https://wiki.vg/Protocol#Custom_Sound_Effect). If not present, then all sounds are cleared.
+        public let sound:Namespace?
     }
 }

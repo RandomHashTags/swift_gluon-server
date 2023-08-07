@@ -12,9 +12,9 @@ public extension ClientPacketMojang.Play {
     /// - Warning: Numeric sound effect IDs are liable to change between versions
     struct SoundEffect : ClientPacketMojangPlayProtocol {
         /// Represents the `Sound ID + 1`. If the value is 0, the packet contains a sound specified by Identifier.
-        public let sound_id:Int
+        public let sound_id:VariableInteger
         /// Only present if `sound_id` is 0
-        public let sound_name:String?
+        public let sound_name:Namespace?
         /// Only present if `sound_id` is 0
         public let has_fixed_range:Bool?
         /// The fixed range of the sound. Only present if `has_fixed_range` is true and `sound_id` is 0.
@@ -32,6 +32,6 @@ public extension ClientPacketMojang.Play {
         /// Float between 0.5 and 2.0 by Notchian clients.
         public let pitch:Float
         /// Seed used to pick sound variant.
-        public let seed:Int64
+        public let seed:Int
     }
 }

@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct Namespace : Hashable, Codable, LosslessStringConvertible {
-    public let identifier:String
-    public let value:String
+public struct Namespace : Hashable, Codable, LosslessStringConvertible, PacketEncodableMojang { // TODO: fix (PacketEncodableMojang)
+    public let identifier:Substring
+    public let value:Substring
     
-    public init(identifier: String, value: String) {
+    public init(identifier: Substring, value: Substring) {
         self.identifier = identifier
         self.value = value
     }
@@ -19,8 +19,8 @@ public struct Namespace : Hashable, Codable, LosslessStringConvertible {
     public init?(_ description: String) {
         let values:[Substring] = description.split(separator: ":")
         guard values.count == 2 else { return nil }
-        identifier = String(values[0])
-        value = String(values[1])
+        identifier = values[0]
+        value = values[1]
     }
     
     public var description : String {
@@ -38,5 +38,9 @@ public struct Namespace : Hashable, Codable, LosslessStringConvertible {
             throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "invalid string: \(string)"))
         }
         self = namespace
+    }
+    
+    public var packet_bytes : [UInt8] {
+        return description.packet_bytes
     }
 }

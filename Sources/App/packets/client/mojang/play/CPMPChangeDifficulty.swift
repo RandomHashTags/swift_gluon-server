@@ -13,11 +13,15 @@ public extension ClientPacketMojang.Play {
         public let difficulty:ChangeDifficulty.Difficulty
         public let difficulty_locked:Bool
         
-        public enum Difficulty : UInt8, Hashable, Codable {
+        public enum Difficulty : UInt8, Hashable, Codable, PacketEncodableMojang {
             case peaceful = 0
             case easy
             case normal
             case hard
+        }
+        
+        public var encoded_values: [PacketEncodableMojang?] {
+            return [difficulty, difficulty_locked]
         }
     }
 }

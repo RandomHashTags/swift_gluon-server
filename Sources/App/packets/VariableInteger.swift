@@ -1,0 +1,20 @@
+//
+//  VariableInteger.swift
+//  
+//
+//  Created by Evan Anderson on 8/6/23.
+//
+
+import Foundation
+
+public struct VariableInteger : Hashable, Codable, PacketEncodableMojang {
+    public let value:Int
+    
+    public init(value: Int) {
+        self.value = value
+    }
+    
+    public var packet_bytes : [UInt8] {
+        return value.packet_bytes
+    }
+}

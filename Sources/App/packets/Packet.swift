@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Packet : Hashable, Codable {
+public protocol Packet : Hashable, Codable, PacketEncodable {
     associatedtype IDValue : Codable
     associatedtype Category : PacketCategory
     associatedtype PacketType : GeneralPacket
@@ -19,9 +19,6 @@ public protocol Packet : Hashable, Codable {
     
     //func to_sendable(category: Category, id: IDValue) -> (any SendablePacket)?
     
-    func get_encoded_bytes() -> [UInt8]
-    func get_encoded_values() -> [PacketByteEncodableMojang?]
-    
     func to_general() -> PacketType
 }
 public extension Packet {
@@ -30,7 +27,7 @@ public extension Packet {
     }
     
     func to_general() -> PacketType {
-        return PacketType(bytes: get_encoded_bytes())
+        return PacketType(bytes: packet_bytes)
     }
 }
 

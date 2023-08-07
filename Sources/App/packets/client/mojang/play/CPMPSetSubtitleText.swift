@@ -10,5 +10,9 @@ import Foundation
 public extension ClientPacketMojang.Play {
     struct SetSubtitleText : ClientPacketMojangPlayProtocol {
         public let text:ChatPacketMojang
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [text]
+        }
     }
 }

@@ -9,11 +9,17 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct GameEvent : ClientPacketMojangPlayProtocol {
+        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+            let event:GameEvent.Event = try packet.read_enum()
+            let value:Float = try packet.read_float()
+            return Self(event: event, value: value)
+        }
+        
         public let event:GameEvent.Event
         /// Depends on Event.
         public let value:Float
         
-        public enum Event : UInt, Hashable, Codable {
+        public enum Event : Int, Hashable, Codable, PacketEncodableMojang {
             /// > Note: Displays message 'block.minecraft.spawn.not\_valid' (You have no home bed or charged respawn anchor, or it was obstructed) to the player.
             case no_respawn_block_available
             case begin_raining
@@ -63,6 +69,10 @@ public extension ClientPacketMojang.Play {
             /// - 0: Enable respawn screen.
             /// - 1: Immediately respawn (sent when the doImmediateRespawn gamerule changes).
             case enable_respawn_screen
+        }
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [event, value]
         }
     }
 }

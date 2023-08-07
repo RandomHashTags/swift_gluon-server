@@ -15,10 +15,14 @@ public extension ClientPacketMojang.Play {
     /// If you need to display several break animations at the same time you have to give each of them a unique Entity ID. The entity ID does not need to correspond to an actual entity on the client. It is valid to use a randomly generated number.
     struct SetBlockDestroyStage : ClientPacketMojangPlayProtocol {
         /// The ID of the entity breaking the block.
-        public let entity_id:Int
+        public let entity_id:VariableInteger
         /// Block Position.
-        public let location:Int64
+        public let location:PositionPacketMojang
         /// 0–9 to set it, any other value to remove it.
         public let destroy_stage:Int
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [entity_id, location, destroy_stage]
+        }
     }
 }

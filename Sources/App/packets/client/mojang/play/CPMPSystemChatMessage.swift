@@ -14,5 +14,9 @@ public extension ClientPacketMojang.Play {
         public let content:ChatPacketMojang
         /// Whether the message is an actionbar or chat message.
         public let overlay:Bool
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [content, overlay]
+        }
     }
 }

@@ -18,7 +18,7 @@ public extension ClientPacketMojang.Play {
         /// > Note: All known window types include the player inventory. This packet will only be sent for the currently opened window while the player is performing actions, even if it affects the player inventory. After the window is closed, a number of these packets are sent to update the player's inventory window (0).
         public let window_id:UInt8
         /// The last received State ID from either a Set Container Slot or a Set Container Content packet.
-        public let state_id:Int
+        public let state_id:VariableInteger
         /// The slot that should be updated.
         public let slot:Int
         public let slot_data:SlotMojang

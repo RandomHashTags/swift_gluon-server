@@ -12,8 +12,10 @@ public extension ClientPacketMojang.Play {
     /// - Warning: This packet uses a block ID from the `minecraft:block` registry, not a block state.
     struct BlockAction : ClientPacketMojangPlayProtocol {
         /// Block coordinates.
-        public let location:Int64
+        public let location:PositionPacketMojang
+        /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions).
         public let action_id:Int
+        /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions).
         public let action_parameter:Int
         /// The block type ID for the block. This value is unused by the Notchian client, as it will infer the type of block based on the given position.
         public let block_type:Int
