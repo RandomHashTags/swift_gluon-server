@@ -9,15 +9,39 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct UpdateRecipes : ClientPacketMojangPlayProtocol {
+        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+            let count:VariableInteger = try packet.read_var_int()
+            let recipes:[UpdateRecipes.UpdateRecipe] = try packet.read_map(count: count) {
+                let identifier:Namespace = try packet.read_identifier()
+                let recipe_id:Namespace = try packet.read_identifier()
+                let data:Data = Data() // TODO: fix
+                return UpdateRecipes.UpdateRecipe(identifier: identifier, recipe_id: recipe_id, data: data)
+            }
+            return Self(count: count, recipes: recipes)
+        }
+        
         /// Number of elements in `recipes`.
-        public let count:Int
+        public let count:VariableInteger
         public let recipes:[UpdateRecipes.UpdateRecipe]
         
-        public struct UpdateRecipe : Hashable, Codable {
-            public let identifiers:[String]
-            public let recipe_ids:[Int]
+        public struct UpdateRecipe : Hashable, Codable, PacketEncodableMojang {
+            public let identifier:Namespace
+            public let recipe_id:Namespace
             /// Additional data for the recipe.
-            public let data:[Data]
+            public let data:Data
+            
+            public func packet_bytes() throws -> [UInt8] {
+                var array:[UInt8] = try identifier.packet_bytes()
+                array.append(contentsOf: try recipe_id.packet_bytes())
+                array.append(contentsOf: try data.packet_bytes())
+                return array
+            }
+        }
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            var array:[PacketEncodableMojang?] = [count]
+            array.append(contentsOf: recipes)
+            return array
         }
     }
 }
