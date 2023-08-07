@@ -12,11 +12,11 @@ public extension ClientPacketMojang.Play {
     /// - Warning: Numeric sound effect IDs are liable to change between versions
     struct EntitySoundEffect : ClientPacketMojangPlayProtocol {
         public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
-            let sound_id:Int = try packet.read_var_int()
+            let sound_id:VariableInteger = try packet.read_var_int()
             let sound_name:String?
             let has_fixed_range:Bool?
             let range:Float?
-            if sound_id == 0 {
+            if sound_id.value == 0 {
                 sound_name = try packet.read_string()
                 has_fixed_range = try packet.read_bool()
                 if let has_fixed_range:Bool = has_fixed_range, has_fixed_range {
@@ -30,7 +30,7 @@ public extension ClientPacketMojang.Play {
                 range = nil
             }
             let sound_category:SoundCategoryMojang = try packet.read_enum()
-            let entity_id:Int = try packet.read_var_int()
+            let entity_id:VariableInteger = try packet.read_var_int()
             let volume:Float = try packet.read_float()
             let pitch:Float = try packet.read_float()
             let seed:Int = try packet.read_long()
@@ -38,7 +38,7 @@ public extension ClientPacketMojang.Play {
         }
         
         /// Represents the `sound_id + 1`. If the value is 0, the packet contains a sound specified by Identifier.
-        public let sound_id:Int
+        public let sound_id:VariableInteger
         /// Only present if `sound_id` is 0.
         public let sound_name:String?
         /// Only present if `sound_id` is 0.
@@ -47,7 +47,7 @@ public extension ClientPacketMojang.Play {
         public let range:Float?
         /// The category that this sound will be played from.
         public let sound_category:SoundCategoryMojang
-        public let entity_id:Int
+        public let entity_id:VariableInteger
         /// 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients.
         public let volume:Float
         /// Float between 0.5 and 2.0 by Notchian clients.
@@ -57,7 +57,7 @@ public extension ClientPacketMojang.Play {
         
         public var encoded_values : [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [sound_id]
-            if sound_id == 0 {
+            if sound_id.value == 0 {
                 array.append(sound_name)
                 array.append(has_fixed_range)
                 if let has_fixed_range:Bool = has_fixed_range, has_fixed_range {

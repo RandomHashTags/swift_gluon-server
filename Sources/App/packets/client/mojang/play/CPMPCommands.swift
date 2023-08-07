@@ -13,9 +13,9 @@ public extension ClientPacketMojang.Play {
     /// This is a directed graph, with one root node. Each redirect or child node must refer only to nodes that have already been declared.
     struct Commands : ClientPacketMojangPlayProtocol {
         /// Number of elements in `nodes`.
-        public let count:Int
+        public let count:VariableInteger
         public let nodes:[CommandNodeMojang]
         /// Index of the `root` node in `nodes`.
-        public let root_index:Int
+        public let root_index:VariableInteger
     }
 }

@@ -11,13 +11,26 @@ public extension ClientPacketMojang.Play {
     /// Sent as a response to Client Command (id 1). Will only send the changed values if previously requested.
     struct AwardStatistics : ClientPacketMojangPlayProtocol {
         /// Number of elements in `statistics`.
-        public let count:Int
-        public let statistics:AwardStatistics.Statistic
+        public let count:VariableInteger
+        public let statistics:[AwardStatistics.Statistic]
         
-        public struct Statistic : Hashable, Codable {
-            public let category_id:[Int]
-            public let statistic_id:[Int]
-            public let value:[Int]
+        public struct Statistic : Hashable, Codable, PacketEncodableMojang {
+            public let category_id:VariableInteger
+            public let statistic_id:VariableInteger
+            public let value:VariableInteger
+            
+            public func packet_bytes() throws -> [UInt8] {
+                var bytes:[UInt8] = try category_id.packet_bytes()
+                bytes.append(contentsOf: try statistic_id.packet_bytes())
+                bytes.append(contentsOf: try value.packet_bytes())
+                return bytes
+            }
+        }
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            var array:[PacketEncodableMojang?] = [count]
+            array.append(contentsOf: statistics)
+            return array
         }
     }
 }

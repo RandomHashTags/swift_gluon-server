@@ -19,15 +19,15 @@ public protocol Packet : Hashable, Codable, PacketEncodable {
     
     //func to_sendable(category: Category, id: IDValue) -> (any SendablePacket)?
     
-    func to_general() -> PacketType
+    func to_general() throws -> PacketType
 }
 public extension Packet {
     static func parse(_ packet: inout PacketType) throws -> Self {
         throw GeneralPacketError.not_implemented(packet_type: Self.self)
     }
     
-    func to_general() -> PacketType {
-        return PacketType(bytes: packet_bytes)
+    func to_general() throws -> PacketType {
+        return PacketType(bytes: try packet_bytes())
     }
 }
 

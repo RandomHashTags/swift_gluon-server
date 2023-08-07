@@ -47,8 +47,8 @@ public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketEncodableMojang
     public let extra:[ChatPacketMojang]?
     
     
-    public var packet_bytes : [UInt8] { // TODO: fix
-        var array:[UInt8] = text.packet_bytes
+    public func packet_bytes() throws -> [UInt8] { // TODO: fix
+        var array:[UInt8] = try text.packet_bytes()
         return array
     }
     public var encoded_values : [PacketEncodableMojang?] { // TODO: fix

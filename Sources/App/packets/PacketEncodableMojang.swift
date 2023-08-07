@@ -10,13 +10,13 @@ import Foundation
 public protocol PacketEncodableMojang : PacketEncodable {
 }
 public extension PacketEncodableMojang where Self : RawRepresentable, RawValue : PacketEncodableMojang {
-    var packet_bytes : [UInt8] {
-        return rawValue.packet_bytes
+    func packet_bytes() throws -> [UInt8] {
+        return try rawValue.packet_bytes()
     }
 }
 
 extension Int : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         var value:Self = self
         let segment_bits:Self = Self(GeneralPacketMojang.segment_bits)
@@ -32,7 +32,7 @@ extension Int : PacketEncodableMojang {
     }
 }
 extension UInt8 : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         var value:UInt8 = self
         while true {
@@ -48,27 +48,27 @@ extension UInt8 : PacketEncodableMojang {
 }
 
 extension Double : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         return array
     }
 }
 extension Float : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         return array
     }
 }
 
 extension String : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = Array(self.utf8)
-        array.insert(contentsOf: count.packet_bytes, at: 0)
+        array.insert(contentsOf: try count.packet_bytes(), at: 0)
         return array
     }
 }
 extension UUID : PacketEncodableMojang {
-    public var packet_bytes: [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         let bytes = self.uuid
         return [
             bytes.0, bytes.1, bytes.2, bytes.3, bytes.4, bytes.5, bytes.6, bytes.7,
@@ -78,13 +78,13 @@ extension UUID : PacketEncodableMojang {
 }
 
 extension Data : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         return Array(self)
     }
 }
 
 extension Bool : PacketEncodableMojang {
-    public var packet_bytes : [UInt8] {
+    public func packet_bytes() throws -> [UInt8] {
         return [self ? 1 : 0]
     }
 }

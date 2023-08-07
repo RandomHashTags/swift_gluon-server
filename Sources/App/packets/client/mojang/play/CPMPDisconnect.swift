@@ -12,5 +12,9 @@ public extension ClientPacketMojang.Play {
     struct Disconnect : ClientPacketMojangPlayProtocol {
         /// Displayed to the client when the connection terminates.
         public let reason:ChatPacketMojang
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [reason]
+        }
     }
 }

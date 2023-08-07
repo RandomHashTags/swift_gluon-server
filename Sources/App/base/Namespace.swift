@@ -40,7 +40,7 @@ public struct Namespace : Hashable, Codable, LosslessStringConvertible, PacketEn
         self = namespace
     }
     
-    public var packet_bytes : [UInt8] {
-        return description.packet_bytes
+    public func packet_bytes() throws -> [UInt8] {
+        return try description.packet_bytes()
     }
 }

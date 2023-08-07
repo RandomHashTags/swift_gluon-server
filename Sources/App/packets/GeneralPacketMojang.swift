@@ -118,6 +118,12 @@ public struct GeneralPacketMojang : GeneralPacket {
         return byte == 1
     }
     
+    public mutating func read_angle() throws -> AngleMojang {
+        let byte:UInt8 = data[reading_index]
+        reading_index += 1
+        return AngleMojang(value: Int(byte))
+    }
+    
     public mutating func read_enum<T: PacketEncodableMojang & RawRepresentable<Int>>() throws -> T {
         let integer:Int = try read_var_int().value
         guard let value:T = T.init(rawValue: integer) else {
@@ -153,6 +159,11 @@ public struct GeneralPacketMojang : GeneralPacket {
             throw GeneralPacketError.invalid_uuid(string: string)
         }
         return uuid
+    }
+    
+    public mutating func read_data(bytes: Int) throws -> Data {
+        let array:[UInt8] = try read_byte_array(bytes: bytes)
+        return Data(array)
     }
     
     public mutating func read_json<T: Decodable>() throws -> T {

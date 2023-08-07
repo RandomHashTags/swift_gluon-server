@@ -12,6 +12,8 @@ public enum GeneralPacketError : Error, CustomStringConvertible {
     case namespace_value_length_not_equal
     case invalid_uuid(string: String)
     
+    case command_node_missing_redirect_node
+    
     case not_implemented(packet_type: any Packet.Type)
     
     public var description : String {
@@ -22,6 +24,10 @@ public enum GeneralPacketError : Error, CustomStringConvertible {
             return "Namespace value length not equal to 2"
         case .invalid_uuid(let string):
             return "Invalid UUID format: " + string
+            
+        case .command_node_missing_redirect_node:
+            return "CommandNode is missing its redirect_node value (precondition `flags & 0x08` is met)"
+            
         case .not_implemented(let packet_type):
             return "`parse(_ packet)` not implemented for `Packet` implementation type: \(packet_type)"
         }

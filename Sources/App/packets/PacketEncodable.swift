@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol PacketEncodable {
-    var packet_bytes : [UInt8] { get }
+    func packet_bytes() throws -> [UInt8]
 }

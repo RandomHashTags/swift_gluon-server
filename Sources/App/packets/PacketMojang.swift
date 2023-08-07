@@ -16,10 +16,10 @@ public extension PacketMojang {
         return PacketPlatform.mojang
     }
     
-    var packet_bytes : [UInt8] {
+    func packet_bytes() throws -> [UInt8] {
         var bytes:[UInt8] = [UInt8]()
         for codable in encoded_values.compactMap({ $0 }) {
-            bytes.append(contentsOf: codable.packet_bytes)
+            bytes.append(contentsOf: try codable.packet_bytes())
         }
         return bytes
     }
