@@ -83,6 +83,7 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
     case set_border_lerp_size
     case set_border_size
     case set_border_warning_delay
+    case set_border_warning_distance
     case set_camera
     case set_held_item
     case set_center_chunk
@@ -163,12 +164,19 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .player_chat_message:            return ClientPacketMojang.Play.PlayerChatMessage.self
             
         case .server_data:                    return ClientPacketMojang.Play.ServerData.self
+        case .set_action_bar_text:            return ClientPacketMojang.Play.SetActionBarText.self
+        case .set_border_center:              return ClientPacketMojang.Play.SetBorderCenter.self
+        case .set_border_lerp_size:           return ClientPacketMojang.Play.SetBorderLerpSize.self
+        case .set_border_size:                return ClientPacketMojang.Play.SetBorderSize.self
+        case .set_border_warning_delay:       return ClientPacketMojang.Play.SetBorderWarningDelay.self
+        case .set_border_warning_distance:    return ClientPacketMojang.Play.SetBorderWarningDistance.self
             
         case .link_entities:                  return ClientPacketMojang.Play.LinkEntities.self
             
         case .set_experience:                 return ClientPacketMojang.Play.SetExperience.self
         case .set_health:                     return ClientPacketMojang.Play.SetHealth.self
             
+        case .set_passengers:                 return ClientPacketMojang.Play.SetPassengers.self
         case .update_teams:                   return ClientPacketMojang.Play.UpdateTeams.self
         case .update_score:                   return ClientPacketMojang.Play.UpdateScore.self
         case .set_simulation_distance:        return ClientPacketMojang.Play.SetSimulationDistance.self
