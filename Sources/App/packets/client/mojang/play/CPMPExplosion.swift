@@ -18,7 +18,7 @@ public extension ClientPacketMojang.Play {
             let z:Double = try packet.read_double()
             let strength:Float = try packet.read_float()
             let record_count:VariableInteger = try packet.read_var_int()
-            let data:Data = try packet.read_data(bytes: record_count.value * 3)
+            let data:Data = try packet.read_data(bytes: record_count.value_int * 3)
             let player_motion_x:Float = try packet.read_float()
             let player_motion_y:Float = try packet.read_float()
             let player_motion_z:Float = try packet.read_float()

@@ -13,7 +13,7 @@ public extension ClientPacketMojang.Play {
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let action:ChatSuggestions.Action = try packet.read_enum()
             let count:VariableInteger = try packet.read_var_int()
-            let entries:[String] = try packet.read_string_array(count: count.value)
+            let entries:[String] = try packet.read_string_array(count: count.value_int)
             return Self(action: action, count: count, entries: entries)
         }
         

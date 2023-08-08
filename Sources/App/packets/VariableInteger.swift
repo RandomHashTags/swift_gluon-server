@@ -7,10 +7,17 @@
 
 import Foundation
 
+/// An integer between -2147483648 and 2147483647.
+///
+/// Variable-length data encoding a two's complement signed 32-bit integer.
 public struct VariableInteger : Hashable, Codable, PacketEncodableMojang {
-    public let value:Int
+    public let value:Int32
     
-    public init(value: Int) {
+    public var value_int : Int {
+        return Int(value)
+    }
+    
+    public init(value: Int32) {
         self.value = value
     }
     

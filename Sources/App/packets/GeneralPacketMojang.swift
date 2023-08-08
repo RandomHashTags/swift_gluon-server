@@ -10,14 +10,14 @@ import NIO
 
 fileprivate extension Array where Element == UInt8 {
     func read_var_int(byteOffset: Int = 0) throws -> VariableInteger {
-        var value:Int = 0
+        var value:Int32 = 0
         var position:Int = 0
         var current_byte:UInt8 = 0
         var reading_index:Int = byteOffset
         while true {
             current_byte = self[reading_index]
             reading_index += 1
-            value |= Int(current_byte & GeneralPacketMojang.segment_bits) << position
+            value |= Int32(current_byte & GeneralPacketMojang.segment_bits) << position
             
             if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
                 break
@@ -47,7 +47,7 @@ public final class GeneralPacketMojang : GeneralPacket {
     
     public init(bytes: [UInt8]) throws {
         length = try bytes.read_var_int()
-        packet_id = try bytes.read_var_int(byteOffset: length.value)
+        packet_id = try bytes.read_var_int(byteOffset: length.value_int)
         data = bytes[2..<bytes.count]
         reading_index = 2
         print("GeneralPacketMojang;data=" + data.description)
@@ -65,13 +65,13 @@ public final class GeneralPacketMojang : GeneralPacket {
     /// - Minecraft's VarInts are all signed, but do not use the ZigZag encoding. Protocol buffers have 3 types of Varints: `uint32` (normal encoding, unsigned), `sint32` (ZigZag encoding, signed), and `int32` (normal encoding, signed). Minecraft's are the `int32` variety. Because Minecraft uses the normal encoding instead of ZigZag encoding, negative values always use the maximum number of bytes.
     /// - Minecraft's VarInts are never longer than 5 bytes and its VarLongs will never be longer than 10 bytes, while Protocol Buffer Varints will always use 10 bytes when encoding negative numbers, even if it's an `int32`.
     public func read_var_int() throws -> VariableInteger {
-        var value:Int = 0
+        var value:Int32 = 0
         var position:Int = 0
         var current_byte:UInt8 = 0
         while true {
             current_byte = data[reading_index]
             reading_index += 1
-            value |= Int(current_byte & GeneralPacketMojang.segment_bits) << position
+            value |= Int32(current_byte & GeneralPacketMojang.segment_bits) << position
             
             if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
                 break
@@ -82,6 +82,26 @@ public final class GeneralPacketMojang : GeneralPacket {
             }
         }
         return VariableInteger(value: value)
+    }
+    
+    public func read_var_long() throws -> VariableLong {
+        var value:Int64 = 0
+        var position:Int = 0
+        var current_byte:UInt8 = 0
+        while true {
+            current_byte = data[reading_index]
+            reading_index += 1
+            value |= Int64(current_byte & GeneralPacketMojang.segment_bits) << position
+            
+            if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
+                break
+            }
+            position += 7
+            if position >= 32 {
+                throw GeneralPacketError.varlong_is_too_big
+            }
+        }
+        return VariableLong(value: value)
     }
     
     private func from_bytes_integer<T : FixedWidthInteger>(bytes: Int) throws -> T {
@@ -158,7 +178,7 @@ public final class GeneralPacketMojang : GeneralPacket {
         return string
     }
     public func read_string() throws -> String {
-        let size:Int = try read_var_int().value
+        let size:Int = try read_var_int().value_int
         return read_string(size: size)
     }
     
@@ -175,7 +195,7 @@ public final class GeneralPacketMojang : GeneralPacket {
     }
     
     public func read_enum<T: PacketEncodableMojang & RawRepresentable<Int>>() throws -> T {
-        let integer:Int = try read_var_int().value
+        let integer:Int = try read_var_int().value_int
         guard let value:T = T.init(rawValue: integer) else {
             throw ServerPacketMojangErrors.VarIntEnum.doesnt_exist(type: T.self, id: integer)
         }
@@ -186,7 +206,7 @@ public final class GeneralPacketMojang : GeneralPacket {
         return try read_byte_array(bytes: data.count - reading_index)
     }
     public func read_byte_array(bytes: VariableInteger) throws -> [UInt8] {
-        return try read_byte_array(bytes: bytes.value)
+        return try read_byte_array(bytes: bytes.value_int)
     }
     public func read_byte_array(bytes: Int) throws -> [UInt8] {
         let slice:ArraySlice<UInt8> = data[reading_index..<reading_index + bytes]
@@ -196,20 +216,20 @@ public final class GeneralPacketMojang : GeneralPacket {
     
     public func read_string_array(count: Int) throws -> [String] {
         return try (0..<count).map({ _ in
-            let size:Int = try read_var_int().value
+            let size:Int = try read_var_int().value_int
             return read_string(size: size)
         })
     }
     
     public func read_map<T>(count: VariableInteger, transform: () throws -> T) rethrows -> [T] {
-        return try read_map(count: count.value, transform: transform)
+        return try read_map(count: count.value_int, transform: transform)
     }
     public func read_map<T>(count: Int, transform: () throws -> T) rethrows -> [T] {
         return try (0..<count).map({ _ in try transform() })
     }
     
     public func read_packet_decodable_array<T: PacketDecodableMojang>(count: VariableInteger) throws -> [T] {
-        return try read_packet_decodable_array(count: count.value)
+        return try read_packet_decodable_array(count: count.value_int)
     }
     public func read_packet_decodable_array<T: PacketDecodableMojang>(count: Int) throws -> [T] {
         return try (0..<count).map({ _ in try read_packet_decodable() })
@@ -243,7 +263,7 @@ public final class GeneralPacketMojang : GeneralPacket {
     }
     
     public func read_json<T: Decodable>() throws -> T {
-        let size:Int = try read_var_int().value
+        let size:Int = try read_var_int().value_int
         let bytes:ArraySlice<UInt8> = data[reading_index..<reading_index + size]
         let buffer:ByteBuffer = ByteBuffer(bytes: bytes)
         let json:T = try JSONDecoder().decode(T.self, from: buffer)

@@ -12,9 +12,9 @@ public extension ClientPacketMojang.Login {
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let server_id:String = try packet.read_string()
             let public_key_length:VariableInteger = try packet.read_var_int()
-            let public_key:[UInt8] = try packet.read_byte_array(bytes: public_key_length.value)
+            let public_key:[UInt8] = try packet.read_byte_array(bytes: public_key_length)
             let verify_token_length:VariableInteger = try packet.read_var_int()
-            let verify_token:[UInt8] = try packet.read_byte_array(bytes: verify_token_length.value)
+            let verify_token:[UInt8] = try packet.read_byte_array(bytes: verify_token_length)
             return Self(server_id: server_id, public_key_length: public_key_length, public_key: public_key, verify_token_length: verify_token_length, verify_token: verify_token)
         }
         

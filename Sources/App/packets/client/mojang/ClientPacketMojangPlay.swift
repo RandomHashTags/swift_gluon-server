@@ -41,6 +41,7 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
     case unload_chunk
     case game_event
     case open_horse_screen
+    case hurt_animation
     case initialize_world_border
     case keep_alive
     case chunk_daa_and_update_light
@@ -152,7 +153,13 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .unload_chunk:                   return ClientPacketMojang.Play.UnloadChunk.self
         case .game_event:                     return ClientPacketMojang.Play.GameEvent.self
         case .open_horse_screen:              return ClientPacketMojang.Play.OpenHorseScreen.self
+        case .hurt_animation:                 return ClientPacketMojang.Play.HurtAnimation.self
+        case .initialize_world_border:        return ClientPacketMojang.Play.InitializeWorldBorder.self
+        case .keep_alive:                     return ClientPacketMojang.Play.KeepAlive.self
             
+        case .ping:                           return ClientPacketMojang.Play.Ping.self
+        case .place_ghost_recipe:             return ClientPacketMojang.Play.PlaceGhostRecipe.self
+        case .player_abilities:               return ClientPacketMojang.Play.PlayerAbilities.self
         case .player_chat_message:            return ClientPacketMojang.Play.PlayerChatMessage.self
             
         case .server_data:                    return ClientPacketMojang.Play.ServerData.self
