@@ -168,6 +168,9 @@ public final class GeneralPacketMojang : GeneralPacket {
         return try (0..<count).map({ _ in try transform() })
     }
     
+    public func read_packet_decodable_array<T: PacketDecodableMojang>(count: VariableInteger) throws -> [T] {
+        return try read_packet_decodable_array(count: count.value)
+    }
     public func read_packet_decodable_array<T: PacketDecodableMojang>(count: Int) throws -> [T] {
         return try (0..<count).map({ _ in try read_packet_decodable() })
     }

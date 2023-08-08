@@ -70,7 +70,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
         }
         if (flags & 0x08) != 0 {
             guard let redirect_node:VariableInteger = redirect_node else {
-                throw GeneralPacketError.command_node_missing_redirect_node
+                throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "redirect_node", precondition: "(flags & 0x08) != 0")
             }
             array.append(contentsOf: try redirect_node.packet_bytes())
         }

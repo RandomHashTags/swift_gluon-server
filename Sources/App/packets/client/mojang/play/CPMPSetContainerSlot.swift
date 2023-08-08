@@ -14,6 +14,14 @@ public extension ClientPacketMojang.Play {
     ///
     /// This packet can only be used to edit the hotbar and offhand of the player's inventory if window ID is set to 0 (slots 36 through 45) if the player is in creative, with their inventory open, and not in their survival inventory tab. Otherwise, when window ID is 0, it can edit any slot in the player's inventory. If the window ID is set to -2, then any slot in the inventory can be used but no add item animation will be played.
     struct SetContainerSlot : ClientPacketMojangPlayProtocol {
+        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+            let window_id:UInt8 = try packet.read_byte()
+            let state_id:VariableInteger = try packet.read_var_int()
+            let slot:Int = try packet.read_short()
+            let slot_data:SlotMojang = try packet.read_packet_decodable()
+            return Self(window_id: window_id, state_id: state_id, slot: slot, slot_data: slot_data)
+        }
+        
         /// The window which is being updated. 0 for player inventory.
         /// > Note: All known window types include the player inventory. This packet will only be sent for the currently opened window while the player is performing actions, even if it affects the player inventory. After the window is closed, a number of these packets are sent to update the player's inventory window (0).
         public let window_id:UInt8
@@ -22,5 +30,14 @@ public extension ClientPacketMojang.Play {
         /// The slot that should be updated.
         public let slot:Int
         public let slot_data:SlotMojang
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [
+                window_id,
+                state_id,
+                slot,
+                slot_data
+            ]
+        }
     }
 }

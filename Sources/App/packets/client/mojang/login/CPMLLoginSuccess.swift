@@ -46,7 +46,7 @@ public extension ClientPacketMojang.Login {
                 array.append(contentsOf: try is_signed.packet_bytes())
                 if is_signed {
                     guard let signature:String = signature else {
-                        throw GeneralPacketError.login_success_missing_signature
+                        throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "signature", precondition: "is_signed == true")
                     }
                     array.append(contentsOf: try signature.packet_bytes())
                 }

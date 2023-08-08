@@ -13,11 +13,20 @@ public extension ClientPacketMojang.Play {
     struct BlockAction : ClientPacketMojangPlayProtocol {
         /// Block coordinates.
         public let location:PositionPacketMojang
-        /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions).
+        /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions ).
         public let action_id:UInt8
-        /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions).
+        /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions ).
         public let action_parameter:UInt8
         /// The block type ID for the block. This value is unused by the Notchian client, as it will infer the type of block based on the given position.
         public let block_type:VariableInteger
+        
+        public var encoded_values : [PacketEncodableMojang?] {
+            return [
+                location,
+                action_id,
+                action_parameter,
+                block_type
+            ]
+        }
     }
 }

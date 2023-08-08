@@ -47,7 +47,7 @@ public extension ClientPacketMojang.Play {
                 array.append(contentsOf: try has_tooltip.packet_bytes())
                 if has_tooltip {
                     guard let tooltip:ChatPacketMojang = tooltip else {
-                        throw GeneralPacketError.command_suggestions_response_match_missing_tooltip
+                        throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "tooltip", precondition: "has_tooltip == true")
                     }
                     array.append(contentsOf: try tooltip.packet_bytes())
                 }
