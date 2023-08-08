@@ -53,20 +53,18 @@ public extension ClientPacketMojang.Play {
             case partially_filtered
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] { // TODO: fix
-            var array:[PacketEncodableMojang?] = [
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] { // TODO: fix
+            var array:[(any PacketEncodableMojang)?] = [
                 sender,
                 index,
                 message_signature_present
             ]
             if message_signature_present {
-                guard let message_signature_bytes:[UInt8] = message_signature_bytes else {
-                    throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "message_signature_bytes", precondition: "message_signature_present == true")
-                }
+                let message_signature_bytes:[UInt8] = try unwrap_optional(message_signature_bytes, key_path: \Self.message_signature_bytes, precondition: "message_signature_present == true")
                 array.append(contentsOf: message_signature_bytes)
             }
             
-            var secondary:[PacketEncodableMojang?] = [
+            var secondary:[(any PacketEncodableMojang)?] = [
                 message,
                 timestamp,
                 salt,
@@ -75,23 +73,17 @@ public extension ClientPacketMojang.Play {
             ]
             secondary.append(contentsOf: message_ids)
             if total_previous_messages.value == -1 {
-                guard let signatures:[Int8] = signatures else {
-                    throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "signatures", precondition: "total_previous_messages.value == -1")
-                }
+                let signatures:[Int8] = try unwrap_optional(signatures, key_path: \Self.signatures, precondition: "total_previous_messages.value == -1")
                 secondary.append(contentsOf: signatures)
             }
             secondary.append(unsigned_content_present)
             if unsigned_content_present {
-                guard let unsigned_content:ChatPacketMojang = unsigned_content else {
-                    throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "unsigned_content", precondition: "unsigned_content_present == true")
-                }
+                let unsigned_content:ChatPacketMojang = try unwrap_optional(unsigned_content, key_path: \Self.unsigned_content, precondition: "unsigned_content_present == true")
                 secondary.append(unsigned_content)
             }
             secondary.append(filter_type)
             if filter_type == .partially_filtered {
-                guard let filter_type_bits:Data = filter_type_bits else {
-                    throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "filter_type_bits", precondition: "filter_type == .partially_filtered")
-                }
+                let filter_type_bits:Data = try unwrap_optional(filter_type_bits, key_path: \Self.filter_type_bits, precondition: "filter_type == .partially_filtered")
                 secondary.append(filter_type_bits)
             }
             array.append(contentsOf: secondary)
@@ -102,9 +94,7 @@ public extension ClientPacketMojang.Play {
                 network_target_name_present
             ]
             if network_target_name_present {
-                guard let network_target_name:ChatPacketMojang = network_target_name else {
-                    throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "network_target_name", precondition: "network_target_name_present == true")
-                }
+                let network_target_name:ChatPacketMojang = try unwrap_optional(network_target_name, key_path: \Self.network_target_name, precondition: "network_target_name_present == true")
                 secondary.append(network_target_name)
             }
             array.append(contentsOf: secondary)

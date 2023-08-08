@@ -17,7 +17,7 @@ public extension ServerPacketMojang.Status {
         /// May be any number. Notchian clients use a system-dependent time value which is counted in milliseconds.
         public let payload:Int64
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [payload]
         }
     }

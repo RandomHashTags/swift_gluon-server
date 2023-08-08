@@ -19,7 +19,7 @@ public extension ClientPacketMojang.Play {
         
         public let keep_alive_id:Int64
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [keep_alive_id]
         }
     }

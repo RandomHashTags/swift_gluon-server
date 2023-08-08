@@ -71,7 +71,7 @@ public extension ClientPacketMojang.Play {
             case enable_respawn_screen
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [event, value]
         }
     }

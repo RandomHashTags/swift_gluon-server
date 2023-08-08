@@ -17,7 +17,7 @@ public extension ClientPacketMojang.Status {
         /// Should be the same as sent by the client.
         public let payload:Int64
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [payload]
         }
     }

@@ -25,8 +25,8 @@ public extension ClientPacketMojang.Login {
         public let channel:Namespace
         public let data:[UInt8]
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [message_id, channel]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [message_id, channel]
             array.append(contentsOf: data)
             return array
         }

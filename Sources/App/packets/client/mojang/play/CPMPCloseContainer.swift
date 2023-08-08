@@ -13,7 +13,7 @@ public extension ClientPacketMojang.Play {
         /// This is the ID of the window that was closed. 0 for inventory.
         let window_id:UInt8
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [window_id]
         }
     }

@@ -21,7 +21,7 @@ public extension ClientPacketMojang.Play {
         public let slot_count:VariableInteger
         public let entity_id:Int32
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [window_id, slot_count, entity_id]
         }
     }

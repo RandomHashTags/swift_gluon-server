@@ -45,17 +45,15 @@ public extension ClientPacketMojang.Login {
                 array.append(contentsOf: try value.packet_bytes())
                 array.append(contentsOf: try is_signed.packet_bytes())
                 if is_signed {
-                    guard let signature:String = signature else {
-                        throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "signature", precondition: "is_signed == true")
-                    }
+                    let signature:String = try unwrap_optional(signature, key_path: \Self.signature, precondition: "is_signed == true")
                     array.append(contentsOf: try signature.packet_bytes())
                 }
                 return array
             }
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [uuid, username, number_of_properties]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [uuid, username, number_of_properties]
             array.append(contentsOf: properties)
             return array
         }

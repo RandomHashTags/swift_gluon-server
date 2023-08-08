@@ -69,9 +69,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
             array.append(contentsOf: try child.packet_bytes())
         }
         if (flags & 0x08) != 0 {
-            guard let redirect_node:VariableInteger = redirect_node else {
-                throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "redirect_node", precondition: "(flags & 0x08) != 0")
-            }
+            let redirect_node:VariableInteger = try unwrap_optional(redirect_node, key_path: \Self.redirect_node, precondition: "(flags & 0x08) != 0")
             array.append(contentsOf: try redirect_node.packet_bytes())
         }
         return array
@@ -135,8 +133,8 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
                 public let min:Swift.Double?
                 public let max:Swift.Double?
                 
-                public func encoded_values() throws -> [PacketEncodableMojang?] {
-                    var array:[PacketEncodableMojang?] = [flags]
+                public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+                    var array:[(any PacketEncodableMojang)?] = [flags]
                     if (flags & 0x01) != 0 {
                         array.append(min)
                     }
@@ -151,7 +149,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
 }
 
 public protocol CommandNodeMojangProperty : Hashable, Codable, PacketEncodableMojang {
-    func encoded_values() throws -> [PacketEncodableMojang?]
+    func encoded_values() throws -> [(any PacketEncodableMojang)?]
 }
 public extension CommandNodeMojangProperty {
     func packet_bytes() throws -> [UInt8] {

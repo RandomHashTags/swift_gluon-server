@@ -46,17 +46,15 @@ public extension ClientPacketMojang.Play {
                 var array:[UInt8] = try match.packet_bytes()
                 array.append(contentsOf: try has_tooltip.packet_bytes())
                 if has_tooltip {
-                    guard let tooltip:ChatPacketMojang = tooltip else {
-                        throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "tooltip", precondition: "has_tooltip == true")
-                    }
+                    let tooltip:ChatPacketMojang = try unwrap_optional(tooltip, key_path: \Self.tooltip, precondition: "has_tooltip == true")
                     array.append(contentsOf: try tooltip.packet_bytes())
                 }
                 return array
             }
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [id, start, length, count]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [id, start, length, count]
             array.append(contentsOf: matches)
             return array
         }

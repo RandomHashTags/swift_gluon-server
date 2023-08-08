@@ -28,8 +28,8 @@ public extension ClientPacketMojang.Play {
         /// Item held by player.
         public let carried_item:SlotMojang
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [window_id, state_id, count]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [window_id, state_id, count]
             array.append(contentsOf: slot_data)
             array.append(carried_item)
             return array

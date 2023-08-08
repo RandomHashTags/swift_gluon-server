@@ -55,8 +55,8 @@ public extension ClientPacketMojang.Play {
         /// Seed used to pick sound variant.
         public let seed:Int64
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [sound_id]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [sound_id]
             if sound_id.value == 0 {
                 array.append(sound_name)
                 array.append(has_fixed_range)
@@ -64,7 +64,7 @@ public extension ClientPacketMojang.Play {
                     array.append(range)
                 }
             }
-            let final_array:[PacketEncodableMojang?] = [
+            let final_array:[(any PacketEncodableMojang)?] = [
                 sound_category,
                 entity_id,
                 volume,

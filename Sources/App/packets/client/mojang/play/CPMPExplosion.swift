@@ -42,7 +42,7 @@ public extension ClientPacketMojang.Play {
         /// Z velocity of the player being pushed by the explosion.
         public let player_motion_z:Float
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [
                 x,
                 y,

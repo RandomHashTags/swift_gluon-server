@@ -30,7 +30,7 @@ public extension ClientPacketMojang.Play {
         public let velocity_y:Int
         public let velocity_z:Int
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [
                 entity_id,
                 entity_uuid,

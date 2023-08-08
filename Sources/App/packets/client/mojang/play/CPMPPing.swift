@@ -17,7 +17,7 @@ public extension ClientPacketMojang.Play {
         
         public let id:Int32
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [id]
         }
     }

@@ -16,8 +16,8 @@ public extension ClientPacketMojang.Play {
         /// Only if flags is 2 or 3 (bit mask 0x2). A sound effect name, see [Custom Sound Effect](https://wiki.vg/Protocol#Custom_Sound_Effect ). If not present, then all sounds are cleared.
         public let sound:Namespace?
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [flags]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [flags]
             switch flags {
             case 1:
                 array.append(source)

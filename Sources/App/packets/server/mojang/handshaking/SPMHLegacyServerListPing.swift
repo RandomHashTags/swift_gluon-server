@@ -19,7 +19,7 @@ public extension ServerPacketMojang.Handshaking {
         /// always 1 (`0x01`).
         public let payload:UInt8
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [payload]
         }
     }

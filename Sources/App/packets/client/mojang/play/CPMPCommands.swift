@@ -27,8 +27,8 @@ public extension ClientPacketMojang.Play {
         /// Index of the `root` node in `nodes`.
         public let root_index:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [count]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [count]
             array.append(contentsOf: nodes)
             array.append(root_index)
             return array

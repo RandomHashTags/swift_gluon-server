@@ -169,6 +169,8 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .set_experience:                 return ClientPacketMojang.Play.SetExperience.self
         case .set_health:                     return ClientPacketMojang.Play.SetHealth.self
             
+        case .update_teams:                   return ClientPacketMojang.Play.UpdateTeams.self
+        case .update_score:                   return ClientPacketMojang.Play.UpdateScore.self
         case .set_simulation_distance:        return ClientPacketMojang.Play.SetSimulationDistance.self
         case .set_subtitle_text:              return ClientPacketMojang.Play.SetSubtitleText.self
         case .update_time:                    return ClientPacketMojang.Play.UpdateTime.self

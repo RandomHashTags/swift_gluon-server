@@ -21,7 +21,7 @@ public extension ClientPacketMojang.Play {
         /// Number of ticks to apply a cooldown for, or 0 to clear the cooldown.
         public let cooldown_ticks:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [item_id, cooldown_ticks]
         }
     }

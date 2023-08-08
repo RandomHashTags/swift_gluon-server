@@ -19,7 +19,7 @@ public extension ClientPacketMojang.Play {
         public let window_id:Int8
         public let recipe:Namespace
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [window_id, recipe]
         }
     }

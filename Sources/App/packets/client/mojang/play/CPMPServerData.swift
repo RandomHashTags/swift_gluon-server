@@ -22,8 +22,8 @@ public extension ClientPacketMojang.Play {
         public let icon:[UInt8]?
         public let enforces_secure_chat:Bool
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [message_of_the_day, has_icon]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [message_of_the_day, has_icon]
             array.append(contentsOf: array)
             array.append(enforces_secure_chat)
             return array

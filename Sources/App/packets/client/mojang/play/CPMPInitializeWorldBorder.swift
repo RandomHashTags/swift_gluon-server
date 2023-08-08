@@ -39,7 +39,7 @@ public extension ClientPacketMojang.Play {
         /// In seconds as set by `/worldborder warning time`.
         public let warning_time:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [
                 x,
                 z,

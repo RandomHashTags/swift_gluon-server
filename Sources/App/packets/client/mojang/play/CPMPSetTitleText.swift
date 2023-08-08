@@ -11,7 +11,7 @@ public extension ClientPacketMojang.Play {
     struct SetTitleText : ClientPacketMojangPlayProtocol {
         public let text:ChatPacketMojang
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [text]
         }
     }

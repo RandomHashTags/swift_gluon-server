@@ -21,8 +21,8 @@ public extension ClientPacketMojang.Play {
         /// Bytes of the signature.
         public let signature:[UInt8]
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [signature_length]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [signature_length]
             array.append(contentsOf: signature)
             return array
         }

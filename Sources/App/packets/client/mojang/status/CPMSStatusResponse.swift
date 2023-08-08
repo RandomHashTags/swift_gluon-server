@@ -17,7 +17,7 @@ public extension ClientPacketMojang.Status {
         /// See https://wiki.vg/Server_List_Ping#Response ; as with all strings this is prefixed by its length as a VarInt.
         public let json_response:String
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [json_response]
         }
     }

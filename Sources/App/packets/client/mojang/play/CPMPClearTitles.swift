@@ -12,7 +12,7 @@ public extension ClientPacketMojang.Play {
     struct ClearTitles : ClientPacketMojangPlayProtocol {
         public let reset:Bool
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [reset]
         }
     }

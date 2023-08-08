@@ -17,7 +17,7 @@ public extension ClientPacketMojang.Play {
         /// The distance that the client will process specific things, such as entities.
         public let distance:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [distance]
         }
     }

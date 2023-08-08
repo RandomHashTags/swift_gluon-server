@@ -18,7 +18,7 @@ public extension ClientPacketMojang.Login {
         /// Maximum size of a packet before it is compressed.
         public let threshold:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [threshold]
         }
     }

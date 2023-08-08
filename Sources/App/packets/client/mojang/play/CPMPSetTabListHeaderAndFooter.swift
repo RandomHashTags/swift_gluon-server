@@ -15,7 +15,7 @@ public extension ClientPacketMojang.Play {
         /// To remove the header, send a empty text component: `{"text":""}`.
         public let footer:ChatPacketMojang
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [header, footer]
         }
     }

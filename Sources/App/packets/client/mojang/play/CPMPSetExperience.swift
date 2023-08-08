@@ -22,7 +22,7 @@ public extension ClientPacketMojang.Play {
         public let total_experience:VariableInteger
         public let level:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [experience_bar, total_experience, level]
         }
     }

@@ -30,7 +30,7 @@ public extension ClientPacketMojang.Play {
             case creative_mode = 0x08
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [
                 flags,
                 flying_speed,

@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol PacketMojang : Packet where IDValue == UInt, Category == PacketCategoryMojang, PacketType == GeneralPacketMojang {
-    func encoded_values() throws -> [PacketEncodableMojang?]
+    func encoded_values() throws -> [(any PacketEncodableMojang)?]
 }
 
 public extension PacketMojang {

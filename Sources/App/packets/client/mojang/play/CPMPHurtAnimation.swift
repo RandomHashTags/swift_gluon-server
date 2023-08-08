@@ -21,7 +21,7 @@ public extension ClientPacketMojang.Play {
         /// The direction the damage is coming from in relation to the entity
         public let yaw:Float
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [entity_id, yaw]
         }
     }

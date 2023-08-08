@@ -22,7 +22,7 @@ public extension ClientPacketMojang.Play {
         /// Seems to be 1 for XP orbs, otherwise the number of items in the stack.
         public let pickup_item_count:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [collected_entity_id, collector_entity_id, pickup_item_count]
         }
     }

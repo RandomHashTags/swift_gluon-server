@@ -18,7 +18,7 @@ public extension ClientPacketMojang.Play {
         /// Represents the sequence to acknowledge, this is used for properly syncing block changes to the client after interactions.
         public let sequence_id:VariableInteger
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [sequence_id]
         }
     }

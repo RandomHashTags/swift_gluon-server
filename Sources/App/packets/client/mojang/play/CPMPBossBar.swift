@@ -89,9 +89,9 @@ public extension ClientPacketMojang.Play {
             case twenty_notches
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [uuid, action]
-            let secondary:[PacketEncodableMojang?]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [uuid, action]
+            let secondary:[(any PacketEncodableMojang)?]
             switch action {
             case .add:
                 secondary = [title, health, color, division, flags]

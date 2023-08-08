@@ -38,15 +38,10 @@ public struct SlotMojang : Hashable, Codable, PacketEncodableMojang, PacketDecod
     public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = try present.packet_bytes()
         if present {
-            guard let item_id:VariableInteger = item_id else {
-                throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "item_id", precondition: "present == true")
-            }
-            guard let item_count:Int8 = item_count else {
-                throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "item_count", precondition: "present == true")
-            }
-            guard let nbt:Data = nbt else {
-                throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "nbt", precondition: "present == true")
-            }
+            let precondition:String = "present == true"
+            let item_id:VariableInteger = try unwrap_optional(item_id, key_path: \Self.item_id, precondition: precondition)
+            let item_count:Int8 = try unwrap_optional(item_count, key_path: \Self.item_count, precondition: precondition)
+            let nbt:Data = try unwrap_optional(nbt, key_path: \Self.nbt, precondition: precondition)
             array.append(contentsOf: try item_id.packet_bytes())
             array.append(contentsOf: try item_count.packet_bytes())
             array.append(contentsOf: try nbt.packet_bytes())

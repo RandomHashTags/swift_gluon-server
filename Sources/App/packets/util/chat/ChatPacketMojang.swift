@@ -50,7 +50,7 @@ public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketEncodableMojang
     
     public let extra:[ChatPacketMojang]?
     
-    public func encoded_values() throws -> [PacketEncodableMojang?] { // TODO: fix
+    public func encoded_values() throws -> [(any PacketEncodableMojang)?] { // TODO: fix
         return []
     }
 }

@@ -23,7 +23,7 @@ public extension ClientPacketMojang.Play {
         /// The new value for the property.
         public let value:Int16
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [window_id, property, value]
         }
     }

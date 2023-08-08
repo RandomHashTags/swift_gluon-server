@@ -15,7 +15,7 @@ public extension ClientPacketMojang.Play {
         /// The NBT of the block or entity. May be a TAG_END (0) in which case no NBT is present.
         public let nbt:Data // TODO: support NBT Tags
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [transaction_id, nbt]
         }
     }

@@ -28,8 +28,8 @@ public extension ClientPacketMojang.Play {
             case set
         }
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
-            var array:[PacketEncodableMojang?] = [action, count]
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+            var array:[(any PacketEncodableMojang)?] = [action, count]
             array.append(contentsOf: entries)
             return array
         }

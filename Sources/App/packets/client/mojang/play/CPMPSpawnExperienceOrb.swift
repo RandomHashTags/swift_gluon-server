@@ -26,7 +26,7 @@ public extension ClientPacketMojang.Play {
         /// The amount of experience this orb will reward once collected.
         public let count:Int16
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [
                 entity_id,
                 x,

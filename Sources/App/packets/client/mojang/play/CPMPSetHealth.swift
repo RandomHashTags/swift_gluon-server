@@ -25,7 +25,7 @@ public extension ClientPacketMojang.Play {
         /// Seems to vary from 0.0 to 5.0 in integer increments.
         public let food_saturation:Float
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [health, food, food_saturation]
         }
     }

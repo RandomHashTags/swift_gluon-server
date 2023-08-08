@@ -27,7 +27,7 @@ public extension ServerPacketMojang.Handshaking {
         public let server_port:UInt16
         public let next_state:ServerPacketMojang.Status
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [protocol_version, server_address, server_port, next_state]
         }
     }

@@ -29,7 +29,7 @@ public extension ClientPacketMojang.Play {
         /// (X Rot) New angle, not a delta.
         public let pitch:Float
         
-        public func encoded_values() throws -> [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return [entity_id, x, y, z, yaw, pitch]
         }
     }
