@@ -16,13 +16,7 @@ public extension ClientPacketMojang.Login {
             let uuid:UUID = try packet.read_uuid()
             let username:String = try packet.read_string()
             let number_of_properties:VariableInteger = try packet.read_var_int()
-            let properties:[LoginSuccess.Property] = try packet.read_map(count: number_of_properties) {
-                let name:String = try packet.read_string()
-                let value:String = try packet.read_string()
-                let is_signed:Bool = try packet.read_bool()
-                let signature:String? = is_signed ? try packet.read_string() : nil
-                return LoginSuccess.Property(name: name, value: value, is_signed: is_signed, signature: signature)
-            }
+            let properties:[LoginSuccess.Property] = try packet.read_packet_decodable_array(count: number_of_properties)
             return Self(uuid: uuid, username: username, number_of_properties: number_of_properties, properties: properties)
         }
         
@@ -32,7 +26,15 @@ public extension ClientPacketMojang.Login {
         public let number_of_properties:VariableInteger
         public let properties:[LoginSuccess.Property]
         
-        public struct Property : Hashable, Codable, PacketEncodableMojang {
+        public struct Property : Hashable, Codable, PacketEncodableMojang, PacketDecodableMojang {
+            public static func decode(from packet: GeneralPacketMojang) throws -> Self {
+                let name:String = try packet.read_string()
+                let value:String = try packet.read_string()
+                let is_signed:Bool = try packet.read_bool()
+                let signature:String? = is_signed ? try packet.read_string() : nil
+                return Self(name: name, value: value, is_signed: is_signed, signature: signature)
+            }
+            
             public let name:String
             public let value:String
             public let is_signed:Bool

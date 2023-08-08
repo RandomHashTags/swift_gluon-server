@@ -10,23 +10,31 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Creates and updates teams.
     struct UpdateTeams : ClientPacketMojangPlayProtocol {
+        /// A unique name for the team. (Shared with scoreboard).
         public let team_name:String
+        /// Determines the layout of the remaining packet.
         public let mode:UpdateTeams.Mode
         
         // Remove Team has no fields
         
         // Create Team, Update Team Info
         public let team_display_name:ChatPacketMojang?
+        /// Bit mask. 0x01: Allow friendly fire, 0x02: can see invisible players on same team.
         public let friendly_flags:Int8?
         public let name_tag_visibility:UpdateTeams.NameTagVisibility?
         public let collision_rule:UpdateTeams.CollisionRule?
-        public let team_color:VariableInteger?
+        /// Used to color the name of players on the team.
+        public let team_color:VariableInteger? // TODO: add `TeamColor enum`
+        /// Displayed before the names of players that are part of this team.
         public let team_prefix:ChatPacketMojang?
+        /// Displayed after the names of players that are part of this team.
         public let team_suffix:ChatPacketMojang?
         
         // + create_team || add_entities_to_team || remove_entities_from_team
+        /// Number of elements in `entities`.
         public let entity_count:VariableInteger?
         // + create_team || add_entities_to_team || remove_entities_from_team
+        /// Identifiers for the entities in this team. For players, this is their username; for other entities, it is their UUID.
         public let entities:[String]?
         
         public enum Mode : Int, Hashable, Codable, PacketEncodableMojang {
