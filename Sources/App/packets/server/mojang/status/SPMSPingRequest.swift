@@ -9,15 +9,15 @@ import Foundation
 
 public extension ServerPacketMojang.Status {
     struct PingRequest : ServerPacketMojangStatusProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
-            let payload:Int = try packet.read_long()
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
+            let payload:Int64 = try packet.read_long()
             return Self(payload: payload)
         }
         
         /// May be any number. Notchian clients use a system-dependent time value which is counted in milliseconds.
-        public let payload:Int
+        public let payload:Int64
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [payload]
         }
     }

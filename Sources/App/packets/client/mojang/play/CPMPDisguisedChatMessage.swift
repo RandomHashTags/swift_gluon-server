@@ -20,7 +20,7 @@ public extension ClientPacketMojang.Play {
         /// The target name associated with the chat type. Usually the message target's display name. Only present if previous boolean is true.
         public let target_name:ChatPacketMojang
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [
                 message,
                 chat_type,

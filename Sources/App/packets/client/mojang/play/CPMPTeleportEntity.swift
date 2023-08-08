@@ -10,7 +10,7 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// This packet is sent by the server when an entity moves more than 8 blocks.
     struct TeleportEntity : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_id:VariableInteger = try packet.read_var_int()
             let x:Double = try packet.read_double()
             let y:Double = try packet.read_double()
@@ -29,7 +29,7 @@ public extension ClientPacketMojang.Play {
         /// (X Rot) New angle, not a delta.
         public let pitch:Float
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [entity_id, x, y, z, yaw, pitch]
         }
     }

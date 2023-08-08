@@ -9,8 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetContainerContent : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
-            let window_id:UInt8 = try packet.read_byte()
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
+            let window_id:UInt8 = try packet.read_unsigned_byte()
             let state_id:VariableInteger = try packet.read_var_int()
             let count:VariableInteger = try packet.read_var_int()
             let slot_data:[SlotMojang] = try packet.read_packet_decodable_array(count: count)
@@ -28,7 +28,7 @@ public extension ClientPacketMojang.Play {
         /// Item held by player.
         public let carried_item:SlotMojang
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [window_id, state_id, count]
             array.append(contentsOf: slot_data)
             array.append(carried_item)

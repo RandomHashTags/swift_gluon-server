@@ -12,7 +12,7 @@ public struct SlotMojang : Hashable, Codable, PacketEncodableMojang, PacketDecod
     public static func decode(from packet: GeneralPacketMojang) throws -> SlotMojang {
         let present:Bool = try packet.read_bool()
         let item_id:VariableInteger?
-        let item_count:UInt8?
+        let item_count:Int8?
         let nbt:Data?
         if present {
             item_id = try packet.read_var_int()
@@ -31,7 +31,7 @@ public struct SlotMojang : Hashable, Codable, PacketEncodableMojang, PacketDecod
     /// Omitted if present is false. The item ID. Item IDs are distinct from block IDs; see Data Generators for more information
     public let item_id:VariableInteger?
     /// Omitted if present is false.
-    public let item_count:UInt8?
+    public let item_count:Int8?
     /// Omitted if present is false.
     public let nbt:Data? // TODO: support NBT
     
@@ -41,7 +41,7 @@ public struct SlotMojang : Hashable, Codable, PacketEncodableMojang, PacketDecod
             guard let item_id:VariableInteger = item_id else {
                 throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "item_id", precondition: "present == true")
             }
-            guard let item_count:UInt8 = item_count else {
+            guard let item_count:Int8 = item_count else {
                 throw GeneralPacketError.optional_value_cannot_be_optional(type: Self.self, value: "item_count", precondition: "present == true")
             }
             guard let nbt:Data = nbt else {

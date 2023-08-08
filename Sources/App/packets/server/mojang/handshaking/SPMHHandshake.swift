@@ -10,10 +10,10 @@ import Foundation
 public extension ServerPacketMojang.Handshaking {
     /// This causes the server to switch into the target state.
     struct Handshake : ServerPacketMojangHandshakingProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let protocol_version:MinecraftProtocolVersion = try packet.read_enum()
             let server_address:String = try packet.read_string()
-            let server_port:Int = try packet.read_short()
+            let server_port:UInt16 = try packet.read_unsigned_short()
             let next_state:ServerPacketMojang.Status = try packet.read_enum()
             return Handshake(protocol_version: protocol_version, server_address: server_address, server_port: server_port, next_state: next_state)
         }
@@ -24,10 +24,10 @@ public extension ServerPacketMojang.Handshaking {
         /// > Note: SRV records are a simple redirect, e.g. if \_minecraft.\_tcp.example.com points to mc.example.org, users connecting to example.com will provide example.org as server address in addition to connecting to it.
         public let server_address:String
         /// Default is 25565. The Notchian server does not use this information.
-        public let server_port:Int
+        public let server_port:UInt16
         public let next_state:ServerPacketMojang.Status
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [protocol_version, server_address, server_port, next_state]
         }
     }

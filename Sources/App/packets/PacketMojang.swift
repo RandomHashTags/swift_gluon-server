@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol PacketMojang : Packet where IDValue == UInt, Category == PacketCategoryMojang, PacketType == GeneralPacketMojang {
-    var encoded_values : [PacketEncodableMojang?] { get }
+    func encoded_values() throws -> [PacketEncodableMojang?]
 }
 
 public extension PacketMojang {
@@ -18,7 +18,7 @@ public extension PacketMojang {
     
     func packet_bytes() throws -> [UInt8] {
         var bytes:[UInt8] = [UInt8]()
-        for codable in encoded_values.compactMap({ $0 }) {
+        for codable in try encoded_values().compactMap({ $0 }) {
             bytes.append(contentsOf: try codable.packet_bytes())
         }
         return bytes

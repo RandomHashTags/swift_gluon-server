@@ -13,7 +13,7 @@ public extension ClientPacketMojang.Play {
         public let entity_id:VariableInteger
         public let animation_id:Int
         
-        public var encoded_values: [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [entity_id, animation_id]
         }
     }

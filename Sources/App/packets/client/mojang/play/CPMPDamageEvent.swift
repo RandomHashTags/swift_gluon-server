@@ -32,7 +32,7 @@ public extension ClientPacketMojang.Play {
         /// Only present if `has_source_position` is `true`.
         public let source_position_z:Double?
         
-        public var encoded_values: [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [
                 entity_id,
                 source_type_id,

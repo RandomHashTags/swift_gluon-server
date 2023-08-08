@@ -9,7 +9,7 @@ import Foundation
 
 public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, PacketDecodableMojang {
     public static func decode(from packet: GeneralPacketMojang) throws -> Self {
-        let flags:UInt8 = try packet.read_byte()
+        let flags:Int8 = try packet.read_byte()
         let children_count:VariableInteger = try packet.read_var_int()
         let children:[VariableInteger] = try packet.read_map(count: children_count) {
             return try packet.read_var_int()
@@ -21,7 +21,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
             redirect_node = nil
         }
         
-        let flag_node_type:UInt8 = flags & 0x03
+        let flag_node_type:Int8 = flags & 0x03
         
         let name:String?
         let parser:CommandNodeMojang.Parser?
@@ -53,7 +53,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
         return Self(flags: flags, children_count: children_count, children: children, redirect_node: redirect_node, name: name, parser: parser, properties: properties, suggestions_type: suggestions_type)
     }
     
-    let flags:UInt8
+    let flags:Int8
     let children_count:VariableInteger
     let children:[VariableInteger]
     let redirect_node:VariableInteger?
@@ -63,7 +63,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
     let suggestions_type:Namespace?
     
     public func packet_bytes() throws -> [UInt8] {
-        var array:[UInt8] = [flags]
+        var array:[UInt8] = try flags.packet_bytes()
         array.append(contentsOf: try children_count.packet_bytes())
         for child in children {
             array.append(contentsOf: try child.packet_bytes())
@@ -135,7 +135,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
                 public let min:Swift.Double?
                 public let max:Swift.Double?
                 
-                public var encoded_values : [PacketEncodableMojang?] {
+                public func encoded_values() throws -> [PacketEncodableMojang?] {
                     var array:[PacketEncodableMojang?] = [flags]
                     if (flags & 0x01) != 0 {
                         array.append(min)
@@ -151,10 +151,10 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojang, Pack
 }
 
 public protocol CommandNodeMojangProperty : Hashable, Codable, PacketEncodableMojang {
-    var encoded_values : [PacketEncodableMojang?] { get }
+    func encoded_values() throws -> [PacketEncodableMojang?]
 }
 public extension CommandNodeMojangProperty {
     func packet_bytes() throws -> [UInt8] {
-        return try encoded_values.compactMap({ $0 }).map({ try $0.packet_bytes() }).flatMap({ $0 })
+        return try encoded_values().compactMap({ $0 }).map({ try $0.packet_bytes() }).flatMap({ $0 })
     }
 }

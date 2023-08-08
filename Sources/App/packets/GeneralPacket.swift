@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol GeneralPacket : Hashable {
-    init(bytes: [UInt8])
+    init(bytes: [UInt8]) throws
 }

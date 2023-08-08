@@ -12,7 +12,7 @@ public extension ClientPacketMojang.Play {
     ///
     /// Each block in Records is set to air. Coordinates for each axis in record is int(X) + record.x
     struct Explosion : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let x:Double = try packet.read_double()
             let y:Double = try packet.read_double()
             let z:Double = try packet.read_double()
@@ -42,7 +42,7 @@ public extension ClientPacketMojang.Play {
         /// Z velocity of the player being pushed by the explosion.
         public let player_motion_z:Float
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [
                 x,
                 y,

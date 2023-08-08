@@ -153,6 +153,10 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .game_event:                     return ClientPacketMojang.Play.GameEvent.self
         case .open_horse_screen:              return ClientPacketMojang.Play.OpenHorseScreen.self
             
+        case .player_chat_message:            return ClientPacketMojang.Play.PlayerChatMessage.self
+            
+        case .server_data:                    return ClientPacketMojang.Play.ServerData.self
+            
         case .link_entities:                  return ClientPacketMojang.Play.LinkEntities.self
             
         case .set_experience:                 return ClientPacketMojang.Play.SetExperience.self

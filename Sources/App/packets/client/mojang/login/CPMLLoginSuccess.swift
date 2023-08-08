@@ -12,7 +12,7 @@ public extension ClientPacketMojang.Login {
     /// - Warning: The (notchian) server might take a bit to fully transition to the Play state, so it's recommended to wait for the Login (play) packet from the server.
     /// - Warning: The notchian client doesn't send any packets until the Login (play) packet.
     struct LoginSuccess : ClientPacketMojangLoginProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let uuid:UUID = try packet.read_uuid()
             let username:String = try packet.read_string()
             let number_of_properties:VariableInteger = try packet.read_var_int()
@@ -54,7 +54,7 @@ public extension ClientPacketMojang.Login {
             }
         }
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [uuid, username, number_of_properties]
             array.append(contentsOf: properties)
             return array

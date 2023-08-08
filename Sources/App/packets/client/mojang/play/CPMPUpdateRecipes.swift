@@ -9,7 +9,7 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct UpdateRecipes : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let count:VariableInteger = try packet.read_var_int()
             let recipes:[UpdateRecipes.UpdateRecipe] = try packet.read_map(count: count) {
                 let identifier:Namespace = try packet.read_identifier()
@@ -38,7 +38,7 @@ public extension ClientPacketMojang.Play {
             }
         }
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [count]
             array.append(contentsOf: recipes)
             return array

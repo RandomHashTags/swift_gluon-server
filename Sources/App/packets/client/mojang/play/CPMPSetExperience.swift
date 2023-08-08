@@ -9,7 +9,7 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetExperience : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let experience_bar:Float = try packet.read_float()
             let total_experience:VariableInteger = try packet.read_var_int()
             let level:VariableInteger = try packet.read_var_int()
@@ -22,7 +22,7 @@ public extension ClientPacketMojang.Play {
         public let total_experience:VariableInteger
         public let level:VariableInteger
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [experience_bar, total_experience, level]
         }
     }

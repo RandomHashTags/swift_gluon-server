@@ -20,7 +20,7 @@ public extension ClientPacketMojang.Play {
             case hard
         }
         
-        public var encoded_values: [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [difficulty, difficulty_locked]
         }
     }

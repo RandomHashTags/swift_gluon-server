@@ -90,7 +90,11 @@ final class ServerMojangHandler : ChannelInboundHandler {
         }
         switch state {
         case .handshaking_received_packet:
-            parse_handshake(context: context, bytes: bytes)
+            do {
+                try parse_handshake(context: context, bytes: bytes)
+            } catch {
+                print("ServerMojang;channelRead;error=\(error)")
+            }
             break
         default:
             for byte in bytes {
@@ -111,20 +115,14 @@ final class ServerMojangHandler : ChannelInboundHandler {
         context.close(promise: nil)
     }
     
-    private func parse_handshake(context: ChannelHandlerContext, bytes: [UInt8]) {
-        var packet:GeneralPacketMojang = GeneralPacketMojang(bytes: bytes)
-        guard let test:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking(rawValue: packet.packet_id) else {
-            print("ServerMojang;parse_handshake;failed to find packet with id \(packet.packet_id)")
+    private func parse_handshake(context: ChannelHandlerContext, bytes: [UInt8]) throws {
+        let packet:GeneralPacketMojang = try GeneralPacketMojang(bytes: bytes)
+        guard let test:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packet_id.value)) else {
+            print("ServerMojang;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         let handshake_packet:any ServerPacketMojangHandshakingProtocol.Type = test.packet
-        guard let client_packet:any ServerPacketMojangHandshakingProtocol = try? handshake_packet.parse(&packet) else {
-            print("ServerMojang;parse_handshake;failed to parse packet from data with id \(packet.packet_id)")
-            for value in packet.data {
-                print("ServerMojang;parse_handshake;failed to parse packet from data;byte=\(value)")
-            }
-            return
-        }
+        let client_packet:any ServerPacketMojangHandshakingProtocol = try handshake_packet.parse(packet)
         if let handshake:ServerPacketMojang.Handshaking.Handshake = client_packet as? ServerPacketMojang.Handshaking.Handshake {
             let next_state:ServerPacketMojang.Status = handshake.next_state
             print("ServerMojang;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(next_state)")

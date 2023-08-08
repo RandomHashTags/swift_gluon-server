@@ -21,7 +21,7 @@ public extension ClientPacketMojang.Play {
         /// 0–9 to set it, any other value to remove it.
         public let destroy_stage:Int
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [entity_id, location, destroy_stage]
         }
     }

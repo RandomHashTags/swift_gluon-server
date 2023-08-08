@@ -9,7 +9,7 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct BossBar : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let uuid:UUID = try packet.read_uuid()
             let action:BossBar.Action = try packet.read_enum()
             var title:ChatPacketMojang? = nil
@@ -23,7 +23,7 @@ public extension ClientPacketMojang.Play {
                 health = try packet.read_float()
                 color = try packet.read_enum()
                 division = try packet.read_enum()
-                flags = try packet.read_byte()
+                flags = try packet.read_unsigned_byte()
                 break
             case .remove:
                 break
@@ -38,7 +38,7 @@ public extension ClientPacketMojang.Play {
                 division = try packet.read_enum()
                 break
             case .update_flags:
-                flags = try packet.read_byte()
+                flags = try packet.read_unsigned_byte()
                 break
             }
             return Self(uuid: uuid, action: action, title: title, health: health, color: color, division: division, flags: flags)
@@ -89,7 +89,7 @@ public extension ClientPacketMojang.Play {
             case twenty_notches
         }
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [uuid, action]
             let secondary:[PacketEncodableMojang?]
             switch action {

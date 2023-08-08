@@ -11,7 +11,7 @@ public extension ClientPacketMojang.Play {
     /// Plays a sound effect from an entity, either by hardcoded ID or Identifier. Sound IDs and names can be found at https://pokechu22.github.io/Burger/1.20.1.html#sounds .
     /// - Warning: Numeric sound effect IDs are liable to change between versions
     struct EntitySoundEffect : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let sound_id:VariableInteger = try packet.read_var_int()
             let sound_name:String?
             let has_fixed_range:Bool?
@@ -33,7 +33,7 @@ public extension ClientPacketMojang.Play {
             let entity_id:VariableInteger = try packet.read_var_int()
             let volume:Float = try packet.read_float()
             let pitch:Float = try packet.read_float()
-            let seed:Int = try packet.read_long()
+            let seed:Int64 = try packet.read_long()
             return Self(sound_id: sound_id, sound_name: sound_name, has_fixed_range: has_fixed_range, range: range, sound_category: sound_category, entity_id: entity_id, volume: volume, pitch: pitch, seed: seed)
         }
         
@@ -53,9 +53,9 @@ public extension ClientPacketMojang.Play {
         /// Float between 0.5 and 2.0 by Notchian clients.
         public let pitch:Float
         /// Seed used to pick sound variant.
-        public let seed:Int
+        public let seed:Int64
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [sound_id]
             if sound_id.value == 0 {
                 array.append(sound_name)

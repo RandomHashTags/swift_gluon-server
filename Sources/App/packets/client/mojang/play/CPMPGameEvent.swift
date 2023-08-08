@@ -9,7 +9,7 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct GameEvent : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let event:GameEvent.Event = try packet.read_enum()
             let value:Float = try packet.read_float()
             return Self(event: event, value: value)
@@ -71,7 +71,7 @@ public extension ClientPacketMojang.Play {
             case enable_respawn_screen
         }
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [event, value]
         }
     }

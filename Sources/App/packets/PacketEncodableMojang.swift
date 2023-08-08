@@ -15,7 +15,7 @@ public extension PacketEncodableMojang where Self : RawRepresentable, RawValue :
     }
 }
 
-extension Int : PacketEncodableMojang {
+extension FixedWidthInteger {
     public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         var value:Self = self
@@ -31,21 +31,16 @@ extension Int : PacketEncodableMojang {
         return array
     }
 }
-extension UInt8 : PacketEncodableMojang {
-    public func packet_bytes() throws -> [UInt8] {
-        var array:[UInt8] = []
-        var value:UInt8 = self
-        while true {
-            if (value & ~GeneralPacketMojang.segment_bits) == 0 {
-                array.append(value)
-                break
-            }
-            array.append((value & GeneralPacketMojang.segment_bits) | GeneralPacketMojang.continue_bit)
-            value >>= 7
-        }
-        return array
-    }
-}
+
+extension Int : PacketEncodableMojang {}
+extension Int8 : PacketEncodableMojang {}
+extension Int16 : PacketEncodableMojang {}
+extension Int32 : PacketEncodableMojang {}
+extension Int64 : PacketEncodableMojang {}
+extension UInt8 : PacketEncodableMojang {}
+extension UInt16 : PacketEncodableMojang {}
+extension UInt32 : PacketEncodableMojang {}
+extension UInt64 : PacketEncodableMojang {}
 
 extension Double : PacketEncodableMojang {
     public func packet_bytes() throws -> [UInt8] {

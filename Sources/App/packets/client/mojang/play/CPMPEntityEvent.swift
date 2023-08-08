@@ -13,7 +13,7 @@ public extension ClientPacketMojang.Play {
         public let entity_id:Int
         public let entity_status:Int // TODO: support (https://wiki.vg/Entity_statuses)
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [entity_id, entity_status]
         }
     }

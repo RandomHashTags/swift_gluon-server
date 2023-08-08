@@ -10,7 +10,7 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// The server responds with a list of auto-completions of the last word sent to it. In the case of regular chat, this is a player username. Command names and parameters are also supported. The client sorts these alphabetically before listing them.
     struct CommandSuggestionsResponse : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let id:VariableInteger = try packet.read_var_int()
             let start:VariableInteger = try packet.read_var_int()
             let length:VariableInteger = try packet.read_var_int()
@@ -55,7 +55,7 @@ public extension ClientPacketMojang.Play {
             }
         }
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [id, start, length, count]
             array.append(contentsOf: matches)
             return array

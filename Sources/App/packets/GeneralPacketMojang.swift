@@ -8,6 +8,29 @@
 import Foundation
 import NIO
 
+fileprivate extension Array where Element == UInt8 {
+    func read_var_int(byteOffset: Int = 0) throws -> VariableInteger {
+        var value:Int = 0
+        var position:Int = 0
+        var current_byte:UInt8 = 0
+        var reading_index:Int = byteOffset
+        while true {
+            current_byte = self[reading_index]
+            reading_index += 1
+            value |= Int(current_byte & GeneralPacketMojang.segment_bits) << position
+            
+            if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
+                break
+            }
+            position += 7
+            if position >= 32 {
+                throw GeneralPacketError.varint_is_too_big
+            }
+        }
+        return VariableInteger(value: value)
+    }
+}
+
 public final class GeneralPacketMojang : GeneralPacket {
     public static func == (lhs: GeneralPacketMojang, rhs: GeneralPacketMojang) -> Bool {
         return lhs.length == rhs.length && lhs.packet_id == rhs.packet_id && lhs.data.elementsEqual(rhs.data)
@@ -16,15 +39,15 @@ public final class GeneralPacketMojang : GeneralPacket {
     public static let segment_bits:UInt8 = 0x7F
     public static let continue_bit:UInt8 = 0x80
     
-    public let length:UInt8
-    public let packet_id:UInt8
+    public let length:VariableInteger
+    public let packet_id:VariableInteger
     public let data:ArraySlice<UInt8>
     
     public private(set) var reading_index:Int = 0
     
-    public init(bytes: [UInt8]) {
-        length = bytes[0]
-        packet_id = bytes[1]
+    public init(bytes: [UInt8]) throws {
+        length = try bytes.read_var_int()
+        packet_id = try bytes.read_var_int(byteOffset: length.value)
         data = bytes[2..<bytes.count]
         reading_index = 2
         print("GeneralPacketMojang;data=" + data.description)
@@ -50,7 +73,7 @@ public final class GeneralPacketMojang : GeneralPacket {
             reading_index += 1
             value |= Int(current_byte & GeneralPacketMojang.segment_bits) << position
             
-            if ((current_byte & GeneralPacketMojang.continue_bit) == 0) {
+            if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
                 break
             }
             position += 7
@@ -61,10 +84,21 @@ public final class GeneralPacketMojang : GeneralPacket {
         return VariableInteger(value: value)
     }
     
-    private func from_bytes<T>(bytes: Int) throws -> T {
-        let slice:ArraySlice<UInt8> = data[reading_index..<reading_index + bytes]
+    private func from_bytes_integer<T : FixedWidthInteger>(bytes: Int) throws -> T {
+        let slice:[UInt8] = [UInt8](data[reading_index..<reading_index + bytes])
         guard slice.count == MemoryLayout<T>.size else {
-            throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "bruh")) // TODO: fix
+            throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "bruh;slice.count=\(slice.count);memorylayout.size=\(MemoryLayout<T>.size)")) // TODO: fix
+        }
+        let value:T = slice.withUnsafeBytes { pointer in
+            return pointer.load(as: T.self)
+        }
+        reading_index += bytes
+        return value.bigEndian
+    }
+    private func from_bytes<T>(bytes: Int) throws -> T {
+        let slice:[UInt8] = [UInt8](data[reading_index..<reading_index + bytes])
+        guard slice.count == MemoryLayout<T>.size else {
+            throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "bruh;slice.count=\(slice.count);memorylayout.size=\(MemoryLayout<T>.size)")) // TODO: fix
         }
         let value:T = slice.withUnsafeBytes { pointer in
             return pointer.load(as: T.self)
@@ -82,19 +116,25 @@ public final class GeneralPacketMojang : GeneralPacket {
         return bytes
     }
     
-    public func read_byte() throws -> UInt8 {
-        let byte:UInt8 = data[reading_index]
-        reading_index += 1
-        return byte
+    public func read_byte() throws -> Int8 {
+        return try from_bytes_integer(bytes: 1)
     }
-    public func read_short() throws -> Int {
-        return try from_bytes(bytes: 2)
+    public func read_unsigned_byte() throws -> UInt8 {
+        return try from_bytes_integer(bytes: 1)
     }
-    public func read_int() throws -> Int {
-        return try from_bytes(bytes: 4)
+    
+    public func read_short() throws -> Int16 {
+        return try from_bytes_integer(bytes: 2)
     }
-    public func read_long() throws -> Int {
-        return try from_bytes(bytes: 8)
+    public func read_unsigned_short() throws -> UInt16 {
+        return try from_bytes_integer(bytes: 2)
+    }
+    
+    public func read_int() throws -> Int32 {
+        return try from_bytes_integer(bytes: 4)
+    }
+    public func read_long() throws -> Int64 {
+        return try from_bytes_integer(bytes: 8)
     }
     
     private func read_floating_point_little_endian<T: FloatingPoint>(bytes: Int) throws -> T {

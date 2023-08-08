@@ -12,7 +12,7 @@ public protocol Packet : Hashable, Codable, PacketEncodable {
     associatedtype Category : PacketCategory
     associatedtype PacketType : GeneralPacket
     
-    static func parse(_ packet: inout PacketType) throws -> Self
+    static func parse(_ packet: PacketType) throws -> Self
     
     var platform : PacketPlatform { get }
     var category : Category { get }
@@ -22,12 +22,12 @@ public protocol Packet : Hashable, Codable, PacketEncodable {
     func to_general() throws -> PacketType
 }
 public extension Packet {
-    static func parse(_ packet: inout PacketType) throws -> Self {
+    static func parse(_ packet: PacketType) throws -> Self {
         throw GeneralPacketError.not_implemented(packet_type: Self.self)
     }
     
     func to_general() throws -> PacketType {
-        return PacketType(bytes: try packet_bytes())
+        return try PacketType(bytes: packet_bytes())
     }
 }
 

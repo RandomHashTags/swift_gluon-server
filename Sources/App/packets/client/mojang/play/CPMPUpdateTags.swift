@@ -43,7 +43,7 @@ public extension ClientPacketMojang.Play {
             }
         }
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             var array:[PacketEncodableMojang?] = [count]
             array.append(contentsOf: tag_types)
             array.append(contentsOf: tags)

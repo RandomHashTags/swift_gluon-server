@@ -13,7 +13,7 @@ public extension ClientPacketMojang.Play {
         /// Displayed to the client when the connection terminates.
         public let reason:ChatPacketMojang
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [reason]
         }
     }

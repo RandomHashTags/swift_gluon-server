@@ -12,7 +12,7 @@ public extension ClientPacketMojang.Login {
         /// The reason why the player was disconnected.
         public let reason:ChatPacketMojang
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [reason]
         }
     }

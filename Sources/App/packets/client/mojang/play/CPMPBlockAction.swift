@@ -20,7 +20,7 @@ public extension ClientPacketMojang.Play {
         /// The block type ID for the block. This value is unused by the Notchian client, as it will infer the type of block based on the given position.
         public let block_type:VariableInteger
         
-        public var encoded_values : [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [
                 location,
                 action_id,

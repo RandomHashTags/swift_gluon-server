@@ -12,18 +12,18 @@ public extension ClientPacketMojang.Play {
     ///
     /// It is legal to send this packet even if the given chunk is not currently loaded.
     struct UnloadChunk : ClientPacketMojangPlayProtocol {
-        public static func parse(_ packet: inout GeneralPacketMojang) throws -> Self {
-            let chunk_x:Int = try packet.read_int()
-            let chunk_z:Int = try packet.read_int()
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
+            let chunk_x:Int32 = try packet.read_int()
+            let chunk_z:Int32 = try packet.read_int()
             return Self(chunk_x: chunk_x, chunk_z: chunk_z)
         }
         
         /// Block coordinate divided by 16, rounded down.
-        public let chunk_x:Int
+        public let chunk_x:Int32
         /// Block coordinate divided by 16, rounded down.
-        public let chunk_z:Int
+        public let chunk_z:Int32
         
-        public var encoded_values: [PacketEncodableMojang?] {
+        public func encoded_values() throws -> [PacketEncodableMojang?] {
             return [chunk_x, chunk_z]
         }
     }
