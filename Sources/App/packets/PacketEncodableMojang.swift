@@ -34,7 +34,11 @@ extension FixedWidthInteger {
 
 extension Int : PacketEncodableMojang {}
 extension Int8 : PacketEncodableMojang {}
-extension Int16 : PacketEncodableMojang {}
+extension Int16 : PacketEncodableMojang, PacketDecodableMojang {
+    public static func decode(from packet: GeneralPacketMojang) throws -> Int16 {
+        return try packet.read_short()
+    }
+}
 extension Int32 : PacketEncodableMojang {}
 extension Int64 : PacketEncodableMojang {}
 extension UInt8 : PacketEncodableMojang {}

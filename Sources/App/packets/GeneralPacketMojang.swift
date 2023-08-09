@@ -214,6 +214,9 @@ public final class GeneralPacketMojang : GeneralPacket {
         return [UInt8](slice)
     }
     
+    public func read_string_array(count: VariableInteger) throws -> [String] {
+        return try read_string_array(count: count.value_int)
+    }
     public func read_string_array(count: Int) throws -> [String] {
         return try (0..<count).map({ _ in
             let size:Int = try read_var_int().value_int
