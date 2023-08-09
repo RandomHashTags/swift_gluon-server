@@ -7,7 +7,11 @@
 
 import Foundation
 
-public struct Namespace : Hashable, Codable, LosslessStringConvertible, PacketEncodableMojang { // TODO: fix (PacketEncodableMojang)
+public struct Namespace : Hashable, Codable, LosslessStringConvertible, PacketEncodableMojang, PacketDecodableMojang { // TODO: fix (PacketEncodableMojang)
+    public static func decode(from packet: GeneralPacketMojang) throws -> Self {
+        return try packet.read_identifier()
+    }
+    
     public let identifier:Substring
     public let value:Substring
     

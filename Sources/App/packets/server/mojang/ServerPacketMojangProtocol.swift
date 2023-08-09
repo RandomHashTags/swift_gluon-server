@@ -19,6 +19,15 @@ public extension ServerPacketMojangHandshakingProtocol {
     }
 }
 
+// MARK: ServerPacketMojangPlayProtocol
+public protocol ServerPacketMojangPlayProtocol : ServerPacketMojangProtocol {
+}
+public extension ServerPacketMojangPlayProtocol {
+    var category : Category {
+        return Category.server_play
+    }
+}
+
 // MARK: ServerPacketMojangStatusProtocol
 public protocol ServerPacketMojangStatusProtocol : ServerPacketMojangProtocol {
 }

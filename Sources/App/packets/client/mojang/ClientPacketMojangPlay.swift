@@ -170,8 +170,15 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .set_border_size:                return ClientPacketMojang.Play.SetBorderSize.self
         case .set_border_warning_delay:       return ClientPacketMojang.Play.SetBorderWarningDelay.self
         case .set_border_warning_distance:    return ClientPacketMojang.Play.SetBorderWarningDistance.self
+        case .set_camera:                     return ClientPacketMojang.Play.SetCamera.self
+        case .set_held_item:                  return ClientPacketMojang.Play.SetHeldItem.self
+        case .set_center_chunk:               return ClientPacketMojang.Play.SetCenterChunk.self
+        case .set_render_distance:            return ClientPacketMojang.Play.SetRenderDistance.self
+        case .set_default_spawn_position:     return ClientPacketMojang.Play.SetDefaultSpawnPosition.self
+        case .display_objective:              return ClientPacketMojang.Play.DisplayObjective.self
             
         case .link_entities:                  return ClientPacketMojang.Play.LinkEntities.self
+        case .set_entity_velocity:            return ClientPacketMojang.Play.SetEntityVelocity.self
             
         case .set_experience:                 return ClientPacketMojang.Play.SetExperience.self
         case .set_health:                     return ClientPacketMojang.Play.SetHealth.self
@@ -192,6 +199,8 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .tag_query_response:             return ClientPacketMojang.Play.TagQueryResponse.self
         case .pickup_item:                    return ClientPacketMojang.Play.PickupItem.self
         case .teleport_entity:                return ClientPacketMojang.Play.TeleportEntity.self
+            
+        case .feature_flags:                  return ClientPacketMojang.Play.FeatureFlags.self
             
         case .update_recipes:                 return ClientPacketMojang.Play.UpdateRecipes.self
         case .update_tags:                    return ClientPacketMojang.Play.UpdateTags.self
