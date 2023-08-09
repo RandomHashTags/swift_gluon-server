@@ -11,6 +11,8 @@ public enum ServerPacketMojang {
     
     public enum Handshaking {
     }
+    public enum Play {
+    }
     public enum Status : Int, Hashable, Codable, PacketEncodableMojang {
         case status = 1
         case login  = 2

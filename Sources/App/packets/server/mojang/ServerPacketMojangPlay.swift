@@ -59,4 +59,16 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
     case teleport_to_entity
     case use_item_on
     case use_item
+    
+    public var packet : (any ServerPacketMojangProtocol.Type)? {
+        switch self {
+        case .confirm_teleportation:   return ServerPacketMojang.Play.ConfirmTeleportation.self
+        case .query_block_entity_tag:  return ServerPacketMojang.Play.QueryBlockEntityTag.self
+        case .message_acknowledgement: return ServerPacketMojang.Play.MessageAcknowledgment.self
+        case .chat_message:            return ServerPacketMojang.Play.ChatMessage.self
+            
+        default:
+            return nil
+        }
+    }
 }
