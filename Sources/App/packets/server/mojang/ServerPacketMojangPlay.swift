@@ -84,6 +84,12 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
         case .set_player_position:              return ServerPacketMojang.Play.SetPlayerPosition.self
         case .set_player_position_and_rotation: return ServerPacketMojang.Play.SetPlayerPositionAndRotation.self
         case .set_player_rotation:              return ServerPacketMojang.Play.SetPlayerRotation.self
+        case .set_player_on_ground:             return ServerPacketMojang.Play.SetPlayerOnGround.self
+        case .move_vehicle:                     return ServerPacketMojang.Play.MoveVehicle.self
+        case .paddle_boat:                      return ServerPacketMojang.Play.PaddleBoat.self
+        case .pick_item:                        return ServerPacketMojang.Play.PickItem.self
+        case .place_recipe:                     return ServerPacketMojang.Play.PlaceRecipe.self
+        case .player_abilities:                 return ServerPacketMojang.Play.PlayerAbilities.self
             
         default:
             return nil
