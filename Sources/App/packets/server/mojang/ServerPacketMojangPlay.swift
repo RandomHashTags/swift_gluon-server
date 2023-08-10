@@ -62,22 +62,28 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
     
     public var packet : (any ServerPacketMojangProtocol.Type)? {
         switch self {
-        case .confirm_teleportation:       return ServerPacketMojang.Play.ConfirmTeleportation.self
-        case .query_block_entity_tag:      return ServerPacketMojang.Play.QueryBlockEntityTag.self
-        case .message_acknowledgement:     return ServerPacketMojang.Play.MessageAcknowledgment.self
+        case .confirm_teleportation:            return ServerPacketMojang.Play.ConfirmTeleportation.self
+        case .query_block_entity_tag:           return ServerPacketMojang.Play.QueryBlockEntityTag.self
+        case .message_acknowledgement:          return ServerPacketMojang.Play.MessageAcknowledgment.self
             
-        case .chat_message:                return ServerPacketMojang.Play.ChatMessage.self
-        case .player_session:              return ServerPacketMojang.Play.PlayerSession.self
-        case .client_command:              return ServerPacketMojang.Play.ClientCommand.self
-        case .client_information:          return ServerPacketMojang.Play.ClientInformation.self
-        case .command_suggestions_request: return ServerPacketMojang.Play.CommandSuggestionsRequest.self
-        case .click_container_button:      return ServerPacketMojang.Play.ClickContainerButton.self
-        case .click_container:             return ServerPacketMojang.Play.ClickContainer.self
-        case .close_container:             return ServerPacketMojang.Play.CloseContainer.self
-        case .plugin_message:              return ServerPacketMojang.Play.PluginMessage.self
-        case .edit_book:                   return ServerPacketMojang.Play.EditBook.self
-        case .query_entity_tag:            return ServerPacketMojang.Play.QueryEntityTag.self
-        case .interact:                    return ServerPacketMojang.Play.Interact.self
+        case .chat_message:                     return ServerPacketMojang.Play.ChatMessage.self
+        case .player_session:                   return ServerPacketMojang.Play.PlayerSession.self
+        case .client_command:                   return ServerPacketMojang.Play.ClientCommand.self
+        case .client_information:               return ServerPacketMojang.Play.ClientInformation.self
+        case .command_suggestions_request:      return ServerPacketMojang.Play.CommandSuggestionsRequest.self
+        case .click_container_button:           return ServerPacketMojang.Play.ClickContainerButton.self
+        case .click_container:                  return ServerPacketMojang.Play.ClickContainer.self
+        case .close_container:                  return ServerPacketMojang.Play.CloseContainer.self
+        case .plugin_message:                   return ServerPacketMojang.Play.PluginMessage.self
+        case .edit_book:                        return ServerPacketMojang.Play.EditBook.self
+        case .query_entity_tag:                 return ServerPacketMojang.Play.QueryEntityTag.self
+        case .interact:                         return ServerPacketMojang.Play.Interact.self
+        case .jigsaw_generate:                  return ServerPacketMojang.Play.JigsawGenerate.self
+        case .keep_alive:                       return ServerPacketMojang.Play.KeepAlive.self
+        case .lock_difficulty:                  return ServerPacketMojang.Play.LockDifficulty.self
+        case .set_player_position:              return ServerPacketMojang.Play.SetPlayerPosition.self
+        case .set_player_position_and_rotation: return ServerPacketMojang.Play.SetPlayerPositionAndRotation.self
+        case .set_player_rotation:              return ServerPacketMojang.Play.SetPlayerRotation.self
             
         default:
             return nil
