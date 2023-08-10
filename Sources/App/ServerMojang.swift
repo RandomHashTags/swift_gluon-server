@@ -52,7 +52,14 @@ final class ServerMojangHandler : ChannelInboundHandler {
     typealias OutboundOut = ByteBuffer
     
     var state:ServerMojangStatus = .handshaking
-    var readable_bytes:[UInt8] = []
+    
+    private func write(context: ChannelHandlerContext, bytes: [UInt8], on_complete: (() -> Void)? = nil) {
+        let buffer:ByteBuffer = context.channel.allocator.buffer(bytes: bytes)
+        context.write(self.wrapOutboundOut(buffer)).whenComplete { result in
+            print("ServerMojang;write;whenComplete;result=\(result)")
+            on_complete?()
+        }
+    }
     
     func channelActive(context: ChannelHandlerContext) {
         print("ServerMojang;channelActive")
@@ -71,12 +78,7 @@ final class ServerMojangHandler : ChannelInboundHandler {
             print("ServerMojang;channelRegistered;state==status")
             break
         default:
-            let response:String = "bro"
-            var buffer:ByteBuffer = context.channel.allocator.buffer(capacity: response.utf8.count)
-            buffer.writeString(response)
-            context.writeAndFlush(self.wrapOutboundOut(buffer)).whenComplete { _ in
-                context.close(promise: nil)
-            }
+            print("ServerMojang;channelRegistered;state==\(state);broke")
             break
         }
     }
@@ -96,7 +98,10 @@ final class ServerMojangHandler : ChannelInboundHandler {
                 print("ServerMojang;channelRead;error=\(error)")
             }
             break
+        case .status:
+            break
         default:
+            print("ServerMojang;channelRead;state=\(state)")
             for byte in bytes {
                 print("ServerMojang;channelRead;byte=\(byte)")
             }
@@ -130,12 +135,14 @@ final class ServerMojangHandler : ChannelInboundHandler {
             case .status:
                 state = ServerMojangStatus.status
                 let status_request:ServerPacketMojang.Status.StatusRequest = ServerPacketMojang.Status.StatusRequest()
-                
+                write(context: context, bytes: try status_request.packet_bytes()) {
+                    context.read()
+                }
                 break
             case .login:
+                state = ServerMojangStatus.login
                 break
             }
-            
         }
     }
 }

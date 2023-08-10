@@ -9,7 +9,7 @@ import Foundation
 import NIO
 
 fileprivate extension Array where Element == UInt8 {
-    func read_var_int(byteOffset: Int = 0) throws -> VariableInteger {
+    func read_var_int(byteOffset: Int = 0) throws -> (result: VariableInteger, read_bytes: Int) {
         var value:Int32 = 0
         var position:Int = 0
         var current_byte:UInt8 = 0
@@ -27,7 +27,7 @@ fileprivate extension Array where Element == UInt8 {
                 throw GeneralPacketError.varint_is_too_big
             }
         }
-        return VariableInteger(value: value)
+        return (VariableInteger(value: value), reading_index - byteOffset)
     }
 }
 
@@ -46,11 +46,14 @@ public final class GeneralPacketMojang : GeneralPacket {
     public private(set) var reading_index:Int = 0
     
     public init(bytes: [UInt8]) throws {
-        length = try bytes.read_var_int()
-        packet_id = try bytes.read_var_int(byteOffset: length.value_int)
-        data = bytes[2..<bytes.count]
-        reading_index = 2
-        print("GeneralPacketMojang;data=" + data.description)
+        let (length, length_read_bytes):(VariableInteger, Int) = try bytes.read_var_int()
+        self.length = length
+        let (packet_id, packet_read_bytes):(VariableInteger, Int) = try bytes.read_var_int(byteOffset: length_read_bytes)
+        self.packet_id = packet_id
+        let offset:Int = length_read_bytes + packet_read_bytes
+        data = bytes[offset..<bytes.count]
+        reading_index = offset
+        print("GeneralPacketMojang;packet_id=\(packet_id);offset=\(offset);data=" + data.description + ";bytes=" + bytes.description)
     }
     
     public func hash(into hasher: inout Hasher) {

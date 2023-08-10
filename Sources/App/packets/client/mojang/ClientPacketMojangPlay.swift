@@ -129,7 +129,7 @@ public enum ClientPacketMojangPlay : UInt8, PacketGameplayID { // https://wiki.v
         case .award_statistic:                return ClientPacketMojang.Play.AwardStatistics.self
         case .acknowledge_block_change:       return ClientPacketMojang.Play.AcknowledgeBlockChange.self
         case .set_block_destroy_stage:        return ClientPacketMojang.Play.SetBlockDestroyStage.self
-        case .block_entity_data:              return nil
+            
         case .block_action:                   return ClientPacketMojang.Play.BlockAction.self
         case .block_update:                   return ClientPacketMojang.Play.BlockUpdate.self
         case .boss_bar:                       return ClientPacketMojang.Play.BossBar.self
