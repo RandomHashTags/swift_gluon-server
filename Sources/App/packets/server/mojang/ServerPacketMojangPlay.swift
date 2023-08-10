@@ -90,6 +90,16 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
         case .pick_item:                        return ServerPacketMojang.Play.PickItem.self
         case .place_recipe:                     return ServerPacketMojang.Play.PlaceRecipe.self
         case .player_abilities:                 return ServerPacketMojang.Play.PlayerAbilities.self
+        case .player_action:                    return ServerPacketMojang.Play.PlayerAction.self
+        case .player_command:                   return ServerPacketMojang.Play.PlayerCommand.self
+        case .player_input:                     return ServerPacketMojang.Play.PlayerInput.self
+        case .pong:                             return ServerPacketMojang.Play.Pong.self
+        case .change_recipe_book_settings:      return ServerPacketMojang.Play.ChangeRecipeBookSettings.self
+        case .set_seen_recipe:                  return ServerPacketMojang.Play.SetSeenRecipe.self
+        case .rename_item:                      return ServerPacketMojang.Play.RenameItem.self
+        case .resource_pack:                    return ServerPacketMojang.Play.ResourcePack.self
+        case .seen_advancements:                return ServerPacketMojang.Play.SeenAdvancements.self
+        case .select_trade:                     return ServerPacketMojang.Play.SelectTrade.self
             
         default:
             return nil
