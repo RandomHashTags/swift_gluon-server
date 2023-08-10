@@ -60,12 +60,13 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
     case use_item_on
     case use_item
     
-    public var packet : (any ServerPacketMojangProtocol.Type)? {
+    public var packet : any ServerPacketMojangProtocol.Type {
         switch self {
         case .confirm_teleportation:            return ServerPacketMojang.Play.ConfirmTeleportation.self
         case .query_block_entity_tag:           return ServerPacketMojang.Play.QueryBlockEntityTag.self
+        case .change_difficulty:                return ServerPacketMojang.Play.ChangeDifficulty.self
         case .message_acknowledgement:          return ServerPacketMojang.Play.MessageAcknowledgment.self
-            
+        case .chat_command:                     return ServerPacketMojang.Play.ChatCommand.self
         case .chat_message:                     return ServerPacketMojang.Play.ChatMessage.self
         case .player_session:                   return ServerPacketMojang.Play.PlayerSession.self
         case .client_command:                   return ServerPacketMojang.Play.ClientCommand.self
@@ -100,9 +101,18 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
         case .resource_pack:                    return ServerPacketMojang.Play.ResourcePack.self
         case .seen_advancements:                return ServerPacketMojang.Play.SeenAdvancements.self
         case .select_trade:                     return ServerPacketMojang.Play.SelectTrade.self
-            
-        default:
-            return nil
+        case .set_beacon_effect:                return ServerPacketMojang.Play.SetBeaconEffect.self
+        case .set_held_item:                    return ServerPacketMojang.Play.SetHeldItem.self
+        case .program_command_block:            return ServerPacketMojang.Play.ProgramCommandBlock.self
+        case .program_command_block_minecart:   return ServerPacketMojang.Play.ProgramCommandBlockMinecart.self
+        case .set_creative_mode_slot:           return ServerPacketMojang.Play.SetCreativeMoveSlot.self
+        case .program_jigsaw_block:             return ServerPacketMojang.Play.ProgramJigsawBlock.self
+        case .program_structure_block:          return ServerPacketMojang.Play.ProgramStructureBlock.self
+        case .update_sign:                      return ServerPacketMojang.Play.UpdateSign.self
+        case .swing_arm:                        return ServerPacketMojang.Play.SwingArm.self
+        case .teleport_to_entity:               return ServerPacketMojang.Play.TeleportToEntity.self
+        case .use_item_on:                      return ServerPacketMojang.Play.UseItemOn.self
+        case .use_item:                         return ServerPacketMojang.Play.UseItem.self
         }
     }
 }
