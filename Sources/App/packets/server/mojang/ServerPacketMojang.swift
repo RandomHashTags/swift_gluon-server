@@ -11,6 +11,8 @@ public enum ServerPacketMojang {
     
     public enum Handshaking {
     }
+    public enum Login {
+    }
     public enum Play {
     }
     public enum Status : Int, Hashable, Codable, PacketEncodableMojang {

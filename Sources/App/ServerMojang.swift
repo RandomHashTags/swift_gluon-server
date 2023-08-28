@@ -8,6 +8,20 @@
 import Foundation
 import NIO
 
+/*public final class ServerMojangStarscream {
+    let socket:WebSocketServer
+    
+    public init(host: String, port: Int) {
+        socket = WebSocketServer.init()
+        if let error:Error = socket.start(address: host, port: UInt16(port)) {
+            print("ServerMojangStarscream;error=\(error)")
+        }
+        socket.onEvent = { event in
+            print("ServerMojangStarscream;event=\(event)")
+        }
+    }
+}*/
+
 public final class ServerMojang {
     private let group:MultiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
     let host:String
@@ -33,7 +47,7 @@ public final class ServerMojang {
     
     public func run() throws {
         print("ServerMojang;running on host \"" + host + "\" and port \(port)")
-        let channel = try boostrap.bind(host: host, port: port).wait()
+        let channel:Channel = try boostrap.bind(host: host, port: port).wait()
         try channel.closeFuture.wait()
     }
     
@@ -53,6 +67,15 @@ final class ServerMojangHandler : ChannelInboundHandler {
     
     var state:ServerMojangStatus = .handshaking
     
+    private func write_packet(context: ChannelHandlerContext, _ packet: any Packet, on_complete: (() -> Void)? = nil) throws {
+        let bytes:[UInt8] = try packet.packet_bytes()
+        print("ServerMojang;write_packet;packet.category=\(packet.category);bytes=" + bytes.debugDescription)
+        let buffer:ByteBuffer = context.channel.allocator.buffer(bytes: bytes)
+        context.write(self.wrapOutboundOut(buffer)).whenComplete { result in
+            print("ServerMojang;write_packet;whenComplete;result=\(result)")
+            on_complete?()
+        }
+    }
     private func write(context: ChannelHandlerContext, bytes: [UInt8], on_complete: (() -> Void)? = nil) {
         let buffer:ByteBuffer = context.channel.allocator.buffer(bytes: bytes)
         context.write(self.wrapOutboundOut(buffer)).whenComplete { result in
@@ -83,7 +106,7 @@ final class ServerMojangHandler : ChannelInboundHandler {
         }
     }
     func channelRead(context: ChannelHandlerContext, data: NIOAny) {
-        print("ServerMojang;channelRead;data=\(data)")
+        print("ServerMojang;channelRead;state=\(state);data=\(data)")
         
         var buffer:ByteBuffer = unwrapInboundIn(data)
         guard let bytes:[UInt8] = buffer.readBytes(length: buffer.readableBytes) else {
@@ -99,6 +122,27 @@ final class ServerMojangHandler : ChannelInboundHandler {
             }
             break
         case .status:
+            let version:MinecraftProtocolVersion = MinecraftProtocolVersion.v1_20
+            let status_request:ServerPacketMojangStatusResponse = ServerPacketMojangStatusResponse(
+                version: ServerPacketMojangStatusResponse.Version(name: version.name, protocol: version.rawValue),
+                players: ServerPacketMojangStatusResponse.Players(max: 10, online: 1, sample: [ServerPacketMojangStatusResponse.Player(name: "thinkofdeath", id: UUID("4566e69f-c907-48ee-8d71-d7ba5aa00d20")!)]),
+                description: ChatPacketMojang(text: "Hello world", translate: nil, with: nil, score: nil, bold: nil, italic: nil, underlined: nil, strikethrough: nil, obfuscated: nil, font: nil, color: nil, insertion: nil, clickEvent: nil, hoverEvent: nil, extra: nil),
+                favicon: nil,
+                enforcesSecureChat: true,
+                previewsChat: true
+            )
+            do {
+                let data:Data = try JSONEncoder().encode(status_request)
+                let string:String = String(data: data, encoding: .utf8)!
+                write(context: context, bytes: try string.packet_bytes()) {
+                    print("ServerMojang;channelRead;state==.status;write onComplete, reading...")
+                    context.read()
+                }
+            } catch {
+                print("ServerMojang;channelRead;state==.status;error=\(error)")
+            }
+            break
+        case .login:
             break
         default:
             print("ServerMojang;channelRead;state=\(state)")
@@ -120,6 +164,13 @@ final class ServerMojangHandler : ChannelInboundHandler {
         context.close(promise: nil)
     }
     
+    func channelInactive(context: ChannelHandlerContext) {
+        print("ServerMojang;channelInactive")
+    }
+    func channelUnregistered(context: ChannelHandlerContext) {
+        print("ServerMojang;channelUnregistered")
+    }
+    
     private func parse_handshake(context: ChannelHandlerContext, bytes: [UInt8]) throws {
         let packet:GeneralPacketMojang = try GeneralPacketMojang(bytes: bytes)
         guard let test:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packet_id.value)) else {
@@ -134,16 +185,35 @@ final class ServerMojangHandler : ChannelInboundHandler {
             switch next_state {
             case .status:
                 state = ServerMojangStatus.status
-                let status_request:ServerPacketMojang.Status.StatusRequest = ServerPacketMojang.Status.StatusRequest()
-                write(context: context, bytes: try status_request.packet_bytes()) {
-                    context.read()
-                }
                 break
             case .login:
                 state = ServerMojangStatus.login
                 break
             }
         }
+    }
+}
+
+struct ServerPacketMojangStatusResponse : Codable {
+    let version:Version
+    let players:Players
+    let description:ChatPacketMojang
+    let favicon:String?
+    let enforcesSecureChat:Bool
+    let previewsChat:Bool
+    
+    struct Version : Codable {
+        let name:String
+        let `protocol`:Int
+    }
+    struct Players : Codable {
+        let max:Int
+        let online:Int
+        let sample:[Player]?
+    }
+    struct Player : Codable {
+        let name:String
+        let id:UUID
     }
 }
 

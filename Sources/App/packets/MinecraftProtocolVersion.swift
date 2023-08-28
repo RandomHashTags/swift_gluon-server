@@ -64,4 +64,9 @@ public enum MinecraftProtocolVersion : Int, Hashable, Codable, PacketEncodableMo
     
     // MARK: Snapshots
     case v23w31a = 0x40000090
+    
+    var name : String {
+        var string:String = "\(self)".replacingOccurrences(of: "_", with: ".")
+        return String(string[string.index(after: string.startIndex)..<string.endIndex])
+    }
 }
