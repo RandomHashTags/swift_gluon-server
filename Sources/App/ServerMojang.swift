@@ -78,10 +78,12 @@ final class ServerMojangHandler : ChannelInboundHandler {
     }
     private func write(context: ChannelHandlerContext, bytes: [UInt8], on_complete: (() -> Void)? = nil) {
         let buffer:ByteBuffer = context.channel.allocator.buffer(bytes: bytes)
-        context.write(self.wrapOutboundOut(buffer)).whenComplete { result in
+        let out = wrapOutboundOut(buffer)
+        context.write(out, promise: nil)
+        /*.write(out).whenComplete { result in
             print("ServerMojang;write;whenComplete;result=\(result)")
             on_complete?()
-        }
+        }*/
     }
     
     func channelActive(context: ChannelHandlerContext) {
@@ -122,7 +124,7 @@ final class ServerMojangHandler : ChannelInboundHandler {
             }
             break
         case .status:
-            let version:MinecraftProtocolVersion = MinecraftProtocolVersion.v1_20
+            let version:MinecraftProtocolVersion = MinecraftProtocolVersion.v1_20_2
             let status_request:ServerPacketMojangStatusResponse = ServerPacketMojangStatusResponse(
                 version: ServerPacketMojangStatusResponse.Version(name: version.name, protocol: version.rawValue),
                 players: ServerPacketMojangStatusResponse.Players(max: 10, online: 1, sample: [ServerPacketMojangStatusResponse.Player(name: "thinkofdeath", id: UUID("4566e69f-c907-48ee-8d71-d7ba5aa00d20")!)]),
@@ -153,6 +155,7 @@ final class ServerMojangHandler : ChannelInboundHandler {
         }
     }
     func channelReadComplete(context: ChannelHandlerContext) {
+        context.flush()
         print("ServerMojang;channelReadComplete")
     }
     
@@ -160,7 +163,7 @@ final class ServerMojangHandler : ChannelInboundHandler {
         print("ServerMojang;userInboundEventTriggered")
     }
     func errorCaught(context: ChannelHandlerContext, error: Error) {
-        print("ServerMojang;errorCaught")
+        print("ServerMojang;errorCaught;error=\(error)")
         context.close(promise: nil)
     }
     

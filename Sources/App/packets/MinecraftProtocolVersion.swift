@@ -10,6 +10,7 @@ import Foundation
 // https://wiki.vg/Protocol_version_numbers
 public enum MinecraftProtocolVersion : Int, Hashable, Codable, PacketEncodableMojang {
     // MARK: Releases
+    case v1_20_2 = 764
     case v1_20   = 763
     
     case v1_19_4 = 762
