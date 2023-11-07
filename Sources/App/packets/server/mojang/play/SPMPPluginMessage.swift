@@ -17,6 +17,8 @@ public extension ServerPacketMojang.Play {
     /// In Notchian server, the maximum data length is 32767 bytes.
     /// > Note: [Main article](https://wiki.vg/Plugin_channels)
     struct PluginMessage : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.plugin_message
+        
         /// Name of the [plugin channel](https://wiki.vg/Plugin_channel) used to send the data.
         public let channel:Namespace
         /// Any data, depending on the channel. `minecraft:` channels are documented [here](https://wiki.vg/Plugin_channel ). The length of this array must be inferred from the packet length.

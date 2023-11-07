@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Must have at least op level 2 to use. Appears to only be used on singleplayer; the difficulty buttons are still disabled in multiplayer.
     struct ChangeDifficulty : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.change_difficulty
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let new_difficulty:Int8 = try packet.read_byte()
             return Self(new_difficulty: new_difficulty)

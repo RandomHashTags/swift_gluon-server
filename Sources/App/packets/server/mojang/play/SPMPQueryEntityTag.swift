@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Used when F3+I is pressed while looking at an entity.
     struct QueryEntityTag : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.query_entity_tag
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let transaction_id:VariableInteger = try packet.read_var_int()
             let entity_id:VariableInteger = try packet.read_var_int()

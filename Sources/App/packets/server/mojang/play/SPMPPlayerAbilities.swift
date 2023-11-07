@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// The vanilla client sends this packet when the player starts/stops flying with the Flags parameter changed accordingly.
     struct PlayerAbilities : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.player_abilities
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let flags:Int8 = try packet.read_byte()
             return Self(flags: flags)

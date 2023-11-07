@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct SeenAdvancements : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.seen_advancements
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let action:SeenAdvancements.Action = try packet.read_enum()
             let tab_id:Namespace? = action == .opened_tab ? try packet.read_identifier() : nil

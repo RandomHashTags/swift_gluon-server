@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Sent when the player mines a block. A Notchian server only accepts digging packets with coordinates within a 6-unit radius between the center of the block and 1.5 units from the player's feet (_not_ their eyes).
     struct PlayerAction : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.player_action
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let status:PlayerAction.Status = try packet.read_enum()
             let location:PositionPacketMojang = try packet.read_packet_decodable()

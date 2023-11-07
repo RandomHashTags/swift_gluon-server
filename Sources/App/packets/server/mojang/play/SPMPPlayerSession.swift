@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct PlayerSession : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.player_session
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let session_id:UUID = try packet.read_uuid()
             let expires_at:Int64 = try packet.read_long()

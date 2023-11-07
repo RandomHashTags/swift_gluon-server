@@ -13,8 +13,16 @@ import NIO
 Backtrace.install()
 
 let server:ServerMojang = ServerMojang(host: "192.168.1.96", port: 25565)
-defer { server.shutdown() }
-try server.run()
+defer {
+    server.shutdown()
+}
+try await server.run()
+
+/*
+let server:ServerMojang = ServerMojang(host: "192.168.1.96", port: 25565)
+let application:Application = server.application
+defer { application.shutdown() }
+try application.run()*/
 
 
 /*var env:Environment = try Environment.detect()

@@ -53,7 +53,7 @@ public final class GeneralPacketMojang : GeneralPacket {
         let offset:Int = length_read_bytes + packet_read_bytes
         data = bytes[offset..<bytes.count]
         reading_index = offset
-        print("GeneralPacketMojang;packet_id=\(packet_id);offset=\(offset);data=" + data.description + ";bytes=" + bytes.description)
+        print("GeneralPacketMojang;length=\(length);packet_id=\(packet_id);offset=\(offset);data=" + data.description + ";bytes=" + bytes.description)
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -76,7 +76,7 @@ public final class GeneralPacketMojang : GeneralPacket {
             reading_index += 1
             value |= Int32(current_byte & GeneralPacketMojang.segment_bits) << position
             
-            if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
+            if current_byte & GeneralPacketMojang.continue_bit == 0 {
                 break
             }
             position += 7
@@ -96,7 +96,7 @@ public final class GeneralPacketMojang : GeneralPacket {
             reading_index += 1
             value |= Int64(current_byte & GeneralPacketMojang.segment_bits) << position
             
-            if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
+            if current_byte & GeneralPacketMojang.continue_bit == 0 {
                 break
             }
             position += 7
@@ -207,6 +207,11 @@ public final class GeneralPacketMojang : GeneralPacket {
     
     public func read_remaining_byte_array() throws -> [UInt8] {
         return try read_byte_array(bytes: data.count - reading_index)
+    }
+    public func read_remaining_optional_byte_array() throws -> [UInt8]? {
+        let bytes:Int = data.count - reading_index
+        guard bytes > 0 else { return nil }
+        return try read_byte_array(bytes: bytes)
     }
     public func read_byte_array(bytes: VariableInteger) throws -> [UInt8] {
         return try read_byte_array(bytes: bytes.value_int)

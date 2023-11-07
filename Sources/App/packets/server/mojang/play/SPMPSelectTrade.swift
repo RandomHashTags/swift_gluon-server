@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// When a player selects a specific trade offered by a villager NPC.
     struct SelectTrade : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.select_trade
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let selected_slot:VariableInteger = try packet.read_var_int()
             return Self(selected_slot: selected_slot)

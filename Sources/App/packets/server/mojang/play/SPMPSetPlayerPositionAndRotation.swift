@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// A combination of [Move Player Rotation](https://wiki.vg/Protocol#Set_Player_Rotation) and [Move Player Position](https://wiki.vg/Protocol#Set_Player_Position ).
     struct SetPlayerPositionAndRotation : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.set_player_position_and_rotation
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let x:Double = try packet.read_double()
             let feet_y:Double = try packet.read_double()

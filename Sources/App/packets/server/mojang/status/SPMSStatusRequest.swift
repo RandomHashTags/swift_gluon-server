@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Status {
     /// The status can only be requested once immediately after the handshake, before any ping. The server won't respond otherwise.
     struct StatusRequest : ServerPacketMojangStatusProtocol {
+        public static let id:ServerPacketMojangStatus = ServerPacketMojangStatus.status_request
+        
         public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return []
         }

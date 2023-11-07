@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct ProgramCommandBlockMinecart : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.program_command_block_minecart
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_id:VariableInteger = try packet.read_var_int()
             let command:String = try packet.read_string()

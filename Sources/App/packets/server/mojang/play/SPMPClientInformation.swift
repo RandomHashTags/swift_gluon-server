@@ -21,6 +21,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// The most significant bit (bit 7, 0x80) appears to be unused.
     struct ClientInformation : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.client_information
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let locale:String = try packet.read_string()
             let view_distance:Int8 = try packet.read_byte()

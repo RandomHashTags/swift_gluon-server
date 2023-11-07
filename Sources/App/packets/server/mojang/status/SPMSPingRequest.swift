@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Status {
     struct PingRequest : ServerPacketMojangStatusProtocol {
+        public static let id:ServerPacketMojangStatus = ServerPacketMojangStatus.ping_request
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let payload:Int64 = try packet.read_long()
             return Self(payload: payload)

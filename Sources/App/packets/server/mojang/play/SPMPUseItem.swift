@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Sent when pressing the Use Item key (default: right click) with an item in hand.
     struct UseItem : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.use_item
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let hand:UseItem.Hand = try packet.read_enum()
             let sequence:VariableInteger = try packet.read_var_int()

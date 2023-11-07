@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Used to _visually_ update whether boat paddles are turning. The server will update the [Boat entity metadata](https://wiki.vg/Entity_metadata#Boat) to match the values here.
     struct PaddleBoat : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.paddle_boat
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let left_paddle_turning:Bool = try packet.read_bool()
             let right_paddle_turning:Bool = try packet.read_bool()

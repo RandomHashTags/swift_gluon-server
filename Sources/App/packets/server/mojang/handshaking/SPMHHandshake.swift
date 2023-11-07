@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Handshaking {
     /// This causes the server to switch into the target state.
     struct Handshake : ServerPacketMojangHandshakingProtocol {
+        public static let id:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking.handshake
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let protocol_version:MinecraftProtocolVersion = try packet.read_enum()
             let server_address:String = try packet.read_string()

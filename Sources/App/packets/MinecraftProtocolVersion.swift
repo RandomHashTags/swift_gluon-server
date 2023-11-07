@@ -11,10 +11,12 @@ import Foundation
 public enum MinecraftProtocolVersion : Int, Hashable, Codable, PacketEncodableMojang {
     // MARK: Releases
     case v1_20_2 = 764
+    /// 1.20 & 1.20.1
     case v1_20   = 763
     
     case v1_19_4 = 762
     case v1_19_3 = 761
+    /// 1.19.1 & 1.19.2
     case v1_19_1 = 760
     case v1_19   = 759
     

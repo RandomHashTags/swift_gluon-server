@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct ClickContainerButton : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.click_container_button
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:Int8 = try packet.read_byte()
             let button_id:Int8 = try packet.read_byte()

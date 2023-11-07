@@ -12,6 +12,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// The Notchian client only uses this to teleport to players, but it appears to accept any type of entity. The entity does not need to be in the same dimension as the player; if necessary, the player will be respawned in the right world. If the given entity cannot be found (or isn't loaded), this packet will be ignored. It will also be ignored if the player attempts to teleport to themselves.
     struct TeleportToEntity : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.teleport_to_entity
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let target_player:UUID = try packet.read_uuid()
             return Self(target_player: target_player)

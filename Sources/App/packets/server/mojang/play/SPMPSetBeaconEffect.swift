@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Changes the effect of the current beacon.
     struct SetBeaconEffect : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.set_beacon_effect
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let has_primary_effect:Bool = try packet.read_bool()
             let primary_effect:VariableInteger = try packet.read_var_int()

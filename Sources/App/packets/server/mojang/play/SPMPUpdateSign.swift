@@ -12,6 +12,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// The server only accepts this packet after [Open Sign Editor](https://wiki.vg/Protocol#Open_Sign_Editor ), otherwise this packet is silently ignored.
     struct UpdateSign : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.update_sign
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
             let is_front_text:Bool = try packet.read_bool()

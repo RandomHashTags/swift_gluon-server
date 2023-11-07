@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct EditBook : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.edit_book
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let slot:VariableInteger = try packet.read_var_int()
             let count:VariableInteger = try packet.read_var_int()

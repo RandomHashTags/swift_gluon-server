@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct ChatCommand : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.chat_command
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> ServerPacketMojang.Play.ChatCommand {
             let command:String = try packet.read_string()
             let timestamp:Int64 = try packet.read_long()

@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Sent when the player's arm swings.
     struct SwingArm : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.swing_arm
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let hand:SwingArm.Hand = try packet.read_enum()
             return Self(hand: hand)

@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Sent when a player moves in a vehicle. Fields are the same as in [Set Player Position and Rotation](https://wiki.vg/Protocol#Set_Player_Position_and_Rotation ). Note that all fields use absolute positioning and do not allow for relative positioning.
     struct MoveVehicle : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.move_vehicle
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let x:Double = try packet.read_double()
             let y:Double = try packet.read_double()

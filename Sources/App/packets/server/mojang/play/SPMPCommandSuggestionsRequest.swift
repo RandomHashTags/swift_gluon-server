@@ -9,6 +9,8 @@ import Foundation
 
 public extension ServerPacketMojang.Play {
     struct CommandSuggestionsRequest : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.command_suggestions_request
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let transaction_id:VariableInteger = try packet.read_var_int()
             let text:String = try packet.read_string()

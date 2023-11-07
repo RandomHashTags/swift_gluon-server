@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Replaces Recipe Book Data, type 1.
     struct ChangeRecipeBookSettings : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.change_recipe_book_settings
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let book:ChangeRecipeBookSettings.BookID = try packet.read_enum()
             let book_open:Bool = try packet.read_bool()

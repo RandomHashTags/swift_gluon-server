@@ -12,6 +12,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// Notchian clients send a Close Window packet with Window ID 0 to close their inventory even though there is never an [Open Screen](https://wiki.vg/Protocol#Open_Screen) packet for the inventory.
     struct CloseContainer : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.close_container
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:UInt8 = try packet.read_unsigned_byte()
             return Self(window_id: window_id)

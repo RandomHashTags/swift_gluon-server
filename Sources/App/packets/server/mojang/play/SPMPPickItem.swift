@@ -17,6 +17,8 @@ public extension ServerPacketMojang.Play {
     /// - Set Slot, with window ID set to -2 and slot set to the slot the player requested, with the item that is now in that slot and was previously on the hotbar slot
     /// - [Set Held Item](https://wiki.vg/Protocol#Set_Held_Item ), with the slot set to the newly chosen slot.
     struct PickItem : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.pick_item
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let slot_to_use:VariableInteger = try packet.read_var_int()
             return Self(slot_to_use: slot_to_use)

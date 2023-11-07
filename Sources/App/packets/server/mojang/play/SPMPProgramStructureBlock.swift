@@ -12,6 +12,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// The Notchian client uses `update data` to indicate no special action should be taken (i.e. the done button).
     struct ProgramStructureBlock : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.program_structure_block
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
             let action:ProgramStructureBlock.Action = try packet.read_enum()

@@ -34,6 +34,8 @@ public extension ServerPacketMojang.Play {
     /// z =  cos(pitch) * cos(yaw)
     /// ```
     struct SetPlayerRotation : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.set_player_rotation
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let yaw:Float = try packet.read_float()
             let pitch:Float = try packet.read_float()

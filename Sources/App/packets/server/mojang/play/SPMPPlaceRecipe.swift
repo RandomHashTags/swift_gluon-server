@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// This packet is sent when a player clicks a recipe in the crafting book that is craftable (white border).
     struct PlaceRecipe : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.place_recipe
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:Int8 = try packet.read_byte()
             let recipe:Namespace = try packet.read_identifier()

@@ -6,22 +6,51 @@
 //
 
 import Foundation
+import Socket
 import NIO
 
-/*public final class ServerMojangStarscream {
-    let socket:WebSocketServer
+
+// BlueSocket TCP Server
+public final class ServerMojang {
+    let host:String
+    let port:Int
+    private(set) var connections:Set<ServerMojangClient>
     
     public init(host: String, port: Int) {
-        socket = WebSocketServer.init()
-        if let error:Error = socket.start(address: host, port: UInt16(port)) {
-            print("ServerMojangStarscream;error=\(error)")
-        }
-        socket.onEvent = { event in
-            print("ServerMojangStarscream;event=\(event)")
+        self.host = host
+        self.port = port
+        
+        connections = []
+    }
+    
+    public func run() throws {
+        print("ServerMojang;running on host \"" + host + "\" and port \(port)")
+        let socket:Socket = try Socket.create()
+        try socket.listen(on: 25565)
+        
+        socket.readBufferSize = Socket.SOCKET_DEFAULT_READ_BUFFER_SIZE
+        
+        while true {
+            let client_socket:Socket = try socket.acceptClientConnection()
+            let id:Int32 = client_socket.socketfd
+            print("id=\(id)")
+            let client:ServerMojangClient = ServerMojangClient(socket: client_socket) { closed_client in
+                self.connections.remove(closed_client)
+            }
+            connections.insert(client)
         }
     }
-}*/
+    
+    public func shutdown() {
+        for connection in connections {
+            connection.close()
+        }
+        print("ServerMojang;shutdown")
+    }
+}
 
+/*
+// NIO Web Socket Server
 public final class ServerMojang {
     private let group:MultiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
     let host:String
@@ -196,34 +225,4 @@ final class ServerMojangHandler : ChannelInboundHandler {
         }
     }
 }
-
-struct ServerPacketMojangStatusResponse : Codable {
-    let version:Version
-    let players:Players
-    let description:ChatPacketMojang
-    let favicon:String?
-    let enforcesSecureChat:Bool
-    let previewsChat:Bool
-    
-    struct Version : Codable {
-        let name:String
-        let `protocol`:Int
-    }
-    struct Players : Codable {
-        let max:Int
-        let online:Int
-        let sample:[Player]?
-    }
-    struct Player : Codable {
-        let name:String
-        let id:UUID
-    }
-}
-
-enum ServerMojangStatus {
-    case handshaking
-    case handshaking_received_packet
-    case login
-    case status
-    case play
-}
+*/

@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Response to the clientbound packet ([Ping](https://wiki.vg/Protocol#Ping_.28play.29 )) with the same id.
     struct Pong : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.pong
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let id:Int32 = try packet.read_int()
             return Self(id: id)

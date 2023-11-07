@@ -23,6 +23,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// If any of the painting packets other than the “progress” ones are sent out of order (for example, a start, some slots, then another start; or a left-click in the middle) the painting status will be reset.
     struct ClickContainer : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.click_container
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:UInt8 = try packet.read_unsigned_byte()
             let state_id:VariableInteger = try packet.read_var_int()

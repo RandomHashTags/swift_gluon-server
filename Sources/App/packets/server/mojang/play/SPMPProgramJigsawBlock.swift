@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Sent when Done is pressed on the Jigsaw Block interface.
     struct ProgramJigsawBlock : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.program_jigsaw_block
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
             let name:Namespace = try packet.read_identifier()

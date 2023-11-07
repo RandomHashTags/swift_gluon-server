@@ -10,6 +10,8 @@ import Foundation
 public extension ServerPacketMojang.Play {
     /// Sent when Generate is pressed on the [Jigsaw Block](https://minecraft.fandom.com/wiki/Jigsaw_Block) interface.
     struct JigsawGenerate : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.jigsaw_generate
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
             let levels:VariableInteger = try packet.read_var_int()

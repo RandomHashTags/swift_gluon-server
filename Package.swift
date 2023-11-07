@@ -11,7 +11,8 @@ let package = Package(
     dependencies: [
         //.package(url: "https://github.com/Kitura/BlueSocket.git", from: "2.0.2"),
         //.package(url: "https://github.com/apple/swift-nio.git", from: "2.57.0"),
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.77.0"),
+        
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.86.0"),
         .package(url: "https://github.com/vapor/console-kit.git", from: "4.6.0"),
         .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
@@ -19,8 +20,10 @@ let package = Package(
         .package(url: "https://github.com/vapor/postgres-nio.git", from: "1.17.0"),
         .package(url: "https://github.com/vapor/postgres-kit.git", from: "2.12.0"),
         
+        .package(url: "https://github.com/Kitura/BlueSocket.git", from: "2.0.4"),
+        
         .package(url: "https://github.com/swift-server/swift-backtrace.git", from: "1.3.3"),
-        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.0.16")
+        .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.1.0")
     ],
     targets: [
         .target(
@@ -30,6 +33,8 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+                
+                .product(name: "Socket", package: "BlueSocket"),
                 
                 .product(name: "Backtrace", package: "swift-backtrace"),
                 .product(name: "HugeNumbers", package: "swift_huge-numbers")

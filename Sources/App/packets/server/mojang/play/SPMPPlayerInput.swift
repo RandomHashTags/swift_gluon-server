@@ -12,6 +12,8 @@ public extension ServerPacketMojang.Play {
     ///
     /// Also known as 'Input' packet.
     struct PlayerInput : ServerPacketMojangPlayProtocol {
+        public static let id:ServerPacketMojangPlay = ServerPacketMojangPlay.player_input
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let sideways:Float = try packet.read_float()
             let forward:Float = try packet.read_float()
