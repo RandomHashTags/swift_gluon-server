@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Sent by the server when a vehicle or other non-living entity is created.
     struct SpawnEntity : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.spawn_entity
+        
         /// A unique integer ID mostly used to identify the entity.
         public let entity_id:VariableInteger
         /// A unique identifier that is mostly used in persistence and places where the uniqueness matters more.

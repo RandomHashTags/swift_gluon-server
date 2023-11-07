@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Sent by the integrated singleplayer server when changing render distance. This packet is sent by the server when the client reappears in the overworld after leaving the end.
     struct SetRenderDistance : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_render_distance
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let view_distance:VariableInteger = try packet.read_var_int()
             return Self(view_distance: view_distance)

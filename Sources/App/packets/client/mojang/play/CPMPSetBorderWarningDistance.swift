@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetBorderWarningDistance : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_border_warning_distance
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let warning_blocks:VariableInteger = try packet.read_var_int()
             return Self(warning_blocks: warning_blocks)

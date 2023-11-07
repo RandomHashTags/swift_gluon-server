@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct UpdateTags : ClientPacketMojangPlayProtocol { // TODO: fix
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.update_tags
+        
         /// Number of elements in `tags`.
         public let count:VariableInteger
         public let tag_types:[Namespace]

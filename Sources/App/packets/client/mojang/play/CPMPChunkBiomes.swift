@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct ChunkBiomes : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.chunk_biomes
+        
         /// Number of elements in `data`.
         public let number_of_chunks:VariableInteger
         public let data:[ChunkBiomes.BiomeData]

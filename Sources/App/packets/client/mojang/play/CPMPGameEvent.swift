@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct GameEvent : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.game_event
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let event:GameEvent.Event = try packet.read_enum()
             let value:Float = try packet.read_float()

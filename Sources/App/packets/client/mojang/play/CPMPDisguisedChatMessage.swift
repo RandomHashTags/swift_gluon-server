@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Used to send system chat messages to the client.
     struct DisguisedChatMessage : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.disguised_chat_message
+        
         public let message:ChatPacketMojang
         /// The chat message type.
         public let chat_type:VariableInteger

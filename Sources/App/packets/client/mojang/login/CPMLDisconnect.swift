@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Login {
     struct Disconnect : ClientPacketMojangLoginProtocol {
+        public static let id:ClientPacketMojangLogin = ClientPacketMojangLogin.disconnect
+        
         /// The reason why the player was disconnected.
         public let reason:ChatPacketMojang
         

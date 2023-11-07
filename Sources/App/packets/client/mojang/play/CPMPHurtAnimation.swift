@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Plays a bobbing animation for the entity receiving damage.
     struct HurtAnimation : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.hurt_animation
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_id:VariableInteger = try packet.read_var_int()
             let yaw:Float = try packet.read_float()

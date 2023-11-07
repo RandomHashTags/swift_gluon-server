@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// The latter 2 floats are used to indicate the flying speed and field of view respectively, while the first byte is used to determine the value of 4 booleans.
     struct PlayerAbilities : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.player_abilities
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let flags:Flags = try packet.read_enum()
             let flying_speed:Float = try packet.read_float()

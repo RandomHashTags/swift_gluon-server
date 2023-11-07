@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// This packet is used exclusively for opening the horse GUI. Open Screen is used for all other GUIs. The client will not open the inventory if the Entity ID does not point to an horse-like animal.
     struct OpenHorseScreen : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.open_horse_screen
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:UInt8 = try packet.read_unsigned_byte()
             let slot_count:VariableInteger = try packet.read_var_int()

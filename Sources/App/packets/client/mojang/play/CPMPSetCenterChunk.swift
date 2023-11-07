@@ -14,6 +14,8 @@ public extension ClientPacketMojang.Play {
     ///
     /// > Warning: \[from wiki.vg]: Why is this even needed? Is there a better name for it? My guess is that it's something to do with logical behavior with latency, but it still seems weird.
     struct SetCenterChunk : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_center_chunk
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let chunk_x:VariableInteger = try packet.read_var_int()
             let chunk_z:VariableInteger = try packet.read_var_int()

@@ -10,6 +10,8 @@ import Foundation
 /// This packet is used to inform the client that part of a GUI window should be updated.
 public extension ClientPacketMojang.Play {
     struct SetContainerProperty : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_container_property
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:UInt8 = try packet.read_unsigned_byte()
             let property:Int16 = try packet.read_short()

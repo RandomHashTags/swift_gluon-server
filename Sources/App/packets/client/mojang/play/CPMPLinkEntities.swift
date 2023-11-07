@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// This packet is sent when an entity has been [leashed](https://minecraft.fandom.com/wiki/Lead) to another entity.
     struct LinkEntities : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.link_entities
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let attached_entity_id:Int32 = try packet.read_int()
             let holding_entity_id:Int32 = try packet.read_int()

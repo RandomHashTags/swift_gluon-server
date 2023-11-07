@@ -8,6 +8,12 @@
 import Foundation
 
 public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketEncodableMojang, PacketDecodableMojang {
+    public typealias GameplayID = ClientPacketMojangStatus
+    
+    // TODO: fix
+    public static let id: ClientPacketMojangStatus = ClientPacketMojangStatus.ping_response
+    public static let packet_gameplay_id:ClientPacketMojangStatus.Type = ClientPacketMojangStatus.self
+    
     public static func decode(from packet: GeneralPacketMojang) throws -> ChatPacketMojang {
         throw GeneralPacketError.not_implemented(packet_type: Self.self)
     }

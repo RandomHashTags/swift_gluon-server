@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Status {
     struct StatusResponse : ClientPacketMojangStatusProtocol {
+        public static let id:ClientPacketMojangStatus = ClientPacketMojangStatus.status_response
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let json_response:String = try packet.read_string()
             return Self(json_response: json_response)

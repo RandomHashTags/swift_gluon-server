@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct DamageEvent : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.damage_event
+        
         /// The ID of the entity taking damage.
         public let entity_id:Int
         /// The ID of the type of damage taken.

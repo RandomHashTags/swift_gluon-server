@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetDefaultSpawnPosition : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_default_spawn_position
+        
         /// Sent by the server after login to specify the coordinates of the spawn point (the point at which players spawn at, and which the compass points to). It can be sent at any time to update the point compasses point at.
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()

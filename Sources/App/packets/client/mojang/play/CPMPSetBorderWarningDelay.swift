@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetBorderWarningDelay : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_border_warning_delay
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let warning_time:VariableInteger = try packet.read_var_int()
             return Self(warning_time: warning_time)

@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetBorderSize : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_border_size
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let diameter:Double = try packet.read_double()
             return Self(diameter: diameter)

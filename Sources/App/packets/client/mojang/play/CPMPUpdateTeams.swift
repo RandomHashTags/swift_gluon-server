@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Creates and updates teams.
     struct UpdateTeams : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.update_teams
+        
         /// A unique name for the team. (Shared with scoreboard).
         public let team_name:String
         /// Determines the layout of the remaining packet.

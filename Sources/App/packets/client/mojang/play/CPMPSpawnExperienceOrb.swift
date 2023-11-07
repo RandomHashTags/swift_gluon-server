@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Spawns one or more experience orbs.
     struct SpawnExperienceOrb : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.spawn_experience_orb
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_id:VariableInteger = try packet.read_var_int()
             let x:Double = try packet.read_double()

@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Sent to change the player's slot selection.
     struct SetHeldItem : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_held_item
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let slot:Int8 = try packet.read_byte()
             return Self(slot: slot)

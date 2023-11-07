@@ -12,6 +12,8 @@ public extension ClientPacketMojang.Login {
     /// - Warning: The (notchian) server might take a bit to fully transition to the Play state, so it's recommended to wait for the Login (play) packet from the server.
     /// - Warning: The notchian client doesn't send any packets until the Login (play) packet.
     struct LoginSuccess : ClientPacketMojangLoginProtocol {
+        public static let id:ClientPacketMojangLogin = ClientPacketMojangLogin.login_success
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let uuid:UUID = try packet.read_uuid()
             let username:String = try packet.read_string()

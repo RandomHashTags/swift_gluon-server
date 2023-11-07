@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// This is sent to the client when it should update a scoreboard item.
     struct UpdateScore : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.update_score
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_name:String = try packet.read_string()
             let action:UpdateScore.Action = try packet.read_enum()

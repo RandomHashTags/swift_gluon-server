@@ -14,6 +14,8 @@ public extension ClientPacketMojang.Play {
     ///
     /// The default SMP server increments the time by `20` every second.
     struct UpdateTime : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.update_time
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let world_age:Int64 = try packet.read_long()
             let time_of_day:Int64 = try packet.read_long()

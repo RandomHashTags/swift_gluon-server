@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Acknowledges a user-initiated block change. After receiving this packet, the client will display the block state sent by the server instead of the one predicted by the client.
     struct AcknowledgeBlockChange : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.acknowledge_block_change
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let sequence_id:VariableInteger = try packet.read_var_int()
             return Self(sequence_id: sequence_id)

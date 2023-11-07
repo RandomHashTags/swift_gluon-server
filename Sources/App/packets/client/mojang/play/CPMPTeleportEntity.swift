@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// This packet is sent by the server when an entity moves more than 8 blocks.
     struct TeleportEntity : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.teleport_entity
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_id:VariableInteger = try packet.read_var_int()
             let x:Double = try packet.read_double()

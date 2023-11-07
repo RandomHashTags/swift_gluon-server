@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetExperience : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_experience
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let experience_bar:Float = try packet.read_float()
             let total_experience:VariableInteger = try packet.read_var_int()

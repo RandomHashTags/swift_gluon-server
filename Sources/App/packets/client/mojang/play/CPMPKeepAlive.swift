@@ -12,6 +12,8 @@ public extension ClientPacketMojang.Play {
     ///
     /// The Notchian server uses a system-dependent time in milliseconds to generate the keep alive ID value.
     struct KeepAlive : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.keep_alive
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let keep_alive_id:Int64 = try packet.read_long()
             return Self(keep_alive_id: keep_alive_id)

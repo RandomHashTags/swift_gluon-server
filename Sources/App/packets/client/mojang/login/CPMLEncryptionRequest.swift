@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Login {
     struct EncryptionRequest : ClientPacketMojangLoginProtocol {
+        public static let id:ClientPacketMojangLogin = ClientPacketMojangLogin.encryption_request
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let server_id:String = try packet.read_string()
             let public_key_length:VariableInteger = try packet.read_var_int()

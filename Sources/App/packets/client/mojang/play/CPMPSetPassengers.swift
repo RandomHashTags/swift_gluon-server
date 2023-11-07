@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetPassengers : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_passengers
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let entity_id:VariableInteger = try packet.read_var_int()
             let passenger_count:VariableInteger = try packet.read_var_int()

@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct BossBar : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.boss_bar
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let uuid:UUID = try packet.read_uuid()
             let action:BossBar.Action = try packet.read_enum()

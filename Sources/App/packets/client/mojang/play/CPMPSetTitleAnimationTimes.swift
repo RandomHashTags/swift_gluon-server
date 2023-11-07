@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetTitleAnimationTimes : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_title_animation_times
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let fade_in:Int32 = try packet.read_int()
             let stay:Int32 = try packet.read_int()

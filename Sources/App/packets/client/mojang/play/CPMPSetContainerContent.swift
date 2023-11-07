@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetContainerContent : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_container_content
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:UInt8 = try packet.read_unsigned_byte()
             let state_id:VariableInteger = try packet.read_var_int()

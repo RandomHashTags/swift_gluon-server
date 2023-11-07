@@ -11,6 +11,8 @@ public extension ClientPacketMojang.Play {
     /// Plays a sound effect from an entity, either by hardcoded ID or Identifier. Sound IDs and names can be found at https://pokechu22.github.io/Burger/1.20.1.html#sounds .
     /// - Warning: Numeric sound effect IDs are liable to change between versions
     struct EntitySoundEffect : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.entity_sound_effect
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let sound_id:VariableInteger = try packet.read_var_int()
             let sound_name:String?

@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Sent whenever an entity should change animation.
     struct EntityAnimation : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.entity_animation
+        
         public let entity_id:VariableInteger
         public let animation_id:Int
         

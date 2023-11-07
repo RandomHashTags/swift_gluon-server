@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// This is sent to the client when it should display a scoreboard.
     struct DisplayObjective : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.display_objective
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let position:Int8 = try packet.read_byte()
             let score_name:String = try packet.read_string()

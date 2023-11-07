@@ -22,6 +22,8 @@ public extension ClientPacketMojang.Play {
     /// - Enderman → `shaders/post/invert.json`
     /// - Anything else → the current shader is unloaded
     struct SetCamera : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_camera
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let camera_id:VariableInteger = try packet.read_var_int()
             return Self(camera_id: camera_id)

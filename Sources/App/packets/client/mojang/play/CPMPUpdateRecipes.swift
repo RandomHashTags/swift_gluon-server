@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct UpdateRecipes : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.update_recipes
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let count:VariableInteger = try packet.read_var_int()
             let recipes:[UpdateRecipes.UpdateRecipe] = try packet.read_map(count: count) {

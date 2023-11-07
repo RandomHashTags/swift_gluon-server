@@ -11,7 +11,14 @@ public protocol ClientPacketMojangProtocol : ClientPacket, PacketMojang {
 }
 
 // MARK: ClientPacketMojangStatusProtocol
-public protocol ClientPacketMojangStatusProtocol : ClientPacketMojangProtocol {
+public protocol ClientPacketMojangStatusProtocol : ClientPacketMojangProtocol where GameplayID == ClientPacketMojangStatus {
+}
+public extension ClientPacketMojangStatusProtocol {
+    static var packet_gameplay_id : GameplayID.Type {
+        get {
+            return ClientPacketMojangStatus.self
+        }
+    }
 }
 public extension ClientPacketMojangStatusProtocol {
     var category : Category {
@@ -20,7 +27,14 @@ public extension ClientPacketMojangStatusProtocol {
 }
 
 // MARK: ClientPacketMojangLoginProtocol
-public protocol ClientPacketMojangLoginProtocol : ClientPacketMojangProtocol {
+public protocol ClientPacketMojangLoginProtocol : ClientPacketMojangProtocol where GameplayID == ClientPacketMojangLogin {
+}
+public extension ClientPacketMojangLoginProtocol {
+    static var packet_gameplay_id : GameplayID.Type {
+        get {
+            return ClientPacketMojangLogin.self
+        }
+    }
 }
 public extension ClientPacketMojangLoginProtocol {
     var category : Category {
@@ -29,7 +43,14 @@ public extension ClientPacketMojangLoginProtocol {
 }
 
 // MARK: ClientPacketMojangPlayProtocol
-public protocol ClientPacketMojangPlayProtocol : ClientPacketMojangProtocol {
+public protocol ClientPacketMojangPlayProtocol : ClientPacketMojangProtocol where GameplayID == ClientPacketMojangPlay {
+}
+public extension ClientPacketMojangPlayProtocol {
+    static var packet_gameplay_id : GameplayID.Type {
+        get {
+            return ClientPacketMojangPlay.self
+        }
+    }
 }
 public extension ClientPacketMojangPlayProtocol {
     var category : Category {

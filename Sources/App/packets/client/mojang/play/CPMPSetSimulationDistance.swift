@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetSimulationDistance : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_simulation_distance
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let distance:VariableInteger = try packet.read_var_int()
             return Self(distance: distance)

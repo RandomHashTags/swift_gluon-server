@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct ServerData : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.server_data
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let message_of_the_day:ChatPacketMojang = try packet.read_packet_decodable()
             let has_icon:Bool = try packet.read_bool()

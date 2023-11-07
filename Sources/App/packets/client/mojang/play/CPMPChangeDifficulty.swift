@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Changes the difficulty setting in the client's option menu.
     struct ChangeDifficulty : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.change_difficulty
+        
         public let difficulty:ChangeDifficulty.Difficulty
         public let difficulty_locked:Bool
         

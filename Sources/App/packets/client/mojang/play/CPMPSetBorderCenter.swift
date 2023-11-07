@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetBorderCenter : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_border_center
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> ClientPacketMojang.Play.SetBorderCenter {
             let x:Double = try packet.read_double()
             let z:Double = try packet.read_double()

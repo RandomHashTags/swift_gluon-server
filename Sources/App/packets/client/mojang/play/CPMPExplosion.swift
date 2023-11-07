@@ -12,6 +12,8 @@ public extension ClientPacketMojang.Play {
     ///
     /// Each block in Records is set to air. Coordinates for each axis in record is int(X) + record.x
     struct Explosion : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.explosion
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let x:Double = try packet.read_double()
             let y:Double = try packet.read_double()

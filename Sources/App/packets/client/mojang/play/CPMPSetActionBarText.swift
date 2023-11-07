@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetActionBarText : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_action_bar_text
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> ClientPacketMojang.Play.SetActionBarText {
             let action_bar_text:ChatPacketMojang = try packet.read_packet_decodable()
             return Self(action_bar_text: action_bar_text)

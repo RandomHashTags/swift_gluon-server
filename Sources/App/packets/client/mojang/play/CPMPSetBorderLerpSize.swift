@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct SetBorderLerpSize : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.set_border_lerp_size
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let old_diameter:Double = try packet.read_double()
             let new_diameter:Double = try packet.read_double()

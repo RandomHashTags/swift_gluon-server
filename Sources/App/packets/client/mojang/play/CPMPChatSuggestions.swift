@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Unused by the Notchian server. Likely provided for custom servers to send chat message completions to clients.
     struct ChatSuggestions : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.chat_suggestions
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let action:ChatSuggestions.Action = try packet.read_enum()
             let count:VariableInteger = try packet.read_var_int()

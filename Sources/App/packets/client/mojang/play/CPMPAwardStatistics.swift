@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Sent as a response to Client Command (id 1). Will only send the changed values if previously requested.
     struct AwardStatistics : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.award_statistic
+        
         /// Number of elements in `statistics`.
         public let count:VariableInteger
         public let statistics:[AwardStatistics.Statistic]

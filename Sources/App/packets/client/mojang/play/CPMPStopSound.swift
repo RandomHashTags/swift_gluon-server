@@ -9,6 +9,8 @@ import Foundation
 
 public extension ClientPacketMojang.Play {
     struct StopSound : ClientPacketMojangPlayProtocol { // TODO: fix
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.stop_sound
+        
         /// Controls which fields are present.
         public let flags:Int
         /// Only if flags is 3 or 1 (bit mask 0x1). See below. If not present, then sounds from all sources are cleared.

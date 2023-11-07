@@ -8,24 +8,7 @@
 import Foundation
 
 public protocol ServerPacketMojangProtocol : ServerPacket, PacketMojang {
-    associatedtype GameplayID : PacketGameplayID
     
-    static var packet_gameplay_id : GameplayID.Type { get }
-    
-    static var id : GameplayID { get }
-}
-public extension ServerPacketMojangProtocol {
-    func as_client_response() throws -> Data {
-        let packet_id:VariableInteger = VariableInteger(value: Int32(Self.id.rawValue))
-        let packet_id_bytes:[UInt8] = try packet_id.packet_bytes()
-        let packet_bytes:[UInt8] = try packet_bytes()
-        
-        let length:Int = packet_id_bytes.count + packet_bytes.count
-        var bytes:[UInt8] = try VariableInteger(value: Int32(length)).packet_bytes()
-        bytes.append(contentsOf: packet_id_bytes)
-        bytes.append(contentsOf: packet_bytes)
-        return Data(bytes)
-    }
 }
 
 // MARK: ServerPacketMojangHandshakingProtocol

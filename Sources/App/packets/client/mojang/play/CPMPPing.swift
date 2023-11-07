@@ -10,6 +10,8 @@ import Foundation
 public extension ClientPacketMojang.Play {
     /// Packet is not used by the Notchian server. When sent to the client, client responds with a Pong packet with the same id.
     struct Ping : ClientPacketMojangPlayProtocol {
+        public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.ping
+        
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let id:Int32 = try packet.read_int()
             return Self(id: id)
