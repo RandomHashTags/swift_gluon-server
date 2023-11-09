@@ -47,12 +47,14 @@ extension UInt32 : PacketEncodableMojang {}
 extension UInt64 : PacketEncodableMojang {}
 
 extension Double : PacketEncodableMojang {
+    // TODO: support
     public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         return array
     }
 }
 extension Float : PacketEncodableMojang {
+    // TODO: support
     public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = []
         return array
@@ -62,13 +64,13 @@ extension Float : PacketEncodableMojang {
 extension String : PacketEncodableMojang {
     public func packet_bytes() throws -> [UInt8] {
         var array:[UInt8] = Array(self.utf8)
-        array.insert(contentsOf: try count.packet_bytes(), at: 0)
+        array.insert(contentsOf: try VariableInteger(value: Int32(count)).packet_bytes(), at: 0)
         return array
     }
 }
 extension UUID : PacketEncodableMojang {
     public func packet_bytes() throws -> [UInt8] {
-        let bytes = self.uuid
+        let bytes:(UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8) = self.uuid
         return [
             bytes.0, bytes.1, bytes.2, bytes.3, bytes.4, bytes.5, bytes.6, bytes.7,
             bytes.8, bytes.9, bytes.10, bytes.11, bytes.12, bytes.13, bytes.14, bytes.15

@@ -19,7 +19,7 @@ fileprivate extension Array where Element == UInt8 {
             reading_index += 1
             value |= Int32(current_byte & GeneralPacketMojang.segment_bits) << position
             
-            if (current_byte & GeneralPacketMojang.continue_bit) == 0 {
+            if current_byte & GeneralPacketMojang.continue_bit == 0 {
                 break
             }
             position += 7
@@ -160,6 +160,10 @@ public final class GeneralPacketMojang : GeneralPacket {
         return try from_bytes_integer(bytes: 8)
     }
     
+    public func read_unsigned_long() throws -> UInt64 {
+        return try from_bytes_integer(bytes: 8)
+    }
+    
     private func read_floating_point_little_endian<T: FloatingPoint>(bytes: Int) throws -> T {
         let slice:ArraySlice<UInt8> = data[reading_index..<reading_index + bytes]
         let value:T = slice.withUnsafeBytes { pointer in
@@ -261,11 +265,15 @@ public final class GeneralPacketMojang : GeneralPacket {
     }
     
     public func read_uuid() throws -> UUID {
-        let string:String = read_string(size: 16)
-        guard let uuid:UUID = UUID(string) else {
-            throw GeneralPacketError.invalid_uuid(string: string)
-        }
-        return uuid
+        let left:UInt64 = try read_unsigned_long()
+        let right:UInt64 = try read_unsigned_long()
+        let left_array:[UInt8] = withUnsafeBytes(of: left.bigEndian, Array.init)
+        let right_array:[UInt8] = withUnsafeBytes(of: right.bigEndian, Array.init)
+        let test:uuid_t = (
+            left_array[0], left_array[1], left_array[2], left_array[3], left_array[4], left_array[5], left_array[6], left_array[7],
+            right_array[0], right_array[1], right_array[2], right_array[3], right_array[4], right_array[5], right_array[6], right_array[7]
+        )
+        return UUID(uuid: test)
     }
     
     public func read_data(bytes: Int) throws -> Data {

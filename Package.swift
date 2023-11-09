@@ -21,6 +21,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/postgres-kit.git", from: "2.12.0"),
         
         .package(url: "https://github.com/Kitura/BlueSocket.git", from: "2.0.4"),
+        .package(url: "https://github.com/apple/swift-asn1.git", from: "1.1.0"),
         
         .package(url: "https://github.com/swift-server/swift-backtrace.git", from: "1.3.3"),
         .package(url: "https://github.com/RandomHashTags/swift_huge-numbers", from: "1.1.0")
@@ -35,6 +36,7 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 
                 .product(name: "Socket", package: "BlueSocket"),
+                .product(name: "SwiftASN1", package: "swift-asn1"),
                 
                 .product(name: "Backtrace", package: "swift-backtrace"),
                 .product(name: "HugeNumbers", package: "swift_huge-numbers")

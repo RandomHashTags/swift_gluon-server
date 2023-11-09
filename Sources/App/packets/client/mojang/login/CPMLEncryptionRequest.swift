@@ -22,7 +22,7 @@ public extension ClientPacketMojang.Login {
         
         /// Appears to be empty.
         public let server_id:String
-        /// Length of Public Key
+        /// Length of Public Key.
         public let public_key_length:VariableInteger
         /// The server's public key, in bytes.
         public let public_key:[UInt8]

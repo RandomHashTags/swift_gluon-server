@@ -7,6 +7,7 @@
 
 import Foundation
 import Socket
+import SwiftASN1
 
 final class ServerMojangClient : Hashable {
     static func == (lhs: ServerMojangClient, rhs: ServerMojangClient) -> Bool {
@@ -15,13 +16,16 @@ final class ServerMojangClient : Hashable {
     
     let socket:Socket, onClose:(ServerMojangClient) -> Void
     private(set) var state:ServerMojangStatus = .handshaking_received_packet
+    private var connection_task:Task<Void, Never>!
     
     init(socket: Socket, onClose: @escaping (ServerMojangClient) -> Void) {
         self.socket = socket
         self.onClose = onClose
         
-        while socket.isActive {
-            try! process_packet()
+        connection_task = Task {
+            while socket.isActive {
+                try! process_packet()
+            }
         }
     }
     
@@ -75,12 +79,13 @@ final class ServerMojangClient : Hashable {
     func read_packet() throws -> GeneralPacketMojang {
         var data:Data = Data()
         let _:Int = try socket.read(into: &data)
-        let bytes:[UInt8] = data.map({ $0 })
+        let bytes:[UInt8] = [UInt8](data)
         return try GeneralPacketMojang(bytes: bytes)
     }
     
     func close() {
         onClose(self)
+        connection_task.cancel()
         socket.close()
     }
     
@@ -106,33 +111,39 @@ final class ServerMojangClient : Hashable {
         }
     }
     private func parse_login() throws {
-        let packet:GeneralPacketMojang = try read_packet()
+        var packet:GeneralPacketMojang = try read_packet()
         guard let test:ServerPacketMojangLogin = ServerPacketMojangLogin(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojangClient;parse_login;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         print("ServerMojangClient;parse_login;test=\(test)")
+        let login_start_packet:ServerPacketMojang.Login.LoginStart = try ServerPacketMojang.Login.LoginStart.parse(packet)
         switch test {
         case .login_start:
-            let key:UUID = UUID()
+            let public_key:SecKey = ServerMojang.public_key
+            
+            let public_key_data:Data = try public_key.data()
+            let public_key_bytes:[UInt8] = [UInt8](public_key_data)
+            
+            let poop:ASN1Node = try DER.parse(public_key_bytes)
+            
+            print("ServerMojangClient;parse_login;public_key_bytes.count=\(public_key_bytes.count);poop.encoded_bytes.count=\(poop.encodedBytes.count)")
             
             let verify_token:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
             let encryption_request:ClientPacketMojang.Login.EncryptionRequest = ClientPacketMojang.Login.EncryptionRequest(
                 server_id: "",
-                public_key_length: VariableInteger(value: Int32(key.uuidString.count)),
-                public_key: try key.packet_bytes(),
-                verify_token_length: VariableInteger(value: 4),
+                public_key_length: VariableInteger(value: Int32(public_key_bytes.count)),
+                public_key: public_key_bytes,
+                verify_token_length: VariableInteger(value: Int32(verify_token.count)),
                 verify_token: verify_token
             )
             let data:Data = try encryption_request.as_client_response()
             try socket.write(from: data)
             
             print("test1")
-            let received_packet:GeneralPacketMojang = try read_packet()
-            print("test2;received_packet id=\(received_packet.packet_id)")
-            if let encryption_response:ServerPacketMojangLogin = ServerPacketMojangLogin(rawValue: UInt8(packet.packet_id.value)) {
-                print("encryption_response=\(encryption_response)")
-            }
+            packet = try read_packet()
+            print("test2")
+            let um:ServerPacketMojang.Login.EncryptionResponse = try ServerPacketMojang.Login.EncryptionResponse.parse(packet)
             print("test3")
             break
         case .encryption_response:

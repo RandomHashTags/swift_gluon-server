@@ -7,11 +7,13 @@
 
 import Foundation
 import Socket
-import NIO
+import SwiftASN1
 
 
 // BlueSocket TCP Server
 public final class ServerMojang {
+    public private(set) static var public_key:SecKey!, private_key:SecKey!
+    
     let host:String
     let port:Int
     private(set) var connections:Set<ServerMojangClient>
@@ -25,6 +27,7 @@ public final class ServerMojang {
     
     public func run() throws {
         print("ServerMojang;running on host \"" + host + "\" and port \(port)")
+        try generate_server_public_and_private_key()
         let socket:Socket = try Socket.create()
         try socket.listen(on: 25565)
         
@@ -46,6 +49,44 @@ public final class ServerMojang {
             connection.close()
         }
         print("ServerMojang;shutdown")
+    }
+    
+    private func generate_server_public_and_private_key() throws {
+        let publicKeyAttr: [NSObject: NSObject] = [
+                    kSecAttrIsPermanent: kCFBooleanFalse,
+                    kSecAttrApplicationTag: "com.xeoscript.app.RsaFromScrach.public".data(using: String.Encoding.utf8)! as NSObject,
+                    kSecClass: kSecClassKey, // added this value
+                    kSecReturnData: kCFBooleanTrue] // added this value
+        let privateKeyAttr: [NSObject: NSObject] = [
+                    kSecAttrIsPermanent: kCFBooleanFalse,
+                    kSecAttrApplicationTag: "com.xeoscript.app.RsaFromScrach.private".data(using: String.Encoding.utf8)! as NSObject,
+                    kSecClass: kSecClassKey, // added this value
+                    kSecReturnData: kCFBooleanTrue] // added this value
+        var keyPairAttr = [NSObject: NSObject]()
+        keyPairAttr[kSecAttrKeyType] = kSecAttrKeyTypeRSA
+        keyPairAttr[kSecAttrKeySizeInBits] = 1024 as NSObject
+        keyPairAttr[kSecPublicKeyAttrs] = publicKeyAttr as NSObject
+        keyPairAttr[kSecPrivateKeyAttrs] = privateKeyAttr as NSObject
+        
+        var error:Unmanaged<CFError>?
+        guard let private_key:SecKey = SecKeyCreateRandomKey(keyPairAttr as CFDictionary, &error) else {
+            throw error!.takeRetainedValue() as Error
+        }
+        guard let public_key:SecKey = SecKeyCopyPublicKey(private_key) else {
+            throw DecodingError.valueNotFound(String.self, DecodingError.Context(codingPath: [], debugDescription: "couldn't get public key from private key"))
+        }
+        let public_key_string:String = String(data: try public_key.data(), encoding: .ascii)!
+        print("ServerMojang;generate_server_public_and_private_key;public_key_string.count=\(public_key_string.count);public_key_string=" + public_key_string)
+        (ServerMojang.public_key, ServerMojang.private_key) = (public_key, private_key)
+    }
+}
+extension SecKey {
+    func data() throws -> Data {
+        var error:Unmanaged<CFError>?
+        guard let data:Data = SecKeyCopyExternalRepresentation(self, &error) as? Data else {
+            throw error!.takeRetainedValue() as Error
+        }
+        return data
     }
 }
 
