@@ -31,14 +31,14 @@ public extension PacketMojang {
     // TODO: support compression
     func as_client_response() throws -> Data {
         let packet_id_bytes:[UInt8] = try VariableInteger(value: Int32(Self.id.rawValue)).packet_bytes()
-        let packet_bytes:[UInt8] = try packet_bytes()
+        let data:[UInt8] = try packet_bytes()
         
-        let length:Int = packet_id_bytes.count + packet_bytes.count
+        let length:Int = packet_id_bytes.count + data.count
         var bytes:[UInt8] = try VariableInteger(value: Int32(length)).packet_bytes()
         bytes.append(contentsOf: packet_id_bytes)
-        bytes.append(contentsOf: packet_bytes)
+        bytes.append(contentsOf: data)
         
-        print("PacketMojang;as_client_response;packet_id_bytes.count=\(packet_id_bytes.count);packet_bytes.count=\(packet_bytes.count);length=\(length)")
+        print("PacketMojang;as_client_response;packet_id_bytes.count=\(packet_id_bytes.count);data.count=\(data.count);length=\(length)")
         return Data(bytes)
     }
 }

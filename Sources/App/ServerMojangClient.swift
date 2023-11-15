@@ -114,8 +114,8 @@ final class ServerMojangClient : Hashable {
         case .status_request:
             let status_request:ServerPacketMojang.Status.StatusRequest = try ServerPacketMojang.Status.StatusRequest.parse(packet)
             let status_response:ClientPacketMojang.Status.StatusResponse = try ClientPacketMojang.Status.StatusResponse(
-                version: MinecraftProtocolVersion.v1_20_2,
-                motd: "Test bruh",
+                version: protocol_version,
+                motd: "Test bruh; your Minecraft Protocol Version == \(protocol_version)",
                 enforces_secure_chat: true,
                 online_players_count: ServerMojang.instance.player_connections.count
             )
@@ -143,19 +143,13 @@ final class ServerMojangClient : Hashable {
         case .login_start:
             let public_key:String = ServerMojang.public_key
             
-            let public_key_data:Data = public_key.data(using: .utf8)!
-            let public_key_bytes:[UInt8] = [UInt8](public_key_data)
-            
-            let poop:ASN1Node = try DER.parse(public_key_bytes)
-            
-            print("ServerMojangClient;parse_login;public_key_bytes.count=\(public_key_bytes.count);poop.encoded_bytes.count=\(poop.encodedBytes.count)")
+            let yoink:String = "-----BEGIN PUBLIC KEY-----\n" + public_key + "\n-----END PUBLIC KEY-----"
+            let public_key_bytes:[UInt8] = [UInt8](yoink.utf8)
             
             let verify_token:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
             let encryption_request:ClientPacketMojang.Login.EncryptionRequest = ClientPacketMojang.Login.EncryptionRequest(
                 server_id: "",
-                public_key_length: VariableInteger(value: Int32(public_key_bytes.count)),
                 public_key: public_key_bytes,
-                verify_token_length: VariableInteger(value: Int32(verify_token.count)),
                 verify_token: verify_token
             )
             let data:Data = try encryption_request.as_client_response()
@@ -207,4 +201,31 @@ enum ServerMojangStatus {
     case login
     case status
     case play
+}
+
+struct ECDSASignature : DERImplicitlyTaggable {
+    static let defaultIdentifier:ASN1Identifier = ASN1Identifier.sequence
+    
+    var r:ArraySlice<UInt8>
+    var s:ArraySlice<UInt8>
+    
+    init(r: ArraySlice<UInt8>, s: ArraySlice<UInt8>) {
+        self.r = r
+        self.s = s
+    }
+    
+    init(derEncoded: ASN1Node, withIdentifier identifier: ASN1Identifier) throws {
+        self = try DER.sequence(derEncoded, identifier: identifier, { nodes in
+            let r:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
+            let s:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
+            return ECDSASignature(r: r, s: s)
+        })
+    }
+    
+    func serialize(into coder: inout DER.Serializer, withIdentifier identifier: ASN1Identifier) throws {
+        try coder.appendConstructedNode(identifier: identifier) { coder in
+            try coder.serialize(self.r)
+            try coder.serialize(self.s)
+        }
+    }
 }

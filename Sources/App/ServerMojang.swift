@@ -83,16 +83,17 @@ public final class ServerMojang {
         guard let public_key:SecKey = SecKeyCopyPublicKey(private_key) else {
             throw DecodingError.valueNotFound(String.self, DecodingError.Context(codingPath: [], debugDescription: "couldn't get public key from private key"))
         }
-        (ServerMojang.public_key, ServerMojang.private_key) = try (public_key.data().base64EncodedString(), private_key.data().base64EncodedString())
+        (ServerMojang.public_key, ServerMojang.private_key) = try (public_key.data(), private_key.data())
+        print("ServerMojang;generate_server_public_and_private_key;public_key.count=\(ServerMojang.public_key.count);public_key=\n" + ServerMojang.public_key)
     }
 }
 extension SecKey {
-    func data() throws -> Data {
+    func data() throws -> String {
         var error:Unmanaged<CFError>?
         guard let data:Data = SecKeyCopyExternalRepresentation(self, &error) as? Data else {
             throw error!.takeRetainedValue() as Error
         }
-        return data
+        return data.base64EncodedString()
     }
 }
 
