@@ -12,6 +12,10 @@ public extension ServerPacketMojang.Status {
     struct StatusRequest : ServerPacketMojangStatusProtocol {
         public static let id:ServerPacketMojangStatus = ServerPacketMojangStatus.status_request
         
+        public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
+            return StatusRequest()
+        }
+        
         public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
             return []
         }

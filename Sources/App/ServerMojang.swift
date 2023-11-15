@@ -12,17 +12,21 @@ import SwiftASN1
 
 // BlueSocket TCP Server
 public final class ServerMojang {
-    public private(set) static var public_key:SecKey!, private_key:SecKey!
+    public private(set) static var instance:ServerMojang!
+    public private(set) static var public_key:String!, private_key:String!
     
     let host:String
     let port:Int
     private(set) var connections:Set<ServerMojangClient>
+    private(set) var player_connections:Set<ServerMojangClient>
     
     public init(host: String, port: Int) {
         self.host = host
         self.port = port
         
         connections = []
+        player_connections = []
+        ServerMojang.instance = self
     }
     
     public func run() throws {
@@ -48,6 +52,9 @@ public final class ServerMojang {
         for connection in connections {
             connection.close()
         }
+        for player_connection in player_connections {
+            player_connection.close()
+        }
         print("ServerMojang;shutdown")
     }
     
@@ -66,6 +73,7 @@ public final class ServerMojang {
         keyPairAttr[kSecAttrKeyType] = kSecAttrKeyTypeRSA
         keyPairAttr[kSecAttrKeySizeInBits] = 1024 as NSObject
         keyPairAttr[kSecPublicKeyAttrs] = publicKeyAttr as NSObject
+        keyPairAttr[kSecAttrKeyClass] = kSecAttrKeyClassPublic
         keyPairAttr[kSecPrivateKeyAttrs] = privateKeyAttr as NSObject
         
         var error:Unmanaged<CFError>?
@@ -75,9 +83,7 @@ public final class ServerMojang {
         guard let public_key:SecKey = SecKeyCopyPublicKey(private_key) else {
             throw DecodingError.valueNotFound(String.self, DecodingError.Context(codingPath: [], debugDescription: "couldn't get public key from private key"))
         }
-        let public_key_string:String = String(data: try public_key.data(), encoding: .ascii)!
-        print("ServerMojang;generate_server_public_and_private_key;public_key_string.count=\(public_key_string.count);public_key_string=" + public_key_string)
-        (ServerMojang.public_key, ServerMojang.private_key) = (public_key, private_key)
+        (ServerMojang.public_key, ServerMojang.private_key) = try (public_key.data().base64EncodedString(), private_key.data().base64EncodedString())
     }
 }
 extension SecKey {

@@ -65,6 +65,8 @@ public enum MinecraftProtocolVersion : Int, Hashable, Codable, PacketEncodableMo
     case v1_7_6  = 5
     case v1_7_2  = 4
     
+    case unknown = -999
+    
     // MARK: Snapshots
     case v23w31a = 0x40000090
     
