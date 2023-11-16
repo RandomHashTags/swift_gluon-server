@@ -26,7 +26,11 @@ final class ServerMojangClient : Hashable {
         
         connection_task = Task {
             while socket.isActive {
-                try! process_packet()
+                do {
+                    try process_packet()
+                } catch {
+                    print("ServerMojangClient;process_packet;error=\(error)")
+                }
             }
         }
     }
@@ -39,25 +43,13 @@ final class ServerMojangClient : Hashable {
     func process_packet() throws {
         switch state {
         case .handshaking_received_packet:
-            do {
-                try parse_handshake()
-            } catch {
-                print("ServerMojangClient;parse_handshake;test;error=\(error)")
-            }
+            try parse_handshake()
             break
         case .status:
-            do {
-                try parse_status()
-            } catch {
-                print("ServerMojangClient;parse_status;test;error=\(error)")
-            }
+            try parse_status()
             break
         case .login:
-            do {
-                try parse_login()
-            } catch {
-                print("ServerMojangClient;login;test;error=\(error)")
-            }
+            try parse_login()
             break
         default:
             print("ServerMojangClient;default;test;state=\(state)")
