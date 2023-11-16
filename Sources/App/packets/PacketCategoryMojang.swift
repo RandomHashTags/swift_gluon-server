@@ -15,6 +15,7 @@ public enum PacketCategoryMojang : PacketCategory {
     
     case server_handshaking
     case server_login
+    case server_configuration
     case server_play
     case server_status
     

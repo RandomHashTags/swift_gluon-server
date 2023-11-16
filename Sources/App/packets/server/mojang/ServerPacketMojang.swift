@@ -13,6 +13,8 @@ public enum ServerPacketMojang {
     }
     public enum Login {
     }
+    public enum Configuration {
+    }
     public enum Play {
     }
     public enum Status : Int, Hashable, Codable, PacketEncodableMojang {

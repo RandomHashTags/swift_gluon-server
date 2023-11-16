@@ -119,16 +119,14 @@ final class ServerMojangClient : Hashable {
                 enforces_secure_chat: true,
                 online_players_count: ServerMojang.instance.player_connections.count
             )
-            let data:Data = try status_response.as_client_response()
-            try socket.write(from: data)
+            try socket.send_packet(status_response)
             
             packet = try read_packet()
             ping_request = try ServerPacketMojang.Status.PingRequest.parse(packet)
             break
         }
         let ping_response:ClientPacketMojang.Status.PingResponse = ClientPacketMojang.Status.PingResponse(payload: ping_request.payload)
-        let ping_data:Data = try ping_response.as_client_response()
-        try socket.write(from: ping_data)
+        try socket.send_packet(ping_response)
         close()
     }
     private func parse_login() throws {
@@ -143,6 +141,9 @@ final class ServerMojangClient : Hashable {
         case .login_start:
             let public_key:String = ServerMojang.public_key
             
+            //var bruh = DER.Serializer()
+            //bruh.serialize(SubjectPublicKeyInfo(algorithm: SubjectPublicKeyInfo.Algorithm, subjectPublicKey: <#T##ArraySlice<UInt8>#>))
+            
             let yoink:String = "-----BEGIN PUBLIC KEY-----\n" + public_key + "\n-----END PUBLIC KEY-----"
             let public_key_bytes:[UInt8] = [UInt8](yoink.utf8)
             
@@ -152,8 +153,7 @@ final class ServerMojangClient : Hashable {
                 public_key: public_key_bytes,
                 verify_token: verify_token
             )
-            let data:Data = try encryption_request.as_client_response()
-            try socket.write(from: data)
+            try socket.send_packet(encryption_request)
             
             print("test1")
             packet = try read_packet()
@@ -169,6 +169,13 @@ final class ServerMojangClient : Hashable {
         case .login_plugin_response:
             break
         }
+    }
+}
+
+extension Socket {
+    func send_packet(_ packet: any PacketMojang) throws {
+        let data:Data = try packet.as_client_response()
+        try write(from: data)
     }
 }
 
@@ -199,33 +206,88 @@ enum ServerMojangStatus {
     case handshaking
     case handshaking_received_packet
     case login
+    case configuration
     case status
     case play
 }
 
-struct ECDSASignature : DERImplicitlyTaggable {
+struct SubjectPublicKeyInfo : DERImplicitlyTaggable {
     static let defaultIdentifier:ASN1Identifier = ASN1Identifier.sequence
     
-    var r:ArraySlice<UInt8>
-    var s:ArraySlice<UInt8>
+    var algorithm:Algorithm
+    var subjectPublicKey:ArraySlice<UInt8>
     
-    init(r: ArraySlice<UInt8>, s: ArraySlice<UInt8>) {
-        self.r = r
-        self.s = s
+    init(algorithm: Algorithm, subjectPublicKey: ArraySlice<UInt8>) {
+        self.algorithm = algorithm
+        self.subjectPublicKey = subjectPublicKey
     }
     
     init(derEncoded: ASN1Node, withIdentifier identifier: ASN1Identifier) throws {
         self = try DER.sequence(derEncoded, identifier: identifier, { nodes in
-            let r:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
-            let s:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
-            return ECDSASignature(r: r, s: s)
+            let algorithm:Algorithm = try Algorithm(derEncoded: &nodes)
+            let subjectPublicKey:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
+            return SubjectPublicKeyInfo(algorithm: algorithm, subjectPublicKey: subjectPublicKey)
         })
     }
     
     func serialize(into coder: inout DER.Serializer, withIdentifier identifier: ASN1Identifier) throws {
         try coder.appendConstructedNode(identifier: identifier) { coder in
-            try coder.serialize(self.r)
-            try coder.serialize(self.s)
+            try coder.serialize(self.algorithm)
+            try coder.serialize(self.subjectPublicKey)
+        }
+    }
+    
+    struct Algorithm : DERImplicitlyTaggable {
+        static let defaultIdentifier:ASN1Identifier = ASN1Identifier.sequence
+        
+        let algorithm:ArraySlice<UInt8>
+        let parameters:ArraySlice<UInt8>
+        
+        init(algorithm: ArraySlice<UInt8>, parameters: ArraySlice<UInt8>) {
+            self.algorithm = algorithm
+            self.parameters = parameters
+        }
+        
+        init(derEncoded: ASN1Node, withIdentifier identifier: ASN1Identifier) throws {
+            self = try DER.sequence(derEncoded, identifier: identifier, { nodes in
+                let algorithm:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
+                let subjectPublicKey:ArraySlice<UInt8> = try ArraySlice<UInt8>(derEncoded: &nodes)
+                return Algorithm(algorithm: algorithm, parameters: subjectPublicKey)
+            })
+        }
+        
+        func serialize(into coder: inout DER.Serializer, withIdentifier identifier: ASN1Identifier) throws {
+            try coder.appendConstructedNode(identifier: identifier) { coder in
+                try coder.serialize(self.algorithm)
+                try coder.serialize(self.parameters)
+            }
+        }
+    }
+}
+
+struct SubjectPublicKey : DERImplicitlyTaggable {
+    static let defaultIdentifier:ASN1Identifier = ASN1Identifier.sequence
+    
+    let modulus:Int
+    let publicExponent:Int
+    
+    init(modulus: Int, publicExponent: Int) {
+        self.modulus = modulus
+        self.publicExponent = publicExponent
+    }
+    
+    init(derEncoded: ASN1Node, withIdentifier identifier: ASN1Identifier) throws {
+        self = try DER.sequence(derEncoded, identifier: identifier, { nodes in
+            let modulus:Int = try Int(derEncoded: &nodes)
+            let publicExponent:Int = try Int(derEncoded: &nodes)
+            return SubjectPublicKey(modulus: modulus, publicExponent: publicExponent)
+        })
+    }
+    
+    func serialize(into coder: inout DER.Serializer, withIdentifier identifier: ASN1Identifier) throws {
+        try coder.appendConstructedNode(identifier: identifier) { coder in
+            try coder.serialize(self.modulus)
+            try coder.serialize(self.publicExponent)
         }
     }
 }
