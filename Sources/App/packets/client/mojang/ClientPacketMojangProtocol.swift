@@ -42,6 +42,22 @@ public extension ClientPacketMojangLoginProtocol {
     }
 }
 
+// MARK: ClientPacketMojangLoginProtocol
+public protocol ClientPacketMojangConfigurationProtocol : ClientPacketMojangProtocol where GameplayID == ClientPacketMojangConfiguration {
+}
+public extension ClientPacketMojangConfigurationProtocol {
+    static var packet_gameplay_id : GameplayID.Type {
+        get {
+            return ClientPacketMojangConfiguration.self
+        }
+    }
+}
+public extension ClientPacketMojangConfigurationProtocol {
+    var category : Category {
+        return Category.client_configuration
+    }
+}
+
 // MARK: ClientPacketMojangPlayProtocol
 public protocol ClientPacketMojangPlayProtocol : ClientPacketMojangProtocol where GameplayID == ClientPacketMojangPlay {
 }

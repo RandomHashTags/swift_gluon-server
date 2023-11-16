@@ -10,6 +10,7 @@ import Foundation
 public enum PacketCategoryMojang : PacketCategory {
     case client_handshaking
     case client_login
+    case client_configuration
     case client_play
     case client_status
     
