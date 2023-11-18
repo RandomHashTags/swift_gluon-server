@@ -38,6 +38,7 @@ final class GluonLivingEntity : LivingEntity {
         return GluonServer.shared_instance.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
+    let name:String
     var custom_name:String?
     var display_name:String?
     
@@ -69,7 +70,46 @@ final class GluonLivingEntity : LivingEntity {
         return GluonServer.shared_instance.get_entity(uuid: uuid)
     }
     
-    init(can_breathe_underwater: Bool, can_pickup_items: Bool, has_ai: Bool, is_climbing: Bool, is_collidable: Bool, is_gliding: Bool, is_invisible: Bool, is_leashed: Bool, is_riptiding: Bool, is_sleeping: Bool, is_swimming: Bool, potion_effects: [String : any PotionEffect], no_damage_ticks: UInt16, no_damage_ticks_maximum: UInt16, air_remaining: UInt16, air_maximum: UInt16, health: Double, health_maximum: Double, uuid: UUID, type_id: String, ticks_lived: UInt64, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
+    init(
+        can_breathe_underwater: Bool,
+        can_pickup_items: Bool,
+        has_ai: Bool,
+        is_climbing: Bool,
+        is_collidable: Bool,
+        is_gliding: Bool,
+        is_invisible: Bool,
+        is_leashed: Bool,
+        is_riptiding: Bool,
+        is_sleeping: Bool,
+        is_swimming: Bool,
+        potion_effects: [String : any PotionEffect],
+        no_damage_ticks: UInt16,
+        no_damage_ticks_maximum: UInt16,
+        air_remaining: UInt16,
+        air_maximum: UInt16,
+        health: Double,
+        health_maximum: Double,
+        uuid: UUID,
+        type_id: String,
+        ticks_lived: UInt64,
+        name: String,
+        custom_name: String? = nil,
+        display_name: String? = nil,
+        boundaries: [Boundary],
+        location: any Location,
+        velocity: Vector,
+        fall_distance: Float,
+        is_glowing: Bool,
+        is_on_fire: Bool,
+        is_on_ground: Bool,
+        height: Float,
+        fire_ticks: UInt16,
+        fire_ticks_maximum: UInt16,
+        freeze_ticks: UInt16,
+        freeze_ticks_maximum: UInt16,
+        passenger_uuids: Set<UUID>,
+        vehicle_uuid: UUID? = nil
+    ) {
         self.can_breathe_underwater = can_breathe_underwater
         self.can_pickup_items = can_pickup_items
         self.has_ai = has_ai
@@ -91,6 +131,7 @@ final class GluonLivingEntity : LivingEntity {
         self.uuid = uuid
         self.type_id = type_id
         self.ticks_lived = ticks_lived
+        self.name = name
         self.custom_name = custom_name
         self.display_name = display_name
         self.boundaries = boundaries

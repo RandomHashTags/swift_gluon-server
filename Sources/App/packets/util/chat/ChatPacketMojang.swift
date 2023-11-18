@@ -11,7 +11,7 @@ public struct ChatPacketMojang : ChatPacket, PacketMojang, PacketEncodableMojang
     public typealias GameplayID = ClientPacketMojangStatus
     
     // TODO: fix
-    public static let id: ClientPacketMojangStatus = ClientPacketMojangStatus.ping_response
+    public static let id:ClientPacketMojangStatus = ClientPacketMojangStatus.ping_response
     public static let packet_gameplay_id:ClientPacketMojangStatus.Type = ClientPacketMojangStatus.self
     
     public static func decode(from packet: GeneralPacketMojang) throws -> ChatPacketMojang {

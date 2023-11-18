@@ -6,76 +6,50 @@
 //
 
 import Foundation
+import Socket
 
 public final class PlayerConnectionMojang : PlayerConnection {
-    public static func == (lhs: PlayerConnectionMojang, rhs: PlayerConnectionMojang) -> Bool {
-        return lhs.player_uuid == rhs.player_uuid
-    }
-    
-    public var platform : PacketPlatform {
-        return PacketPlatform.mojang
-    }
-    
-    public let player_uuid:UUID
-    public var socket:URLSessionWebSocketTask
+    public let platform:PacketPlatform
+    public let protocol_version:MinecraftProtocolVersion
+    public var socket:Socket
+    private var connection_task:Task<Void, Never>!
     public internal(set) var ping:UInt16
     
-    init(player_uuid: UUID, _ url: String) {
-        self.player_uuid = player_uuid
-        socket = URLSession.shared.webSocketTask(with: URL(string: url)!)
-        socket.resume()
+    init(platform: PacketPlatform, protocol_version: MinecraftProtocolVersion, socket: Socket) {
+        self.platform = platform
+        self.protocol_version = protocol_version
+        self.socket = socket
         ping = 0
-        Task {
-            await self.process_packets()
+        
+        connection_task = Task {
+            while socket.isActive {
+                process_packet()
+            }
         }
     }
     
-    private func receive() async throws -> URLSessionWebSocketTask.Message? {
-        return try await socket.receive()
-    }
-    private func send(_ message: URLSessionWebSocketTask.Message) async throws {
-        try await socket.send(message)
-    }
-    
-    public func close(reason: Data?) {
-        socket.cancel(with: .normalClosure, reason: reason)
-        socket.cancel()
-    }
-    
-    public func update_ping() {
-        socket.sendPing { error in
-            self.ping = UInt16.random(in: 0...UInt16.max)
-        }
-    }
-    
-    public func send_packet(_ packet: any Packet) async throws {
-        let encoder:JSONEncoder = JSONEncoder()
-        let data:Data = try encoder.encode(packet)
-        let message:URLSessionWebSocketTask.Message = .data(data)
-        try await send(message)
-    }
-    
-    private func process_packets() async {
+    func process_packet() {
         do {
-            guard let message:URLSessionWebSocketTask.Message = try await receive() else { return }
-            process_packet(message)
+            let packet:GeneralPacketMojang = try read_packet()
         } catch {
-            print("PlayerConnectionMojang;encountered error while trying to `process_packets` (\(error)")
-        }
-        Task {
-            await process_packets()
+            print("ServerMojangClient;process_packet;error=\(error)")
         }
     }
-    private func process_packet(_ packet: URLSessionWebSocketTask.Message) {
-        switch packet {
-        case .data(let data):
-            print("PlayerConnectionMojang;process_packet;player_uuid=\(player_uuid);data=\(data)")
-            break
-        case .string(let string):
-            print("PlayerConnectionMojang;process_packet;player_uuid=\(player_uuid);string=" + string)
-            break
-        @unknown default:
-            break
-        }
+    
+    func read_packet() throws -> GeneralPacketMojang {
+        var data:Data = Data()
+        let _:Int = try socket.read(into: &data)
+        let bytes:[UInt8] = [UInt8](data)
+        return try GeneralPacketMojang(bytes: bytes)
+    }
+    
+    public func close(reason: String) {
+        connection_task.cancel()
+        socket.close()
+    }
+    
+    public func send_packet<T : Packet>(_ packet: T) throws {
+        guard let packet:any PacketMojang = packet as? any PacketMojang else { return }
+        try socket.send_packet(packet)
     }
 }

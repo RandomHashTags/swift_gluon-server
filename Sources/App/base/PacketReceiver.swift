@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol PacketReceiver {
-    func send_packet(_ packet: any Packet) async throws
+    func send_packet<T : Packet>(_ packet: T) throws
 }

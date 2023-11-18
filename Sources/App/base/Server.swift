@@ -190,6 +190,10 @@ public extension Server {
         let map:[any Recipe] = identifiers.compactMap({ recipes[$0] })
         return map.isEmpty ? nil : map
     }
+    
+    func get_instrument(identifier: String) -> (any Instrument)? {
+        return instruments[identifier]
+    }
 }
 
 public extension Server {

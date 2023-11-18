@@ -14,6 +14,7 @@ final class GluonItem : Item {
         return GluonServer.shared_instance.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
+    let name:String
     var custom_name:String?
     var display_name:String?
     
@@ -46,10 +47,11 @@ final class GluonItem : Item {
     var item_stack:any ItemStack
     var pickup_delay:UInt8
     
-    init(uuid: UUID, type_id: String, ticks_lived: UInt64, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil, item_stack: any ItemStack, pickup_delay: UInt8) {
+    init(uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil, item_stack: any ItemStack, pickup_delay: UInt8) {
         self.uuid = uuid
         self.type_id = type_id
         self.ticks_lived = ticks_lived
+        self.name = name
         self.custom_name = custom_name
         self.display_name = display_name
         self.boundaries = boundaries

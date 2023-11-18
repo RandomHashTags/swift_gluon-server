@@ -6,15 +6,13 @@
 //
 
 import Foundation
+import Socket
 
-public protocol PlayerConnection : AnyObject, PacketReceiver {
+public protocol PlayerConnection : PacketReceiver {
     var platform : PacketPlatform { get }
     
-    var player_uuid : UUID { get }
-    var socket : URLSessionWebSocketTask { get set }
+    var socket : Socket { get set }
     var ping : UInt16 { get }
     
-    func update_ping()
-    
-    func close(reason: Data?)
+    func close(reason: String)
 }

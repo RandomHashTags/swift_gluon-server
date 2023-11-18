@@ -8,5 +8,6 @@
 import Foundation
 
 public protocol Nameable {
+    var name : String { get }
     var custom_name : String? { get set }
 }

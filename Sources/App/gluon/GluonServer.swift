@@ -151,7 +151,7 @@ final class GluonServer : GluonSharedInstance, Server {
     }
     
     func player_joined() {
-        let inventory_type:GluonInventoryType = GluonInventoryType(
+        /*let inventory_type:GluonInventoryType = GluonInventoryType(
             id: "minecraft.player_hotbar",
             categories: [],
             size: 9,
@@ -161,7 +161,7 @@ final class GluonServer : GluonSharedInstance, Server {
         )
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
         let player_uuid:UUID = UUID()
-        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, "ws://0.0.0.0:25565")
+        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, platform: PacketPlatform.mojang, protocol_version: MinecraftProtocolVersion.v1_20_2, socket: <#T##Socket#>)
         let player:GluonPlayer = GluonPlayer(
             connection: connection,
             name: "RandomHashTags",
@@ -214,7 +214,7 @@ final class GluonServer : GluonSharedInstance, Server {
             vehicle_uuid: nil
         )
         worlds["overworld"]!.spawn_player(player)
-        call_event(event: GluonPlayerJoinEvent(player))
+        call_event(event: GluonPlayerJoinEvent(player))*/
         
         if !server_is_awake {
             wake_up()
@@ -227,7 +227,11 @@ final class GluonServer : GluonSharedInstance, Server {
         server_loop = Task {
             while server_is_awake {
                 tick(self)
-                try! await Task.sleep(nanoseconds: server_tick_interval_nano)
+                do {
+                    try await Task.sleep(nanoseconds: server_tick_interval_nano)
+                } catch {
+                    print("GluonServer;caught an error while trying to sleep after ticking the server;error=\(error)")
+                }
             }
         }
     }
@@ -256,7 +260,7 @@ extension GluonServer {
         let player_uuid:UUID = player.uuid
         guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
         world.players.remove(at: index)
-        player.connection.close(reason: reason.data(using: .utf8))
+        player.connection.close(reason: reason)
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {

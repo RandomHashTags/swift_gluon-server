@@ -9,10 +9,21 @@ import Foundation
 import HugeNumbers
 
 struct GluonBlock : Block {
-    var material_id:String
+    let material_id:String
     var material : (any Material)? {
         return GluonServer.shared_instance.get_material(identifier: material_id)
     }
+    
+    let requires_correct_tool_for_drops:Bool
+    let has_collision:Bool
+    
+    let instrument_id:String?
+    var instrument : (any Instrument)? {
+        guard let instrument_id:String = instrument_id else { return nil }
+        return GluonServer.shared_instance.get_instrument(identifier: instrument_id)
+    }
+    
+    let map_color:Color?
     
     let step_sound:(any Sound)?
     
