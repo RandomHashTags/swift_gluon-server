@@ -17,9 +17,9 @@ public struct Color : Hashable {
     public init(identifier: String, id: Int, color: Int, brightness: Int = 255) {
         self.identifier = identifier
         self.id = id
-        red = UInt8( (color >> 16 & 255) * brightness / 255 )
+        red = UInt8( (color & 255) * brightness / 255 )
         green = UInt8( (color >> 8 & 255) * brightness / 255 )
-        blue = UInt8( (color & 255) * brightness / 255 )
+        blue = UInt8( (color >> 16 & 255) * brightness / 255 )
     }
     public init(identifier: String, id: Int, red: UInt8, green: UInt8, blue: UInt8) {
         self.identifier = identifier
