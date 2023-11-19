@@ -10,6 +10,11 @@ import Foundation
 public protocol MaterialItemConsumableConfiguration : AnyObject, ServerTickChangeListener, Identifiable where ID == String {
     /// Amount of ticks required of consuming to consider this item to be consumed.
     var duration : UInt64 { get set }
+    
+    var nutrition : Int { get }
+    var saturation_modifier : Float { get }
+    var effects : [any PotionEffect] { get }
+    
     /// The logic executed when this item is considered consumed.
     var executable_logic : [ExecutableLogic] { get }
 }

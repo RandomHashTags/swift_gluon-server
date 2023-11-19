@@ -10,5 +10,6 @@ import Foundation
 public protocol ChatMessage : Identifiable where ID == UUID {
     var timestamp : Date { get }
     var sender : any CommandSender { get }
+    var receiver : String? { get }
     var message : String { get }
 }

@@ -23,7 +23,7 @@ public struct SemanticVersion : Hashable, Comparable {
         self.patch = patch
     }
     public init(string: String) {
-        let values:[String] = string.components(separatedBy: ".")
+        let values:[Substring] = string.split(separator: ".")
         major = Int(values[0]) ?? 0
         minor = Int(values[1]) ?? 0
         patch = Int(values[2]) ?? 0

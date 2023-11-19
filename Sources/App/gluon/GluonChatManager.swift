@@ -8,9 +8,40 @@
 import Foundation
 
 actor GluonChatManager : ChatManager {
-    
     private var history:[any ChatMessage] = []
     
-    func send(sender: String, message: String) async {
+    func send(sender: any CommandSender, receiver: String?, message: String) async {
+        let msg:GluonChatMessage = GluonChatMessage(id: UUID(), timestamp: Date(), sender: sender, receiver: receiver, message: message)
+        history.append(msg)
+        if let receiver:String = receiver {
+            
+        } else {
+            
+        }
+        
+        let chat_packet:ChatPacketMojang = ChatPacketMojang(
+            text: message,
+            translate: nil,
+            with: nil,
+            score: nil,
+            bold: nil,
+            italic: nil,
+            underlined: nil,
+            strikethrough: nil,
+            obfuscated: nil,
+            font: nil,
+            color: nil,
+            insertion: nil,
+            clickEvent: nil,
+            hoverEvent: nil,
+            extra: nil
+        )
+        for player in GluonServer.shared_instance.players {
+            do {
+                try player.connection.send_packet(chat_packet)
+            } catch {
+                print("GluonChatManager;send;encountered error while trying to send chat packet to player with uuid \(player.uuid);error=\(error)")
+            }
+        }
     }
 }

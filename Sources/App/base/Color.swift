@@ -35,7 +35,7 @@ public extension Color {
     /// Hardcoded color values from Vanilla Minecraft.
     enum Mojang {
         /// Hardcoded map color values from Vanilla Minecraft.
-        public struct Map : ~Copyable {
+        public enum Map {
             private static func get(_ identifier: String, id: Int, color: Int) -> Color {
                 return Color(identifier: "map." + identifier, id: id, color: color)
             }

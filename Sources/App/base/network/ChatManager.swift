@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol ChatManager : AnyActor {
-    func send(sender: String, message: String) async
+    func send(sender: any CommandSender, receiver: String?, message: String) async
 }

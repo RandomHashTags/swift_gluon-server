@@ -15,7 +15,7 @@ final class GluonPlayer : Player {
     
     var experience:UInt64
     var experience_level:UInt64
-    var food_level:UInt64
+    var food_data:any FoodData
     
     var permissions:Set<String>
     var statistics:[String : any StatisticActive]
@@ -117,7 +117,7 @@ final class GluonPlayer : Player {
     }
     
     func send(message: String) async {
-        await GluonServer.shared_instance.chat_manager.send(sender: name, message: message)
+        await GluonServer.shared_instance.chat_manager.send(sender: self, receiver: nil, message: message)
     }
     
     init(
@@ -125,7 +125,7 @@ final class GluonPlayer : Player {
         name: String,
         experience: UInt64,
         experience_level: UInt64,
-        food_level: UInt64,
+        food_data: any FoodData,
         permissions: Set<String>,
         statistics: [String:any StatisticActive],
         game_mode: any GameMode,
@@ -175,7 +175,7 @@ final class GluonPlayer : Player {
         self.name = name
         self.experience = experience
         self.experience_level = experience_level
-        self.food_level = food_level
+        self.food_data = food_data
         self.permissions = permissions
         self.statistics = statistics
         self.game_mode = game_mode

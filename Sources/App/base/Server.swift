@@ -74,6 +74,10 @@ public protocol Server : AnyObject, Tickable {
 
 
 public extension Server {
+    var players : [any Player] {
+        return worlds.flatMap({ $0.value.players })
+    }
+    
     func tick(_ server: any Server) {
         for (_, world) in worlds {
             world.tick(server)

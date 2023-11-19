@@ -14,7 +14,7 @@ public protocol Player : LivingEntity, CommandSender, Permissible {
     
     var experience : UInt64 { get set }
     var experience_level : UInt64 { get set }
-    var food_level : UInt64 { get set }
+    var food_data : any FoodData { get set }
     
     var statistics : [String : any StatisticActive] { get set }
     
@@ -50,7 +50,7 @@ public extension Player {
         context["game_mode"] = ExecutableLogicalContext(value_type: .string, value: game_mode.id)
         context["experience"] = ExecutableLogicalContext(value_type: .long_unsigned, value: experience)
         context["experience_level"] = ExecutableLogicalContext(value_type: .long_unsigned, value: experience_level)
-        context["food_level"] = ExecutableLogicalContext(value_type: .long_unsigned, value: food_level)
+        //context["food_level"] = ExecutableLogicalContext(value_type: .long_unsigned, value: food_level)
         context["has_list_name"] = ExecutableLogicalContext(value_type: .boolean, value: list_name != nil)
         context["is_blocking"] = ExecutableLogicalContext(value_type: .boolean, value: is_blocking)
         context["is_flying"] = ExecutableLogicalContext(value_type: .boolean, value: is_flying)

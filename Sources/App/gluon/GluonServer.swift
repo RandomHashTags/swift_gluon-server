@@ -9,7 +9,7 @@ import Foundation
 import HugeNumbers
 
 final class GluonServer : GluonSharedInstance, Server {
-    var chat_manager:any ChatManager
+    let chat_manager:any ChatManager
     var version:SemanticVersion
     
     var ticks_per_second:UInt8
