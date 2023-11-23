@@ -60,7 +60,7 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
     case use_item_on
     case use_item
     
-    public var packet : any ServerPacketMojangProtocol.Type {
+    public var packet : any ServerPacketMojangPlayProtocol.Type {
         switch self {
         case .confirm_teleportation:            return ServerPacketMojang.Play.ConfirmTeleportation.self
         case .query_block_entity_tag:           return ServerPacketMojang.Play.QueryBlockEntityTag.self
@@ -114,5 +114,9 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
         case .use_item_on:                      return ServerPacketMojang.Play.UseItemOn.self
         case .use_item:                         return ServerPacketMojang.Play.UseItem.self
         }
+    }
+    
+    func process(_ client: ServerMojangClient) {
+        packet.process(client)
     }
 }

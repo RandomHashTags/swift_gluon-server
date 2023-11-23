@@ -9,16 +9,18 @@ import Foundation
 import Socket
 import SwiftASN1
 
-final class ServerMojangClient : Hashable {
-    static func == (lhs: ServerMojangClient, rhs: ServerMojangClient) -> Bool {
+public final class ServerMojangClient : Hashable {
+    public static func == (lhs: ServerMojangClient, rhs: ServerMojangClient) -> Bool {
         return lhs.socket == rhs.socket && lhs.state == rhs.state
     }
     
-    let socket:Socket, onClose:(ServerMojangClient) -> Void
+    private let socket:Socket, onClose:(ServerMojangClient) -> Void
     
-    private(set) var state:ServerMojangStatus = .handshaking_received_packet
-    private(set) var protocol_version:MinecraftProtocolVersion = MinecraftProtocolVersion.unknown
-    private(set) var information:ServerPacketMojang.Configuration.ClientInformation?
+    public private(set) var state:ServerMojangStatus = .handshaking_received_packet
+    public private(set) var protocol_version:MinecraftProtocolVersion = MinecraftProtocolVersion.unknown
+    public private(set) var information:ServerPacketMojang.Configuration.ClientInformation?
+    private var player_builder:PlayerBuilder!
+    public private(set) var player:(any Player)?
     private var connection_task:Task<Void, Never>!
     
     init(socket: Socket, onClose: @escaping (ServerMojangClient) -> Void) {
@@ -36,7 +38,7 @@ final class ServerMojangClient : Hashable {
         }
     }
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(socket)
         hasher.combine(state)
     }
@@ -136,6 +138,8 @@ final class ServerMojangClient : Hashable {
         }
         print("ServerMojangClient;parse_login;test=\(test)")
         let login_start_packet:ServerPacketMojang.Login.LoginStart = try ServerPacketMojang.Login.LoginStart.parse(packet)
+        player_builder = PlayerBuilder(uuid: login_start_packet.player_uuid, name: login_start_packet.name)
+        
         switch test {
         case .login_start:
             let online_mode:Bool = false
@@ -203,6 +207,57 @@ final class ServerMojangClient : Hashable {
         try socket.send_packet(finish_configuration)
         
         state = .play
+        player = GluonPlayer(
+            name: player_builder.name,
+            experience: 0,
+            experience_level: 0,
+            food_data: <#T##FoodData#>,
+            permissions: [],
+            statistics: [:],
+            game_mode: DefaultGameModes.survival,
+            is_blocking: false,
+            is_flying: false,
+            is_op: false,
+            is_sneaking: false,
+            is_sprinting: false,
+            inventory: <#T##PlayerInventory#>,
+            can_breathe_underwater: false,
+            can_pickup_items: true,
+            has_ai: false,
+            is_climbing: false,
+            is_collidable: true,
+            is_gliding: false,
+            is_invisible: false,
+            is_leashed: false,
+            is_riptiding: false,
+            is_sleeping: false,
+            is_swimming: false,
+            potion_effects: [:],
+            no_damage_ticks: 0,
+            no_damage_ticks_maximum: 20,
+            air_remaining: 20,
+            air_maximum: 20,
+            health: 20,
+            health_maximum: 20,
+            
+            uuid: player_builder.uuid,
+            type_id: "minecraft:player",
+            ticks_lived: 0,
+            boundaries: [],
+            location: <#T##Location#>,
+            velocity: Vector(x: 0, y: 0, z: 0),
+            fall_distance: 0,
+            is_glowing: false,
+            is_on_fire: false,
+            is_on_ground: true,
+            height: 0,
+            fire_ticks: 0,
+            fire_ticks_maximum: 0,
+            freeze_ticks: 0,
+            freeze_ticks_maximum: 0,
+            passenger_uuids: [],
+            vehicle_uuid: nil
+        )
         ServerMojang.instance.upgrade(connection: self)
     }
     
@@ -213,15 +268,11 @@ final class ServerMojangClient : Hashable {
             return
         }
         print("ServerMojangClient;parse_play;test=\(test)")
-        
-        switch test {
-        case .confirm_teleportation:
-            break
-        case .change_difficulty:
-            break
-        default:
-            break
-        }
+        test.process(self)
+    }
+    
+    func send_packet(_ packet: any PacketMojang) throws {
+        try socket.send_packet(packet)
     }
 }
 
@@ -255,13 +306,18 @@ struct ServerPacketMojangStatusResponse : Codable {
     }
 }
 
-enum ServerMojangStatus {
+public enum ServerMojangStatus {
     case handshaking
     case handshaking_received_packet
     case login
     case configuration
     case status
     case play
+}
+
+struct PlayerBuilder {
+    var uuid:UUID
+    var name:String
 }
 
 struct SubjectPublicKeyInfo : DERImplicitlyTaggable {

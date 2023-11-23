@@ -8,8 +8,6 @@
 import Foundation
 
 public protocol Player : LivingEntity, CommandSender, Permissible {
-    var connection : any PlayerConnection { get }
-    
     var list_name : String? { get set }
     
     var experience : UInt64 { get set }
@@ -46,7 +44,7 @@ public extension Player {
     
     var player_executable_context : [String:ExecutableLogicalContext] {
         var context:[String:ExecutableLogicalContext] = living_entity_executable_context
-        context["ping"] = ExecutableLogicalContext(value_type: .short_unsigned, value: connection.ping)
+        //context["ping"] = ExecutableLogicalContext(value_type: .short_unsigned, value: connection.ping)
         context["game_mode"] = ExecutableLogicalContext(value_type: .string, value: game_mode.id)
         context["experience"] = ExecutableLogicalContext(value_type: .long_unsigned, value: experience)
         context["experience_level"] = ExecutableLogicalContext(value_type: .long_unsigned, value: experience_level)

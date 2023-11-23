@@ -8,8 +8,6 @@
 import Foundation
 
 final class GluonPlayer : Player {
-    let connection:any PlayerConnection
-    
     var name:String
     var list_name:String?
     
@@ -121,7 +119,6 @@ final class GluonPlayer : Player {
     }
     
     init(
-        connection: PlayerConnectionMojang,
         name: String,
         experience: UInt64,
         experience_level: UInt64,
@@ -171,7 +168,6 @@ final class GluonPlayer : Player {
         passenger_uuids: Set<UUID>,
         vehicle_uuid: UUID?
     ) {
-        self.connection = connection
         self.name = name
         self.experience = experience
         self.experience_level = experience_level
