@@ -48,6 +48,11 @@ public final class ServerMojang {
         }
     }
     
+    internal func upgrade(connection: ServerMojangClient) {
+        connections.remove(connection)
+        player_connections.insert(connection)
+    }
+    
     public func shutdown() {
         for connection in connections {
             connection.close()

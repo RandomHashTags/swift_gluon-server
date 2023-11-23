@@ -18,6 +18,7 @@ final class ServerMojangClient : Hashable {
     
     private(set) var state:ServerMojangStatus = .handshaking_received_packet
     private(set) var protocol_version:MinecraftProtocolVersion = MinecraftProtocolVersion.unknown
+    private(set) var information:ServerPacketMojang.Configuration.ClientInformation?
     private var connection_task:Task<Void, Never>!
     
     init(socket: Socket, onClose: @escaping (ServerMojangClient) -> Void) {
@@ -50,6 +51,12 @@ final class ServerMojangClient : Hashable {
             break
         case .login:
             try parse_login()
+            break
+        case .configuration:
+            try parse_configuration()
+            break
+        case .play:
+            try parse_play()
             break
         default:
             print("ServerMojangClient;default;test;state=\(state)")
@@ -131,27 +138,41 @@ final class ServerMojangClient : Hashable {
         let login_start_packet:ServerPacketMojang.Login.LoginStart = try ServerPacketMojang.Login.LoginStart.parse(packet)
         switch test {
         case .login_start:
-            let public_key:String = ServerMojang.public_key
-            
-            //var bruh = DER.Serializer()
-            //bruh.serialize(SubjectPublicKeyInfo(algorithm: SubjectPublicKeyInfo.Algorithm, subjectPublicKey: <#T##ArraySlice<UInt8>#>))
-            
-            let yoink:String = "-----BEGIN PUBLIC KEY-----\n" + public_key + "\n-----END PUBLIC KEY-----"
-            let public_key_bytes:[UInt8] = [UInt8](yoink.utf8)
-            
-            let verify_token:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
-            let encryption_request:ClientPacketMojang.Login.EncryptionRequest = ClientPacketMojang.Login.EncryptionRequest(
-                server_id: "",
-                public_key: public_key_bytes,
-                verify_token: verify_token
-            )
-            try socket.send_packet(encryption_request)
-            
-            print("test1")
-            packet = try read_packet()
-            print("test2")
-            let um:ServerPacketMojang.Login.EncryptionResponse = try ServerPacketMojang.Login.EncryptionResponse.parse(packet)
-            print("test3")
+            let online_mode:Bool = false
+            if online_mode {
+                let public_key:String = ServerMojang.public_key
+                
+                //var bruh = DER.Serializer()
+                //bruh.serialize(SubjectPublicKeyInfo(algorithm: SubjectPublicKeyInfo.Algorithm, subjectPublicKey: <#T##ArraySlice<UInt8>#>))
+                
+                let yoink:String = "-----BEGIN PUBLIC KEY-----\n" + public_key + "\n-----END PUBLIC KEY-----"
+                let public_key_bytes:[UInt8] = [UInt8](yoink.utf8)
+                
+                let verify_token:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
+                let encryption_request:ClientPacketMojang.Login.EncryptionRequest = ClientPacketMojang.Login.EncryptionRequest(
+                    server_id: "",
+                    public_key: public_key_bytes,
+                    verify_token: verify_token
+                )
+                try socket.send_packet(encryption_request)
+                
+                print("test1")
+                packet = try read_packet()
+                print("test2")
+                let um:ServerPacketMojang.Login.EncryptionResponse = try ServerPacketMojang.Login.EncryptionResponse.parse(packet)
+                print("test3")
+            } else {
+                let success_packet:ClientPacketMojang.Login.LoginSuccess = ClientPacketMojang.Login.LoginSuccess(
+                    uuid: login_start_packet.player_uuid,
+                    username: login_start_packet.name,
+                    number_of_properties: VariableInteger(value: 0),
+                    properties: []
+                )
+                try socket.send_packet(success_packet)
+                
+                packet = try read_packet() // acknowledged packet
+            }
+            state = .configuration
             break
         case .encryption_response:
             break
@@ -159,6 +180,46 @@ final class ServerMojangClient : Hashable {
             break
             
         case .login_plugin_response:
+            break
+        }
+    }
+    
+    private func parse_configuration() throws {
+        var packet:GeneralPacketMojang = try read_packet()
+        guard let test:ServerPacketMojangConfiguration = ServerPacketMojangConfiguration(rawValue: UInt8(packet.packet_id.value)) else {
+            print("ServerMojangClient;parse_configuration;failed to find packet with id \(packet.packet_id.value)")
+            return
+        }
+        print("ServerMojangClient;parse_configuration;test=\(test)")
+        switch test {
+        case .client_information:
+            information = try ServerPacketMojang.Configuration.ClientInformation.parse(packet)
+            break
+        default:
+            break
+        }
+        
+        let finish_configuration:ServerPacketMojang.Configuration.FinishConfiguration = ServerPacketMojang.Configuration.FinishConfiguration()
+        try socket.send_packet(finish_configuration)
+        
+        state = .play
+        ServerMojang.instance.upgrade(connection: self)
+    }
+    
+    private func parse_play() throws {
+        var packet:GeneralPacketMojang = try read_packet()
+        guard let test:ServerPacketMojangPlay = ServerPacketMojangPlay(rawValue: UInt8(packet.packet_id.value)) else {
+            print("ServerMojangClient;parse_play;failed to find packet with id \(packet.packet_id.value)")
+            return
+        }
+        print("ServerMojangClient;parse_play;test=\(test)")
+        
+        switch test {
+        case .confirm_teleportation:
+            break
+        case .change_difficulty:
+            break
+        default:
             break
         }
     }

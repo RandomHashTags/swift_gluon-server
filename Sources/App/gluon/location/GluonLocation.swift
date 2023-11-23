@@ -6,13 +6,12 @@
 //
 
 import Foundation
-import HugeNumbers
 
 struct GluonLocation : Location {
     var world:any World
-    var x:HugeFloat
-    var y:HugeFloat
-    var z:HugeFloat
+    var x:Float
+    var y:Float
+    var z:Float
     
     var yaw:Double
     var pitch:Double

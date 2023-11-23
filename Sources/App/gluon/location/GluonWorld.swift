@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HugeNumbers
 
 final class GluonWorld : World {
     let uuid:UUID
@@ -19,9 +18,9 @@ final class GluonWorld : World {
     var time:UInt64
     var border:WorldBorder?
     
-    var y_min:HugeFloat
-    var y_max:HugeFloat
-    var y_sea_level:HugeFloat
+    var y_min:Int
+    var y_max:Int
+    var y_sea_level:Int
     var chunks_loaded:[any Chunk]
     
     var allows_animals:Bool
@@ -42,9 +41,9 @@ final class GluonWorld : World {
         game_rules: [any GameRule],
         time: UInt64,
         border: WorldBorder? = nil,
-        y_min: HugeFloat,
-        y_max: HugeFloat,
-        y_sea_level: HugeFloat,
+        y_min: Int,
+        y_max: Int,
+        y_sea_level: Int,
         chunks_loaded: [any Chunk],
         allows_animals: Bool,
         allows_monsters: Bool,
@@ -75,7 +74,7 @@ final class GluonWorld : World {
         self.players = players
     }
     
-    func load_chunk(x: HugeInt, z: HugeInt) async {
+    func load_chunk(x: Int, z: Int) async {
         let chunk:any Chunk = GluonChunk(world: self, x: x, z: z)
         guard chunks_loaded.first(where: { $0.x == x && $0.z == z }) == nil else { return }
         let event:GluonChunkLoadEvent = GluonChunkLoadEvent(chunk: chunk)
@@ -84,7 +83,7 @@ final class GluonWorld : World {
         await chunk.load()
         chunks_loaded.append(chunk)
     }
-    func unload_chunk(x: HugeInt, z: HugeInt) async {
+    func unload_chunk(x: Int, z: Int) async {
         let chunk:any Chunk = GluonChunk(world: self, x: x, z: z)
         guard let index:Int = chunks_loaded.firstIndex(where: { $0.x == x && $0.z == z }) else { return }
         let event:GluonChunkUnloadEvent = GluonChunkUnloadEvent(chunk: chunk)

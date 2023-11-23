@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HugeNumbers
 
 public protocol Server : AnyObject, Tickable {
     
@@ -14,12 +13,12 @@ public protocol Server : AnyObject, Tickable {
     var version : SemanticVersion { get }
     
     var ticks_per_second : UInt8 { get }
-    var ticks_per_second_multiplier : HugeFloat { get }
+    var ticks_per_second_multiplier : Double { get }
     var server_tick_interval_nano : UInt64 { get }
     var server_is_awake : Bool { get }
     var server_loop : Task<Void, Error>! { get }
-    var gravity : HugeFloat { get }
-    var gravity_per_tick : HugeFloat { get set }
+    var gravity : Double { get }
+    var gravity_per_tick : Double { get set }
     var void_damage_per_tick : Double { get set }
     var fire_damage_per_second : Double { get set }
     
@@ -60,7 +59,7 @@ public protocol Server : AnyObject, Tickable {
     
     func call_event(event: some Event)
     
-    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity]
+    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity]
     
     func get_entity(uuid: UUID) -> (any Entity)?
     func get_entities(uuids: Set<UUID>) -> [any Entity]
@@ -85,7 +84,8 @@ public extension Server {
     }
     
     func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
-        gravity_per_tick *= HugeFloat("\(divisor)")
+        //gravity_per_tick *= HugeFloat("\(divisor)")
+        gravity_per_tick *= Double(divisor)
         void_damage_per_tick *= Double(divisor)
         
         for (_, entity_type) in entity_types {
@@ -107,7 +107,8 @@ public extension Server {
         }
     }
     func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
-        gravity_per_tick /= HugeFloat("\(multiplier)")
+        //gravity_per_tick /= HugeFloat("\(multiplier)")
+        gravity_per_tick /= Double(multiplier)
         void_damage_per_tick /= Double(multiplier)
         
         for (_, entity_type) in entity_types {
@@ -201,7 +202,7 @@ public extension Server {
 }
 
 public extension Server {
-    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity] {
+    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity] {
         return center.world.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     

@@ -15,6 +15,8 @@ public final class PlayerConnectionMojang : PlayerConnection {
     private var connection_task:Task<Void, Never>!
     public internal(set) var ping:UInt16
     
+    public internal(set) var information:ServerPacketMojang.Configuration.ClientInformation!
+    
     init(platform: PacketPlatform, protocol_version: MinecraftProtocolVersion, socket: Socket) {
         self.platform = platform
         self.protocol_version = protocol_version

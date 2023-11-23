@@ -6,16 +6,15 @@
 //
 
 import Foundation
-import HugeNumbers
 
 public protocol Chunk : AnyObject, Tickable {
     var world : any World { get }
-    var x : HugeInt { get }
-    var z : HugeInt { get }
+    var x : Int { get }
+    var z : Int { get }
     
     var blocks:[any Block] { get set }
     
-    init(world: any World, x: HugeInt, z: HugeInt)
+    init(world: any World, x: Int, z: Int)
     
     var entities : [any Entity] { get }
     var living_entities : [any LivingEntity] { get }

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HugeNumbers
 
 public protocol World : AnyObject, Hashable, Tickable {
     var uuid : UUID { get }
@@ -19,9 +18,9 @@ public protocol World : AnyObject, Hashable, Tickable {
     var time : UInt64 { get set }
     var border : (any WorldBorder)? { get set }
     
-    var y_min : HugeFloat { get set }
-    var y_max : HugeFloat { get set }
-    var y_sea_level : HugeFloat { get set }
+    var y_min : Int { get set }
+    var y_max : Int { get set }
+    var y_sea_level : Int { get set }
     
     var chunks_loaded : [any Chunk] { get set }
     
@@ -36,8 +35,8 @@ public protocol World : AnyObject, Hashable, Tickable {
     var players : [any Player] { get set }
     
     func equals(_ world: any World) -> Bool
-    func load_chunk(x: HugeInt, z: HugeInt) async
-    func unload_chunk(x: HugeInt, z: HugeInt) async
+    func load_chunk(x: Int, z: Int) async
+    func unload_chunk(x: Int, z: Int) async
     
     func spawn_entity(_ entity: any Entity)
     func remove_entity(_ entity: any Entity)
@@ -48,8 +47,8 @@ public protocol World : AnyObject, Hashable, Tickable {
     func spawn_player(_ entity: any Player)
     func remove_player(_ entity: any Player)
     
-    func get_nearby_entities(center: any Location, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [any Entity]
-    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity]
+    func get_nearby_entities(center: any Location, x: Float, y: Float, z: Float) -> [any Entity]
+    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity]
     
     func get_entity(uuid: UUID) -> (any Entity)?
     func get_entities(uuids: Set<UUID>) -> [any Entity]
@@ -158,10 +157,10 @@ public extension World {
         players.remove(at: index)
     }
     
-    func get_nearby_entities(center: any Location, x: HugeFloat, y: HugeFloat, z: HugeFloat) -> [any Entity] {
+    func get_nearby_entities(center: any Location, x: Float, y: Float, z: Float) -> [any Entity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x, y_radius: y, z_radius: z) })
     }
-    func get_nearby_entities(center: any Location, x_radius: HugeFloat, y_radius: HugeFloat, z_radius: HugeFloat) -> [any Entity] {
+    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     

@@ -6,19 +6,18 @@
 //
 
 import Foundation
-import HugeNumbers
 
 final class GluonServer : GluonSharedInstance, Server {
     let chat_manager:any ChatManager
     var version:SemanticVersion
     
     var ticks_per_second:UInt8
-    var ticks_per_second_multiplier:HugeFloat
+    var ticks_per_second_multiplier:Double
     var server_tick_interval_nano:UInt64
     var server_is_awake:Bool
     var server_loop:Task<Void, Error>!
-    var gravity:HugeFloat
-    var gravity_per_tick:HugeFloat
+    var gravity:Double
+    var gravity_per_tick:Double
     var void_damage_per_tick:Double
     var fire_damage_per_second:Double
     
@@ -61,15 +60,18 @@ final class GluonServer : GluonSharedInstance, Server {
         chat_manager = GluonChatManager()
         version = SemanticVersion(major: 1, minor: 20, patch: 1)
         
-        let ticks_per_second_float:HugeFloat = HugeFloat(ticks_per_second)
+        //let ticks_per_second_float:HugeFloat = HugeFloat(ticks_per_second)
+        let ticks_per_second_float:Double = Double(ticks_per_second)
         self.ticks_per_second = ticks_per_second
         ticks_per_second_multiplier = ticks_per_second_float / 20
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
-        let gravity:HugeFloat = HugeFloat("9.80665")
+        //let gravity:HugeFloat = HugeFloat("9.80665")
+        let gravity:Double = 9.80665
         self.gravity = gravity
         gravity_per_tick = gravity / ticks_per_second_float
-        void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
+        //void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
+        void_damage_per_tick = 1 / Double(ticks_per_second_float)
         fire_damage_per_second = 1
         
         print("server_ticks_per_second=\(ticks_per_second); 1 every \(1000 / Int(ticks_per_second)) milliseconds")
@@ -85,7 +87,8 @@ final class GluonServer : GluonSharedInstance, Server {
         for difficulty in DefaultDifficulties.allCases {
             difficulties[difficulty.id] = difficulty
         }
-        let spawn_location:Vector = Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero)
+        //let spawn_location:Vector = Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero)
+        let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
             "overworld" : GluonWorld(
                 uuid: UUID(),
@@ -96,9 +99,12 @@ final class GluonServer : GluonSharedInstance, Server {
                 game_rules: [],
                 time: 0,
                 border: nil,
-                y_min: HugeFloat("-64"),
-                y_max: HugeFloat("320"),
-                y_sea_level: HugeFloat("100"),
+                //y_min: HugeFloat("-64"),
+                y_min: -64,
+                //y_max: HugeFloat("320"),
+                y_max: 320,
+                //y_sea_level: HugeFloat("100"),
+                y_sea_level: 100,
                 chunks_loaded: [],
                 allows_animals: true,
                 allows_monsters: true,
@@ -240,7 +246,8 @@ final class GluonServer : GluonSharedInstance, Server {
         let was_slowed:Bool = ticks_per_second < previous_ticks_per_second
         
         if ticks_per_second != 20 {
-            ticks_per_second_multiplier = HugeFloat("\(ticks_per_second / 20)")
+            //ticks_per_second_multiplier = HugeFloat("\(ticks_per_second / 20)")
+            ticks_per_second_multiplier = Double(ticks_per_second / 20)
         }
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         gravity_per_tick = gravity / Double(ticks_per_second)

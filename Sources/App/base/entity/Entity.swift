@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HugeNumbers
 
 public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
     var uuid : UUID { get }
@@ -81,7 +80,7 @@ public extension Entity {
         ticks_lived += 1
         
         if let type:any EntityType = type, type.is_affected_by_gravity && !is_on_ground {
-            var new_location:HugeFloat = location.y - server.gravity_per_tick
+            var new_location:Float = location.y - Float(server.gravity_per_tick)
             // TODO: check distance to closest block at Y position
             location.y = new_location
         }

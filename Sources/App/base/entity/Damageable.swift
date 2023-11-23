@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import HugeNumbers
 
 public protocol Damageable : Entity {
     var health : Double { get set }
@@ -46,8 +45,8 @@ public extension Damageable {
         }
         
         let world:any World = location.world
-        let y:HugeFloat = location.y
-        if y < world.y_min {
+        let y:Float = location.y
+        if Int(y) < world.y_min {
             let result:DamageResult = damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
         }
         
