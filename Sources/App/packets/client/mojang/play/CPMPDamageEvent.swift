@@ -12,11 +12,11 @@ public extension ClientPacketMojang.Play {
         public static let id:ClientPacketMojangPlay = ClientPacketMojangPlay.damage_event
         
         /// The ID of the entity taking damage.
-        public let entity_id:Int
+        public let entity_id:VariableInteger
         /// The ID of the type of damage taken.
-        public let source_type_id:Int
+        public let source_type_id:VariableInteger
         /// The ID + 1 of the entity responsible for the damage, if present. If not present, the value is 0.
-        public let source_cause_id:Int
+        public let source_cause_id:VariableInteger
         /// The ID + 1 of the entity that directly dealt the damage, if present. If not present, the value is 0.
         ///
         /// If this field is present:

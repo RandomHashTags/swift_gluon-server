@@ -17,10 +17,6 @@ public extension ServerPacketMojang.Play {
             return Self(teleport_id: teleport_id)
         }
         
-        public static func process(_ client: ServerMojangClient) {
-            
-        }
-        
         /// The ID given by the [Synchronize Player Position](https://wiki.vg/Protocol#Synchronize_Player_Position) packet.
         public let teleport_id:VariableInteger
         

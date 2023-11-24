@@ -40,7 +40,7 @@ struct GluonBlock : Block {
         guard let loot:[any ItemStack] = loot_table?.loot_normal else { return }
         let world:any World = location.world
         let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second / 2
-        let half:Float = 0.5
+        let half:Double = 0.5
         let item_location:any Location = location.advanced_by(x: half, y: half, z: half)
         for item_stack in loot {
             /*let item:GluonItem = GluonItem(item_stack: item_stack, pickup_delay: pickup_delay, location: item_location)

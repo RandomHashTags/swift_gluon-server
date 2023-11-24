@@ -267,13 +267,32 @@ extension GluonServer {
         let player_uuid:UUID = player.uuid
         guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
         world.players.remove(at: index)
-        player.connection.close(reason: reason)
+        ServerMojang.instance.player_connections[player_uuid]!.close()
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {
             instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: Date(), expiration: ban_expiration, reason: reason))
         }
         if ban_ip {
+            instance.banned_ip_addresses.insert(BanEntry(banned_by: UUID(), target: "PLAYER_IP_ADDRESS", ban_time: Date(), expiration: ban_expiration, reason: reason))
+        }
+        // TODO: send packets
+    }
+    func boot_player(disconnect_packet: ClientPacketMojang.Play.Disconnect, player: any Player, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) throws {
+        let world:any World = player.location.world
+        let player_uuid:UUID = player.uuid
+        guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
+        try player.send_packet(disconnect_packet)
+        world.players.remove(at: index)
+        ServerMojang.instance.player_connections[player_uuid]!.close()
+        
+        let instance:GluonServer = GluonServer.shared_instance
+        if ban_user {
+            let reason:String = disconnect_packet.reason.text
+            instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: Date(), expiration: ban_expiration, reason: reason))
+        }
+        if ban_ip {
+            let reason:String = disconnect_packet.reason.text
             instance.banned_ip_addresses.insert(BanEntry(banned_by: UUID(), target: "PLAYER_IP_ADDRESS", ban_time: Date(), expiration: ban_expiration, reason: reason))
         }
         // TODO: send packets

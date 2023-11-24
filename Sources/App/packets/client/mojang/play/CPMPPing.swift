@@ -17,6 +17,12 @@ public extension ClientPacketMojang.Play {
             return Self(id: id)
         }
         
+        public static func process(_ client: ServerMojangClient) throws {
+            let packet:Self = try client.read_and_parse_mojang_packet()
+            let server_response_packet:ServerPacketMojang.Play.Pong = ServerPacketMojang.Play.Pong(id: packet.id)
+            try client.send_packet(server_response_packet)
+        }
+        
         public let id:Int32
         
         public func encoded_values() throws -> [(any PacketEncodableMojang)?] {

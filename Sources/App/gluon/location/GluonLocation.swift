@@ -9,9 +9,9 @@ import Foundation
 
 struct GluonLocation : Location {
     var world:any World
-    var x:Float
-    var y:Float
-    var z:Float
+    var x:Double
+    var y:Double
+    var z:Double
     
     var yaw:Double
     var pitch:Double

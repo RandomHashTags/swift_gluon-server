@@ -71,6 +71,10 @@ public final class ServerMojangClient : Hashable {
         let bytes:[UInt8] = [UInt8](data)
         return try GeneralPacketMojang(bytes: bytes)
     }
+    func read_and_parse_mojang_packet<T: PacketMojang>() throws -> T {
+        let general_packet:GeneralPacketMojang = try read_packet()
+        return try T.parse(general_packet)
+    }
     
     func close() {
         onClose(self)
@@ -207,6 +211,7 @@ public final class ServerMojangClient : Hashable {
         try socket.send_packet(finish_configuration)
         
         state = .play
+        let uuid:UUID = player_builder.uuid
         player = GluonPlayer(
             name: player_builder.name,
             experience: 0,
@@ -240,7 +245,7 @@ public final class ServerMojangClient : Hashable {
             health: 20,
             health_maximum: 20,
             
-            uuid: player_builder.uuid,
+            uuid: uuid,
             type_id: "minecraft:player",
             ticks_lived: 0,
             boundaries: [],
@@ -258,7 +263,7 @@ public final class ServerMojangClient : Hashable {
             passenger_uuids: [],
             vehicle_uuid: nil
         )
-        ServerMojang.instance.upgrade(connection: self)
+        ServerMojang.instance.upgrade(uuid: uuid, connection: self)
     }
     
     private func parse_play() throws {
@@ -268,7 +273,7 @@ public final class ServerMojangClient : Hashable {
             return
         }
         print("ServerMojangClient;parse_play;test=\(test)")
-        test.process(self)
+        try test.process(self)
     }
     
     func send_packet(_ packet: any PacketMojang) throws {

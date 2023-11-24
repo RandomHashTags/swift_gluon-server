@@ -18,14 +18,14 @@ public final class ServerMojang {
     let host:String
     let port:Int
     private(set) var connections:Set<ServerMojangClient>
-    private(set) var player_connections:Set<ServerMojangClient>
+    private(set) var player_connections:[UUID:ServerMojangClient]
     
     public init(host: String, port: Int) {
         self.host = host
         self.port = port
         
         connections = []
-        player_connections = []
+        player_connections = [:]
         ServerMojang.instance = self
     }
     
@@ -48,16 +48,22 @@ public final class ServerMojang {
         }
     }
     
-    internal func upgrade(connection: ServerMojangClient) {
+    internal func upgrade(uuid: UUID, connection: ServerMojangClient) {
         connections.remove(connection)
-        player_connections.insert(connection)
+        player_connections[uuid] = connection
     }
     
     public func shutdown() {
         for connection in connections {
             connection.close()
         }
-        for player_connection in player_connections {
+        let disconnect_packet:ClientPacketMojang.Play.Disconnect = ClientPacketMojang.Play.Disconnect(reason: ChatPacketMojang(text: "Server Closed.", translate: nil, with: nil, score: nil, bold: nil, italic: nil, underlined: nil, strikethrough: nil, obfuscated: nil, font: nil, color: nil, insertion: nil, clickEvent: nil, hoverEvent: nil, extra: nil))
+        for (uuid, player_connection) in player_connections {
+            do {
+                try GluonServer.shared_instance.boot_player(disconnect_packet: disconnect_packet, player: player_connection.player!)
+            } catch {
+                print("ServerMojang;shutdown;encountered error while trying to kick player with uuid \(uuid): \(error)")
+            }
             player_connection.close()
         }
         print("ServerMojang;shutdown")

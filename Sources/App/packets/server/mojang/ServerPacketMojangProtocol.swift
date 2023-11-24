@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol ServerPacketMojangProtocol : ServerPacket, PacketMojang {
-    
 }
 
 // MARK: ServerPacketMojangHandshakingProtocol
@@ -61,12 +60,8 @@ public extension ServerPacketMojangConfigurationProtocol {
 
 // MARK: ServerPacketMojangPlayProtocol
 public protocol ServerPacketMojangPlayProtocol : ServerPacketMojangProtocol where GameplayID == ServerPacketMojangPlay {
-    static func process(_ client: ServerMojangClient)
 }
 public extension ServerPacketMojangPlayProtocol {
-    static func process(_ client: ServerMojangClient) {
-        print("missing `process` static function implementation for `ServerPacketMojangPlayProtocol` with id \"\(id)\"")
-    }
     static var packet_gameplay_id : GameplayID.Type {
         get {
             return ServerPacketMojangPlay.self

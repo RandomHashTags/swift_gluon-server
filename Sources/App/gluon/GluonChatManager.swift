@@ -36,11 +36,12 @@ actor GluonChatManager : ChatManager {
             hoverEvent: nil,
             extra: nil
         )
-        for player in GluonServer.shared_instance.players {
+        for player in ServerMojang.instance.player_connections {
             do {
-                try player.connection.send_packet(chat_packet)
+                try player.send_packet(chat_packet)
             } catch {
-                print("GluonChatManager;send;encountered error while trying to send chat packet to player with uuid \(player.uuid);error=\(error)")
+                let uuid:UUID? = player.player?.uuid
+                print("GluonChatManager;send;encountered error while trying to send chat packet to player with uuid \(String(describing: uuid));error=\(error)")
             }
         }
     }

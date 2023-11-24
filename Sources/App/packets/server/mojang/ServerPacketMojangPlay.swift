@@ -116,7 +116,7 @@ public enum ServerPacketMojangPlay : UInt8, PacketGameplayID {
         }
     }
     
-    func process(_ client: ServerMojangClient) {
-        packet.process(client)
+    func process(_ client: ServerMojangClient) throws {
+        try packet.process(client)
     }
 }

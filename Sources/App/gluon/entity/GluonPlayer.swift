@@ -114,6 +114,10 @@ final class GluonPlayer : Player {
         }
     }
     
+    func send_packet(_ packet: any PacketMojang) throws {
+        try ServerMojang.instance.player_connections[uuid]!.send_packet(packet)
+    }
+    
     func send(message: String) async {
         await GluonServer.shared_instance.chat_manager.send(sender: self, receiver: nil, message: message)
     }
