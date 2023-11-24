@@ -14,7 +14,7 @@ public final class ServerMojangClient : Hashable {
         return lhs.socket == rhs.socket && lhs.state == rhs.state
     }
     
-    private let socket:Socket, onClose:(ServerMojangClient) -> Void
+    internal let socket:Socket
     
     public private(set) var state:ServerMojangStatus = .handshaking_received_packet
     public private(set) var protocol_version:MinecraftProtocolVersion = MinecraftProtocolVersion.unknown
@@ -23,10 +23,8 @@ public final class ServerMojangClient : Hashable {
     public private(set) var player:(any Player)?
     private var connection_task:Task<Void, Never>!
     
-    init(socket: Socket, onClose: @escaping (ServerMojangClient) -> Void) {
+    init(socket: Socket) {
         self.socket = socket
-        self.onClose = onClose
-        
         connection_task = Task {
             while socket.isActive {
                 do {
@@ -77,9 +75,8 @@ public final class ServerMojangClient : Hashable {
     }
     
     func close() {
-        onClose(self)
         connection_task.cancel()
-        socket.close()
+        ServerMojang.instance.close(connection: self)
     }
     
     private func parse_handshake() throws {
@@ -212,11 +209,15 @@ public final class ServerMojangClient : Hashable {
         
         state = .play
         let uuid:UUID = player_builder.uuid
+        let world:any World = GluonServer.shared_instance.worlds.first!.value
+        let food_data:GluonFoodData = GluonFoodData(food_level: 10, saturation_level: 0, exhaustion_level: 0)
+        let inventory_type:GluonInventoryType = GluonInventoryType(id: "minecraft:player", categories: [], size: 36, material_category_restrictions: [:], material_retrictions: [:], allowed_recipe_ids: [])
+        let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
         player = GluonPlayer(
             name: player_builder.name,
             experience: 0,
             experience_level: 0,
-            food_data: <#T##FoodData#>,
+            food_data: food_data,
             permissions: [],
             statistics: [:],
             game_mode: DefaultGameModes.survival,
@@ -225,7 +226,7 @@ public final class ServerMojangClient : Hashable {
             is_op: false,
             is_sneaking: false,
             is_sprinting: false,
-            inventory: <#T##PlayerInventory#>,
+            inventory: inventory,
             can_breathe_underwater: false,
             can_pickup_items: true,
             has_ai: false,
@@ -249,7 +250,7 @@ public final class ServerMojangClient : Hashable {
             type_id: "minecraft:player",
             ticks_lived: 0,
             boundaries: [],
-            location: <#T##Location#>,
+            location: GluonLocation(world: world, x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
             fall_distance: 0,
             is_glowing: false,
@@ -279,12 +280,18 @@ public final class ServerMojangClient : Hashable {
     func send_packet(_ packet: any PacketMojang) throws {
         try socket.send_packet(packet)
     }
+    func send_packet_data(_ packet_data: Data) throws {
+        try socket.write(from: packet_data)
+    }
 }
 
 extension Socket {
     func send_packet(_ packet: any PacketMojang) throws {
         let data:Data = try packet.as_client_response()
-        try write(from: data)
+        try send_packet_data(data)
+    }
+    func send_packet_data(_ packet_data: Data) throws {
+        try write(from: packet_data)
     }
 }
 

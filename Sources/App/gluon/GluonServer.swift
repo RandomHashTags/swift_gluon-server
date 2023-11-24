@@ -263,11 +263,8 @@ final class GluonServer : GluonSharedInstance, Server {
 
 extension GluonServer {
     func boot_player(player: any Player, reason: String, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) {
-        let location:any Location = player.location, world:any World = location.world
         let player_uuid:UUID = player.uuid
-        guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
-        world.players.remove(at: index)
-        ServerMojang.instance.player_connections[player_uuid]!.close()
+        ServerMojang.instance.close(player_uuid: player_uuid)
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {
@@ -279,12 +276,9 @@ extension GluonServer {
         // TODO: send packets
     }
     func boot_player(disconnect_packet: ClientPacketMojang.Play.Disconnect, player: any Player, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) throws {
-        let world:any World = player.location.world
         let player_uuid:UUID = player.uuid
-        guard let index:Int = world.players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
         try player.send_packet(disconnect_packet)
-        world.players.remove(at: index)
-        ServerMojang.instance.player_connections[player_uuid]!.close()
+        ServerMojang.instance.close(player_uuid: player_uuid)
         
         let instance:GluonServer = GluonServer.shared_instance
         if ban_user {

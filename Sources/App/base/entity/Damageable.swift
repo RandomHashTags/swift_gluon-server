@@ -45,7 +45,7 @@ public extension Damageable {
         }
         
         let world:any World = location.world
-        let y:Float = location.y
+        let y:Double = location.y
         if Int(y) < world.y_min {
             let result:DamageResult = damage(cause: DamageCause.void, amount: server.void_damage_per_tick)
         }

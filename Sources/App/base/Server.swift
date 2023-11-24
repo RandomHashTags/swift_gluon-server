@@ -59,7 +59,7 @@ public protocol Server : AnyObject, Tickable {
     
     func call_event(event: some Event)
     
-    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity]
+    func get_nearby_entities(center: any Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [any Entity]
     
     func get_entity(uuid: UUID) -> (any Entity)?
     func get_entities(uuids: Set<UUID>) -> [any Entity]
@@ -74,7 +74,7 @@ public protocol Server : AnyObject, Tickable {
 
 public extension Server {
     var players : [any Player] {
-        return worlds.flatMap({ $0.value.players })
+        return ServerMojang.instance.player_connections.values.compactMap({ $0.player })
     }
     
     func tick(_ server: any Server) {
@@ -173,9 +173,8 @@ public extension Server {
     func get_material(identifier: String) -> (any Material)? {
         return materials[identifier]
     }
-    func get_materials(identifiers: any Collection<String>) -> [any Material]? {
-        let map:[any Material] = identifiers.compactMap({ materials[$0] })
-        return map.isEmpty ? nil : map
+    func get_materials(identifiers: any Collection<String>) -> [any Material] {
+        return identifiers.compactMap({ materials[$0] })
     }
     
     func get_permission(identifier: String) -> (any Permission)? {
@@ -191,9 +190,8 @@ public extension Server {
     func get_recipe(identifier: String) -> (any Recipe)? {
         return recipes[identifier]
     }
-    func get_recipes(identifiers: any Collection<String>) -> [any Recipe]? {
-        let map:[any Recipe] = identifiers.compactMap({ recipes[$0] })
-        return map.isEmpty ? nil : map
+    func get_recipes(identifiers: any Collection<String>) -> [any Recipe] {
+        return identifiers.compactMap({ recipes[$0] })
     }
     
     func get_instrument(identifier: String) -> (any Instrument)? {
@@ -202,7 +200,7 @@ public extension Server {
 }
 
 public extension Server {
-    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity] {
+    func get_nearby_entities(center: any Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [any Entity] {
         return center.world.entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     
@@ -231,12 +229,7 @@ public extension Server {
     }
     
     func get_player(uuid: UUID) -> (any Player)? {
-        for (_, world) in worlds {
-            if let entity:any Player = world.players.first(where: { $0.uuid == uuid }) {
-                return entity
-            }
-        }
-        return nil
+        return ServerMojang.instance.player_connections[uuid]?.player
     }
     func get_players(uuids: Set<UUID>) -> [any Player] {
         return worlds.values.map({ $0.players.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })

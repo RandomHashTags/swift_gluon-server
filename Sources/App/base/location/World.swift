@@ -32,7 +32,7 @@ public protocol World : AnyObject, Hashable, Tickable {
     
     var entities : [any Entity] { get set }
     var living_entities : [any LivingEntity] { get set }
-    var players : [any Player] { get set }
+    var players : [any Player] { get }
     
     func equals(_ world: any World) -> Bool
     func load_chunk(x: Int, z: Int) async
@@ -44,11 +44,8 @@ public protocol World : AnyObject, Hashable, Tickable {
     func spawn_living_entity(_ entity: any LivingEntity)
     func remove_living_entity(_ entity: any LivingEntity)
     
-    func spawn_player(_ entity: any Player)
-    func remove_player(_ entity: any Player)
-    
-    func get_nearby_entities(center: any Location, x: Float, y: Float, z: Float) -> [any Entity]
-    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity]
+    func get_nearby_entities(center: any Location, x: Double, y: Double, z: Double) -> [any Entity]
+    func get_nearby_entities(center: any Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [any Entity]
     
     func get_entity(uuid: UUID) -> (any Entity)?
     func get_entities(uuids: Set<UUID>) -> [any Entity]
@@ -148,19 +145,11 @@ public extension World {
         guard let index:Int = living_entities.firstIndex(where: { $0.uuid == entity_uuid }) else { return }
         living_entities.remove(at: index)
     }
-    func spawn_player(_ player: any Player) {
-        players.append(player)
-    }
-    func remove_player(_ player: any Player) {
-        let player_uuid:UUID = player.uuid
-        guard let index:Int = players.firstIndex(where: { $0.uuid == player_uuid }) else { return }
-        players.remove(at: index)
-    }
     
-    func get_nearby_entities(center: any Location, x: Float, y: Float, z: Float) -> [any Entity] {
+    func get_nearby_entities(center: any Location, x: Double, y: Double, z: Double) -> [any Entity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x, y_radius: y, z_radius: z) })
     }
-    func get_nearby_entities(center: any Location, x_radius: Float, y_radius: Float, z_radius: Float) -> [any Entity] {
+    func get_nearby_entities(center: any Location, x_radius: Double, y_radius: Double, z_radius: Double) -> [any Entity] {
         return entities.filter({ $0.location.is_nearby(center: center, x_radius: x_radius, y_radius: y_radius, z_radius: z_radius) })
     }
     

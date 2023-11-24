@@ -41,9 +41,7 @@ public final class ServerMojang {
             let client_socket:Socket = try socket.acceptClientConnection()
             let id:Int32 = client_socket.socketfd
             print("id=\(id)")
-            let client:ServerMojangClient = ServerMojangClient(socket: client_socket) { closed_client in
-                self.connections.remove(closed_client)
-            }
+            let client:ServerMojangClient = ServerMojangClient(socket: client_socket)
             connections.insert(client)
         }
     }
@@ -51,6 +49,17 @@ public final class ServerMojang {
     internal func upgrade(uuid: UUID, connection: ServerMojangClient) {
         connections.remove(connection)
         player_connections[uuid] = connection
+    }
+    internal func close(connection: ServerMojangClient) {
+        connection.socket.close()
+        connections.remove(connection)
+        if let player_uuid:UUID = connection.player?.uuid {
+            close(player_uuid: player_uuid)
+        }
+    }
+    internal func close(player_uuid: UUID) {
+        player_connections[player_uuid]!.close()
+        player_connections.removeValue(forKey: player_uuid)
     }
     
     public func shutdown() {
