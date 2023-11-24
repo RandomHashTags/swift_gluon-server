@@ -1,5 +1,5 @@
 //
-//  MinecraftProtocolVersion.swift
+//  MinecraftProtocolJavaVersion.swift
 //  
 //
 //  Created by Evan Anderson on 8/6/23.
@@ -8,7 +8,7 @@
 import Foundation
 
 // https://wiki.vg/Protocol_version_numbers
-public enum MinecraftProtocolVersion : Int, Hashable, Codable, PacketEncodableMojang {
+public enum MinecraftProtocolJavaVersion : Int, Hashable, Codable, PacketEncodableMojang {
     // MARK: Releases
     case v1_20_2 = 764
     /// 1.20 & 1.20.1

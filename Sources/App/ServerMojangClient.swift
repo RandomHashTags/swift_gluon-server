@@ -17,7 +17,7 @@ public final class ServerMojangClient : Hashable {
     internal let socket:Socket
     
     public private(set) var state:ServerMojangStatus = .handshaking_received_packet
-    public private(set) var protocol_version:MinecraftProtocolVersion = MinecraftProtocolVersion.unknown
+    public private(set) var protocol_version:MinecraftProtocolJavaVersion = MinecraftProtocolJavaVersion.unknown
     public private(set) var information:ServerPacketMojang.Configuration.ClientInformation?
     private var player_builder:PlayerBuilder!
     public private(set) var player:(any Player)?

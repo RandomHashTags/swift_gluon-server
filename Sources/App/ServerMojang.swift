@@ -221,7 +221,7 @@ final class ServerMojangHandler : ChannelInboundHandler {
             }
             break
         case .status:
-            let version:MinecraftProtocolVersion = MinecraftProtocolVersion.v1_20_2
+            let version:MinecraftProtocolJavaVersion = MinecraftProtocolVersion.v1_20_2
             let status_request:ServerPacketMojangStatusResponse = ServerPacketMojangStatusResponse(
                 version: ServerPacketMojangStatusResponse.Version(name: version.name, protocol: version.rawValue),
                 players: ServerPacketMojangStatusResponse.Players(max: 10, online: 1, sample: [ServerPacketMojangStatusResponse.Player(name: "thinkofdeath", id: UUID("4566e69f-c907-48ee-8d71-d7ba5aa00d20")!)]),

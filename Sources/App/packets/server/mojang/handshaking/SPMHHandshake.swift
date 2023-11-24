@@ -13,7 +13,7 @@ public extension ServerPacketMojang.Handshaking {
         public static let id:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking.handshake
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let protocol_version:MinecraftProtocolVersion = try packet.read_enum()
+            let protocol_version:MinecraftProtocolJavaVersion = try packet.read_enum()
             let server_address:String = try packet.read_string()
             let server_port:UInt16 = try packet.read_unsigned_short()
             let next_state:ServerPacketMojang.Status = try packet.read_enum()
@@ -21,7 +21,7 @@ public extension ServerPacketMojang.Handshaking {
         }
         
         /// See https://wiki.vg/Protocol_version_numbers .
-        public let protocol_version:MinecraftProtocolVersion
+        public let protocol_version:MinecraftProtocolJavaVersion
         /// Hostname or IP, e.g. localhost or 127.0.0.1, that was used to connect. The Notchian server does not use this information.
         /// > Note: SRV records are a simple redirect, e.g. if \_minecraft.\_tcp.example.com points to mc.example.org, users connecting to example.com will provide example.org as server address in addition to connecting to it.
         public let server_address:String

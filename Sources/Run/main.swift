@@ -16,7 +16,7 @@ let server:ServerMojang = ServerMojang(host: "192.168.1.96", port: 25565)
 defer {
     server.shutdown()
 }
-try await server.run()
+try server.run()
 
 /*
 let server:ServerMojang = ServerMojang(host: "192.168.1.96", port: 25565)
