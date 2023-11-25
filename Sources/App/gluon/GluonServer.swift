@@ -167,7 +167,7 @@ final class GluonServer : GluonSharedInstance, Server {
         )
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
         let player_uuid:UUID = UUID()
-        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, platform: PacketPlatform.mojang_java, protocol_version: MinecraftProtocolJavaVersion.v1_20_2, socket: <#T##Socket#>)
+        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, platform: PacketPlatform.mojang_java, protocol_version: MinecraftProtocolVersion.Java.v1_20_2, socket: <#T##Socket#>)
         let player:GluonPlayer = GluonPlayer(
             connection: connection,
             name: "RandomHashTags",

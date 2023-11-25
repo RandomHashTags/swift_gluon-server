@@ -22,7 +22,7 @@ public extension ClientPacket.Mojang.Java.Status {
         init(json_response: String) {
             self.json_response = json_response
         }
-        init(version: MinecraftProtocolJavaVersion, motd: String, enforces_secure_chat: Bool, online_players_count: Int) throws {
+        init(version: MinecraftProtocolVersion.Java, motd: String, enforces_secure_chat: Bool, online_players_count: Int) throws {
             let status_request:ServerPacketMojangStatusResponse = ServerPacketMojangStatusResponse(
                 version: ServerPacketMojangStatusResponse.Version(
                     name: version.name,

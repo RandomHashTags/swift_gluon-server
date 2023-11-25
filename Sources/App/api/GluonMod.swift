@@ -13,8 +13,8 @@ public protocol GluonMod {
     var authors : [String] { get }
     var version : SemanticVersion { get }
     
-    func load()
-    func unload()
+    func load() async throws
+    func unload() async throws
     
     var custom_enchantment_types : [any EnchantmentType] { get }
     var custom_entity_types : [any EntityType] { get }
