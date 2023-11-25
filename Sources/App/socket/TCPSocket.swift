@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TCPSocket : Hashable {
+final class TCPSocket : Hashable { // TODO: support or remove
     static func == (lhs: TCPSocket, rhs: TCPSocket) -> Bool {
         return lhs.socket_id == rhs.socket_id && lhs.port == rhs.port
     }
