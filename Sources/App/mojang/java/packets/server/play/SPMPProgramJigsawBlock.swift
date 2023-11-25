@@ -32,7 +32,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// `rollable` if the attached piece can be rotated, else `aligned`.
         public let joint_type:String
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [location, name, target, pool, final_state, joint_type]
         }
     }

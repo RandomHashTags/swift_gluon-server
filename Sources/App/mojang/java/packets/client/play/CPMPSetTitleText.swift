@@ -13,7 +13,7 @@ public extension ClientPacket.Mojang.Java.Play {
         
         public let text:ChatPacketMojang
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [text]
         }
     }

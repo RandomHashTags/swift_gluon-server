@@ -13,14 +13,14 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_render_distance
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let view_distance:VariableInteger = try packet.read_var_int()
+            let view_distance:VariableIntegerJava = try packet.read_var_int()
             return Self(view_distance: view_distance)
         }
         
         /// Render distance (2-32).
-        public let view_distance:VariableInteger
+        public let view_distance:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [view_distance]
         }
     }

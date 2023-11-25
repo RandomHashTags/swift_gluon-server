@@ -18,14 +18,14 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let result:ResourcePack.Result
         
-        public enum Result : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Result : Int, Hashable, Codable, PacketEncodableMojangJava {
             case successfully_loaded
             case declined
             case failed_download
             case accepted
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [result]
         }
     }

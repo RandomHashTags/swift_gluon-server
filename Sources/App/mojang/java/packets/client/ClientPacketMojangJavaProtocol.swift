@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ClientPacketMojangJavaProtocol : ClientPacketProtocol, PacketMojang {
+public protocol ClientPacketMojangJavaProtocol : ClientPacketProtocol, PacketMojangJava {
 }
 
 // MARK: ClientPacketMojangJavaStatusProtocol

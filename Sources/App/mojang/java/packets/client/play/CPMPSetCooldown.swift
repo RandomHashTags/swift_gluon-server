@@ -14,16 +14,16 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_cooldown
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let item_id:VariableInteger = try packet.read_var_int()
-            let cooldown_ticks:VariableInteger = try packet.read_var_int()
+            let item_id:VariableIntegerJava = try packet.read_var_int()
+            let cooldown_ticks:VariableIntegerJava = try packet.read_var_int()
             return Self(item_id: item_id, cooldown_ticks: cooldown_ticks)
         }
         /// Numeric ID of the item to apply a cooldown to.
-        public let item_id:VariableInteger
+        public let item_id:VariableIntegerJava
         /// Number of ticks to apply a cooldown for, or 0 to clear the cooldown.
-        public let cooldown_ticks:VariableInteger
+        public let cooldown_ticks:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [item_id, cooldown_ticks]
         }
     }

@@ -66,7 +66,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music), 0x04: create fog (previously was also controlled by 0x02).
         public let flags:UInt8?
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
             case add = 0
             case remove
             case update_health
@@ -74,7 +74,7 @@ public extension ClientPacket.Mojang.Java.Play {
             case update_style
             case update_flags
         }
-        public enum Color : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Color : Int, Hashable, Codable, PacketEncodableMojangJava {
             case pink = 0
             case blue
             case red
@@ -83,7 +83,7 @@ public extension ClientPacket.Mojang.Java.Play {
             case purple
             case white
         }
-        public enum Division : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Division : Int, Hashable, Codable, PacketEncodableMojangJava {
             case no_division = 0
             case six_notches
             case ten_notches
@@ -91,9 +91,9 @@ public extension ClientPacket.Mojang.Java.Play {
             case twenty_notches
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [uuid, action]
-            let secondary:[(any PacketEncodableMojang)?]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [uuid, action]
+            let secondary:[(any PacketEncodableMojangJava)?]
             switch action {
             case .add:
                 secondary = [title, health, color, division, flags]

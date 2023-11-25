@@ -14,7 +14,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.entity_sound_effect
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let sound_id:VariableInteger = try packet.read_var_int()
+            let sound_id:VariableIntegerJava = try packet.read_var_int()
             let sound_name:String?
             let has_fixed_range:Bool?
             let range:Float?
@@ -32,7 +32,7 @@ public extension ClientPacket.Mojang.Java.Play {
                 range = nil
             }
             let sound_category:SoundCategoryMojang = try packet.read_enum()
-            let entity_id:VariableInteger = try packet.read_var_int()
+            let entity_id:VariableIntegerJava = try packet.read_var_int()
             let volume:Float = try packet.read_float()
             let pitch:Float = try packet.read_float()
             let seed:Int64 = try packet.read_long()
@@ -40,7 +40,7 @@ public extension ClientPacket.Mojang.Java.Play {
         }
         
         /// Represents the `sound_id + 1`. If the value is 0, the packet contains a sound specified by Identifier.
-        public let sound_id:VariableInteger
+        public let sound_id:VariableIntegerJava
         /// Only present if `sound_id` is 0.
         public let sound_name:String?
         /// Only present if `sound_id` is 0.
@@ -49,7 +49,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let range:Float?
         /// The category that this sound will be played from.
         public let sound_category:SoundCategoryMojang
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         /// 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients.
         public let volume:Float
         /// Float between 0.5 and 2.0 by Notchian clients.
@@ -57,8 +57,8 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Seed used to pick sound variant.
         public let seed:Int64
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [sound_id]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [sound_id]
             if sound_id.value == 0 {
                 array.append(sound_name)
                 array.append(has_fixed_range)
@@ -66,7 +66,7 @@ public extension ClientPacket.Mojang.Java.Play {
                     array.append(range)
                 }
             }
-            let final_array:[(any PacketEncodableMojang)?] = [
+            let final_array:[(any PacketEncodableMojangJava)?] = [
                 sound_category,
                 entity_id,
                 volume,

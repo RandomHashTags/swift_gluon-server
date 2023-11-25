@@ -18,14 +18,14 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let action:ClientCommand.Action
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
             /// Sent when the client is ready to complete login and when the client is ready to respawn after death.
             case perform_respawn = 0
             /// Sent when the client opens the Statistics menu.
             case request_stats = 1
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [action]
         }
     }

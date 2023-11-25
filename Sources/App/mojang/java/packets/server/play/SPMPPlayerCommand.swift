@@ -17,17 +17,17 @@ public extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.player_command
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableInteger = try packet.read_var_int()
+            let entity_id:VariableIntegerJava = try packet.read_var_int()
             let action:PlayerCommand.Action = try packet.read_enum()
-            let jump_boost:VariableInteger = try packet.read_var_int()
+            let jump_boost:VariableIntegerJava = try packet.read_var_int()
             return Self(entity_id: entity_id, action: action, jump_boost: jump_boost)
         }
         
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         public let action:PlayerCommand.Action
-        public let jump_boost:VariableInteger
+        public let jump_boost:VariableIntegerJava
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
             case start_sneaking
             case stop_sneaking
             case leave_bed
@@ -39,7 +39,7 @@ public extension ServerPacket.Mojang.Java.Play {
             case start_flying_with_elytra
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [entity_id, action, jump_boost]
         }
     }

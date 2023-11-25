@@ -17,15 +17,15 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_center_chunk
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let chunk_x:VariableInteger = try packet.read_var_int()
-            let chunk_z:VariableInteger = try packet.read_var_int()
+            let chunk_x:VariableIntegerJava = try packet.read_var_int()
+            let chunk_z:VariableIntegerJava = try packet.read_var_int()
             return Self(chunk_x: chunk_x, chunk_z: chunk_z)
         }
         
-        public let chunk_x:VariableInteger
-        public let chunk_z:VariableInteger
+        public let chunk_x:VariableIntegerJava
+        public let chunk_z:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [chunk_x, chunk_z]
         }
     }

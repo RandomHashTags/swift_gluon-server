@@ -21,11 +21,11 @@ public extension ServerPacket.Mojang.Java.Play {
         public let has_signature:Bool
         /// The signature used to verify the chat message's authentication. When present, always 256 bytes and not length-prefixed.
         public let signature:[UInt8]?
-        public let message_count:VariableInteger
+        public let message_count:VariableIntegerJava
         public let acknowledged:[UInt8] // TODO: make BitSet
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[any PacketEncodableMojang] = [
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[any PacketEncodableMojangJava] = [
                 message,
                 timestamp,
                 salt,

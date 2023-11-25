@@ -27,11 +27,11 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let window_id:UInt8 = try packet.read_unsigned_byte()
-            let state_id:VariableInteger = try packet.read_var_int()
+            let state_id:VariableIntegerJava = try packet.read_var_int()
             let slot:Int16 = try packet.read_short()
             let button:Int8 = try packet.read_byte()
             let mode:ClickContainer.Mode = try packet.read_enum()
-            let slots_count:VariableInteger = try packet.read_var_int()
+            let slots_count:VariableIntegerJava = try packet.read_var_int()
             let slot_numbers:[Int16] = try packet.read_packet_decodable_array(count: slots_count)
             let slot_data:[SlotMojang] = try packet.read_packet_decodable_array(count: slots_count)
             let carried_item:SlotMojang = try packet.read_packet_decodable()
@@ -41,20 +41,20 @@ public extension ServerPacket.Mojang.Java.Play {
         /// The ID of the window which was clicked. 0 for player inventory.
         public let window_id:UInt8
         /// The last recieved State ID from either a [Set Container Slot](https://wiki.vg/Protocol#Set_Container_Slot) or a [Set Container Content](https://wiki.vg/Protocol#Set_Container_Content) packet.
-        public let state_id:VariableInteger
+        public let state_id:VariableIntegerJava
         /// The clicked slot number.
         public let slot:Int16
         /// The button used in the click
         public let button:Int8
         public let mode:ClickContainer.Mode
         /// Maximum value for Notchian server is 128 slots.
-        public let slots_count:VariableInteger
+        public let slots_count:VariableIntegerJava
         public let slot_numbers:[Int16]
         public let slot_data:[SlotMojang]
         /// Item carried by the cursor. Has to be empty (item ID = -1) for drop mode, otherwise nothing will happen.
         public let carried_item:SlotMojang
         
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
             case mouse
             case shift_click
             case number_pad
@@ -64,8 +64,8 @@ public extension ServerPacket.Mojang.Java.Play {
             case other
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[any PacketEncodableMojang] = [window_id, state_id, slot, button, mode, slots_count]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[any PacketEncodableMojangJava] = [window_id, state_id, slot, button, mode, slots_count]
             array.append(contentsOf: slot_numbers)
             array.append(contentsOf: slot_data)
             array.append(carried_item)

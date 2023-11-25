@@ -25,14 +25,14 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed sent in the [Update Attributes](https://wiki.vg/Protocol#Update_Attributes) packet, which defaults to 0.1 for players.
         public let field_of_view_modifier:Float
         
-        public enum Flags : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Flags : Int, Hashable, Codable, PacketEncodableMojangJava {
             case invulnerable = 0x01
             case flying = 0x02
             case allow_flying = 0x04
             case creative_mode = 0x08
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 flags,
                 flying_speed,

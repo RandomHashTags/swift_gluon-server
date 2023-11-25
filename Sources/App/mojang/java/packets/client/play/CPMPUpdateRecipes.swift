@@ -12,7 +12,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_recipes
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let count:VariableInteger = try packet.read_var_int()
+            let count:VariableIntegerJava = try packet.read_var_int()
             let recipes:[UpdateRecipes.UpdateRecipe] = try packet.read_map(count: count) {
                 let identifier:Namespace = try packet.read_identifier()
                 let recipe_id:Namespace = try packet.read_identifier()
@@ -23,10 +23,10 @@ public extension ClientPacket.Mojang.Java.Play {
         }
         
         /// Number of elements in `recipes`.
-        public let count:VariableInteger
+        public let count:VariableIntegerJava
         public let recipes:[UpdateRecipes.UpdateRecipe]
         
-        public struct UpdateRecipe : Hashable, Codable, PacketEncodableMojang {
+        public struct UpdateRecipe : Hashable, Codable, PacketEncodableMojangJava {
             public let identifier:Namespace
             public let recipe_id:Namespace
             /// Additional data for the recipe.
@@ -40,8 +40,8 @@ public extension ClientPacket.Mojang.Java.Play {
             }
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [count]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [count]
             array.append(contentsOf: recipes)
             return array
         }

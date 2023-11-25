@@ -36,7 +36,7 @@ public protocol Player : LivingEntity, CommandSender, Permissible {
     
     func consumed(item: inout any ItemStack)
     
-    func send_packet(_ packet: any PacketMojang) throws
+    func send_packet(_ packet: any PacketMojangJava) throws
 }
 
 public extension Player {

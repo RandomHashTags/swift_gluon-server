@@ -16,7 +16,7 @@ public extension ClientPacket.Mojang.Java.Play {
             let entity_name:String = try packet.read_string()
             let action:UpdateScore.Action = try packet.read_enum()
             let objective_name:String = try packet.read_string()
-            let value:VariableInteger?
+            let value:VariableIntegerJava?
             if action != .remove_item {
                 value = try packet.read_var_int()
             } else {
@@ -31,17 +31,17 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The name of the objective the score belongs to.
         public let objective_name:String
         /// The score to be displayed next to the entry. Only sent when Action does not equal 1.
-        public let value:VariableInteger?
+        public let value:VariableIntegerJava?
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
             case create_or_update_item = 0
             case remove_item = 1
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [entity_name, action, objective_name]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [entity_name, action, objective_name]
             if action != .remove_item {
-                let value:VariableInteger = try unwrap_optional(value, key_path: \Self.value, precondition: "action.rawValue != 1")
+                let value:VariableIntegerJava = try unwrap_optional(value, key_path: \Self.value, precondition: "action.rawValue != 1")
                 array.append(value)
             }
             return array

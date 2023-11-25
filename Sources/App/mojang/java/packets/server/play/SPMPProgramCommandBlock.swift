@@ -25,13 +25,13 @@ public extension ServerPacket.Mojang.Java.Play {
         /// 0x01: Track Output (if false, the output of the previous command will not be stored within the command block); 0x02: Is conditional; 0x04: Automatic.
         public let flags:Int8
         
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
             case sequence
             case auto
             case redstone
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [location, command, mode, flags]
         }
     }

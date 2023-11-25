@@ -19,7 +19,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Length of a single side of the world border, in meters.
         public let diameter:Double
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [diameter]
         }
     }

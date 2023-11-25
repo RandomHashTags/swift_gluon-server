@@ -14,7 +14,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let old_diameter:Double = try packet.read_double()
             let new_diameter:Double = try packet.read_double()
-            let speed:VariableLong = try packet.read_var_long()
+            let speed:VariableLongJava = try packet.read_var_long()
             return Self(old_diameter: old_diameter, new_diameter: new_diameter, speed: speed)
         }
         
@@ -23,9 +23,9 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Target length of a single side of the world border, in meters.
         public let new_diameter:Double
         /// Number of real-time _milliseconds_ until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0.
-        public let speed:VariableLong
+        public let speed:VariableLongJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [old_diameter, new_diameter, speed]
         }
     }

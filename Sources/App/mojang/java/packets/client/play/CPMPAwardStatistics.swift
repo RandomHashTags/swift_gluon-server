@@ -13,13 +13,13 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.award_statistic
         
         /// Number of elements in `statistics`.
-        public let count:VariableInteger
+        public let count:VariableIntegerJava
         public let statistics:[AwardStatistics.Statistic]
         
-        public struct Statistic : Hashable, Codable, PacketEncodableMojang {
-            public let category_id:VariableInteger
-            public let statistic_id:VariableInteger
-            public let value:VariableInteger
+        public struct Statistic : Hashable, Codable, PacketEncodableMojangJava {
+            public let category_id:VariableIntegerJava
+            public let statistic_id:VariableIntegerJava
+            public let value:VariableIntegerJava
             
             public func packet_bytes() throws -> [UInt8] {
                 var bytes:[UInt8] = try category_id.packet_bytes()
@@ -29,8 +29,8 @@ public extension ClientPacket.Mojang.Java.Play {
             }
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [count]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [count]
             array.append(contentsOf: statistics)
             return array
         }

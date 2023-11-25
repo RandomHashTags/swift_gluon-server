@@ -19,7 +19,7 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let keep_alive_id:Int64
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [keep_alive_id]
         }
     }

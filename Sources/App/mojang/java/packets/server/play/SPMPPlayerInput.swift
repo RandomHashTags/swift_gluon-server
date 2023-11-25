@@ -28,7 +28,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Bit mask. 0x1: jump, 0x2: unmount.
         public let flags:UInt8
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [sideways, forward, flags]
         }
     }

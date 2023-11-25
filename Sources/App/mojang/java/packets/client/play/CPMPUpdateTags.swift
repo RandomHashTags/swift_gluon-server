@@ -12,19 +12,19 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_tags
         
         /// Number of elements in `tags`.
-        public let count:VariableInteger
+        public let count:VariableIntegerJava
         public let tag_types:[Namespace]
         public let tags:[UpdateTags.Tag]
         
-        public struct Tag : Hashable, Codable, PacketEncodableMojang {
-            public let length:VariableInteger
+        public struct Tag : Hashable, Codable, PacketEncodableMojangJava {
+            public let length:VariableIntegerJava
             public let entries:[UpdateTags.Tag.Entry]
             
-            public struct Entry : Hashable, Codable, PacketEncodableMojang {
+            public struct Entry : Hashable, Codable, PacketEncodableMojangJava {
                 public let tag_name:Namespace
-                public let count:VariableInteger
+                public let count:VariableIntegerJava
                 /// Numeric ID of the given type (block, item, etc.).
-                public let entries:[VariableInteger]
+                public let entries:[VariableIntegerJava]
                 
                 public func packet_bytes() throws -> [UInt8] {
                     var array:[UInt8] = try tag_name.packet_bytes()
@@ -45,8 +45,8 @@ public extension ClientPacket.Mojang.Java.Play {
             }
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [count]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [count]
             array.append(contentsOf: tag_types)
             array.append(contentsOf: tags)
             return array

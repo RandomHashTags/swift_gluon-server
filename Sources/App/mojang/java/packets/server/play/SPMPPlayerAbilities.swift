@@ -20,7 +20,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Bit mask. 0x02: is flying.
         public let flags:Int8
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [flags]
         }
     }

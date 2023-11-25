@@ -27,7 +27,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The world (or region) time, in ticks. If negative the sun will stop moving at the Math.abs of the time.
         public let time_of_day:Int64
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [world_age, time_of_day]
         }
     }

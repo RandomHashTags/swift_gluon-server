@@ -14,7 +14,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.sound_effect
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let sound_id:VariableInteger = try packet.read_var_int()
+            let sound_id:VariableIntegerJava = try packet.read_var_int()
             var sound_name:Namespace? = nil
             var has_fixed_range:Bool? = nil
             var range:Float? = nil
@@ -36,7 +36,7 @@ public extension ClientPacket.Mojang.Java.Play {
         }
         
         /// Represents the `Sound ID + 1`. If the value is 0, the packet contains a sound specified by Identifier.
-        public let sound_id:VariableInteger
+        public let sound_id:VariableIntegerJava
         /// Only present if `sound_id` is 0
         public let sound_name:Namespace?
         /// Only present if `sound_id` is 0
@@ -58,8 +58,8 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Seed used to pick sound variant.
         public let seed:Int64
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [sound_id]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [sound_id]
             if sound_id.value == 0 {
                 array.append(sound_name)
                 array.append(has_fixed_range)
@@ -68,7 +68,7 @@ public extension ClientPacket.Mojang.Java.Play {
                     array.append(range)
                 }
             }
-            let secondary:[(any PacketEncodableMojang)?] = [
+            let secondary:[(any PacketEncodableMojangJava)?] = [
                 sound_category,
                 effect_position_x,
                 effect_position_y,

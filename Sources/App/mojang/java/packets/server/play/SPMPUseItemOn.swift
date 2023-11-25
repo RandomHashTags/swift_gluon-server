@@ -26,7 +26,7 @@ public extension ServerPacket.Mojang.Java.Play {
             let cursor_position_y:Float = try packet.read_float()
             let cursor_position_z:Float = try packet.read_float()
             let inside_block:Bool = try packet.read_bool()
-            let sequence:VariableInteger = try packet.read_var_int()
+            let sequence:VariableIntegerJava = try packet.read_var_int()
             return Self(hand: hand, location: location, face: face, cursor_position_x: cursor_position_x, cursor_position_y: cursor_position_y, cursor_position_z: cursor_position_z, inside_block: inside_block, sequence: sequence)
         }
         
@@ -43,14 +43,14 @@ public extension ServerPacket.Mojang.Java.Play {
         public let cursor_position_z:Float
         /// True when the player's head is inside of a block.
         public let inside_block:Bool
-        public let sequence:VariableInteger
+        public let sequence:VariableIntegerJava
         
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 hand,
                 location,

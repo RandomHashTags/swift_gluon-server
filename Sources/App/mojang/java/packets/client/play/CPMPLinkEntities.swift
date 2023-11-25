@@ -23,7 +23,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// ID of the entity holding the lead. Set to -1 to detach.
         public let holding_entity_id:Int32
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [attached_entity_id, holding_entity_id]
         }
     }

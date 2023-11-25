@@ -25,7 +25,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Ticks to spend fading out, not when to start fading out.
         public let fade_out:Int32
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [fade_in, stay, fade_out]
         }
     }

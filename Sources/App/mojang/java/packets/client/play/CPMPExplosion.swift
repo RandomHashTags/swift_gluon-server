@@ -19,7 +19,7 @@ public extension ClientPacket.Mojang.Java.Play {
             let y:Double = try packet.read_double()
             let z:Double = try packet.read_double()
             let strength:Float = try packet.read_float()
-            let record_count:VariableInteger = try packet.read_var_int()
+            let record_count:VariableIntegerJava = try packet.read_var_int()
             let data:Data = try packet.read_data(bytes: record_count.value_int * 3)
             let player_motion_x:Float = try packet.read_float()
             let player_motion_y:Float = try packet.read_float()
@@ -33,7 +33,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// A strength greater than or equal to 2.0 spawns a `minecraft:explosion_emitter` particle, while a lesser strength spawns a `minecraft:explosion` particle.
         public let strength:Float
         /// Number of elements in `records`.
-        public let record_count:VariableInteger
+        public let record_count:VariableIntegerJava
         /// as! [(Int8, Int8, Int8)]
         /// Each record is 3 signed bytes long; the 3 bytes are the XYZ (respectively) signed offsets of affected blocks.
         public let records:Data // TODO: make [(Int8, Int8, Int8)]
@@ -44,7 +44,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Z velocity of the player being pushed by the explosion.
         public let player_motion_z:Float
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 x,
                 y,

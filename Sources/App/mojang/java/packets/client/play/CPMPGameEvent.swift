@@ -21,7 +21,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Depends on Event.
         public let value:Float
         
-        public enum Event : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Event : Int, Hashable, Codable, PacketEncodableMojangJava {
             /// > Note: Displays message 'block.minecraft.spawn.not\_valid' (You have no home bed or charged respawn anchor, or it was obstructed) to the player.
             case no_respawn_block_available
             case begin_raining
@@ -73,7 +73,7 @@ public extension ClientPacket.Mojang.Java.Play {
             case enable_respawn_screen
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [event, value]
         }
     }

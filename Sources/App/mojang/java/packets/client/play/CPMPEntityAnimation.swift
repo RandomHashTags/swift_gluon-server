@@ -12,10 +12,10 @@ public extension ClientPacket.Mojang.Java.Play {
     struct EntityAnimation : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.entity_animation
         
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         public let animation_id:Int
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [entity_id, animation_id]
         }
     }

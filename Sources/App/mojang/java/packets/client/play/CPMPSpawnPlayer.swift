@@ -17,7 +17,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.spawn_player
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableInteger = try packet.read_var_int()
+            let entity_id:VariableIntegerJava = try packet.read_var_int()
             let player_uuid:UUID = try packet.read_uuid()
             let x:Double = try packet.read_double()
             let y:Double = try packet.read_double()
@@ -28,7 +28,7 @@ public extension ClientPacket.Mojang.Java.Play {
         }
         
         /// A unique integer ID mostly used to identify the player.
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         public let player_uuid:UUID
         public let x:Double
         public let y:Double
@@ -36,7 +36,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let yaw:AngleMojang
         public let pitch:AngleMojang
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 entity_id,
                 player_uuid,

@@ -16,7 +16,7 @@ public extension ServerPacket.Mojang.Java.Play {
             let status:PlayerAction.Status = try packet.read_enum()
             let location:PositionPacketMojang = try packet.read_packet_decodable()
             let face:PlayerAction.Face = try packet.read_enum()
-            let sequence:VariableInteger = try packet.read_var_int()
+            let sequence:VariableIntegerJava = try packet.read_var_int()
             return Self(status: status, location: location, face: face, sequence: sequence)
         }
         
@@ -26,9 +26,9 @@ public extension ServerPacket.Mojang.Java.Play {
         public let location:PositionPacketMojang
         /// The face being hit.
         public let face:PlayerAction.Face
-        public let sequence:VariableInteger
+        public let sequence:VariableIntegerJava
         
-        public enum Status : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Status : Int, Hashable, Codable, PacketEncodableMojangJava {
             case started_digging
             /// Sent when the player lets go of the Mine Block key (default: left click).
             case cancelled_digging
@@ -44,7 +44,7 @@ public extension ServerPacket.Mojang.Java.Play {
             case swap_item_in_hand
         }
         
-        public enum Face : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Face : Int, Hashable, Codable, PacketEncodableMojangJava {
             case botton
             case top
             case north
@@ -53,7 +53,7 @@ public extension ServerPacket.Mojang.Java.Play {
             case east
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [status, location, face, sequence]
         }
     }

@@ -12,16 +12,16 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.chunk_biomes
         
         /// Number of elements in `data`.
-        public let number_of_chunks:VariableInteger
+        public let number_of_chunks:VariableIntegerJava
         public let data:[ChunkBiomes.BiomeData]
         
-        public struct BiomeData : Hashable, Codable, PacketEncodableMojang {
+        public struct BiomeData : Hashable, Codable, PacketEncodableMojangJava {
             /// Chunk coordinate (block coordinate divided by 16, rounded down)
             public let x:Int
             /// Chunk coordinate (block coordinate divided by 16, rounded down)
             public let z:Int
             /// Size of `data` in bytes
-            public let size:VariableInteger
+            public let size:VariableIntegerJava
             /// Chunk data structure, with sections containing only the `Biomes` field
             public let data:[UInt8]
             
@@ -34,8 +34,8 @@ public extension ClientPacket.Mojang.Java.Play {
             }
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [number_of_chunks]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [number_of_chunks]
             array.append(contentsOf: data)
             return array
         }

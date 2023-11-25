@@ -20,7 +20,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// `id` is the same as the ping packet.
         public let id:Int32
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [id]
         }
     }

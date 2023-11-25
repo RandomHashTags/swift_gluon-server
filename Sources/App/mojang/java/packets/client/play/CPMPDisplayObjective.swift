@@ -23,7 +23,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The unique name for the scoreboard to be displayed.
         public let score_name:String
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [position, score_name]
         }
     }

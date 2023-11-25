@@ -13,10 +13,10 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.command_suggestions_response
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let id:VariableInteger = try packet.read_var_int()
-            let start:VariableInteger = try packet.read_var_int()
-            let length:VariableInteger = try packet.read_var_int()
-            let count:VariableInteger = try packet.read_var_int()
+            let id:VariableIntegerJava = try packet.read_var_int()
+            let start:VariableIntegerJava = try packet.read_var_int()
+            let length:VariableIntegerJava = try packet.read_var_int()
+            let count:VariableIntegerJava = try packet.read_var_int()
             let matches:[CommandSuggestionsResponse.Match] = try packet.read_map(count: count) {
                 let match:String = try packet.read_string()
                 let has_tooltip:Bool = try packet.read_bool()
@@ -27,16 +27,16 @@ public extension ClientPacket.Mojang.Java.Play {
         }
         
         /// Transaction ID.
-        public let id:VariableInteger
+        public let id:VariableIntegerJava
         /// Start of the text to replace.
-        public let start:VariableInteger
+        public let start:VariableIntegerJava
         /// Length of the text to replace.
-        public let length:VariableInteger
+        public let length:VariableIntegerJava
         /// Number of elements in `matches`.
-        public let count:VariableInteger
+        public let count:VariableIntegerJava
         public let matches:[CommandSuggestionsResponse.Match]
         
-        public struct Match : Hashable, Codable, PacketEncodableMojang {
+        public struct Match : Hashable, Codable, PacketEncodableMojangJava {
             /// One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for `count`.
             /// > Note: Doesn't include a leading `/` on commands.
             public let match:String
@@ -55,8 +55,8 @@ public extension ClientPacket.Mojang.Java.Play {
             }
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [id, start, length, count]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [id, start, length, count]
             array.append(contentsOf: matches)
             return array
         }

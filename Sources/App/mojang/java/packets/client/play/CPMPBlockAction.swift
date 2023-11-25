@@ -20,9 +20,9 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Varies depending on block — see [Block Actions](https://wiki.vg/Block_Actions ).
         public let action_parameter:UInt8
         /// The block type ID for the block. This value is unused by the Notchian client, as it will infer the type of block based on the given position.
-        public let block_type:VariableInteger
+        public let block_type:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 location,
                 action_id,

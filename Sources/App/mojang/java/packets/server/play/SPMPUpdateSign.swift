@@ -33,7 +33,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let line_3:String
         public let line_4:String
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 location,
                 is_front_text,

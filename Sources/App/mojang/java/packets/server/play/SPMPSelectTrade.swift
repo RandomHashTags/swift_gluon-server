@@ -13,14 +13,14 @@ public extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.select_trade
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let selected_slot:VariableInteger = try packet.read_var_int()
+            let selected_slot:VariableIntegerJava = try packet.read_var_int()
             return Self(selected_slot: selected_slot)
         }
         
         /// The selected slot in the players current (trading) inventory. (Was a full Integer for the plugin message).
-        public let selected_slot:VariableInteger
+        public let selected_slot:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [selected_slot]
         }
     }

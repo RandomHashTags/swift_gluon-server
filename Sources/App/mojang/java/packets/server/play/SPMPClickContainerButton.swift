@@ -22,7 +22,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Meaning depends on window type.
         public let button_id:Int8
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [window_id, button_id]
         }
     }

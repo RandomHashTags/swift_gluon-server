@@ -13,11 +13,11 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.spawn_entity
         
         /// A unique integer ID mostly used to identify the entity.
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         /// A unique identifier that is mostly used in persistence and places where the uniqueness matters more.
         public let entity_uuid:UUID
         /// The type of the entity.
-        public let type:VariableInteger
+        public let type:VariableIntegerJava
         public let x:Double
         public let y:Double
         public let z:Double
@@ -27,12 +27,12 @@ public extension ClientPacket.Mojang.Java.Play {
         public let yaw:Float
         /// Only used by living entities, where the head of the entity may differ from the general body rotation.
         public let head_yaw:Float
-        public let data:VariableInteger
+        public let data:VariableIntegerJava
         public let velocity_x:Int
         public let velocity_y:Int
         public let velocity_z:Int
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 entity_id,
                 entity_uuid,

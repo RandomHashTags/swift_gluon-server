@@ -20,7 +20,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let x:Double
         public let z:Double
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [x, z]
         }
     }

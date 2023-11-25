@@ -10,7 +10,7 @@ import Foundation
 public struct MinecraftError : Error, CustomStringConvertible {
     public let sender:String, message:String
     
-    public var description: String {
+    public var description : String {
         return sender + ": " + message
     }
 }

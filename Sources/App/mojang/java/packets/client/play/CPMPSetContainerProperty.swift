@@ -25,7 +25,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The new value for the property.
         public let value:Int16
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [window_id, property, value]
         }
     }

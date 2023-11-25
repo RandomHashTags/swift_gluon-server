@@ -12,11 +12,11 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.damage_event
         
         /// The ID of the entity taking damage.
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         /// The ID of the type of damage taken.
-        public let source_type_id:VariableInteger
+        public let source_type_id:VariableIntegerJava
         /// The ID + 1 of the entity responsible for the damage, if present. If not present, the value is 0.
-        public let source_cause_id:VariableInteger
+        public let source_cause_id:VariableIntegerJava
         /// The ID + 1 of the entity that directly dealt the damage, if present. If not present, the value is 0.
         ///
         /// If this field is present:
@@ -34,7 +34,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Only present if `has_source_position` is `true`.
         public let source_position_z:Double?
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 entity_id,
                 source_type_id,

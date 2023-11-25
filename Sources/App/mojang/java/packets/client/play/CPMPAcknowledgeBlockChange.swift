@@ -13,14 +13,14 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.acknowledge_block_change
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let sequence_id:VariableInteger = try packet.read_var_int()
+            let sequence_id:VariableIntegerJava = try packet.read_var_int()
             return Self(sequence_id: sequence_id)
         }
         
         /// Represents the sequence to acknowledge, this is used for properly syncing block changes to the client after interactions.
-        public let sequence_id:VariableInteger
+        public let sequence_id:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [sequence_id]
         }
     }

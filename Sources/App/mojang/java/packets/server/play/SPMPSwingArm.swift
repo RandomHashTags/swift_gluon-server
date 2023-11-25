@@ -19,12 +19,12 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let hand:SwingArm.Hand
         
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [hand]
         }
     }

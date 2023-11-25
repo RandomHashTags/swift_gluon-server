@@ -29,7 +29,7 @@ public extension ServerPacket.Mojang.Java.Play {
             let rotation:ProgramStructureBlock.Rotation = try packet.read_enum()
             let metadata:String = try packet.read_string()
             let integrity:Float = try packet.read_float()
-            let seed:VariableLong = try packet.read_var_long()
+            let seed:VariableLongJava = try packet.read_var_long()
             let flags:Int8 = try packet.read_byte()
             return Self(location: location, action: action, mode: mode, name: name, offset_x: offset_x, offset_y: offset_y, offset_z: offset_z, size_x: size_x, size_y: size_y, size_z: size_z, mirror: mirror, rotation: rotation, metadata: metadata, integrity: integrity, seed: seed, flags: flags)
         }
@@ -57,36 +57,36 @@ public extension ServerPacket.Mojang.Java.Play {
         public let metadata:String
         /// Between 0 and 1.
         public let integrity:Float
-        public let seed:VariableLong
+        public let seed:VariableLongJava
         /// 0x01: Ignore entities; 0x02: Show air; 0x04: Show bounding box.
         public let flags:Int8
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
             case update_data
             case save
             case load
             case detect_size
         }
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
             case save
             case load
             case corner
             case data
         }
         
-        public enum Mirror : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Mirror : Int, Hashable, Codable, PacketEncodableMojangJava {
             case none
             case left_right
             case front_back
         }
-        public enum Rotation : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Rotation : Int, Hashable, Codable, PacketEncodableMojangJava {
             case none
             case clockwise_90
             case clockwise_180
             case counterclockwise_90
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 location,
                 action,

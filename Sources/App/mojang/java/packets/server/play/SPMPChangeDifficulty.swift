@@ -20,7 +20,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// 0: peaceful, 1: easy, 2: normal, 3: hard .
         public let new_difficulty:Int8
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [new_difficulty]
         }
     }

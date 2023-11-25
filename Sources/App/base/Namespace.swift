@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Namespace : Hashable, Codable, LosslessStringConvertible, PacketEncodableMojang, PacketDecodableMojang { // TODO: fix (PacketEncodableMojang)
+public struct Namespace : Hashable, Codable, LosslessStringConvertible, PacketEncodableMojangJava, PacketDecodableMojangJava { // TODO: fix (PacketEncodableMojangJava)
     public static func decode(from packet: GeneralPacketMojang) throws -> Self {
         return try packet.read_identifier()
     }

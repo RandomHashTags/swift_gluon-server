@@ -13,18 +13,18 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.delete_message
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let signature_length:VariableInteger = try packet.read_var_int()
+            let signature_length:VariableIntegerJava = try packet.read_var_int()
             let signature:[UInt8] = try packet.read_byte_array(bytes: signature_length)
             return Self(signature_length: signature_length, signature: signature)
         }
         
         /// Length of Signature.
-        public let signature_length:VariableInteger
+        public let signature_length:VariableIntegerJava
         /// Bytes of the signature.
         public let signature:[UInt8]
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [signature_length]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [signature_length]
             array.append(contentsOf: signature)
             return array
         }

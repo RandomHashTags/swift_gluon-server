@@ -32,7 +32,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Absolute rotation on the horizontal axis, in degrees.
         public let pitch:Float
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [x, y, z, yaw, pitch]
         }
     }

@@ -24,8 +24,8 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Any data, depending on the channel. `minecraft:` channels are documented [here](https://wiki.vg/Plugin_channel ). The length of this array must be inferred from the packet length.
         public let data:[UInt8]
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[any PacketEncodableMojang] = [channel]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[any PacketEncodableMojangJava] = [channel]
             array.append(contentsOf: data)
             return array
         }

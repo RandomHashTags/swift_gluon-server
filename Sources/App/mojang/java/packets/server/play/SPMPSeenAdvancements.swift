@@ -21,13 +21,13 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Only present if action is Opened tab.
         public let tab_id:Namespace?
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
             case opened_tab
             case closed_screen
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[any PacketEncodableMojang] = [action]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[any PacketEncodableMojangJava] = [action]
             switch action {
             case .opened_tab:
                 let tab_id:Namespace = try unwrap_optional(tab_id, key_path: \Self.tab_id, precondition: "action == .opened_tab")

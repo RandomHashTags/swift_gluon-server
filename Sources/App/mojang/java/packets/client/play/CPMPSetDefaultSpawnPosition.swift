@@ -23,7 +23,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The angle at which to respawn at.
         public let angle:Float
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [location, angle]
         }
     }

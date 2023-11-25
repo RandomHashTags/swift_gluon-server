@@ -21,7 +21,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let left_paddle_turning:Bool
         public let right_paddle_turning:Bool
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [left_paddle_turning, right_paddle_turning]
         }
     }

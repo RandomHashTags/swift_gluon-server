@@ -14,19 +14,19 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let hand:UseItem.Hand = try packet.read_enum()
-            let sequence:VariableInteger = try packet.read_var_int()
+            let sequence:VariableIntegerJava = try packet.read_var_int()
             return Self(hand: hand, sequence: sequence)
         }
         
         public let hand:UseItem.Hand
-        public let sequence:VariableInteger
+        public let sequence:VariableIntegerJava
         
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [hand, sequence]
         }
     }

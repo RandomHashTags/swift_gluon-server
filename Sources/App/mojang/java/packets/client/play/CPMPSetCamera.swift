@@ -25,14 +25,14 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_camera
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let camera_id:VariableInteger = try packet.read_var_int()
+            let camera_id:VariableIntegerJava = try packet.read_var_int()
             return Self(camera_id: camera_id)
         }
         
         /// ID of the entity to set the client's camera to.
-        public let camera_id:VariableInteger
+        public let camera_id:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [camera_id]
         }
     }

@@ -20,7 +20,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// The slot which the player has selected (0–8).
         public let slot:Int16
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [slot]
         }
     }

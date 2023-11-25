@@ -20,13 +20,13 @@ public extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.pick_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let slot_to_use:VariableInteger = try packet.read_var_int()
+            let slot_to_use:VariableIntegerJava = try packet.read_var_int()
             return Self(slot_to_use: slot_to_use)
         }
         
-        public let slot_to_use:VariableInteger
+        public let slot_to_use:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [slot_to_use]
         }
     }

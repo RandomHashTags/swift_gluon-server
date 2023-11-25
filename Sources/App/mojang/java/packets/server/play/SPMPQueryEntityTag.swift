@@ -13,17 +13,17 @@ public extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.query_entity_tag
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let transaction_id:VariableInteger = try packet.read_var_int()
-            let entity_id:VariableInteger = try packet.read_var_int()
+            let transaction_id:VariableIntegerJava = try packet.read_var_int()
+            let entity_id:VariableIntegerJava = try packet.read_var_int()
             return Self(transaction_id: transaction_id, entity_id: entity_id)
         }
         
         /// An incremental ID so that the client can verify that the response matches.
-        public let transaction_id:VariableInteger
+        public let transaction_id:VariableIntegerJava
         /// The ID of the entity to query.
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [transaction_id, entity_id]
         }
     }

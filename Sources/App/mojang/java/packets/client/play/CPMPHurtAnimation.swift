@@ -13,17 +13,17 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.hurt_animation
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableInteger = try packet.read_var_int()
+            let entity_id:VariableIntegerJava = try packet.read_var_int()
             let yaw:Float = try packet.read_float()
             return Self(entity_id: entity_id, yaw: yaw)
         }
         
         /// The ID of the entity taking damage
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         /// The direction the damage is coming from in relation to the entity
         public let yaw:Float
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [entity_id, yaw]
         }
     }

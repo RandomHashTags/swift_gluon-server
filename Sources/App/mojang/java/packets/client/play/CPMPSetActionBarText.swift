@@ -19,7 +19,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Displays a message above the hotbar (the same as position 2 in [Player Chat Message](https://wiki.vg/Protocol#Player_Chat_Message )).
         public let action_bar_text:ChatPacketMojang
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [action_bar_text]
         }
     }

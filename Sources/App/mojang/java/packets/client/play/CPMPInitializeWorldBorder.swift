@@ -19,10 +19,10 @@ public extension ClientPacket.Mojang.Java.Play {
             let z:Double = try packet.read_double()
             let old_diameter:Double = try packet.read_double()
             let new_diameter:Double = try packet.read_double()
-            let speed:VariableLong = try packet.read_var_long()
-            let portal_teleport_boundary:VariableInteger = try packet.read_var_int()
-            let warning_blocks:VariableInteger = try packet.read_var_int()
-            let warning_time:VariableInteger = try packet.read_var_int()
+            let speed:VariableLongJava = try packet.read_var_long()
+            let portal_teleport_boundary:VariableIntegerJava = try packet.read_var_int()
+            let warning_blocks:VariableIntegerJava = try packet.read_var_int()
+            let warning_time:VariableIntegerJava = try packet.read_var_int()
             return Self(x: x, z: z, old_diameter: old_diameter, new_diameter: new_diameter, speed: speed, portal_teleport_boundary: portal_teleport_boundary, warning_blocks: warning_blocks, warning_time: warning_time)
         }
         
@@ -33,15 +33,15 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Target length of a single side of the world border, in meters.
         public let new_diameter:Double
         /// Number of real-time _milliseconds_ until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0.
-        public let speed:VariableLong
+        public let speed:VariableLongJava
         /// Resulting coordinates from a portal teleport are limited to ±value. Usually 29999984.
-        public let portal_teleport_boundary:VariableInteger
+        public let portal_teleport_boundary:VariableIntegerJava
         /// In meters.
-        public let warning_blocks:VariableInteger
+        public let warning_blocks:VariableIntegerJava
         /// In seconds as set by `/worldborder warning time`.
-        public let warning_time:VariableInteger
+        public let warning_time:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 x,
                 z,

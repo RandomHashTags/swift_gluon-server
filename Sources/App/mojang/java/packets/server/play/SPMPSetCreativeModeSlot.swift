@@ -25,7 +25,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let slot:Int16
         public let clicked_item:SlotMojang
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [slot, clicked_item]
         }
     }

@@ -25,7 +25,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Block coordinate divided by 16, rounded down.
         public let chunk_z:Int32
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [chunk_x, chunk_z]
         }
     }

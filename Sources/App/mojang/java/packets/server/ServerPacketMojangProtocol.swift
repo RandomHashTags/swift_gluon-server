@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ServerPacketMojangJavaProtocol : ServerPacketProtocol, PacketMojang {
+public protocol ServerPacketMojangJavaProtocol : ServerPacketProtocol, PacketMojangJava {
 }
 
 // MARK: ServerPacketMojangJavaHandshakingProtocol

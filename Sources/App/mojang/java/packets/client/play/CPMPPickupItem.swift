@@ -13,18 +13,18 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.pickup_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let collected_entity_id:VariableInteger = try packet.read_var_int()
-            let collector_entity_id:VariableInteger = try packet.read_var_int()
-            let pickup_item_count:VariableInteger = try packet.read_var_int()
+            let collected_entity_id:VariableIntegerJava = try packet.read_var_int()
+            let collector_entity_id:VariableIntegerJava = try packet.read_var_int()
+            let pickup_item_count:VariableIntegerJava = try packet.read_var_int()
             return Self(collected_entity_id: collected_entity_id, collector_entity_id: collector_entity_id, pickup_item_count: pickup_item_count)
         }
         
-        public let collected_entity_id:VariableInteger
-        public let collector_entity_id:VariableInteger
+        public let collected_entity_id:VariableIntegerJava
+        public let collector_entity_id:VariableIntegerJava
         /// Seems to be 1 for XP orbs, otherwise the number of items in the stack.
-        public let pickup_item_count:VariableInteger
+        public let pickup_item_count:VariableIntegerJava
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [collected_entity_id, collector_entity_id, pickup_item_count]
         }
     }

@@ -19,7 +19,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.interact
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableInteger = try packet.read_var_int()
+            let entity_id:VariableIntegerJava = try packet.read_var_int()
             let type:Interact.InteractType = try packet.read_enum()
             let target_x:Float?
             let target_y:Float?
@@ -50,7 +50,7 @@ public extension ServerPacket.Mojang.Java.Play {
         }
         
         /// The ID of the entity to interact.
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         public let type:Interact.InteractType
         /// Only if Type is interact at.
         public let target_x:Float?
@@ -63,18 +63,18 @@ public extension ServerPacket.Mojang.Java.Play {
         /// If the client is sneaking.
         public let sneaking:Bool
         
-        public enum InteractType : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum InteractType : Int, Hashable, Codable, PacketEncodableMojangJava {
             case interact
             case attack
             case interact_at
         }
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[any PacketEncodableMojang] = [entity_id, type]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[any PacketEncodableMojangJava] = [entity_id, type]
             switch type {
             case .interact:
                 let hand:Interact.Hand = try unwrap_optional(hand, key_path: \Self.hand, precondition: "type == .interact")

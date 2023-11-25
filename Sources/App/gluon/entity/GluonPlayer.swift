@@ -114,7 +114,7 @@ final class GluonPlayer : Player {
         }
     }
     
-    func send_packet(_ packet: any PacketMojang) throws {
+    func send_packet(_ packet: any PacketMojangJava) throws {
         try ServerMojang.instance.player_connections[uuid]!.send_packet(packet)
     }
     

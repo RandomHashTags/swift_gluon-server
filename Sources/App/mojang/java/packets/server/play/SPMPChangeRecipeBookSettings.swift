@@ -23,14 +23,14 @@ public extension ServerPacket.Mojang.Java.Play {
         public let book_open:Bool
         public let filter_active:Bool
         
-        public enum BookID : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum BookID : Int, Hashable, Codable, PacketEncodableMojangJava {
             case crafting
             case furnace
             case blast_furnace
             case smoker
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [book, book_open, filter_active]
         }
     }

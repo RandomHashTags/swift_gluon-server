@@ -14,7 +14,7 @@ public extension ClientPacket.Mojang.Java.Play {
         // MARK: Header
         /// Used by the Notchian client for the disableChat launch option. Setting both longs to 0 will always display the message regardless of the setting.
         public let sender:UUID
-        public let index:VariableInteger
+        public let index:VariableIntegerJava
         public let message_signature_present:Bool
         /// Only present if `message_signature_present` is true. Cryptography, the signature consists of the Sender UUID, Session UUID from the [Player Session](https://wiki.vg/Protocol#Player_Session) packet, Index, Salt, Timestamp in epoch seconds, the length of the original chat content, the original content itself, the length of Previous Messages, and all of the Previous message signatures. These values are hashed with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) and signed using the [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) cryptosystem. Modifying any of these values in the packet will cause this signature to fail. This buffer is always 256 bytes long and it is not length-prefixed.
         public let message_signature_bytes:[UInt8]?
@@ -28,9 +28,9 @@ public extension ClientPacket.Mojang.Java.Play {
         
         // MARK: Previous Messages
         /// The maximum length is 20 in Notchian client.
-        public let total_previous_messages:VariableInteger
+        public let total_previous_messages:VariableIntegerJava
         /// The message Id + 1, used for validating message signature. The next field is present only when value of this field is equal to -1.
-        public let message_ids:[VariableInteger]
+        public let message_ids:[VariableIntegerJava]
         /// The previous message's signature. Contains the same type of data as `message_signature_bytes` above.
         public let signatures:[Int8]?
         
@@ -44,19 +44,19 @@ public extension ClientPacket.Mojang.Java.Play {
         
         // MARK: Network target
         /// The chat type from the [Login (play)](https://wiki.vg/Protocol#Login_.28play.29) packet used for this message
-        public let chat_type:VariableInteger
+        public let chat_type:VariableIntegerJava
         public let network_name:ChatPacketMojang
         public let network_target_name_present:Bool
         public let network_target_name:ChatPacketMojang?
         
-        public enum FilterType : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum FilterType : Int, Hashable, Codable, PacketEncodableMojangJava {
             case pass_through
             case fully_filtered
             case partially_filtered
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] { // TODO: fix
-            var array:[(any PacketEncodableMojang)?] = [
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] { // TODO: fix
+            var array:[(any PacketEncodableMojangJava)?] = [
                 sender,
                 index,
                 message_signature_present
@@ -66,7 +66,7 @@ public extension ClientPacket.Mojang.Java.Play {
                 array.append(contentsOf: message_signature_bytes)
             }
             
-            var secondary:[(any PacketEncodableMojang)?] = [
+            var secondary:[(any PacketEncodableMojangJava)?] = [
                 message,
                 timestamp,
                 salt,

@@ -17,13 +17,13 @@ public extension ClientPacket.Mojang.Java.Play {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_block_destroy_stage
         
         /// The ID of the entity breaking the block.
-        public let entity_id:VariableInteger
+        public let entity_id:VariableIntegerJava
         /// Block Position.
         public let location:PositionPacketMojang
         /// 0–9 to set it, any other value to remove it.
         public let destroy_stage:Int
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [entity_id, location, destroy_stage]
         }
     }

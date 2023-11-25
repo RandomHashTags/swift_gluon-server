@@ -14,7 +14,7 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
-            let levels:VariableInteger = try packet.read_var_int()
+            let levels:VariableIntegerJava = try packet.read_var_int()
             let keep_jigsaws:Bool = try packet.read_bool()
             return Self(location: location, levels: levels, keep_jigaws: keep_jigsaws)
         }
@@ -22,10 +22,10 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Block entity location.
         public let location:PositionPacketMojang
         /// Value of the levels slider/max depth to generate.
-        public let levels:VariableInteger
+        public let levels:VariableIntegerJava
         public let keep_jigaws:Bool
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [location, levels, keep_jigaws]
         }
     }

@@ -50,18 +50,18 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Servers usually list online players, this option should let you not show up in that list.
         public let allow_server_listings:Bool
         
-        public enum ChatMode : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum ChatMode : Int, Hashable, Codable, PacketEncodableMojangJava {
             case enabled
             case commands_only
             case hidden
         }
         
-        public enum MainHand : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum MainHand : Int, Hashable, Codable, PacketEncodableMojangJava {
             case left
             case right
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
                 locale,
                 view_distance,

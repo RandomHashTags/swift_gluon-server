@@ -27,8 +27,8 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Any data. The length of this array must be inferred from the packet length.
         public let data:[UInt8]
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [channel]
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [channel]
             array.append(contentsOf: data)
             return array
         }

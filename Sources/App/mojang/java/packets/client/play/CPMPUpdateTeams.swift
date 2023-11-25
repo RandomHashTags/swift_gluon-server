@@ -26,7 +26,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let name_tag_visibility:UpdateTeams.NameTagVisibility?
         public let collision_rule:UpdateTeams.CollisionRule?
         /// Used to color the name of players on the team.
-        public let team_color:VariableInteger? // TODO: add `TeamColor enum`
+        public let team_color:VariableIntegerJava? // TODO: add `TeamColor enum`
         /// Displayed before the names of players that are part of this team.
         public let team_prefix:ChatPacketMojang?
         /// Displayed after the names of players that are part of this team.
@@ -34,12 +34,12 @@ public extension ClientPacket.Mojang.Java.Play {
         
         // + create_team || add_entities_to_team || remove_entities_from_team
         /// Number of elements in `entities`.
-        public let entity_count:VariableInteger?
+        public let entity_count:VariableIntegerJava?
         // + create_team || add_entities_to_team || remove_entities_from_team
         /// Identifiers for the entities in this team. For players, this is their username; for other entities, it is their UUID.
         public let entities:[String]?
         
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojang {
+        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
             case create_team =               0
             case remove_team =               1
             case update_team_info =          2
@@ -47,26 +47,26 @@ public extension ClientPacket.Mojang.Java.Play {
             case remove_entities_from_team = 4
         }
         
-        public enum NameTagVisibility : String, Hashable, Codable, PacketEncodableMojang {
+        public enum NameTagVisibility : String, Hashable, Codable, PacketEncodableMojangJava {
             case always
             case hideForOtherTeams
             case hideForOwnTeam
             case never
         }
         
-        public enum CollisionRule : String, Hashable, Codable, PacketEncodableMojang {
+        public enum CollisionRule : String, Hashable, Codable, PacketEncodableMojangJava {
             case always
             case pushOtherTeams
             case pushOwnTeam
             case never
         }
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
-            var array:[(any PacketEncodableMojang)?] = [
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
+            var array:[(any PacketEncodableMojangJava)?] = [
                 team_name,
                 mode
             ]
-            var secondary:[(any PacketEncodableMojang)?]
+            var secondary:[(any PacketEncodableMojangJava)?]
             switch mode {
             case .create_team, .update_team_info:
                 let precondition:String = "mode == .\(mode)"
@@ -74,7 +74,7 @@ public extension ClientPacket.Mojang.Java.Play {
                 let friendly_flags:Int8 = try unwrap_optional(friendly_flags, key_path: \UpdateTeams.friendly_flags, precondition: precondition)
                 let name_tag_visibility:UpdateTeams.NameTagVisibility = try unwrap_optional(name_tag_visibility, key_path: \UpdateTeams.name_tag_visibility, precondition: precondition)
                 let collision_rule:UpdateTeams.CollisionRule = try unwrap_optional(collision_rule, key_path: \UpdateTeams.collision_rule, precondition: precondition)
-                let team_color:VariableInteger = try unwrap_optional(team_color, key_path: \UpdateTeams.team_color, precondition: precondition)
+                let team_color:VariableIntegerJava = try unwrap_optional(team_color, key_path: \UpdateTeams.team_color, precondition: precondition)
                 let team_prefix:ChatPacketMojang = try unwrap_optional(team_prefix, key_path: \UpdateTeams.team_prefix, precondition: precondition)
                 let team_suffix:ChatPacketMojang = try unwrap_optional(team_suffix, key_path: \UpdateTeams.team_suffix, precondition: precondition)
                 secondary = [
@@ -87,7 +87,7 @@ public extension ClientPacket.Mojang.Java.Play {
                     team_suffix
                 ]
                 if mode == .create_team {
-                    let entity_count:VariableInteger = try unwrap_optional(entity_count, key_path: \UpdateTeams.entity_count, precondition: precondition)
+                    let entity_count:VariableIntegerJava = try unwrap_optional(entity_count, key_path: \UpdateTeams.entity_count, precondition: precondition)
                     let entities:[String] = try unwrap_optional(entities, key_path: \UpdateTeams.entities, precondition: precondition)
                     secondary.append(entity_count)
                     secondary.append(contentsOf: entities)
@@ -98,7 +98,7 @@ public extension ClientPacket.Mojang.Java.Play {
                 break
             case .add_entities_to_team, .remove_entities_from_team:
                 let precondition:String = "mode == .\(mode)"
-                let entity_count:VariableInteger = try unwrap_optional(entity_count, key_path: \UpdateTeams.entity_count, precondition: precondition)
+                let entity_count:VariableIntegerJava = try unwrap_optional(entity_count, key_path: \UpdateTeams.entity_count, precondition: precondition)
                 let entities:[String] = try unwrap_optional(entities, key_path: \UpdateTeams.entities, precondition: precondition)
                 secondary = [entity_count]
                 secondary.append(contentsOf: entities)

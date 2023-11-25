@@ -14,7 +14,7 @@ public extension ClientPacket.Mojang.Java.Play {
         
         public let reset:Bool
         
-        public func encoded_values() throws -> [(any PacketEncodableMojang)?] {
+        public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [reset]
         }
     }
