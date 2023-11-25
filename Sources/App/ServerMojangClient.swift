@@ -18,7 +18,7 @@ public final class ServerMojangClient : Hashable {
     
     public private(set) var state:ServerMojangStatus = .handshaking_received_packet
     public private(set) var protocol_version:MinecraftProtocolJavaVersion = MinecraftProtocolJavaVersion.unknown
-    public private(set) var information:ServerPacketMojang.Configuration.ClientInformation?
+    public private(set) var information:ServerPacket.Mojang.Java.Configuration.ClientInformation?
     private var player_builder:PlayerBuilder!
     public private(set) var player:(any Player)?
     private var connection_task:Task<Void, Never>!
@@ -81,14 +81,14 @@ public final class ServerMojangClient : Hashable {
     
     private func parse_handshake() throws {
         let packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packet_id.value)) else {
+        guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacket.Mojang.Java.Handshaking(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojangClient;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
             return
         }
-        let handshake_packet:any ServerPacketMojangHandshakingProtocol.Type = test.packet
-        let client_packet:any ServerPacketMojangHandshakingProtocol = try handshake_packet.parse(packet)
-        guard let handshake:ServerPacketMojang.Handshaking.Handshake = client_packet as? ServerPacketMojang.Handshaking.Handshake else { return }
-        let next_state:ServerPacketMojang.Status = handshake.next_state
+        let handshake_packet:any ServerPacketMojangJavaHandshakingProtocol.Type = test.packet
+        let client_packet:any ServerPacketMojangJavaHandshakingProtocol = try handshake_packet.parse(packet)
+        guard let handshake:ServerPacket.Mojang.Java.Handshaking.Handshake = client_packet as? ServerPacket.Mojang.Java.Handshaking.Handshake else { return }
+        let next_state:ServerPacket.Mojang.Java.Handshaking.Handshake.State = handshake.next_state
         protocol_version = handshake.protocol_version
         print("ServerMojangClient;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(next_state)")
         switch next_state {
@@ -103,19 +103,19 @@ public final class ServerMojangClient : Hashable {
     
     private func parse_status() throws {
         var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacketMojangStatus = ServerPacketMojangStatus(rawValue: UInt8(packet.packet_id.value)) else {
+        guard let test:ServerPacket.Mojang.Java.Status = ServerPacket.Mojang.Java.Status(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojangClient;parse_status;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         print("ServerMojangClient;parse_status;test=\(test)")
-        let ping_request:ServerPacketMojang.Status.PingRequest
+        let ping_request:ServerPacket.Mojang.Java.Status.PingRequest
         switch test {
         case .ping_request:
-            ping_request = try ServerPacketMojang.Status.PingRequest.parse(packet)
+            ping_request = try ServerPacket.Mojang.Java.Status.PingRequest.parse(packet)
             break
         case .status_request:
-            let status_request:ServerPacketMojang.Status.StatusRequest = try ServerPacketMojang.Status.StatusRequest.parse(packet)
-            let status_response:ClientPacketMojang.Status.StatusResponse = try ClientPacketMojang.Status.StatusResponse(
+            let status_request:ServerPacket.Mojang.Java.Status.StatusRequest = try ServerPacket.Mojang.Java.Status.StatusRequest.parse(packet)
+            let status_response:ClientPacket.Mojang.Java.Status.StatusResponse = try ClientPacket.Mojang.Java.Status.StatusResponse(
                 version: protocol_version,
                 motd: "Test bruh; your Minecraft Protocol Version == \(protocol_version)",
                 enforces_secure_chat: true,
@@ -124,21 +124,21 @@ public final class ServerMojangClient : Hashable {
             try socket.send_packet(status_response)
             
             packet = try read_packet()
-            ping_request = try ServerPacketMojang.Status.PingRequest.parse(packet)
+            ping_request = try ServerPacket.Mojang.Java.Status.PingRequest.parse(packet)
             break
         }
-        let ping_response:ClientPacketMojang.Status.PingResponse = ClientPacketMojang.Status.PingResponse(payload: ping_request.payload)
+        let ping_response:ClientPacket.Mojang.Java.Status.PingResponse = ClientPacket.Mojang.Java.Status.PingResponse(payload: ping_request.payload)
         try socket.send_packet(ping_response)
         close()
     }
     private func parse_login() throws {
         var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacketMojangLogin = ServerPacketMojangLogin(rawValue: UInt8(packet.packet_id.value)) else {
+        guard let test:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojangClient;parse_login;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         print("ServerMojangClient;parse_login;test=\(test)")
-        let login_start_packet:ServerPacketMojang.Login.LoginStart = try ServerPacketMojang.Login.LoginStart.parse(packet)
+        let login_start_packet:ServerPacket.Mojang.Java.Login.LoginStart = try ServerPacket.Mojang.Java.Login.LoginStart.parse(packet)
         player_builder = PlayerBuilder(uuid: login_start_packet.player_uuid, name: login_start_packet.name)
         
         switch test {
@@ -154,7 +154,7 @@ public final class ServerMojangClient : Hashable {
                 let public_key_bytes:[UInt8] = [UInt8](yoink.utf8)
                 
                 let verify_token:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
-                let encryption_request:ClientPacketMojang.Login.EncryptionRequest = ClientPacketMojang.Login.EncryptionRequest(
+                let encryption_request:ClientPacket.Mojang.Java.Login.EncryptionRequest = ClientPacket.Mojang.Java.Login.EncryptionRequest(
                     server_id: "",
                     public_key: public_key_bytes,
                     verify_token: verify_token
@@ -164,10 +164,10 @@ public final class ServerMojangClient : Hashable {
                 print("test1")
                 packet = try read_packet()
                 print("test2")
-                let um:ServerPacketMojang.Login.EncryptionResponse = try ServerPacketMojang.Login.EncryptionResponse.parse(packet)
+                let um:ServerPacket.Mojang.Java.Login.EncryptionResponse = try ServerPacket.Mojang.Java.Login.EncryptionResponse.parse(packet)
                 print("test3")
             } else {
-                let success_packet:ClientPacketMojang.Login.LoginSuccess = ClientPacketMojang.Login.LoginSuccess(
+                let success_packet:ClientPacket.Mojang.Java.Login.LoginSuccess = ClientPacket.Mojang.Java.Login.LoginSuccess(
                     uuid: login_start_packet.player_uuid,
                     username: login_start_packet.name,
                     number_of_properties: VariableInteger(value: 0),
@@ -191,20 +191,20 @@ public final class ServerMojangClient : Hashable {
     
     private func parse_configuration() throws {
         var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacketMojangConfiguration = ServerPacketMojangConfiguration(rawValue: UInt8(packet.packet_id.value)) else {
+        guard let test:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojangClient;parse_configuration;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         print("ServerMojangClient;parse_configuration;test=\(test)")
         switch test {
         case .client_information:
-            information = try ServerPacketMojang.Configuration.ClientInformation.parse(packet)
+            information = try ServerPacket.Mojang.Java.Configuration.ClientInformation.parse(packet)
             break
         default:
             break
         }
         
-        let finish_configuration:ServerPacketMojang.Configuration.FinishConfiguration = ServerPacketMojang.Configuration.FinishConfiguration()
+        let finish_configuration:ServerPacket.Mojang.Java.Configuration.FinishConfiguration = ServerPacket.Mojang.Java.Configuration.FinishConfiguration()
         try socket.send_packet(finish_configuration)
         
         state = .play
@@ -268,13 +268,13 @@ public final class ServerMojangClient : Hashable {
     }
     
     private func parse_play() throws {
-        var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacketMojangPlay = ServerPacketMojangPlay(rawValue: UInt8(packet.packet_id.value)) else {
+        let packet:GeneralPacketMojang = try read_packet()
+        guard let test:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojangClient;parse_play;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         print("ServerMojangClient;parse_play;test=\(test)")
-        try test.process(self)
+        try test.server_received(self)
     }
     
     func send_packet(_ packet: any PacketMojang) throws {

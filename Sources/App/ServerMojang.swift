@@ -66,7 +66,7 @@ public final class ServerMojang {
         for connection in connections {
             connection.close()
         }
-        let disconnect_packet:ClientPacketMojang.Play.Disconnect = ClientPacketMojang.Play.Disconnect(reason: ChatPacketMojang(text: "Server Closed.", translate: nil, with: nil, score: nil, bold: nil, italic: nil, underlined: nil, strikethrough: nil, obfuscated: nil, font: nil, color: nil, insertion: nil, clickEvent: nil, hoverEvent: nil, extra: nil))
+        let disconnect_packet:ClientPacket.Mojang.Java.Play.Disconnect = ClientPacket.Mojang.Java.Play.Disconnect(reason: ChatPacketMojang(text: "Server Closed.", translate: nil, with: nil, score: nil, bold: nil, italic: nil, underlined: nil, strikethrough: nil, obfuscated: nil, font: nil, color: nil, insertion: nil, clickEvent: nil, hoverEvent: nil, extra: nil))
         for (uuid, player_connection) in player_connections {
             do {
                 try GluonServer.shared_instance.boot_player(disconnect_packet: disconnect_packet, player: player_connection.player!)
@@ -273,13 +273,13 @@ final class ServerMojangHandler : ChannelInboundHandler {
     
     private func parse_handshake(context: ChannelHandlerContext, bytes: [UInt8]) throws {
         let packet:GeneralPacketMojang = try GeneralPacketMojang(bytes: bytes)
-        guard let test:ServerPacketMojangHandshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packet_id.value)) else {
+        guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packet_id.value)) else {
             print("ServerMojang;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
             return
         }
-        let handshake_packet:any ServerPacketMojangHandshakingProtocol.Type = test.packet
+        let handshake_packet:any ServerPacketMojangJavaHandshakingProtocol.Type = test.packet
         let client_packet:any ServerPacketMojangHandshakingProtocol = try handshake_packet.parse(packet)
-        if let handshake:ServerPacketMojang.Handshaking.Handshake = client_packet as? ServerPacketMojang.Handshaking.Handshake {
+        if let handshake:ServerPacket.Mojang.Java.Handshaking.Handshake = client_packet as? ServerPacketMojang.Handshaking.Handshake {
             let next_state:ServerPacketMojang.Status = handshake.next_state
             print("ServerMojang;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(next_state)")
             switch next_state {

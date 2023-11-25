@@ -7,7 +7,8 @@
 
 import Foundation
 
-public enum PacketPlatform : String {
-    case mojang
+public enum PacketPlatform {
+    case mojang_bedrock
+    case mojang_java
     case gluon
 }

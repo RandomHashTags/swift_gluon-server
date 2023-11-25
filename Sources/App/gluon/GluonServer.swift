@@ -167,7 +167,7 @@ final class GluonServer : GluonSharedInstance, Server {
         )
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
         let player_uuid:UUID = UUID()
-        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, platform: PacketPlatform.mojang, protocol_version: MinecraftProtocolJavaVersion.v1_20_2, socket: <#T##Socket#>)
+        let connection:PlayerConnectionMojang = PlayerConnectionMojang(player_uuid: player_uuid, platform: PacketPlatform.mojang_java, protocol_version: MinecraftProtocolJavaVersion.v1_20_2, socket: <#T##Socket#>)
         let player:GluonPlayer = GluonPlayer(
             connection: connection,
             name: "RandomHashTags",
@@ -275,7 +275,7 @@ extension GluonServer {
         }
         // TODO: send packets
     }
-    func boot_player(disconnect_packet: ClientPacketMojang.Play.Disconnect, player: any Player, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) throws {
+    func boot_player(disconnect_packet: ClientPacket.Mojang.Java.Play.Disconnect, player: any Player, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) throws {
         let player_uuid:UUID = player.uuid
         try player.send_packet(disconnect_packet)
         ServerMojang.instance.close(player_uuid: player_uuid)

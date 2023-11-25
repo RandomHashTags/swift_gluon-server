@@ -1,11 +1,23 @@
 //
 //  ServerPacket.swift
-//  
 //
-//  Created by Evan Anderson on 8/2/23.
+//
+//  Created by Evan Anderson on 11/25/23.
 //
 
 import Foundation
 
-public protocol ServerPacket : Packet {
+public enum ServerPacket {
+    
+    public enum Mojang {
+        public enum Bedrock {
+        }
+        
+        public enum Java {
+        }
+    }
+    
+    public enum Gluon {
+    }
+    
 }

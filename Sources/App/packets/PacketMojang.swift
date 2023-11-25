@@ -11,7 +11,7 @@ public protocol PacketMojang : Packet where IDValue == UInt, Category == PacketC
     
     associatedtype GameplayID : PacketGameplayID
     
-    static func process(_ client: ServerMojangClient) throws
+    static func server_received(_ client: ServerMojangClient) throws
     static var packet_gameplay_id : GameplayID.Type { get }
     
     static var id : GameplayID { get }
@@ -20,12 +20,12 @@ public protocol PacketMojang : Packet where IDValue == UInt, Category == PacketC
 }
 
 public extension PacketMojang {
-    static func process(_ client: ServerMojangClient) throws {
-        print("missing `process` static function implementation for `\(Self.self)` with id \"\(id)\"")
+    static func server_received(_ client: ServerMojangClient) throws {
+        print("missing `server_received` static function implementation for PacketMojang `\(Self.self)` with id \"\(id)\"")
     }
     
     var platform : PacketPlatform {
-        return PacketPlatform.mojang
+        return PacketPlatform.mojang_java
     }
     
     func packet_bytes() throws -> [UInt8] {
