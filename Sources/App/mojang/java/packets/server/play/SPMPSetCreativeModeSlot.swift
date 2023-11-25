@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// While the user is in the standard inventory (i.e., not a crafting bench) in Creative mode, the player will send this packet.
     ///
     /// Clicking in the creative inventory menu is quite different from non-creative inventory management. Picking up an item with the mouse actually deletes the item from the server, and placing an item into a slot or dropping it out of the inventory actually tells the server to create the item from scratch. (This can be verified by clicking an item that you don't mind deleting, then severing the connection to the server; the item will be nowhere to be found when you log back in.) As a result of this implementation strategy, the "Destroy Item" slot is just a client-side implementation detail that means "I don't intend to recreate this item.". Additionally, the long listings of items (by category, etc.) are a client-side interface for choosing which item to create. Picking up an item from such listings sends no packets to the server; only when you put it somewhere does it tell the server to create the item in that location.

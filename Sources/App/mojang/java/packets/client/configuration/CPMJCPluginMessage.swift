@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Configuration {
+extension ClientPacket.Mojang.Java.Configuration {
     /// Mods and plugins can use this to send their data. Minecraft itself uses several [plugin channels](https://wiki.vg/Plugin_channel ). These internal channels are in the `minecraft` namespace.
     /// More information on how it works on [Dinnerbone's blog](https://dinnerbone.com/blog/2012/01/13/minecraft-plugin-channels-messaging/ ). More documentation about internal and popular registered channels are [here](https://wiki.vg/Plugin_channel ).
     ///

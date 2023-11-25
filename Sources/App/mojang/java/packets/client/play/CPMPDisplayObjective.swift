@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// This is sent to the client when it should display a scoreboard.
     struct DisplayObjective : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.display_objective

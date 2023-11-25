@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Sent by the server when an item in a slot (in a window) is added/removed.
     ///
     /// To set the cursor (the item currently dragged with the mouse), use -1 as Window ID and as Slot.

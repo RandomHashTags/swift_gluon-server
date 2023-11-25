@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Configuration {
+extension ClientPacket.Mojang.Java.Configuration {
     /// Used to enable and disable features, generally experimental ones, on the client.
     ///
     /// As of 1.20.2, the following feature flags are available:

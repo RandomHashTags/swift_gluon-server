@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Configuration {
+extension ServerPacket.Mojang.Java.Configuration {
     /// Response to the clientbound packet ([Ping](https://wiki.vg/Protocol#Ping_.28configuration.29 )) with the same id.
     struct Pong : ServerPacketMojangJavaConfigurationProtocol {
         public static let id:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration.pong

@@ -23,8 +23,8 @@ internal extension Array where Element : Hashable {
 }
 
 internal extension Set {
-    mutating func remove(contentsOf: Set<Element>) {
-        for element in contentsOf {
+    mutating func remove(contentsOf set: Set<Element>) {
+        for element in set {
             remove(element)
         }
     }

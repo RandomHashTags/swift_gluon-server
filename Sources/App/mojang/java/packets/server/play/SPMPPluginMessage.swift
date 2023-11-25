@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Mods and plugins can use this to send their data. Minecraft itself uses some [plugin channels](https://wiki.vg/Plugin_channel ). These internal channels are in the `minecraft` namespace.
     ///
     /// [More documentation on this](https://dinnerbone.com/blog/2012/01/13/minecraft-plugin-channels-messaging/)

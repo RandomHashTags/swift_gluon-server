@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// This packet is sent by the server when an entity moves more than 8 blocks.
     struct TeleportEntity : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.teleport_entity

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Configuration {
+extension ClientPacket.Mojang.Java.Configuration {
     struct ResourcePack : ClientPacketMojangJavaConfigurationProtocol {
         public static let id:ClientPacket.Mojang.Java.Configuration = ClientPacket.Mojang.Java.Configuration.resource_pack
         

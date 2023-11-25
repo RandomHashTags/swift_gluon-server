@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol PacketMojangJava : Packet where IDValue == UInt, Category == PacketCategoryMojangJava, PacketType == GeneralPacketMojang {
+protocol PacketMojangJava : Packet where IDValue == UInt, Category == PacketCategoryMojangJava, PacketType == GeneralPacketMojang {
     
     associatedtype GameplayID : PacketGameplayID
     
@@ -19,7 +19,7 @@ public protocol PacketMojangJava : Packet where IDValue == UInt, Category == Pac
     func encoded_values() throws -> [(any PacketEncodableMojangJava)?]
 }
 
-public extension PacketMojangJava {
+extension PacketMojangJava {
     static func server_received(_ client: ServerMojangClientJava) throws {
         print("missing `server_received` static function implementation for PacketMojangJava `\(Self.self)` with id \"\(id)\"")
     }

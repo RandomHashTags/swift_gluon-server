@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// This packet is sent by the client when the player clicks on a slot in a window.
     ///
     /// See [Inventory](https://wiki.vg/Inventory) for further information about how slots are indexed.
@@ -54,7 +54,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Item carried by the cursor. Has to be empty (item ID = -1) for drop mode, otherwise nothing will happen.
         public let carried_item:SlotMojang
         
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Mode : Int, Codable, PacketEncodableMojangJava {
             case mouse
             case shift_click
             case number_pad

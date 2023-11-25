@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct GameEvent : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.game_event
         
@@ -21,7 +21,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Depends on Event.
         public let value:Float
         
-        public enum Event : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Event : Int, Codable, PacketEncodableMojangJava {
             /// > Note: Displays message 'block.minecraft.spawn.not\_valid' (You have no home bed or charged respawn anchor, or it was obstructed) to the player.
             case no_respawn_block_available
             case begin_raining

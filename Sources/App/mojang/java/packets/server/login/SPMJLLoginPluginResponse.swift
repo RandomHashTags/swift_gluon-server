@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Login {
+extension ServerPacket.Mojang.Java.Login {
     /// In Notchian server, the maximum data length is 1048576 bytes.
     struct LoginPluginResponse : ServerPacketMojangJavaLoginProtocol {
         public static let id:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login.login_plugin_response

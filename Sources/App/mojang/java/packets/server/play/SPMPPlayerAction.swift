@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Sent when the player mines a block. A Notchian server only accepts digging packets with coordinates within a 6-unit radius between the center of the block and 1.5 units from the player's feet (_not_ their eyes).
     struct PlayerAction : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.player_action
@@ -28,7 +28,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let face:PlayerAction.Face
         public let sequence:VariableIntegerJava
         
-        public enum Status : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Status : Int, Codable, PacketEncodableMojangJava {
             case started_digging
             /// Sent when the player lets go of the Mine Block key (default: left click).
             case cancelled_digging
@@ -44,7 +44,7 @@ public extension ServerPacket.Mojang.Java.Play {
             case swap_item_in_hand
         }
         
-        public enum Face : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Face : Int, Codable, PacketEncodableMojangJava {
             case botton
             case top
             case north

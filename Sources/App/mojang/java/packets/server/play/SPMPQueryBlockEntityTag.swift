@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Used when `F3+I` is pressed while looking at a block.
     struct QueryBlockEntityTag : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.query_block_entity_tag

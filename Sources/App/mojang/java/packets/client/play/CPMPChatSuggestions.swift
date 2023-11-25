@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Unused by the Notchian server. Likely provided for custom servers to send chat message completions to clients.
     struct ChatSuggestions : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.chat_suggestions
@@ -24,7 +24,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let count:VariableIntegerJava
         public let entries:[String]
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Action : Int, Codable, PacketEncodableMojangJava {
             case add = 0
             case remote
             case set

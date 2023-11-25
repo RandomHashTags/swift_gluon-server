@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// When a player selects a specific trade offered by a villager NPC.
     struct SelectTrade : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.select_trade

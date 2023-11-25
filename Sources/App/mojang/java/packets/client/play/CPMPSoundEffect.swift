@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Plays a sound effect at the given location, either by hardcoded ID or Identifier. Sound IDs and names can be found at https://pokechu22.github.io/Burger/1.20.1.html#sounds .
     /// - Warning: Numeric sound effect IDs are liable to change between versions
     struct SoundEffect : ClientPacketMojangJavaPlayProtocol {
@@ -25,7 +25,7 @@ public extension ClientPacket.Mojang.Java.Play {
                     range = try packet.read_float()
                 }
             }
-            let sound_category:SoundCategoryMojang = try packet.read_enum()
+            let sound_category:SoundCategoryMojangJava = try packet.read_enum()
             let effect_position_x:Int32 = try packet.read_int()
             let effect_position_y:Int32 = try packet.read_int()
             let effect_position_z:Int32 = try packet.read_int()
@@ -44,7 +44,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The fixed range of the sound. Only present if `has_fixed_range` is true and `sound_id` is 0.
         public let range:Float?
         /// The category that this sound will be played from.
-        public let sound_category:SoundCategoryMojang
+        public let sound_category:SoundCategoryMojangJava
         /// Effect X multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part).
         public let effect_position_x:Int32
         /// Effect X multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part).

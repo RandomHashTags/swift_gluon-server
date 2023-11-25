@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Configuration {
+extension ClientPacket.Mojang.Java.Configuration {
     struct Disconnect : ClientPacketMojangJavaConfigurationProtocol {
         public static let id:ClientPacket.Mojang.Java.Configuration = ClientPacket.Mojang.Java.Configuration.disconnect
         

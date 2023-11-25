@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct PlayerChatMessage : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.player_chat_message
         
@@ -49,7 +49,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let network_target_name_present:Bool
         public let network_target_name:ChatPacketMojang?
         
-        public enum FilterType : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum FilterType : Int, Codable, PacketEncodableMojangJava {
             case pass_through
             case fully_filtered
             case partially_filtered

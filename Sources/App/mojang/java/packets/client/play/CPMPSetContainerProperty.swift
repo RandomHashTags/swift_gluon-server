@@ -8,7 +8,7 @@
 import Foundation
 
 /// This packet is used to inform the client that part of a GUI window should be updated.
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct SetContainerProperty : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_container_property
         

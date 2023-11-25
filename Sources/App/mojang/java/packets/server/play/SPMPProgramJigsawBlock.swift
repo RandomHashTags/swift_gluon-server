@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Sent when Done is pressed on the Jigsaw Block interface.
     struct ProgramJigsawBlock : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.program_jigsaw_block

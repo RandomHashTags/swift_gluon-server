@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Plays a sound effect from an entity, either by hardcoded ID or Identifier. Sound IDs and names can be found at https://pokechu22.github.io/Burger/1.20.1.html#sounds .
     /// - Warning: Numeric sound effect IDs are liable to change between versions
     struct EntitySoundEffect : ClientPacketMojangJavaPlayProtocol {
@@ -31,7 +31,7 @@ public extension ClientPacket.Mojang.Java.Play {
                 has_fixed_range = nil
                 range = nil
             }
-            let sound_category:SoundCategoryMojang = try packet.read_enum()
+            let sound_category:SoundCategoryMojangJava = try packet.read_enum()
             let entity_id:VariableIntegerJava = try packet.read_var_int()
             let volume:Float = try packet.read_float()
             let pitch:Float = try packet.read_float()
@@ -48,7 +48,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The fixed range of the sound. Only present if previous boolean is true and `sound_id` is 0.
         public let range:Float?
         /// The category that this sound will be played from.
-        public let sound_category:SoundCategoryMojang
+        public let sound_category:SoundCategoryMojangJava
         public let entity_id:VariableIntegerJava
         /// 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients.
         public let volume:Float

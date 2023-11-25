@@ -10,7 +10,7 @@ import Foundation
 /// An integer between -2147483648 and 2147483647.
 ///
 /// Variable-length data encoding a two's complement signed 32-bit integer.
-public struct VariableIntegerJava : Hashable, Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
+public struct VariableIntegerJava : Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
     public static func decode(from packet: GeneralPacketMojang) throws -> Self {
         return try packet.read_var_int()
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Status {
+extension ClientPacket.Mojang.Java.Status {
     struct StatusResponse : ClientPacketMojangJavaStatusProtocol {
         public static let id:ClientPacket.Mojang.Java.Status = ClientPacket.Mojang.Java.Status.status_response
         

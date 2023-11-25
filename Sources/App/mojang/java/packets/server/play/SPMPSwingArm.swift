@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Sent when the player's arm swings.
     struct SwingArm : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.swing_arm
@@ -19,7 +19,7 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let hand:SwingArm.Hand
         
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Hand : Int, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }

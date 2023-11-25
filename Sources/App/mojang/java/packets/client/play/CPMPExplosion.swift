@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Sent when an explosion occurs (creepers, TNT, and ghast fireballs).
     ///
     /// Each block in Records is set to air. Coordinates for each axis in record is int(X) + record.x

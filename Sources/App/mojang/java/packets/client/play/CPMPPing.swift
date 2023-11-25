@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Packet is not used by the Notchian server. When sent to the client, client responds with a Pong packet with the same id.
     struct Ping : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.ping
@@ -17,7 +17,7 @@ public extension ClientPacket.Mojang.Java.Play {
             return Self(id: id)
         }
         
-        public static func server_received(_ client: ServerMojangClientJava) throws {
+        static func server_received(_ client: ServerMojangClientJava) throws {
             let packet:Self = try client.read_and_parse_mojang_packet()
             let server_response_packet:ServerPacket.Mojang.Java.Play.Pong = ServerPacket.Mojang.Java.Play.Pong(id: packet.id)
             try client.send_packet(server_response_packet)

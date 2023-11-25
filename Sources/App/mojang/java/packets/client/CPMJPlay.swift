@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java {
+extension ClientPacket.Mojang.Java {
     enum Play : UInt8, PacketGameplayID {
         case bundle_delimiter = 0
         case spawn_entity =     1
@@ -121,7 +121,7 @@ public extension ClientPacket.Mojang.Java {
         case update_recipes
         case update_tags
         
-        public var packet : (any ClientPacketMojangJavaProtocol.Type)? {
+        var packet : (any ClientPacketMojangJavaProtocol.Type)? {
             switch self {
             case .spawn_entity:                   return ClientPacket.Mojang.Java.Play.SpawnEntity.self
             case .spawn_experience_orb:           return ClientPacket.Mojang.Java.Play.SpawnExperienceOrb.self

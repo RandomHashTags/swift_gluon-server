@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java {
+extension ClientPacket.Mojang.Java {
     enum Configuration : UInt8, PacketGameplayID {
         case plugin_message
         case disconnect
@@ -19,7 +19,7 @@ public extension ClientPacket.Mojang.Java {
         case feature_flags
         case update_tags
         
-        public var packet : any ClientPacketMojangJavaConfigurationProtocol.Type {
+        var packet : any ClientPacketMojangJavaConfigurationProtocol.Type {
             switch self {
             case .plugin_message:       return ClientPacket.Mojang.Java.Configuration.PluginMessage.self
             case .disconnect:           return ClientPacket.Mojang.Java.Configuration.Disconnect.self

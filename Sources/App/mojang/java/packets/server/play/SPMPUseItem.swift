@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Sent when pressing the Use Item key (default: right click) with an item in hand.
     struct UseItem : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.use_item
@@ -21,7 +21,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let hand:UseItem.Hand
         public let sequence:VariableIntegerJava
         
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Hand : Int, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }

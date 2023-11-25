@@ -277,7 +277,7 @@ extension GluonServer {
     }
     func boot_player(disconnect_packet: ClientPacket.Mojang.Java.Play.Disconnect, player: any Player, ban_user: Bool = false, ban_expiration: Date? = nil, ban_ip: Bool = false) throws {
         let player_uuid:UUID = player.uuid
-        try player.send_packet(disconnect_packet)
+        try ServerMojang.instance.player_connections[player_uuid]?.send_packet(disconnect_packet)
         ServerMojang.instance.close(player_uuid: player_uuid)
         
         let instance:GluonServer = GluonServer.shared_instance

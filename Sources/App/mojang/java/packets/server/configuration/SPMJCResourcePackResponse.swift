@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Configuration {
+extension ServerPacket.Mojang.Java.Configuration {
     struct ResourcePackResponse : ServerPacketMojangJavaConfigurationProtocol {
         public static let id:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration.resource_pack_response
         
@@ -18,7 +18,7 @@ public extension ServerPacket.Mojang.Java.Configuration {
         
         public let result:Result
         
-        public enum Result : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Result : Int, Codable, PacketEncodableMojangJava {
             case successfully_loaded
             case declined
             case failed_download

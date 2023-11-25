@@ -7,12 +7,12 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java {
+extension ServerPacket.Mojang.Java {
     enum Handshaking : UInt8, PacketGameplayID {
         case handshake = 0
         case legacy_server_list_ping = 254
         
-        public var packet : any ServerPacketMojangJavaHandshakingProtocol.Type {
+        var packet : any ServerPacketMojangJavaHandshakingProtocol.Type {
             switch self {
             case .handshake:               return ServerPacket.Mojang.Java.Handshaking.Handshake.self
             case .legacy_server_list_ping: return ServerPacket.Mojang.Java.Handshaking.LegacyServerListPing.self

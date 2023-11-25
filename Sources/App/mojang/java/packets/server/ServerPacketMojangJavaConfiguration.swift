@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java {
+extension ServerPacket.Mojang.Java {
     enum Configuration : UInt8, PacketGameplayID {
         case client_information
         case plugin_message
@@ -16,7 +16,7 @@ public extension ServerPacket.Mojang.Java {
         case pong
         case resource_pack_response
         
-        public var packet : any ServerPacketMojangJavaConfigurationProtocol.Type {
+        var packet : any ServerPacketMojangJavaConfigurationProtocol.Type {
             switch self {
             case .client_information:     return ServerPacket.Mojang.Java.Configuration.ClientInformation.self
             case .plugin_message:         return ServerPacket.Mojang.Java.Configuration.PluginMessage.self

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// This packet as well as [Set Player Position](https://wiki.vg/Protocol#Set_Player_Position ), [Set Player Rotation](https://wiki.vg/Protocol#Set_Player_Rotation ), and [Set Player Position and Rotation](https://wiki.vg/Protocol#Set_Player_Position_and_Rotation) are called the “serverbound movement packets”. Vanilla clients will send Move Player Position once every 20 ticks even for a stationary player.
     ///
     /// This packet is used to indicate whether the player is on ground (walking/swimming), or airborne (jumping/falling).

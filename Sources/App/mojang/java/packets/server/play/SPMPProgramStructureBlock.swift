@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// !
     ///
     /// The Notchian client uses `update data` to indicate no special action should be taken (i.e. the done button).
@@ -61,25 +61,25 @@ public extension ServerPacket.Mojang.Java.Play {
         /// 0x01: Ignore entities; 0x02: Show air; 0x04: Show bounding box.
         public let flags:Int8
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Action : Int, Codable, PacketEncodableMojangJava {
             case update_data
             case save
             case load
             case detect_size
         }
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Mode : Int, Codable, PacketEncodableMojangJava {
             case save
             case load
             case corner
             case data
         }
         
-        public enum Mirror : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Mirror : Int, Codable, PacketEncodableMojangJava {
             case none
             case left_right
             case front_back
         }
-        public enum Rotation : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Rotation : Int, Codable, PacketEncodableMojangJava {
             case none
             case clockwise_90
             case clockwise_180

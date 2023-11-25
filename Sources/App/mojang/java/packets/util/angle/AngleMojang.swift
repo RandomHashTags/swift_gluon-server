@@ -8,7 +8,7 @@
 import Foundation
 
 /// A rotation angle in steps of 1/256 of a full turn
-public struct AngleMojang : Hashable, Codable, PacketEncodableMojangJava {
+public struct AngleMojang : Codable, PacketEncodableMojangJava {
     /// Whether or not this is signed does not matter, since the resulting angles are the same.
     public let value:Int
     

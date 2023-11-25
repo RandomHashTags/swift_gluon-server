@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Packet : Hashable, Codable, PacketEncodable {
+public protocol Packet : Codable, PacketEncodable {
     associatedtype IDValue : Codable
     associatedtype Category : PacketCategory
     associatedtype PacketType : GeneralPacket
@@ -16,8 +16,6 @@ public protocol Packet : Hashable, Codable, PacketEncodable {
     
     var platform : PacketPlatform { get }
     var category : Category { get }
-    
-    //func to_sendable(category: Category, id: IDValue) -> (any SendablePacket)?
     
     func to_general() throws -> PacketType
 }

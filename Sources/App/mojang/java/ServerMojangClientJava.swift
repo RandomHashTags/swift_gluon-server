@@ -9,18 +9,24 @@ import Foundation
 import Socket
 import SwiftASN1
 
-public final class ServerMojangClientJava : Hashable {
+final class ServerMojangClientJava : MinecraftClientHandler {
+    public static let platform:PacketPlatform = PacketPlatform.mojang_java
+    
     public static func == (lhs: ServerMojangClientJava, rhs: ServerMojangClientJava) -> Bool {
         return lhs.socket == rhs.socket && lhs.state == rhs.state
     }
     
+    public typealias ProtocolVersion = MinecraftProtocolVersion.Java
+    public typealias PlayerType = GluonPlayer
+    
+    
     internal let socket:Socket
     
     public private(set) var state:ServerMojangStatus = .handshaking_received_packet
-    public private(set) var protocol_version:MinecraftProtocolVersion.Java = MinecraftProtocolVersion.Java.unknown
+    public private(set) var protocol_version:ProtocolVersion = ProtocolVersion.unknown
     public private(set) var information:ServerPacket.Mojang.Java.Configuration.ClientInformation?
     private var player_builder:PlayerBuilder!
-    public private(set) var player:(any Player)?
+    public private(set) var player:PlayerType?
     private var connection_task:Task<Void, Never>!
     
     init(socket: Socket) {
@@ -41,7 +47,7 @@ public final class ServerMojangClientJava : Hashable {
         hasher.combine(state)
     }
     
-    func process_packet() throws {
+    public func process_packet() throws {
         switch state {
         case .handshaking_received_packet:
             try parse_handshake()
@@ -74,7 +80,7 @@ public final class ServerMojangClientJava : Hashable {
         return try T.parse(general_packet)
     }
     
-    func close() {
+    public func close() {
         connection_task.cancel()
         ServerMojang.instance.close(connection: self)
     }
@@ -121,14 +127,14 @@ public final class ServerMojangClientJava : Hashable {
                 enforces_secure_chat: true,
                 online_players_count: ServerMojang.instance.player_connections.count
             )
-            try socket.send_packet(status_response)
+            try send_packet(status_response)
             
             packet = try read_packet()
             ping_request = try ServerPacket.Mojang.Java.Status.PingRequest.parse(packet)
             break
         }
         let ping_response:ClientPacket.Mojang.Java.Status.PingResponse = ClientPacket.Mojang.Java.Status.PingResponse(payload: ping_request.payload)
-        try socket.send_packet(ping_response)
+        try send_packet(ping_response)
         close()
     }
     private func parse_login() throws {
@@ -159,7 +165,7 @@ public final class ServerMojangClientJava : Hashable {
                     public_key: public_key_bytes,
                     verify_token: verify_token
                 )
-                try socket.send_packet(encryption_request)
+                try send_packet(encryption_request)
                 
                 print("test1")
                 packet = try read_packet()
@@ -173,7 +179,7 @@ public final class ServerMojangClientJava : Hashable {
                     number_of_properties: VariableIntegerJava(value: 0),
                     properties: []
                 )
-                try socket.send_packet(success_packet)
+                try send_packet(success_packet)
                 
                 packet = try read_packet() // acknowledged packet
             }
@@ -205,7 +211,7 @@ public final class ServerMojangClientJava : Hashable {
         }
         
         let finish_configuration:ServerPacket.Mojang.Java.Configuration.FinishConfiguration = ServerPacket.Mojang.Java.Configuration.FinishConfiguration()
-        try socket.send_packet(finish_configuration)
+        try send_packet(finish_configuration)
         
         state = .play
         let uuid:UUID = player_builder.uuid
@@ -277,21 +283,12 @@ public final class ServerMojangClientJava : Hashable {
         try test.server_received(self)
     }
     
-    func send_packet(_ packet: any PacketMojangJava) throws {
-        try socket.send_packet(packet)
-    }
-    func send_packet_data(_ packet_data: Data) throws {
-        try socket.write(from: packet_data)
-    }
-}
-
-extension Socket {
-    func send_packet(_ packet: any PacketMojangJava) throws {
+    public func send_packet(_ packet: any PacketMojangJava) throws {
         let data:Data = try packet.as_client_response()
         try send_packet_data(data)
     }
-    func send_packet_data(_ packet_data: Data) throws {
-        try write(from: packet_data)
+    public func send_packet_data(_ packet_data: Data) throws {
+        try socket.write(from: packet_data)
     }
 }
 

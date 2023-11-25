@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct ChunkBiomes : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.chunk_biomes
         
@@ -15,7 +15,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let number_of_chunks:VariableIntegerJava
         public let data:[ChunkBiomes.BiomeData]
         
-        public struct BiomeData : Hashable, Codable, PacketEncodableMojangJava {
+        public struct BiomeData : Codable, PacketEncodableMojangJava {
             /// Chunk coordinate (block coordinate divided by 16, rounded down)
             public let x:Int
             /// Chunk coordinate (block coordinate divided by 16, rounded down)

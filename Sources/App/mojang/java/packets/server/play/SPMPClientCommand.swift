@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     struct ClientCommand : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.client_command
         
@@ -18,7 +18,7 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let action:ClientCommand.Action
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Action : Int, Codable, PacketEncodableMojangJava {
             /// Sent when the client is ready to complete login and when the client is ready to respawn after death.
             case perform_respawn = 0
             /// Sent when the client opens the Statistics menu.

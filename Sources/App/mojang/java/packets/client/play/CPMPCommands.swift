@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Lists all of the commands on the server, and how they are parsed.
     ///
     /// This is a directed graph, with one root node. Each redirect or child node must refer only to nodes that have already been declared.

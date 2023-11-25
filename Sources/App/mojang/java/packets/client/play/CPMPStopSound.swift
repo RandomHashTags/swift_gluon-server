@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct StopSound : ClientPacketMojangJavaPlayProtocol { // TODO: fix
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.stop_sound
         

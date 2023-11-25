@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// This packet is sent from the client to the server when the client attacks or right-clicks another entity (a player, minecart, etc).
     ///
     /// A Notchian server only accepts this packet if the entity being attacked/used is visible without obstruction and within a 4-unit radius of the player's position.
@@ -63,12 +63,12 @@ public extension ServerPacket.Mojang.Java.Play {
         /// If the client is sneaking.
         public let sneaking:Bool
         
-        public enum InteractType : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum InteractType : Int, Codable, PacketEncodableMojangJava {
             case interact
             case attack
             case interact_at
         }
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Hand : Int, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }

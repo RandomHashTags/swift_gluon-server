@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Updates the player's XYZ position on the server.
     ///
     /// Checking for moving too fast is achieved like this:

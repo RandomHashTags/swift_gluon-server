@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Creates and updates teams.
     struct UpdateTeams : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_teams
@@ -39,7 +39,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// Identifiers for the entities in this team. For players, this is their username; for other entities, it is their UUID.
         public let entities:[String]?
         
-        public enum Mode : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Mode : Int, Codable, PacketEncodableMojangJava {
             case create_team =               0
             case remove_team =               1
             case update_team_info =          2
@@ -47,14 +47,14 @@ public extension ClientPacket.Mojang.Java.Play {
             case remove_entities_from_team = 4
         }
         
-        public enum NameTagVisibility : String, Hashable, Codable, PacketEncodableMojangJava {
+        public enum NameTagVisibility : String, Codable, PacketEncodableMojangJava {
             case always
             case hideForOtherTeams
             case hideForOwnTeam
             case never
         }
         
-        public enum CollisionRule : String, Hashable, Codable, PacketEncodableMojangJava {
+        public enum CollisionRule : String, Codable, PacketEncodableMojangJava {
             case always
             case pushOtherTeams
             case pushOwnTeam

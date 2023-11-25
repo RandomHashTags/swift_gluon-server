@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Used to enable and disable features, generally experimental ones, on the client.
     ///
     /// As of 1.20.1, the following feature flags are available:

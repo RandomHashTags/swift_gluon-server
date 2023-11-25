@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Changes the difficulty setting in the client's option menu.
     struct ChangeDifficulty : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.change_difficulty
@@ -15,7 +15,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let difficulty:ChangeDifficulty.Difficulty
         public let difficulty_locked:Bool
         
-        public enum Difficulty : UInt8, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Difficulty : UInt8, Codable, PacketEncodableMojangJava {
             case peaceful = 0
             case easy
             case normal

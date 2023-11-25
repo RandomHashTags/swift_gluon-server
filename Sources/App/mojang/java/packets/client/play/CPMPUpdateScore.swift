@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// This is sent to the client when it should update a scoreboard item.
     struct UpdateScore : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_score
@@ -33,7 +33,7 @@ public extension ClientPacket.Mojang.Java.Play {
         /// The score to be displayed next to the entry. Only sent when Action does not equal 1.
         public let value:VariableIntegerJava?
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Action : Int, Codable, PacketEncodableMojangJava {
             case create_or_update_item = 0
             case remove_item = 1
         }

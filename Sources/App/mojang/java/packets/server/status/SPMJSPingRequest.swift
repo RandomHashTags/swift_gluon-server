@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Status {
+extension ServerPacket.Mojang.Java.Status {
     struct PingRequest : ServerPacketMojangJavaStatusProtocol {
         public static let id:ServerPacket.Mojang.Java.Status = ServerPacket.Mojang.Java.Status.ping_request
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct UpdateRecipes : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_recipes
         
@@ -26,7 +26,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let count:VariableIntegerJava
         public let recipes:[UpdateRecipes.UpdateRecipe]
         
-        public struct UpdateRecipe : Hashable, Codable, PacketEncodableMojangJava {
+        public struct UpdateRecipe : Codable, PacketEncodableMojangJava {
             public let identifier:Namespace
             public let recipe_id:Namespace
             /// Additional data for the recipe.

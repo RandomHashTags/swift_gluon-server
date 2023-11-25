@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java {
+extension ServerPacket.Mojang.Java {
     enum Play : UInt8, PacketGameplayID {
         case confirm_teleportation = 0
         case query_block_entity_tag = 1
@@ -61,7 +61,7 @@ public extension ServerPacket.Mojang.Java {
         case use_item_on
         case use_item
         
-        public var packet : any ServerPacketMojangJavaPlayProtocol.Type {
+        var packet : any ServerPacketMojangJavaPlayProtocol.Type {
             switch self {
             case .confirm_teleportation:            return ServerPacket.Mojang.Java.Play.ConfirmTeleportation.self
             case .query_block_entity_tag:           return ServerPacket.Mojang.Java.Play.QueryBlockEntityTag.self

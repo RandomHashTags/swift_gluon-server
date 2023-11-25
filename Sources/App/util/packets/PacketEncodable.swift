@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol PacketEncodable {
+public protocol PacketEncodable : Hashable {
     func packet_bytes() throws -> [UInt8]
     
     func unwrap_optional<T, R>(_ value: R?, key_path: KeyPath<Self, T>, precondition: String) throws -> R

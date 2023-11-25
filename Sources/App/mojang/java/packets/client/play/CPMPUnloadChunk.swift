@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// Tells the client to unload a chunk column.
     ///
     /// It is legal to send this packet even if the given chunk is not currently loaded.

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatPacketMojang : ChatPacket, PacketMojangJava, PacketEncodableMojangJava, PacketDecodableMojangJava {
+struct ChatPacketMojang : ChatPacket, PacketMojangJava, PacketEncodableMojangJava, PacketDecodableMojangJava {
     public typealias GameplayID = ClientPacket.Mojang.Java.Status
     
     // TODO: fix
@@ -61,7 +61,7 @@ public struct ChatPacketMojang : ChatPacket, PacketMojangJava, PacketEncodableMo
     }
 }
 
-public extension ChatPacketMojang {
+extension ChatPacketMojang {
     /// Displays a score. If the JSON contains a score key, then the component is a score component.
     ///
     /// The score JSON object contains data about the objective.
@@ -76,7 +76,7 @@ public extension ChatPacketMojang {
     }
 }
 
-public extension ChatPacketMojang {
+extension ChatPacketMojang {
     /// Defines an event that occurs when this component is clicked. Contains an `action` key and a `value` key. `value` is internally handled as a String, although it can be any type of JSON primitive.
     struct ClickEvent : Hashable, Codable {
         public let action:ClickEventAction
@@ -108,7 +108,7 @@ public extension ChatPacketMojang {
     }
 }
 
-public extension ChatPacketMojang {
+extension ChatPacketMojang {
     /// Defines an event that occurs when this component hovered over. Contains an `action` key and a `contents` key; `action` is a String and `contents` is a JSON object. However, since text components can be serialized as primitives as well as arrays and objects, this can directly be a String.
     struct HoverEvent : Hashable, Codable {
         let action:HoverEventAction

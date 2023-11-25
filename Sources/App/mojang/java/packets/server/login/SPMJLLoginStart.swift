@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Login {
+extension ServerPacket.Mojang.Java.Login {
     struct LoginStart : ServerPacketMojangJavaLoginProtocol {
         public static let id:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login.login_start
         

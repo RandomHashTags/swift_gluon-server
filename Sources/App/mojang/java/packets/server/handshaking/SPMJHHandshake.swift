@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Handshaking {
+extension ServerPacket.Mojang.Java.Handshaking {
     /// This causes the server to switch into the target state.
     struct Handshake : ServerPacketMojangJavaHandshakingProtocol {
         public static let id:ServerPacket.Mojang.Java.Handshaking = ServerPacket.Mojang.Java.Handshaking.handshake
@@ -33,7 +33,7 @@ public extension ServerPacket.Mojang.Java.Handshaking {
             return [protocol_version, server_address, server_port, next_state]
         }
         
-        public enum State : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum State : Int, Codable, PacketEncodableMojangJava {
             case status = 1
             case login  = 2
         }

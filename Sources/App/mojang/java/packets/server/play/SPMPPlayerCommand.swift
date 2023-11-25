@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Sent by the client to indicate that it has performed certain actions: sneaking (crouching), sprinting, exiting a bed, jumping with a horse, and opening a horse's inventory while riding it.
     ///
     /// Leave bed is only sent when the “Leave Bed” button is clicked on the sleep GUI, not when waking up due today time.
@@ -27,7 +27,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let action:PlayerCommand.Action
         public let jump_boost:VariableIntegerJava
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Action : Int, Codable, PacketEncodableMojangJava {
             case start_sneaking
             case stop_sneaking
             case leave_bed

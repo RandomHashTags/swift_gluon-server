@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     struct ResourcePack : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.resource_pack
         
@@ -18,7 +18,7 @@ public extension ServerPacket.Mojang.Java.Play {
         
         public let result:ResourcePack.Result
         
-        public enum Result : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Result : Int, Codable, PacketEncodableMojangJava {
             case successfully_loaded
             case declined
             case failed_download

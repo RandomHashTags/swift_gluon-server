@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Login {
+extension ServerPacket.Mojang.Java.Login {
     /// Acknowledgement to the [Login Success](https://wiki.vg/Protocol#Login_Success) packet sent by the server.
     ///
     /// This packet switches the connection state to [configuration](https://wiki.vg/Protocol#Configuration).

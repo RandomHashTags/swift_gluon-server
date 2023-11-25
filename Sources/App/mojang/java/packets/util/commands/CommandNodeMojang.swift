@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
+public struct CommandNodeMojang : Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
     public static func decode(from packet: GeneralPacketMojang) throws -> Self {
         let flags:Int8 = try packet.read_byte()
         let children_count:VariableIntegerJava = try packet.read_var_int()
@@ -75,7 +75,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojangJava, 
         return array
     }
     
-    public enum Parser : Int, Hashable, Codable, PacketEncodableMojangJava {
+    public enum Parser : Int, Codable, PacketEncodableMojangJava {
         case brigadier_bool = 0
         case brigadier_float = 1
         case brigadier_double
@@ -148,7 +148,7 @@ public struct CommandNodeMojang : Hashable, Codable, PacketEncodableMojangJava, 
     }
 }
 
-public protocol CommandNodeMojangProperty : Hashable, Codable, PacketEncodableMojangJava {
+public protocol CommandNodeMojangProperty : Codable, PacketEncodableMojangJava {
     func encoded_values() throws -> [(any PacketEncodableMojangJava)?]
 }
 public extension CommandNodeMojangProperty {

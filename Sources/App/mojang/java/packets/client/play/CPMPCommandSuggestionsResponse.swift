@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     /// The server responds with a list of auto-completions of the last word sent to it. In the case of regular chat, this is a player username. Command names and parameters are also supported. The client sorts these alphabetically before listing them.
     struct CommandSuggestionsResponse : ClientPacketMojangJavaPlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.command_suggestions_response
@@ -36,7 +36,7 @@ public extension ClientPacket.Mojang.Java.Play {
         public let count:VariableIntegerJava
         public let matches:[CommandSuggestionsResponse.Match]
         
-        public struct Match : Hashable, Codable, PacketEncodableMojangJava {
+        public struct Match : Codable, PacketEncodableMojangJava {
             /// One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for `count`.
             /// > Note: Doesn't include a leading `/` on commands.
             public let match:String

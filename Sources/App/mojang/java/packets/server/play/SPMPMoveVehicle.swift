@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// Sent when a player moves in a vehicle. Fields are the same as in [Set Player Position and Rotation](https://wiki.vg/Protocol#Set_Player_Position_and_Rotation ). Note that all fields use absolute positioning and do not allow for relative positioning.
     struct MoveVehicle : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.move_vehicle

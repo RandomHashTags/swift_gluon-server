@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// This message is sent from the client to the server when the “Done” button is pushed after placing a sign.
     ///
     /// The server only accepts this packet after [Open Sign Editor](https://wiki.vg/Protocol#Open_Sign_Editor ), otherwise this packet is silently ignored.

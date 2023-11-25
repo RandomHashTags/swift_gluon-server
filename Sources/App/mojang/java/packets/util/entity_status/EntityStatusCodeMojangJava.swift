@@ -1,5 +1,5 @@
 //
-//  EntityStatusCodeMojang.swift
+//  EntityStatusCodeMojangJava.swift
 //  
 //
 //  Created by Evan Anderson on 8/3/23.
@@ -8,7 +8,7 @@
 import Foundation
 
 // https://wiki.vg/Entity_statuses
-public enum EntityStatusCodeMojang : UInt, Hashable, Codable {
+public enum EntityStatusCodeMojangJava : UInt, Hashable, Codable { // TODO: fix
     case arrow = 0
     case minecart_spawner_or_rabbit
     case none

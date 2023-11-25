@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Login {
+extension ServerPacket.Mojang.Java.Login {
     /// See [Protocol Encryption](https://wiki.vg/Protocol_Encryption) for details. See [Mojang\_API#Player\_Certificates](https://wiki.vg/Mojang_API#Player_Certificates) for an API to get the message signature.
     struct EncryptionResponse : ServerPacketMojangJavaLoginProtocol {
         public static let id:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login.encryption_response

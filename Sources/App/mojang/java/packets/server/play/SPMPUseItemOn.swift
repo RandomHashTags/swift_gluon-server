@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     /// !
     ///
     /// Upon placing a block, this packet is sent once.
@@ -45,7 +45,7 @@ public extension ServerPacket.Mojang.Java.Play {
         public let inside_block:Bool
         public let sequence:VariableIntegerJava
         
-        public enum Hand : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Hand : Int, Codable, PacketEncodableMojangJava {
             case main_hand
             case off_hand
         }

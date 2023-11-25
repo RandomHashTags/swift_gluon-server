@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Play {
+extension ClientPacket.Mojang.Java.Play {
     struct UpdateTags : ClientPacketMojangJavaPlayProtocol { // TODO: fix
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_tags
         
@@ -16,11 +16,11 @@ public extension ClientPacket.Mojang.Java.Play {
         public let tag_types:[Namespace]
         public let tags:[UpdateTags.Tag]
         
-        public struct Tag : Hashable, Codable, PacketEncodableMojangJava {
+        public struct Tag : Codable, PacketEncodableMojangJava {
             public let length:VariableIntegerJava
             public let entries:[UpdateTags.Tag.Entry]
             
-            public struct Entry : Hashable, Codable, PacketEncodableMojangJava {
+            public struct Entry : Codable, PacketEncodableMojangJava {
                 public let tag_name:Namespace
                 public let count:VariableIntegerJava
                 /// Numeric ID of the given type (block, item, etc.).

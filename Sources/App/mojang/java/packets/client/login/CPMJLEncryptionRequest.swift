@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ClientPacket.Mojang.Java.Login {
+extension ClientPacket.Mojang.Java.Login {
     struct EncryptionRequest : ClientPacketMojangJavaLoginProtocol {
         public static let id:ClientPacket.Mojang.Java.Login = ClientPacket.Mojang.Java.Login.encryption_request
         

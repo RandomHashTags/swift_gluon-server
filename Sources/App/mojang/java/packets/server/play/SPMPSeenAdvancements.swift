@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension ServerPacket.Mojang.Java.Play {
+extension ServerPacket.Mojang.Java.Play {
     struct SeenAdvancements : ServerPacketMojangJavaPlayProtocol {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.seen_advancements
         
@@ -21,7 +21,7 @@ public extension ServerPacket.Mojang.Java.Play {
         /// Only present if action is Opened tab.
         public let tab_id:Namespace?
         
-        public enum Action : Int, Hashable, Codable, PacketEncodableMojangJava {
+        public enum Action : Int, Codable, PacketEncodableMojangJava {
             case opened_tab
             case closed_screen
         }
