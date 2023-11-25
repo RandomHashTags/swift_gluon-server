@@ -31,6 +31,7 @@ final class GluonLivingEntity : LivingEntity {
     var health:Double
     var health_maximum:Double
     
+    var id:UInt64
     var uuid:UUID
     var type_id:String
     var type : (any EntityType)? {
@@ -88,6 +89,7 @@ final class GluonLivingEntity : LivingEntity {
         air_maximum: UInt16,
         health: Double,
         health_maximum: Double,
+        id: UInt64,
         uuid: UUID,
         type_id: String,
         ticks_lived: UInt64,
@@ -127,6 +129,7 @@ final class GluonLivingEntity : LivingEntity {
         self.air_maximum_ticks = air_maximum
         self.health = health
         self.health_maximum = health_maximum
+        self.id = id
         self.uuid = uuid
         self.type_id = type_id
         self.ticks_lived = ticks_lived

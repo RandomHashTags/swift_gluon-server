@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
+    var id : UInt64 { get }
     var uuid : UUID { get }
     /// the ``EntityType`` id
     var type_id : String { get }

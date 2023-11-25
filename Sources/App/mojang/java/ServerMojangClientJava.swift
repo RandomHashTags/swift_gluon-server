@@ -252,6 +252,7 @@ final class ServerMojangClientJava : MinecraftClientHandler {
             health: 20,
             health_maximum: 20,
             
+            id: UInt64.random(),
             uuid: uuid,
             type_id: "minecraft:player",
             ticks_lived: 0,

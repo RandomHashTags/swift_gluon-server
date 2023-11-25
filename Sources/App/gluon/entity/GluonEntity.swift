@@ -8,6 +8,7 @@
 import Foundation
 
 final class GluonEntity : Entity {
+    let id:UInt64
     let uuid:UUID
     let type_id:String
     var type : (any EntityType)? {
@@ -49,7 +50,8 @@ final class GluonEntity : Entity {
         tick_entity(server)
     }
     
-    init(uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
+    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
+        self.id = id
         self.uuid = uuid
         self.type_id = type_id
         self.ticks_lived = ticks_lived
