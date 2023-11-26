@@ -16,15 +16,15 @@ public class Vector : Hashable {
     public var y:Float
     public var z:Float
     
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(x)
-        hasher.combine(y)
-        hasher.combine(z)
-    }
-    
     public init(x: Float, y: Float, z: Float) {
         self.x = x
         self.y = y
         self.z = z
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
     }
 }

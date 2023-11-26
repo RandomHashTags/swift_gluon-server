@@ -1,5 +1,5 @@
 //
-//  DefaultCommands.swift
+//  CommandsJava.swift
 //
 //
 //  Created by Evan Anderson on 6/30/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DefaultCommands : String, CaseIterable, Command {
+public enum CommandsJava : String, CaseIterable, Command {
     case advancement
     case attribute
     case execute

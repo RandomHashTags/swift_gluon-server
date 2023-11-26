@@ -117,7 +117,7 @@ extension ServerPacket.Mojang.Java {
             }
         }
         
-        func server_received(_ client: ServerMojangClientJava) throws {
+        func server_received(_ client: ClientMojangJava) throws {
             try packet.server_received(client)
         }
     }

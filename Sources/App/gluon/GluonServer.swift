@@ -84,7 +84,7 @@ final class GluonServer : GluonSharedInstance, Server {
         banned_ip_addresses = []
         
         difficulties = [:]
-        for difficulty in DefaultDifficulties.allCases {
+        for difficulty in DifficultyJava.allCases {
             difficulties[difficulty.id] = difficulty
         }
         //let spawn_location:Vector = Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero)
@@ -95,7 +95,7 @@ final class GluonServer : GluonSharedInstance, Server {
                 seed: 0,
                 name: "overworld",
                 spawn_location: spawn_location,
-                difficulty: DefaultDifficulties.normal,
+                difficulty: DifficultyJava.normal,
                 game_rules: [],
                 time: 0,
                 border: nil,
@@ -130,7 +130,7 @@ final class GluonServer : GluonSharedInstance, Server {
         potion_effect_types = [:]
         
         game_modes = [:]
-        for game_mode in DefaultGameModes.allCases {
+        for game_mode in GameModeJava.allCases {
             game_modes[game_mode.id] = game_mode
         }
         advancements = [:]
@@ -140,7 +140,7 @@ final class GluonServer : GluonSharedInstance, Server {
         statistics = [:]
         
         commands = [:]
-        for command in DefaultCommands.allCases {
+        for command in CommandsJava.allCases {
             commands[command.id] = command
         }
         
@@ -176,7 +176,7 @@ final class GluonServer : GluonSharedInstance, Server {
             food_level: 20,
             permissions: [],
             statistics: [:],
-            game_mode: DefaultGameModes.survival,
+            game_mode: GameModeJava.survival,
             is_blocking: false,
             is_flying: false,
             is_op: false,

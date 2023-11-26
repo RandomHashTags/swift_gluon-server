@@ -17,8 +17,8 @@ public final class ServerMojang {
     
     let host:String
     let port:Int
-    private(set) var connections:Set<ServerMojangClientJava>
-    private(set) var player_connections:[UUID:ServerMojangClientJava]
+    private(set) var connections:Set<ClientMojangJava>
+    private(set) var player_connections:[UUID:ClientMojangJava]
     
     public init(host: String, port: Int) {
         self.host = host
@@ -41,16 +41,16 @@ public final class ServerMojang {
             let client_socket:Socket = try socket.acceptClientConnection()
             let id:Int32 = client_socket.socketfd
             print("id=\(id)")
-            let client:ServerMojangClientJava = ServerMojangClientJava(socket: client_socket)
+            let client:ClientMojangJava = ClientMojangJava(socket: client_socket)
             connections.insert(client)
         }
     }
     
-    internal func upgrade(uuid: UUID, connection: ServerMojangClientJava) {
+    internal func upgrade(uuid: UUID, connection: ClientMojangJava) {
         connections.remove(connection)
         player_connections[uuid] = connection
     }
-    internal func close(connection: ServerMojangClientJava) {
+    internal func close(connection: ClientMojangJava) {
         connection.socket.close()
         connections.remove(connection)
         if let player_uuid:UUID = connection.player?.uuid {

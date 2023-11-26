@@ -15,8 +15,6 @@ public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
     var type : (any EntityType)? { get }
     
     var ticks_lived : UInt64 { get set }
-    var custom_name : String? { get set }
-    var display_name : String? { get set }
     
     var boundaries : [Boundary] { get set }
     /// The current location of this entity.

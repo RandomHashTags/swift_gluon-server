@@ -7,15 +7,16 @@
 
 import Foundation
 
-public protocol Block : Tickable {
+public protocol Block : BlockBehavior, Tickable {
+    associatedtype InstrumentType : Instrument
+    
     var material_id : String { get }
     var material : (any Material)? { get }
     
     var requires_correct_tool_for_drops : Bool { get }
     var has_collision : Bool { get }
     
-    var instrument_id : String? { get }
-    var instrument : (any Instrument)? { get }
+    var instrument : InstrumentType? { get }
     
     var map_color : Color? { get }
     var step_sound : (any Sound)? { get }

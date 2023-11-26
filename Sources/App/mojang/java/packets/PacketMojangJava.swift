@@ -11,7 +11,7 @@ protocol PacketMojangJava : Packet where IDValue == UInt, Category == PacketCate
     
     associatedtype GameplayID : PacketGameplayID
     
-    static func server_received(_ client: ServerMojangClientJava) throws
+    static func server_received(_ client: ClientMojangJava) throws
     static var packet_gameplay_id : GameplayID.Type { get }
     
     static var id : GameplayID { get }
@@ -20,7 +20,7 @@ protocol PacketMojangJava : Packet where IDValue == UInt, Category == PacketCate
 }
 
 extension PacketMojangJava {
-    static func server_received(_ client: ServerMojangClientJava) throws {
+    static func server_received(_ client: ClientMojangJava) throws {
         print("missing `server_received` static function implementation for PacketMojangJava `\(Self.self)` with id \"\(id)\"")
     }
     

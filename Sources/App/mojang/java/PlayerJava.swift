@@ -1,14 +1,21 @@
 //
-//  GluonPlayer.swift
-//  
+//  PlayerJava.swift
 //
-//  Created by Evan Anderson on 4/23/23.
+//
+//  Created by Evan Anderson on 11/26/23.
 //
 
 import Foundation
 
-/*
-final class GluonPlayer : Player {
+final class PlayerJava : Player { // TODO: fix
+    func remove() {
+        
+    }
+    
+    func teleport(_ location: any Location) {
+        
+    }
+    
     var name:String
     var list_name:String?
     
@@ -226,101 +233,3 @@ final class GluonPlayer : Player {
         self.vehicle_uuid = vehicle_uuid
     }
 }
-extension GluonPlayer {
-    /*init(from decoder: Decoder) throws {
-        let living_entity:GluonLivingEntity = try GluonLivingEntity(from: decoder)
-        
-        var container:KeyedDecodingContainer = try decoder.container(keyedBy: GluonPlayerCodingKeys.self)
-        connection = PlayerConnectionMojang("")
-        
-        name = try container.decode(String.self, forKey: .name)
-        list_name = try container.decodeIfPresent(String.self, forKey: .list_name)
-        experience = try container.decode(UInt64.self, forKey: .experience)
-        experience_level = try container.decode(UInt64.self, forKey: .experience_level)
-        food_level = try container.decode(UInt64.self, forKey: .food_level)
-        
-        permissions = try container.decode(Set<String>.self, forKey: .permissions)
-        statistics = try container.decode([String:TargetStatisticActive].self, forKey: .statistics)
-        
-        let game_mode_identifier:String = try container.decode(String.self, forKey: .game_mode)
-        game_mode = GluonServer.shared_instance.get_game_mode(identifier: game_mode_identifier)!
-        
-        is_blocking = try container.decode(Bool.self, forKey: .is_blocking)
-        is_flying = try container.decode(Bool.self, forKey: .is_flying)
-        is_op = try container.decode(Bool.self, forKey: .is_op)
-        is_sneaking = try container.decode(Bool.self, forKey: .is_sneaking)
-        is_sprinting = try container.decode(Bool.self, forKey: .is_sprinting)
-        
-        inventory = try container.decode(GluonPlayerInventory.self, forKey: .inventory)
-        
-        can_breathe_underwater = living_entity.can_breathe_underwater
-        can_pickup_items = living_entity.can_pickup_items
-        has_ai = living_entity.has_ai
-        
-        is_climbing = living_entity.is_climbing
-        is_collidable = living_entity.is_collidable
-        is_gliding = living_entity.is_gliding
-        is_invisible = living_entity.is_invisible
-        is_leashed = living_entity.is_leashed
-        is_riptiding = living_entity.is_riptiding
-        is_sleeping = living_entity.is_sleeping
-        is_swimming = living_entity.is_swimming
-        
-        potion_effects = living_entity.potion_effects
-        
-        no_damage_ticks = living_entity.no_damage_ticks
-        no_damage_ticks_maximum = living_entity.no_damage_ticks_maximum
-        
-        air_remaining = living_entity.air_remaining
-        air_maximum = living_entity.air_maximum
-        
-        health = living_entity.health
-        health_maximum = living_entity.health_maximum
-        
-        uuid = living_entity.uuid
-        type = living_entity.type
-        ticks_lived = living_entity.ticks_lived
-        custom_name = living_entity.custom_name
-        display_name = living_entity.display_name
-        boundaries = living_entity.boundaries
-        location = living_entity.location
-        velocity = living_entity.velocity
-        fall_distance = living_entity.fall_distance
-        
-        is_glowing = living_entity.is_glowing
-        is_on_fire = living_entity.is_on_fire
-        is_on_ground = living_entity.is_on_ground
-        
-        height = living_entity.height
-        
-        fire_ticks = living_entity.fire_ticks
-        fire_ticks_maximum = living_entity.fire_ticks_maximum
-        
-        freeze_ticks = living_entity.freeze_ticks
-        freeze_ticks_maximum = living_entity.freeze_ticks_maximum
-        
-        passenger_uuids = living_entity.passenger_uuids
-        vehicle_uuid = living_entity.vehicle_uuid
-    }
-    func encode(to encoder: Encoder) throws {
-        var container:KeyedEncodingContainer = encoder.container(keyedBy: GluonPlayerCodingKeys.self)
-    }*/
-}
-
-enum GluonPlayerCodingKeys : CodingKey {
-    case name
-    case list_name
-    case experience
-    case experience_level
-    case food_level
-    case permissions
-    case statistics
-    case game_mode
-    case is_blocking
-    case is_flying
-    case is_op
-    case is_sneaking
-    case is_sprinting
-    case inventory
-}
-*/

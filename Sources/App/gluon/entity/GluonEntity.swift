@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 final class GluonEntity : Entity {
     let id:UInt64
     let uuid:UUID
@@ -117,3 +118,4 @@ extension GluonEntity {
         self.location = location
     }
 }
+*/

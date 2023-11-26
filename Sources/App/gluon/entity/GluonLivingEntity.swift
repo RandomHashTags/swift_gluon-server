@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 final class GluonLivingEntity : LivingEntity {
     var can_breathe_underwater:Bool
     var can_pickup_items:Bool
@@ -199,3 +200,4 @@ final class GluonLivingEntity : LivingEntity {
         self.vehicle_uuid = try entity_container.decodeIfPresent(UUID.self, forKey: .vehicle_uuid)
     }*/
 }
+*/

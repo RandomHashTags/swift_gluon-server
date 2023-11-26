@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 struct GluonBlock : Block {
     let material_id:String
     var material : (any Material)? {
@@ -80,3 +81,4 @@ struct GluonBlock : Block {
         return ticks / Float(GluonServer.shared_instance.ticks_per_second)
     }
 }
+*/

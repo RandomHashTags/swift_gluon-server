@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 final class GluonItem : Item {
     var id:UInt64
     var uuid:UUID
@@ -78,3 +79,4 @@ final class GluonItem : Item {
         tick_item(server)
     }
 }
+*/

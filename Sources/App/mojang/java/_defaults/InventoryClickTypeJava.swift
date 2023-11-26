@@ -1,5 +1,5 @@
 //
-//  DefaultInventoryClickType.swift
+//  InventoryClickTypeJava.swift
 //
 //
 //  Created by Evan Anderson on 6/30/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DefaultInventoryClickType : String, CaseIterable, InventoryClickType {
+public enum InventoryClickTypeJava : String, CaseIterable, InventoryClickType {
     case clone
     case pickup
     case pickup_all

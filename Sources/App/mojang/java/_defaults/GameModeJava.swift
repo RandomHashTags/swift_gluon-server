@@ -1,5 +1,5 @@
 //
-//  DefaultGameModes.swift
+//  GameModeJava.swift
 //
 //
 //  Created by Evan Anderson on 6/30/23.
@@ -7,21 +7,21 @@
 
 import Foundation
 
-public struct DefaultGameModes : CaseIterable, GameMode {
-    public static var allCases: [DefaultGameModes] = [
-        DefaultGameModes.adventure,
-        DefaultGameModes.creative,
-        DefaultGameModes.spectator,
-        DefaultGameModes.survival
+public struct GameModeJava : CaseIterable, GameMode {
+    public static var allCases: [GameModeJava] = [
+        GameModeJava.adventure,
+        GameModeJava.creative,
+        GameModeJava.spectator,
+        GameModeJava.survival
     ]
     
-    static var adventure:DefaultGameModes = {
-        DefaultGameModes(
+    static var adventure:GameModeJava = {
+        GameModeJava(
             id: "minecraft.adventure",
             name: get_localized_string(key: "adventure", table: "GameModes"),
             allows_flight: false,
             disallowed_inventory_click_types: [
-                DefaultInventoryClickType.clone
+                InventoryClickTypeJava.clone
             ].map_set({ $0.id }),
             can_break_blocks: false,
             can_breathe_underwater: false,
@@ -33,8 +33,8 @@ public struct DefaultGameModes : CaseIterable, GameMode {
             loses_hunger: true
         )
     }()
-    static var creative:DefaultGameModes = {
-        return DefaultGameModes(
+    static var creative:GameModeJava = {
+        return GameModeJava(
             id: "minecraft.creative",
             name: get_localized_string(key: "creative", table: "GameModes"),
             allows_flight: true,
@@ -49,8 +49,8 @@ public struct DefaultGameModes : CaseIterable, GameMode {
             loses_hunger: false
         )
     }()
-    static var spectator:DefaultGameModes = {
-        return DefaultGameModes(
+    static var spectator:GameModeJava = {
+        return GameModeJava(
             id: "minecraft.spectator",
             name: get_localized_string(key: "spectator", table: "GameModes"),
             allows_flight: true,
@@ -65,13 +65,13 @@ public struct DefaultGameModes : CaseIterable, GameMode {
             loses_hunger: false
         )
     }()
-    static var survival:DefaultGameModes = {
-        return DefaultGameModes(
+    static var survival:GameModeJava = {
+        return GameModeJava(
             id: "minecraft.survival",
             name: get_localized_string(key: "survival", table: "GameModes"),
             allows_flight: false,
             disallowed_inventory_click_types: [
-                DefaultInventoryClickType.clone
+                InventoryClickTypeJava.clone
             ].map_set({ $0.id }),
             can_break_blocks: true,
             can_breathe_underwater: false,
