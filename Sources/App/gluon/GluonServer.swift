@@ -58,23 +58,20 @@ final class GluonServer : GluonSharedInstance, Server {
     }
     private init(ticks_per_second: UInt8) {
         chat_manager = GluonChatManager()
-        version = SemanticVersion(major: 1, minor: 20, patch: 1)
+        version = SemanticVersion(major: 1, minor: 20, patch: 4)
         
-        //let ticks_per_second_float:HugeFloat = HugeFloat(ticks_per_second)
         let ticks_per_second_float:Double = Double(ticks_per_second)
         self.ticks_per_second = ticks_per_second
         ticks_per_second_multiplier = ticks_per_second_float / 20
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
         server_is_awake = false
-        //let gravity:HugeFloat = HugeFloat("9.80665")
         let gravity:Double = 9.80665
         self.gravity = gravity
         gravity_per_tick = gravity / ticks_per_second_float
-        //void_damage_per_tick = 1 / Double(ticks_per_second_float.represented_float)
         void_damage_per_tick = 1 / Double(ticks_per_second_float)
         fire_damage_per_second = 1
         
-        print("server_ticks_per_second=\(ticks_per_second); 1 every \(1000 / Int(ticks_per_second)) milliseconds")
+        ServerMojang.instance.logger.info("GluonServer;server_ticks_per_second=\(ticks_per_second); 1 every \(1000 / Int(ticks_per_second)) milliseconds")
         
         max_players = 1
         port = 25565
@@ -87,7 +84,6 @@ final class GluonServer : GluonSharedInstance, Server {
         for difficulty in DifficultyJava.allCases {
             difficulties[difficulty.id] = difficulty
         }
-        //let spawn_location:Vector = Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero)
         let spawn_location:Vector = Vector(x: 0, y: 0, z: 0)
         worlds = [
             "overworld" : GluonWorld(
@@ -99,11 +95,8 @@ final class GluonServer : GluonSharedInstance, Server {
                 game_rules: [],
                 time: 0,
                 border: nil,
-                //y_min: HugeFloat("-64"),
                 y_min: -64,
-                //y_max: HugeFloat("320"),
                 y_max: 320,
-                //y_sea_level: HugeFloat("100"),
                 y_sea_level: 100,
                 chunks_loaded: [],
                 allows_animals: true,
@@ -236,7 +229,7 @@ final class GluonServer : GluonSharedInstance, Server {
                 do {
                     try await Task.sleep(nanoseconds: server_tick_interval_nano)
                 } catch {
-                    print("GluonServer;caught an error while trying to sleep after ticking the server;error=\(error)")
+                    ServerMojang.instance.logger.critical("GluonServer;caught an error while trying to sleep after ticking the server;error=\(error)")
                 }
             }
         }
@@ -246,7 +239,6 @@ final class GluonServer : GluonSharedInstance, Server {
         let was_slowed:Bool = ticks_per_second < previous_ticks_per_second
         
         if ticks_per_second != 20 {
-            //ticks_per_second_multiplier = HugeFloat("\(ticks_per_second / 20)")
             ticks_per_second_multiplier = Double(ticks_per_second / 20)
         }
         server_tick_interval_nano = 1_000_000_000 / UInt64(ticks_per_second)
@@ -266,7 +258,7 @@ extension GluonServer {
         let player_uuid:UUID = player.uuid
         ServerMojang.instance.close(player_uuid: player_uuid)
         
-        let instance:GluonServer = GluonServer.shared_instance
+        let instance:GluonServer = GluonServer.shared
         if ban_user {
             instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: Date(), expiration: ban_expiration, reason: reason))
         }
@@ -280,7 +272,7 @@ extension GluonServer {
         try ServerMojang.instance.player_connections[player_uuid]?.send_packet(disconnect_packet)
         ServerMojang.instance.close(player_uuid: player_uuid)
         
-        let instance:GluonServer = GluonServer.shared_instance
+        let instance:GluonServer = GluonServer.shared
         if ban_user {
             let reason:String = disconnect_packet.reason.text
             instance.banned_players.insert(BanEntry(banned_by: UUID(), target: player.uuid.uuidString, ban_time: Date(), expiration: ban_expiration, reason: reason))

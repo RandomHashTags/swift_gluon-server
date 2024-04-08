@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Logging
 
 public protocol Damageable : Entity {
     var health : Double { get set }
@@ -33,7 +34,7 @@ public extension Damageable {
         default_tick_damageable(server)
     }
     func default_tick_damageable(_ server: any Server) {
-        print("damageable with uuid " + uuid.uuidString + " has been ticked")
+        ServerMojang.instance.logger.info(Logger.Message(stringLiteral: "Damageable;default_tick_damageable;damageable with uuid " + uuid.uuidString + " has been ticked"))
         if fire_ticks > 0 {
             fire_ticks -= 1
             if fire_ticks != 0 && fire_ticks % UInt16(server.ticks_per_second) == 0 {
@@ -56,7 +57,7 @@ public extension Damageable {
     func damage(cause: DamageCause, amount: Double) -> DamageResult {
         let new_health:Double = max(0, min(health-amount, health_maximum))
         let event:GluonEntityDamageEvent = GluonEntityDamageEvent(entity: self, cause: cause, amount: amount)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else {
             return DamageResult.failure(.cancelled)
         }
@@ -64,7 +65,7 @@ public extension Damageable {
         guard health != 0 else {
             // TODO: finish
             let event:GluonEntityDeathEvent = GluonEntityDeathEvent(entity: self)
-            GluonServer.shared_instance.call_event(event: event)
+            GluonServer.shared.call_event(event: event)
             return DamageResult.success(.killed)
         }
         return DamageResult.success(.normal)

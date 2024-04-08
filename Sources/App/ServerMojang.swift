@@ -8,6 +8,7 @@
 import Foundation
 import Socket
 import SwiftASN1
+import Logging
 
 
 // BlueSocket TCP Server
@@ -17,20 +18,23 @@ public final class ServerMojang {
     
     let host:String
     let port:Int
+    let logger:Logger
     private(set) var connections:Set<ClientMojangJava>
     private(set) var player_connections:[UUID:ClientMojangJava]
     
     public init(host: String, port: Int) {
         self.host = host
         self.port = port
+        logger = Logger(label: "main")
         
         connections = []
         player_connections = [:]
         ServerMojang.instance = self
+        CLIHandler.listen()
     }
     
     public func run() throws {
-        print("ServerMojang;running on host \"" + host + "\" and port \(port)")
+        logger.notice(Logger.Message(stringLiteral: "Running on host \"" + host + "\" and port \(port)"))
         try generate_server_public_and_private_key()
         let socket:Socket = try Socket.create()
         try socket.listen(on: 25565)
@@ -40,7 +44,7 @@ public final class ServerMojang {
         while true {
             let client_socket:Socket = try socket.acceptClientConnection()
             let id:Int32 = client_socket.socketfd
-            print("id=\(id)")
+            logger.info("Incoming client connection id=\(id)")
             let client:ClientMojangJava = ClientMojangJava(socket: client_socket)
             connections.insert(client)
         }
@@ -69,13 +73,13 @@ public final class ServerMojang {
         let disconnect_packet:ClientPacket.Mojang.Java.Play.Disconnect = ClientPacket.Mojang.Java.Play.Disconnect(reason: ChatPacketMojang(text: "Server Closed.", translate: nil, with: nil, score: nil, bold: nil, italic: nil, underlined: nil, strikethrough: nil, obfuscated: nil, font: nil, color: nil, insertion: nil, clickEvent: nil, hoverEvent: nil, extra: nil))
         for (uuid, player_connection) in player_connections {
             do {
-                try GluonServer.shared_instance.boot_player(disconnect_packet: disconnect_packet, player: player_connection.player!)
+                try GluonServer.shared.boot_player(disconnect_packet: disconnect_packet, player: player_connection.player!)
             } catch {
-                print("ServerMojang;shutdown;encountered error while trying to kick player with uuid \(uuid): \(error)")
+                logger.warning("ServerMojang encountered error while shutting down: error trying to kick player with uuid \(uuid): \(error)")
             }
             player_connection.close()
         }
-        print("ServerMojang;shutdown")
+        logger.notice("ServerMojang has shutdown")
     }
     
     private func generate_server_public_and_private_key() throws {
@@ -104,7 +108,7 @@ public final class ServerMojang {
             throw DecodingError.valueNotFound(String.self, DecodingError.Context(codingPath: [], debugDescription: "couldn't get public key from private key"))
         }
         (ServerMojang.public_key, ServerMojang.private_key) = try (public_key.data(), private_key.data())
-        print("ServerMojang;generate_server_public_and_private_key;public_key.count=\(ServerMojang.public_key.count);public_key=\n" + ServerMojang.public_key)
+        logger.info(Logger.Message(stringLiteral: "Generated server keys;public.count=\(ServerMojang.public_key.count);public=\n" + ServerMojang.public_key))
     }
 }
 extension SecKey {

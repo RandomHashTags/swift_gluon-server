@@ -78,7 +78,7 @@ final class GluonWorld : World {
         let chunk:any Chunk = GluonChunk(world: self, x: x, z: z)
         guard chunks_loaded.first(where: { $0.x == x && $0.z == z }) == nil else { return }
         let event:GluonChunkLoadEvent = GluonChunkLoadEvent(chunk: chunk)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else { return }
         await chunk.load()
         chunks_loaded.append(chunk)
@@ -87,7 +87,7 @@ final class GluonWorld : World {
         let chunk:any Chunk = GluonChunk(world: self, x: x, z: z)
         guard let index:Int = chunks_loaded.firstIndex(where: { $0.x == x && $0.z == z }) else { return }
         let event:GluonChunkUnloadEvent = GluonChunkUnloadEvent(chunk: chunk)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else { return }
         chunks_loaded.remove(at: index)
         await chunk.unload()

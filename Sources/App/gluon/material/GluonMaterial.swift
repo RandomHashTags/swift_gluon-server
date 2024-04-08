@@ -16,6 +16,6 @@ struct GluonMaterial : Material {
     let recipe_id:String?
     var recipe : (any Recipe)? {
         guard let identifier:String = recipe_id else { return nil }
-        return GluonServer.shared_instance.get_recipe(identifier: identifier)
+        return GluonServer.shared.get_recipe(identifier: identifier)
     }
 }

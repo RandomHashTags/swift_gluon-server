@@ -40,7 +40,7 @@ actor GluonChatManager : ChatManager {
             do {
                 try player.send_packet(chat_packet)
             } catch {
-                print("GluonChatManager;send;encountered error while trying to send chat packet to player with uuid \(uuid);error=\(error)")
+                ServerMojang.instance.logger.warning("GluonChatManager encountered error while trying to send chat packet to player with uuid \(uuid);error=\(error)")
             }
         }
     }

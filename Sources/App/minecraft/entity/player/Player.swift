@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Logging
 
 public protocol Player : LivingEntity, CommandSender, Permissible {
     var list_name : String? { get set }
@@ -65,7 +66,7 @@ public extension Player {
         default_tick_player(server)
     }
     func default_tick_player(_ server: any Server) {
-        print("player " + name + " has been ticked")
+        ServerMojang.instance.logger.info(Logger.Message(stringLiteral: "Player;default_tick_player;player " + name + " has been ticked"))
         tick_living_entity(server)
     }
     

@@ -64,7 +64,7 @@ final class PlayerJava : Player { // TODO: fix
     var uuid:UUID
     var type_id:String
     var type : (any EntityType)? {
-        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+        return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     
     var ticks_lived:UInt64
@@ -90,31 +90,31 @@ final class PlayerJava : Player { // TODO: fix
     
     var passenger_uuids:Set<UUID>
     var passengers : [any Entity] {
-        return GluonServer.shared_instance.get_entities(uuids: passenger_uuids)
+        return GluonServer.shared.get_entities(uuids: passenger_uuids)
     }
     
     var vehicle_uuid:UUID?
     var vehicle : (any Entity)? {
         guard let uuid:UUID = vehicle_uuid else { return nil }
-        return GluonServer.shared_instance.get_entity(uuid: uuid)
+        return GluonServer.shared.get_entity(uuid: uuid)
     }
     
     func set_game_mode(_ game_mode: any GameMode) {
         guard !self.game_mode.id.elementsEqual(game_mode.id) else { return }
         let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else { return }
         self.game_mode = game_mode
     }
     
     func kick(reason: String) {
-        GluonServer.shared_instance.boot_player(player: self, reason: reason)
+        GluonServer.shared.boot_player(player: self, reason: reason)
     }
     
     func consumed(item: inout any ItemStack) {
         guard let consumable_configuration:any MaterialItemConsumableConfiguration = item.material?.configuration.item?.consumable else { return }
         let event:GluonPlayerItemConsumeEvent = GluonPlayerItemConsumeEvent(player: self, item: &item)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else { return }
         item.amount -= 1
         guard let context:[String:ExecutableLogicalContext] = event.context else { return }
@@ -128,7 +128,7 @@ final class PlayerJava : Player { // TODO: fix
     }
     
     func send(message: String) async {
-        await GluonServer.shared_instance.chat_manager.send(sender: self, receiver: nil, message: message)
+        await GluonServer.shared.chat_manager.send(sender: self, receiver: nil, message: message)
     }
     
     init(

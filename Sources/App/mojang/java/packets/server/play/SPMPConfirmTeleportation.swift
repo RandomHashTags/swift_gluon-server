@@ -16,6 +16,10 @@ extension ServerPacket.Mojang.Java.Play {
             let teleport_id:VariableIntegerJava = try packet.read_var_int()
             return Self(teleport_id: teleport_id)
         }
+
+        /*static func server_received(_ client: ClientMojangJava) throws {
+            let packet:Self = try client.read_and_parse_mojang_packet()
+        }*/
         
         /// The ID given by the [Synchronize Player Position](https://wiki.vg/Protocol#Synchronize_Player_Position) packet.
         public let teleport_id:VariableIntegerJava

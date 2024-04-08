@@ -11,7 +11,7 @@ import Foundation
 struct GluonBlock : Block {
     let material_id:String
     var material : (any Material)? {
-        return GluonServer.shared_instance.get_material(identifier: material_id)
+        return GluonServer.shared.get_material(identifier: material_id)
     }
     
     let requires_correct_tool_for_drops:Bool
@@ -20,7 +20,7 @@ struct GluonBlock : Block {
     let instrument_id:String?
     var instrument : (any Instrument)? {
         guard let instrument_id:String = instrument_id else { return nil }
-        return GluonServer.shared_instance.get_instrument(identifier: instrument_id)
+        return GluonServer.shared.get_instrument(identifier: instrument_id)
     }
     
     let map_color:Color?
@@ -40,7 +40,7 @@ struct GluonBlock : Block {
     func break_naturally() {
         guard let loot:[any ItemStack] = loot_table?.loot_normal else { return }
         let world:any World = location.world
-        let pickup_delay:UInt8 = GluonServer.shared_instance.ticks_per_second / 2
+        let pickup_delay:UInt8 = GluonServer.shared.ticks_per_second / 2
         let half:Double = 0.5
         let item_location:any Location = location.advanced_by(x: half, y: half, z: half)
         for item_stack in loot {
@@ -78,7 +78,7 @@ struct GluonBlock : Block {
         }
         
         var ticks:Float = 1.0
-        return ticks / Float(GluonServer.shared_instance.ticks_per_second)
+        return ticks / Float(GluonServer.shared.ticks_per_second)
     }
 }
 */

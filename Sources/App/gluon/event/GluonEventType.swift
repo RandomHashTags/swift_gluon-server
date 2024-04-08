@@ -12,7 +12,7 @@ struct GluonEventType : EventType {
 
     init(id: String) {
         self.id = id
-        //try? GluonServer.shared_instance.register_event_type(type: self) // TODO: handle
+        //try? GluonServer.shared.register_event_type(type: self) // TODO: handle
     }
 }
 extension GluonEventType {

@@ -55,13 +55,13 @@ public extension LivingEntity {
         default_tick_living_entity(server)
     }
     func default_tick_living_entity(_ server: any Server) {
-        print("living entity with uuid \(uuid) has been ticked")
+        ServerMojang.instance.logger.info("LivingEntity;default_tick_living_entity;living entity with uuid \(uuid) has been ticked")
         if no_damage_ticks > 0 {
             no_damage_ticks -= 1
         }
         
         var removed_potion_effects:Set<String> = Set<String>()
-        for (identifier, _) in potion_effects {
+        for identifier in potion_effects.keys {
             potion_effects[identifier]!.tick(server)
             if potion_effects[identifier]!.duration == 0 {
                 removed_potion_effects.insert(identifier)
@@ -99,7 +99,7 @@ public extension LivingEntity {
             air_remaining_ticks = air_maximum_ticks
         }
         
-        for (_, potion_effect) in potion_effects {
+        for potion_effect in potion_effects.values {
             potion_effect.server_tps_slowed(to: tps, divisor: divisor)
         }
         (self as any Entity).server_tps_slowed(to: tps, divisor: divisor)
@@ -115,7 +115,7 @@ public extension LivingEntity {
         air_remaining_ticks *= multiplier
         air_maximum_ticks *= multiplier
         
-        for (_, potion_effect) in potion_effects {
+        for potion_effect in potion_effects.values {
             potion_effect.server_tps_increased(to: tps, multiplier: multiplier)
         }
         (self as any Entity).server_tps_increased(to: tps, multiplier: multiplier)

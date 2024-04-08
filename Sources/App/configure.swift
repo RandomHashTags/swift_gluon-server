@@ -6,7 +6,7 @@
 //
 
 import Vapor
-import HugeNumbers
+//import HugeNumbers
 
 /*
 public func configure(_ app: Application) throws {
@@ -114,7 +114,7 @@ private func start_server(_ app: Application) {
         } catch {
             print("encountered error while trying to `configure` app (\(error)")
         }
-        let server:GluonServer = GluonServer.shared_instance
+        let server:GluonServer = GluonServer.shared
         server.player_joined()
     }
 }

@@ -78,21 +78,20 @@ public extension Server {
     }
     
     func tick(_ server: any Server) {
-        for (_, world) in worlds {
+        for world in worlds.values {
             world.tick(server)
         }
     }
     
     func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
-        //gravity_per_tick *= HugeFloat("\(divisor)")
         gravity_per_tick *= Double(divisor)
         void_damage_per_tick *= Double(divisor)
         
-        for (_, entity_type) in entity_types {
+        for entity_type in entity_types.values {
             entity_type.server_tps_slowed(to: tps, divisor: divisor)
         }
         
-        for (_, material) in materials {
+        for material in materials.values {
             let configuration:any MaterialConfiguration = material.configuration
             if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
                 test.server_tps_slowed(to: tps, divisor: divisor)
@@ -102,20 +101,19 @@ public extension Server {
             }
         }
         
-        for (_, world) in worlds {
+        for world in worlds.values {
             world.server_tps_slowed(to: tps, divisor: divisor)
         }
     }
     func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
-        //gravity_per_tick /= HugeFloat("\(multiplier)")
         gravity_per_tick /= Double(multiplier)
         void_damage_per_tick /= Double(multiplier)
         
-        for (_, entity_type) in entity_types {
+        for entity_type in entity_types.values {
             entity_type.server_tps_increased(to: tps, multiplier: multiplier)
         }
         
-        for (_, material) in materials {
+        for material in materials.values {
             let configuration:any MaterialConfiguration = material.configuration
             if let test:any MaterialItemConsumableConfiguration = configuration.item?.consumable {
                 test.server_tps_increased(to: tps, multiplier: multiplier)
@@ -125,7 +123,7 @@ public extension Server {
             }
         }
         
-        for (_, world) in worlds {
+        for world in worlds.values {
             world.server_tps_increased(to: tps, multiplier: multiplier)
         }
     }
@@ -205,7 +203,7 @@ public extension Server {
     }
     
     func get_entity(uuid: UUID) -> (any Entity)? {
-        for (_, world) in worlds {
+        for world in worlds.values {
             if let entity:any Entity = world.entities.first(where: { $0.uuid == uuid }) {
                 return entity
             }
@@ -213,11 +211,11 @@ public extension Server {
         return nil
     }
     func get_entities(uuids: Set<UUID>) -> [any Entity] {
-        return worlds.values.map({ $0.entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
+        return worlds.values.flatMap({ $0.entities.filter({ uuids.contains($0.uuid) }) })
     }
     
     func get_living_entity(uuid: UUID) -> (any LivingEntity)? {
-        for (_, world) in worlds {
+        for world in worlds.values {
             if let entity:any LivingEntity = world.living_entities.first(where: { $0.uuid == uuid }) {
                 return entity
             }
@@ -225,13 +223,13 @@ public extension Server {
         return nil
     }
     func get_living_entities(uuids: Set<UUID>) -> [any LivingEntity] {
-        return worlds.values.map({ $0.living_entities.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
+        return worlds.values.flatMap({ $0.living_entities.filter({ uuids.contains($0.uuid) }) })
     }
     
     func get_player(uuid: UUID) -> (any Player)? {
         return ServerMojang.instance.player_connections[uuid]?.player
     }
     func get_players(uuids: Set<UUID>) -> [any Player] {
-        return worlds.values.map({ $0.players.filter({ uuids.contains($0.uuid) }) }).flatMap({ $0 })
+        return worlds.values.flatMap({ $0.players.filter({ uuids.contains($0.uuid) }) })
     }
 }

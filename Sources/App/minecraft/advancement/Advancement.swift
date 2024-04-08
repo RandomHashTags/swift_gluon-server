@@ -10,4 +10,5 @@ import Foundation
 public protocol Advancement : MultilingualName, Identifiable where ID == String {
     var description : String { get }
     var criteria : [String] { get }
+    var done : Bool { get }
 }

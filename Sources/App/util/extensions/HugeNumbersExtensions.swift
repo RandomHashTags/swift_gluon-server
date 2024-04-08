@@ -6,8 +6,9 @@
 //
 
 import Foundation
-import HugeNumbers
+/*import HugeNumbers
 
 extension HugeFloat {
     static let sixteen:HugeFloat = HugeFloat("16")
 }
+*/

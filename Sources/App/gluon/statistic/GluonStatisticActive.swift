@@ -10,7 +10,7 @@ import Foundation
 struct GluonStatisticActive : StatisticActive {
     let id:String
     var type : (any Statistic)? {
-        return GluonServer.shared_instance.get_statistic(identifier: id)
+        return GluonServer.shared.get_statistic(identifier: id)
     }
     var value:Float
 }

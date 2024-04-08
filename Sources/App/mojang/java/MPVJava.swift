@@ -13,6 +13,8 @@ public extension MinecraftProtocolVersion {
         case unknown = -999
         
         // MARK: Releases
+        /// 1.20.3 & 1.20.4
+        case v1_20_3 = 765
         case v1_20_2 = 764
         /// 1.20 & 1.20.1
         case v1_20   = 763

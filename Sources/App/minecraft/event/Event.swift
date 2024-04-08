@@ -16,15 +16,15 @@ public extension Event {
     func parse_server_context(key: String) -> ExecutableLogicalContext? {
         switch key {
         case "server_gravity":
-            return ExecutableLogicalContext(value_type: .double, value: GluonServer.shared_instance.gravity)
+            return ExecutableLogicalContext(value_type: .double, value: GluonServer.shared.gravity)
         case "server_gravity_per_tick":
-            return ExecutableLogicalContext(value_type: .double, value: GluonServer.shared_instance.gravity_per_tick)
+            return ExecutableLogicalContext(value_type: .double, value: GluonServer.shared.gravity_per_tick)
         case "server_max_players":
-            return ExecutableLogicalContext(value_type: .long_unsigned, value: GluonServer.shared_instance.max_players)
+            return ExecutableLogicalContext(value_type: .long_unsigned, value: GluonServer.shared.max_players)
         case "server_ticks_per_second":
-            return ExecutableLogicalContext(value_type: .char_unsigned, value: GluonServer.shared_instance.ticks_per_second)
+            return ExecutableLogicalContext(value_type: .char_unsigned, value: GluonServer.shared.ticks_per_second)
         case "server_ticks_per_second_multiplier":
-            return ExecutableLogicalContext(value_type: .double, value: GluonServer.shared_instance.ticks_per_second_multiplier)
+            return ExecutableLogicalContext(value_type: .double, value: GluonServer.shared.ticks_per_second_multiplier)
         default:
             return nil
         }

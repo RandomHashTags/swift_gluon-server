@@ -15,13 +15,13 @@ public protocol MaterialBlockLiquidConfiguration : AnyObject, Hashable, ServerTi
 public extension MaterialBlockLiquidConfiguration {
     func server_tps_slowed(to tps: UInt8, divisor: UInt16) {
         let divisor:Double = Double(divisor)
-        for (world_name, _) in distances_per_tick {
+        for world_name in distances_per_tick.keys {
             distances_per_tick[world_name]! /= divisor
         }
     }
     func server_tps_increased(to tps: UInt8, multiplier: UInt16) {
         let multiplier:Double = Double(multiplier)
-        for (world_name, _) in distances_per_tick {
+        for world_name in distances_per_tick.keys {
             distances_per_tick[world_name]! *= multiplier
         }
     }

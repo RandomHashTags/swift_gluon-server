@@ -10,7 +10,7 @@ import Foundation
 struct GluonItemStack : ItemStack {
     var material_id:String
     var material : (any Material)? {
-        return GluonServer.shared_instance.get_material(identifier: material_id)
+        return GluonServer.shared.get_material(identifier: material_id)
     }
     var meta:(any ItemMeta)?
     var amount:UInt

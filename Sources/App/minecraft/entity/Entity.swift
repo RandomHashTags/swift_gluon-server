@@ -75,7 +75,7 @@ public extension Entity {
         default_tick_entity(server)
     }
     func default_tick_entity(_ server: any Server) {
-        print("entity with uuid \(uuid) has been ticked")
+        ServerMojang.instance.logger.info("Entity;default_tick_entity;entity with uuid \(uuid) has been ticked")
         ticks_lived += 1
         
         if let type:any EntityType = type, type.is_affected_by_gravity && !is_on_ground {

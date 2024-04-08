@@ -13,7 +13,7 @@ final class GluonEntity : Entity {
     let uuid:UUID
     let type_id:String
     var type : (any EntityType)? {
-        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+        return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
     let name:String
@@ -39,12 +39,12 @@ final class GluonEntity : Entity {
     
     var passenger_uuids:Set<UUID>
     var passengers : [any Entity] {
-        return GluonServer.shared_instance.get_entities(uuids: passenger_uuids)
+        return GluonServer.shared.get_entities(uuids: passenger_uuids)
     }
     var vehicle_uuid:UUID?
     var vehicle : (any Entity)? {
         guard let uuid:UUID = vehicle_uuid else { return nil }
-        return GluonServer.shared_instance.get_entity(uuid: uuid)
+        return GluonServer.shared.get_entity(uuid: uuid)
     }
     
     func tick(_ server: any Server) {
@@ -79,7 +79,7 @@ final class GluonEntity : Entity {
         let container:KeyedDecodingContainer = try decoder.container(keyedBy: EntityCodingKeys.self)
         self.uuid = try container.decode(UUID.self, forKey: .uuid)
         let type_identifier:String = try container.decode(String.self, forKey: .type)
-        self.type = GluonServer.shared_instance.get_entity_type(identifier: type_identifier)!
+        self.type = GluonServer.shared.get_entity_type(identifier: type_identifier)!
         self.ticks_lived = try container.decode(UInt64.self, forKey: .ticks_lived)
         self.custom_name = try container.decodeIfPresent(String.self, forKey: .custom_name)
         self.display_name = try container.decodeIfPresent(String.self, forKey: .display_name)
@@ -113,7 +113,7 @@ extension GluonEntity {
     }
     func teleport(_ location: any Location) {
         let event:GluonEntityTeleportEvent = GluonEntityTeleportEvent(entity: self, new_location: location)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else { return }
         self.location = location
     }

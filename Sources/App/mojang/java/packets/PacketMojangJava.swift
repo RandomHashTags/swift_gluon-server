@@ -21,7 +21,7 @@ protocol PacketMojangJava : Packet where IDValue == UInt, Category == PacketCate
 
 extension PacketMojangJava {
     static func server_received(_ client: ClientMojangJava) throws {
-        print("missing `server_received` static function implementation for PacketMojangJava `\(Self.self)` with id \"\(id)\"")
+        ServerMojang.instance.logger.warning("missing `server_received` static function implementation for PacketMojangJava `\(Self.self)` with id \"\(id)\"")
     }
     
     var platform : PacketPlatform {
@@ -43,7 +43,7 @@ extension PacketMojangJava {
         bytes.append(contentsOf: packet_id_bytes)
         bytes.append(contentsOf: data)
         
-        print("PacketMojangJava;as_client_response;packet_id_bytes.count=\(packet_id_bytes.count);data.count=\(data.count);length=\(length)")
+        print("PacketMojangJava;as_client_response;id=\(Self.id);packet_id_bytes.count=\(packet_id_bytes.count);data.count=\(data.count);length=\(length)")
         return Data(bytes)
     }
 }

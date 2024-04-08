@@ -22,7 +22,7 @@ extension GluonPlayer {
 private func damage_gluon_damageable(_ damageable: inout any Damageable, cause: DamageCause, amount: Double) -> DamageResult {
     let new_health:Double = max(0, min(damageable.health-amount, damageable.health_maximum))
     let event:GluonEntityDamageEvent = GluonEntityDamageEvent(entity: damageable, cause: cause, amount: amount)
-    GluonServer.shared_instance.call_event(event: event)
+    GluonServer.shared.call_event(event: event)
     guard !event.is_cancelled else {
         return DamageResult.failure(.cancelled)
     }
@@ -30,7 +30,7 @@ private func damage_gluon_damageable(_ damageable: inout any Damageable, cause: 
     guard damageable.health != 0 else {
         // TODO: finish
         let event:GluonEntityDeathEvent = GluonEntityDeathEvent(entity: damageable)
-        GluonServer.shared_instance.call_event(event: event)
+        GluonServer.shared.call_event(event: event)
         return DamageResult.success(.killed)
     }
     return DamageResult.success(.normal)

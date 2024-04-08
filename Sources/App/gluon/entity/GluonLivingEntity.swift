@@ -36,7 +36,7 @@ final class GluonLivingEntity : LivingEntity {
     var uuid:UUID
     var type_id:String
     var type : (any EntityType)? {
-        return GluonServer.shared_instance.get_entity_type(identifier: type_id)
+        return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
     let name:String
@@ -62,13 +62,13 @@ final class GluonLivingEntity : LivingEntity {
     
     var passenger_uuids:Set<UUID>
     var passengers : [any Entity] {
-        return GluonServer.shared_instance.get_entities(uuids: passenger_uuids)
+        return GluonServer.shared.get_entities(uuids: passenger_uuids)
     }
     
     var vehicle_uuid:UUID?
     var vehicle : (any Entity)? {
         guard let uuid:UUID = vehicle_uuid else { return nil }
-        return GluonServer.shared_instance.get_entity(uuid: uuid)
+        return GluonServer.shared.get_entity(uuid: uuid)
     }
     
     init(
@@ -180,7 +180,7 @@ final class GluonLivingEntity : LivingEntity {
         let entity_container:KeyedDecodingContainer = try decoder.container(keyedBy: EntityCodingKeys.self)
         self.uuid = try entity_container.decode(UUID.self, forKey: .uuid)
         let type_identifier:String = try entity_container.decode(String.self, forKey: .type)
-        self.type = GluonServer.shared_instance.get_entity_type(identifier: type_identifier)!
+        self.type = GluonServer.shared.get_entity_type(identifier: type_identifier)!
         self.ticks_lived = try entity_container.decode(UInt64.self, forKey: .ticks_lived)
         self.custom_name = try entity_container.decodeIfPresent(String.self, forKey: .custom_name)
         self.display_name = try entity_container.decodeIfPresent(String.self, forKey: .display_name)

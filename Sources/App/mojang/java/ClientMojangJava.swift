@@ -8,6 +8,7 @@
 import Foundation
 import Socket
 import SwiftASN1
+import Logging
 
 final class ClientMojangJava : MinecraftClientHandler {
     public static let platform:PacketPlatform = PacketPlatform.mojang_java
@@ -36,7 +37,7 @@ final class ClientMojangJava : MinecraftClientHandler {
                 do {
                     try process_packet()
                 } catch {
-                    print("ClientMojangJava;process_packet;error=\(error)")
+                    ServerMojang.instance.logger.critical("ClientMojangJava;process_packet;error=\(error)")
                 }
             }
         }
@@ -65,7 +66,7 @@ final class ClientMojangJava : MinecraftClientHandler {
             try parse_play()
             break
         default:
-            print("ClientMojangJava;default;test;state=\(state)")
+            ServerMojang.instance.logger.critical("ClientMojangJava;proccess_packet;unhandled state=\(state)")
             break
         }
     }
@@ -88,7 +89,7 @@ final class ClientMojangJava : MinecraftClientHandler {
     private func parse_handshake() throws {
         let packet:GeneralPacketMojang = try read_packet()
         guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacket.Mojang.Java.Handshaking(rawValue: UInt8(packet.packet_id.value)) else {
-            print("ClientMojangJava;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
             return
         }
         let handshake_packet:any ServerPacketMojangJavaHandshakingProtocol.Type = test.packet
@@ -96,7 +97,7 @@ final class ClientMojangJava : MinecraftClientHandler {
         guard let handshake:ServerPacket.Mojang.Java.Handshaking.Handshake = client_packet as? ServerPacket.Mojang.Java.Handshaking.Handshake else { return }
         let next_state:ServerPacket.Mojang.Java.Handshaking.Handshake.State = handshake.next_state
         protocol_version = handshake.protocol_version
-        print("ClientMojangJava;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(next_state)")
+        ServerMojang.instance.logger.info(Logger.Message(stringLiteral: "ClientMojangJava;parse_handshake;success;handshake;protocol_version=\(handshake.protocol_version);server_address=" + handshake.server_address + ";server_port=\(handshake.server_port);next_state=\(next_state)"))
         switch next_state {
         case .status:
             state = ServerMojangStatus.status
@@ -110,10 +111,10 @@ final class ClientMojangJava : MinecraftClientHandler {
     private func parse_status() throws {
         var packet:GeneralPacketMojang = try read_packet()
         guard let test:ServerPacket.Mojang.Java.Status = ServerPacket.Mojang.Java.Status(rawValue: UInt8(packet.packet_id.value)) else {
-            print("ClientMojangJava;parse_status;failed to find packet with id \(packet.packet_id.value)")
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_status;failed to find packet with id \(packet.packet_id.value)")
             return
         }
-        print("ClientMojangJava;parse_status;test=\(test)")
+        ServerMojang.instance.logger.info("ClientMojangJava;parse_status;packet=\(test)")
         let ping_request:ServerPacket.Mojang.Java.Status.PingRequest
         switch test {
         case .ping_request:
@@ -140,10 +141,10 @@ final class ClientMojangJava : MinecraftClientHandler {
     private func parse_login() throws {
         var packet:GeneralPacketMojang = try read_packet()
         guard let test:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login(rawValue: UInt8(packet.packet_id.value)) else {
-            print("ClientMojangJava;parse_login;failed to find packet with id \(packet.packet_id.value)")
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_login;failed to find packet with id \(packet.packet_id.value)")
             return
         }
-        print("ClientMojangJava;parse_login;test=\(test)")
+        ServerMojang.instance.logger.info("ClientMojangJava;parse_login;packet=\(test)")
         let login_start_packet:ServerPacket.Mojang.Java.Login.LoginStart = try ServerPacket.Mojang.Java.Login.LoginStart.parse(packet)
         player_builder = PlayerBuilder(uuid: login_start_packet.player_uuid, name: login_start_packet.name)
         
@@ -198,10 +199,10 @@ final class ClientMojangJava : MinecraftClientHandler {
     private func parse_configuration() throws {
         var packet:GeneralPacketMojang = try read_packet()
         guard let test:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration(rawValue: UInt8(packet.packet_id.value)) else {
-            print("ClientMojangJava;parse_configuration;failed to find packet with id \(packet.packet_id.value)")
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_configuration;failed to find packet with id \(packet.packet_id.value)")
             return
         }
-        print("ClientMojangJava;parse_configuration;test=\(test)")
+        ServerMojang.instance.logger.info("ClientMojangJava;parse_configuration;packet=\(test)")
         switch test {
         case .client_information:
             information = try ServerPacket.Mojang.Java.Configuration.ClientInformation.parse(packet)
@@ -215,7 +216,7 @@ final class ClientMojangJava : MinecraftClientHandler {
         
         state = .play
         let uuid:UUID = player_builder.uuid
-        let world:any World = GluonServer.shared_instance.worlds.first!.value
+        let world:any World = GluonServer.shared.worlds.first!.value
         let food_data:GluonFoodData = GluonFoodData(food_level: 10, saturation_level: 0, exhaustion_level: 0)
         let inventory_type:GluonInventoryType = GluonInventoryType(id: "minecraft:player", categories: [], size: 36, material_category_restrictions: [:], material_retrictions: [:], allowed_recipe_ids: [])
         let inventory:GluonPlayerInventory = GluonPlayerInventory(type: inventory_type, held_item_slot: 0, items: [], viewers: [])
@@ -277,10 +278,10 @@ final class ClientMojangJava : MinecraftClientHandler {
     private func parse_play() throws {
         let packet:GeneralPacketMojang = try read_packet()
         guard let test:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play(rawValue: UInt8(packet.packet_id.value)) else {
-            print("ClientMojangJava;parse_play;failed to find packet with id \(packet.packet_id.value)")
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_play;failed to find packet with id \(packet.packet_id.value)")
             return
         }
-        print("ClientMojangJava;parse_play;test=\(test)")
+        ServerMojang.instance.logger.info("ClientMojangJava;parse_play;packet=\(test)")
         try test.server_received(self)
     }
     

@@ -7,10 +7,7 @@
 
 import App
 import Vapor
-import Backtrace
 import NIO
-
-Backtrace.install()
 
 let server:ServerMojang = ServerMojang(host: "192.168.1.96", port: 25565)
 defer {

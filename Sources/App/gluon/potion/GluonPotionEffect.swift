@@ -10,7 +10,7 @@ import Foundation
 final class GluonPotionEffect : PotionEffect {
     let type_id:String
     var type : (any PotionEffectType)? {
-        return GluonServer.shared_instance.get_potion_effect_type(identifier: type_id)
+        return GluonServer.shared.get_potion_effect_type(identifier: type_id)
     }
     
     var has_icon:Bool

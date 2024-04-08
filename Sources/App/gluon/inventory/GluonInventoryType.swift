@@ -16,6 +16,6 @@ struct GluonInventoryType : InventoryType {
     let allowed_recipe_ids:Set<String>?
     var allowed_recipes : [any Recipe]? {
         guard let identifiers:Set<String> = allowed_recipe_ids else { return nil }
-        return GluonServer.shared_instance.get_recipes(identifiers: identifiers)
+        return GluonServer.shared.get_recipes(identifiers: identifiers)
     }
 }
