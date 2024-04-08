@@ -26,6 +26,7 @@ public extension MinecraftProtocolVersion {
         case v1_19   = 759
         
         case v1_18_2 = 758
+        /// 1.18 & 1.18.1
         case v1_18   = 757
         
         case v1_17_1 = 756

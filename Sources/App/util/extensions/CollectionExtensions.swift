@@ -7,11 +7,13 @@
 
 import Foundation
 
-internal extension Array {
-    func get(_ index: Int) -> Element? {
-        return index < count ? self[index] : nil
+public extension Collection {
+    func get(_ index: Self.Index) -> Element? {
+        return index < endIndex && index >= startIndex ? self[index] : nil
     }
-    
+}
+
+internal extension Array {
     func map_set<T>(_ transform: (Element) throws -> T) rethrows -> Set<T> {
         return try map(transform).as_set
     }

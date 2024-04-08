@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import Logging
 
 actor GluonChatManager : ChatManager {
     private var history:[any ChatMessage] = []
     
     func send(sender: any CommandSender, receiver: String?, message: String) async {
+        ServerMojang.instance.logger_chat.info(Logger.Message(stringLiteral: sender.name + ": " + message))
         let msg:GluonChatMessage = GluonChatMessage(id: UUID(), timestamp: Date(), sender: sender, receiver: receiver, message: message)
         history.append(msg)
         if let receiver:String = receiver {

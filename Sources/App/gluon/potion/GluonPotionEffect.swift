@@ -18,7 +18,6 @@ final class GluonPotionEffect : PotionEffect {
     var is_ambient:Bool
     
     var amplifier:UInt16
-    /// Remaining duration of ticks for this potion effect.
     var duration:UInt16
     
     init(type_id: String, has_icon: Bool, has_particles: Bool, is_ambient: Bool, amplifier: UInt16, duration: UInt16) {

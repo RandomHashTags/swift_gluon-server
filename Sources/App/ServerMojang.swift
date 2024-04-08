@@ -10,22 +10,24 @@ import Socket
 import SwiftASN1
 import Logging
 
-
 // BlueSocket TCP Server
 public final class ServerMojang {
+    private static let domain:String = ""
     public private(set) static var instance:ServerMojang!
     public private(set) static var public_key:String!, private_key:String!
     
     let host:String
     let port:Int
     let logger:Logger
+    let logger_chat:Logger
     private(set) var connections:Set<ClientMojangJava>
     private(set) var player_connections:[UUID:ClientMojangJava]
     
     public init(host: String, port: Int) {
         self.host = host
         self.port = port
-        logger = Logger(label: "main")
+        logger = Logger(label: Self.domain + "main")
+        logger_chat = Logger(label: Self.domain + "chat")
         
         connections = []
         player_connections = [:]
@@ -37,7 +39,7 @@ public final class ServerMojang {
         logger.notice(Logger.Message(stringLiteral: "Running on host \"" + host + "\" and port \(port)"))
         try generate_server_public_and_private_key()
         let socket:Socket = try Socket.create()
-        try socket.listen(on: 25565)
+        try socket.listen(on: port)
         
         socket.readBufferSize = Socket.SOCKET_DEFAULT_READ_BUFFER_SIZE
         
