@@ -11,21 +11,12 @@ import Logging
 public protocol Damageable : Entity {
     var health : Double { get set }
     var health_maximum : Double { get set }
-    
-    var damageable_executable_context : [String:ExecutableLogicalContext] { get }
-    
+        
     func tick_damageable(_ server: any Server)
     
     func damage(cause: DamageCause, amount: Double) -> DamageResult
 }
 public extension Damageable {
-    
-    var damageable_executable_context : [String:ExecutableLogicalContext] {
-        var context:[String:ExecutableLogicalContext] = entity_executable_context
-        context["health"] = ExecutableLogicalContext(value_type: .double, value: health)
-        context["health_maximum"] = ExecutableLogicalContext(value_type: .double, value: health_maximum)
-        return context
-    }
     
     func tick(_ server: any Server) {
         tick_damageable(server)

@@ -43,9 +43,7 @@ public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
     /// The vehicle UUID this entity is currently riding.
     var vehicle_uuid : UUID? { get set }
     var vehicle : (any Entity)? { get }
-    
-    var entity_executable_context : [String:ExecutableLogicalContext] { get }
-    
+        
     func tick_entity(_ server: any Server)
     
     /// Removes this entity from the server. Like it never existed (or "despawned").
@@ -83,17 +81,6 @@ public extension Entity {
             // TODO: check distance to closest block at Y position
             location.y = new_location
         }
-    }
-    
-    var entity_executable_context : [String:ExecutableLogicalContext] {
-        return [
-            "entity_type" : ExecutableLogicalContext(value_type: .string, value: type_id),
-            
-            "is_on_fire" : ExecutableLogicalContext(value_type: .boolean, value: is_on_fire),
-            "is_on_ground" : ExecutableLogicalContext(value_type: .boolean, value: is_on_ground),
-            
-            "ticks_lived" : ExecutableLogicalContext(value_type: .long_unsigned, value: ticks_lived)
-        ]
     }
     
     func server_tps_slowed(to tps: UInt8, divisor: UInt16) {

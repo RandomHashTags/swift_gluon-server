@@ -12,8 +12,3 @@ public protocol ChunkEvent : Event {
     
     init(chunk: any Chunk)
 }
-public extension ChunkEvent {
-    var context : [String:ExecutableLogicalContext]? {
-        return nil
-    }
-}

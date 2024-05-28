@@ -17,10 +17,4 @@ struct GluonEntityTeleportEvent : EntityTeleportEvent {
         self.entity = entity
         self.new_location = new_location
     }
-    
-    var context : [String:ExecutableLogicalContext]? {
-        var context:[String:ExecutableLogicalContext] = entity.entity_executable_context
-        context["new_location"] = ExecutableLogicalContext(value_type: .location, value: new_location)
-        return context
-    }
 }

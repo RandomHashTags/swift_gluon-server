@@ -1,8 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Easy" : {
-      "comment" : "A default Difficulty type",
+    "difficulty_easy" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -13,8 +12,7 @@
         }
       }
     },
-    "Hard" : {
-      "comment" : "A default Difficulty type",
+    "difficulty_hard" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -25,8 +23,7 @@
         }
       }
     },
-    "Hardcore" : {
-      "comment" : "A default Difficulty type",
+    "difficulty_hardcore" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -37,8 +34,7 @@
         }
       }
     },
-    "Normal" : {
-      "comment" : "A default Difficulty type",
+    "difficulty_normal" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -49,14 +45,57 @@
         }
       }
     },
-    "Peaceful" : {
-      "comment" : "A default Difficulty type",
+    "difficulty_peaceful" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peaceful"
+          }
+        }
+      }
+    },
+    "gamemode_adventure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adventure"
+          }
+        }
+      }
+    },
+    "gamemode_creative" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creative"
+          }
+        }
+      }
+    },
+    "gamemode_spectator" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spectator"
+          }
+        }
+      }
+    },
+    "gamemode_survival" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Survival"
           }
         }
       }

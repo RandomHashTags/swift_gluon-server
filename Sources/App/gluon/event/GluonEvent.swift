@@ -9,5 +9,4 @@ import Foundation
 
 struct GluonEvent : Event {
     var type:any EventType
-    var context:[String : ExecutableLogicalContext]?
 }

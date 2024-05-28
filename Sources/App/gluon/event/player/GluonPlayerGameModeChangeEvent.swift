@@ -17,10 +17,4 @@ struct GluonPlayerGameModeChangeEvent : PlayerGameModeChangeEvent {
         self.player = player
         self.new_game_mode = new_game_mode
     }
-    
-    var context : [String:ExecutableLogicalContext]? {
-        var context:[String:ExecutableLogicalContext] = player.player_executable_context
-        context["new_game_mode"] = ExecutableLogicalContext(value_type: .string, value: new_game_mode.id)
-        return context
-    }
 }

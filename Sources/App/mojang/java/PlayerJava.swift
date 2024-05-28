@@ -117,10 +117,6 @@ final class PlayerJava : Player { // TODO: fix
         GluonServer.shared.call_event(event: event)
         guard !event.is_cancelled else { return }
         item.amount -= 1
-        guard let context:[String:ExecutableLogicalContext] = event.context else { return }
-        for logic in consumable_configuration.executable_logic {
-            logic.execute(context: context)
-        }
     }
     
     func send_packet(_ packet: any PacketMojangJava) throws {

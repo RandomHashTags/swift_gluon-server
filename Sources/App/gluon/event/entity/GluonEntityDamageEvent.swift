@@ -24,12 +24,4 @@ struct GluonEntityDamageEvent : EntityDamageEvent {
         self.cause = cause
         self.amount = amount
     }
-    
-    var context : [String : ExecutableLogicalContext]? {
-        var context:[String:ExecutableLogicalContext] = entity.entity_executable_context
-        context["damage_amount"] = ExecutableLogicalContext(value_type: .double, value: amount)
-        context["will_die"] = ExecutableLogicalContext(value_type: .boolean, value: will_die)
-        context["damage_cause"] = ExecutableLogicalContext(value_type: .string, value: cause.id)
-        return context
-    }
 }

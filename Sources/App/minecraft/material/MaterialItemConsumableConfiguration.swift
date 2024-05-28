@@ -14,9 +14,6 @@ public protocol MaterialItemConsumableConfiguration : AnyObject, ServerTickChang
     var nutrition : Int { get }
     var saturation_modifier : Float { get }
     var effects : [any PotionEffect] { get }
-    
-    /// The logic executed when this item is considered consumed.
-    var executable_logic : [ExecutableLogic] { get }
 }
 
 public extension MaterialItemConsumableConfiguration {

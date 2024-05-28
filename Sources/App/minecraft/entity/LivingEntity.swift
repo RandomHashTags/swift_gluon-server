@@ -28,25 +28,13 @@ public protocol LivingEntity : Damageable {
     
     var air_remaining_ticks : UInt16 { get set }
     var air_maximum_ticks : UInt16 { get set }
-    
-    var living_entity_executable_context : [String:ExecutableLogicalContext] { get }
-    
+        
     func tick_living_entity(_ server: any Server)
     
     func damage_living_entity(cause: DamageCause, amount: Double) -> DamageResult
 }
 
 public extension LivingEntity {
-    var living_entity_executable_context : [String:ExecutableLogicalContext] {
-        var context:[String:ExecutableLogicalContext] = damageable_executable_context
-        context["air_remaining"] = ExecutableLogicalContext(value_type: .short_unsigned, value: air_remaining_ticks)
-        context["air_maximum"] = ExecutableLogicalContext(value_type: .short_unsigned, value: air_maximum_ticks)
-        context["has_ai"] = ExecutableLogicalContext(value_type: .boolean, value: has_ai)
-        context["is_swimming"] = ExecutableLogicalContext(value_type: .boolean, value: is_swimming)
-        context["no_damage_ticks"] = ExecutableLogicalContext(value_type: .short_unsigned, value: no_damage_ticks)
-        context["no_damage_ticks_maximum"] = ExecutableLogicalContext(value_type: .short_unsigned, value: no_damage_ticks_maximum)
-        return context
-    }
     
     func tick(_ server: any Server) {
         tick_living_entity(server)

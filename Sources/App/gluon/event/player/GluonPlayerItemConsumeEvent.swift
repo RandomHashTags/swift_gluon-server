@@ -17,10 +17,4 @@ struct GluonPlayerItemConsumeEvent : PlayerItemConsumeEvent {
         self.player = player
         self.item = item
     }
-    
-    var context : [String:ExecutableLogicalContext]? {
-        var context:[String:ExecutableLogicalContext] = player.player_executable_context
-        context["item"] = ExecutableLogicalContext(value_type: .item_stack, value: item)
-        return context
-    }
 }
