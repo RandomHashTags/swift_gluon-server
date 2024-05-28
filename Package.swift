@@ -5,23 +5,26 @@ import PackageDescription
 
 let package = Package(
     name: "swift_gluon-server",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v13)
     ],
     dependencies: [
-        //.package(url: "https://github.com/Kitura/BlueSocket.git", from: "2.0.2"),
         //.package(url: "https://github.com/apple/swift-nio.git", from: "2.57.0"),
         
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.92.5"),
-        .package(url: "https://github.com/vapor/console-kit.git", from: "4.14.1"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
-        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
-        .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.5.0"),
-        .package(url: "https://github.com/vapor/postgres-nio.git", from: "1.21.1"),
-        .package(url: "https://github.com/vapor/postgres-kit.git", from: "2.13.1"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.101.0"),
+        .package(url: "https://github.com/vapor/console-kit.git", from: "4.14.2"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.10.0"),
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.9.2"),
+        .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.7.2"),
+        .package(url: "https://github.com/vapor/postgres-nio.git", from: "1.21.2"),
+        .package(url: "https://github.com/vapor/postgres-kit.git", from: "2.13.4"),
         
         .package(url: "https://github.com/Kitura/BlueSocket.git", from: "2.0.4"),
-        .package(url: "https://github.com/apple/swift-asn1.git", from: "1.1.0")
+        .package(url: "https://github.com/apple/swift-asn1.git", from: "1.1.0"),
+
+        .package(url: "https://github.com/RandomHashTags/swift-language-codes.git", from: "1.0.0"),
+        .package(url: "https://github.com/RandomHashTags/swift-string-catalogs.git", from: "1.0.0")
     ],
     targets: [
         .target(
