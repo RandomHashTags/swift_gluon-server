@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import SwiftStringCatalogs
 
 final class GluonEntityType : EntityType {
     let id:String
-    let name:String
+    let name:LocalizedStringResource
     
     let is_affected_by_gravity:Bool
     let is_damageable:Bool
@@ -22,7 +23,7 @@ final class GluonEntityType : EntityType {
     
     init(
         id: String,
-        name: String,
+        name: LocalizedStringResource,
         is_affected_by_gravity: Bool,
         is_damageable: Bool,
         receives_fall_damage: Bool,

@@ -32,6 +32,6 @@ public struct DifficultyJava : CaseIterable, Difficulty {
     }()
     
     public let id:String
-    public let name:String
+    public let name:LocalizedStringResource
     public let damage_multiplier:Double
 }

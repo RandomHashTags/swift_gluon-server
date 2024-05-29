@@ -7,6 +7,7 @@
 
 import Vapor
 //import HugeNumbers
+import SwiftStringCatalogs
 
 /*
 public func configure(_ app: Application) throws {
@@ -119,7 +120,3 @@ private func start_server(_ app: Application) {
     }
 }
 */
-func get_localized_string(key: String, table: String) -> String {
-    let value:String.LocalizationValue = String.LocalizationValue(stringLiteral: key)
-    return String(localized: value, table: table, bundle: Bundle.module)
-}

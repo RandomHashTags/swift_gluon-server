@@ -12,9 +12,9 @@ public protocol SoundType : Identifiable where ID == String {
     
     var volume : Float { get }
     var pitch : Float { get }
-    var break_sound : SoundEventType { get }
-    var step_sound : SoundEventType { get }
-    var place_sound : SoundEventType { get }
-    var hit_sound : SoundEventType { get }
-    var fall_sound : SoundEventType { get }
+    var sound_break : SoundEventType { get }
+    var sound_step : SoundEventType { get }
+    var sound_place : SoundEventType { get }
+    var sound_hit : SoundEventType { get }
+    var sound_fall : SoundEventType { get }
 }

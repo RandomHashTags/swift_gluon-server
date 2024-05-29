@@ -16,16 +16,5 @@ public protocol ScoreboardTeam {
     var allows_friendly_fire : Bool { get set }
     var can_see_friendly_invisibles : Bool { get set }
     
-    var options : [ScoreboardTeamOption : ScoreboardTeamOptionStatus] { get set }
-}
-public enum ScoreboardTeamOption : String {
-    case name_tag_visibility
-    case death_message_visibility
-    case collision_rule
-}
-public enum ScoreboardTeamOptionStatus : String {
-    case always
-    case never
-    case for_other_teams
-    case for_own_team
+    var options : [ScoreboardTeamOption : ScoreboardTeamOption.Status] { get set }
 }

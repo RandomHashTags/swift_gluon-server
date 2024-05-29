@@ -36,7 +36,9 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 
                 .product(name: "Socket", package: "BlueSocket"),
-                .product(name: "SwiftASN1", package: "swift-asn1")
+                .product(name: "SwiftASN1", package: "swift-asn1"),
+                .product(name: "SwiftLanguageCodes", package: "swift-language-codes"),
+                .product(name: "SwiftStringCatalogs", package: "swift-string-catalogs")
             ],
             resources: [
                 .process("Resources")

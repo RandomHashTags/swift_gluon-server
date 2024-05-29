@@ -18,7 +18,7 @@ public struct GameModeJava : CaseIterable, GameMode {
     static var adventure:GameModeJava = {
         GameModeJava(
             id: "minecraft.adventure",
-            name: get_localized_string(key: "adventure", table: "GameModes"),
+            name: "adventure",
             allows_flight: false,
             disallowed_inventory_click_types: [
                 InventoryClickTypeJava.clone
@@ -36,7 +36,7 @@ public struct GameModeJava : CaseIterable, GameMode {
     static var creative:GameModeJava = {
         return GameModeJava(
             id: "minecraft.creative",
-            name: get_localized_string(key: "creative", table: "GameModes"),
+            name: "creative",
             allows_flight: true,
             disallowed_inventory_click_types: [],
             can_break_blocks: true,
@@ -52,7 +52,7 @@ public struct GameModeJava : CaseIterable, GameMode {
     static var spectator:GameModeJava = {
         return GameModeJava(
             id: "minecraft.spectator",
-            name: get_localized_string(key: "spectator", table: "GameModes"),
+            name: "spectator",
             allows_flight: true,
             disallowed_inventory_click_types: [],
             can_break_blocks: false,
@@ -68,7 +68,7 @@ public struct GameModeJava : CaseIterable, GameMode {
     static var survival:GameModeJava = {
         return GameModeJava(
             id: "minecraft.survival",
-            name: get_localized_string(key: "survival", table: "GameModes"),
+            name: "survival",
             allows_flight: false,
             disallowed_inventory_click_types: [
                 InventoryClickTypeJava.clone
@@ -85,7 +85,7 @@ public struct GameModeJava : CaseIterable, GameMode {
     }()
     
     public let id:String
-    public let name:String
+    public let name:LocalizedStringResource
     public let allows_flight:Bool
     public let disallowed_inventory_click_types:Set<String>
     

@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftStringCatalogs
 
 struct GluonStatistic : Statistic {
     let id:String
-    let name:String
+    let name:LocalizedStringResource
     let value_type:ValueType
 }

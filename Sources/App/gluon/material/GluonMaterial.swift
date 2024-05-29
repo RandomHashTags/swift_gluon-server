@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import SwiftStringCatalogs
 
 struct GluonMaterial : Material {
     let id:String
-    let name:String
+    let name:LocalizedStringResource
     let categories:[any MaterialCategory]
     let configuration:any MaterialConfiguration
     

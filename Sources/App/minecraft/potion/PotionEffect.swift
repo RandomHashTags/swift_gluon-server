@@ -7,8 +7,7 @@
 
 import Foundation
 
-public protocol PotionEffect : AnyObject, Tickable {
-    var type_id : String { get }
+public protocol PotionEffect : AnyObject, Tickable, Identifiable where ID == String {
     var type : (any PotionEffectType)? { get }
     var has_icon : Bool { get set }
     var has_particles : Bool { get set }
@@ -21,11 +20,11 @@ public protocol PotionEffect : AnyObject, Tickable {
 
 public extension PotionEffect {
     static func == (lhs: any PotionEffect, rhs: any PotionEffect) -> Bool {
-        return lhs.type_id.elementsEqual(rhs.type_id) && lhs.has_icon == rhs.has_icon && lhs.has_particles == rhs.has_particles && lhs.is_ambient == rhs.is_ambient && lhs.amplifier == rhs.amplifier && lhs.duration == rhs.duration
+        return lhs.id.elementsEqual(rhs.id) && lhs.has_icon == rhs.has_icon && lhs.has_particles == rhs.has_particles && lhs.is_ambient == rhs.is_ambient && lhs.amplifier == rhs.amplifier && lhs.duration == rhs.duration
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(type_id)
+        hasher.combine(id)
         hasher.combine(amplifier)
         hasher.combine(duration)
     }

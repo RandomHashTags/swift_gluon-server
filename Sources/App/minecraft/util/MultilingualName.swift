@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import SwiftStringCatalogs
 
 public protocol MultilingualName {
-    var name : String { get }
+    var name : LocalizedStringResource { get }
 }

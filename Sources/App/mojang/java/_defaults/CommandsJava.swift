@@ -73,10 +73,10 @@ public enum CommandsJava : String, CaseIterable, Command {
     }
     
     public var label : String {
-        return get_localized_string(key: rawValue, table: "Commands").lowercased()
+        return rawValue
     }
     public var description : String {
-        return get_localized_string(key: rawValue + "_description", table: "Commands")
+        return "???"
     }
     public var aliases : Set<String> {
         switch self {
