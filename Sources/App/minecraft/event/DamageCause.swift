@@ -27,7 +27,7 @@ public enum DamageCause : Identifiable {
     case starvation
     case potion_effect(potion_effect: any PotionEffect)
     case falling_block(block: any Block)
-    case enchantment(enchant: any EnchantmentType)
+    case enchantment(enchant: EnchantmentType)
     case cramming
     
     case custom(identifier: String, value: Any? = nil)

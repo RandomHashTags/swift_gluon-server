@@ -9,9 +9,9 @@ import Foundation
 
 public struct BanEntry : Hashable {
     /// the ``Player``'s UUID that banned `target`
-    public let banned_by:UUID
+    public let bannedBy:UUID
     public let target:String
-    public let ban_time:Date
+    public let banTime:Date
     public let expiration:Date?
     public let reason:String?
 }

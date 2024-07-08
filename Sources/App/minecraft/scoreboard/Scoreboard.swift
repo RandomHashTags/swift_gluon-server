@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Scoreboard {
-    var objectives : [any ScoreboardObjective] { get set }
-    var teams : [any ScoreboardTeam] { get set }
+public struct Scoreboard {
+    public var objectives:[ScoreboardObjective]
+    public var teams:[ScoreboardTeam]
 }

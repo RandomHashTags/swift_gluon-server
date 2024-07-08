@@ -7,5 +7,6 @@
 
 import Foundation
 
-public protocol WeatherType : Identifiable where ID == String {
+public struct WeatherType : Identifiable, Hashable {
+    public let id:String
 }

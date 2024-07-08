@@ -17,7 +17,7 @@ struct GluonEntityDamageEvent : EntityDamageEvent {
     }
     
     var entity:any Entity
-    var is_cancelled:Bool = false
+    var isCancelled:Bool = false
     
     init(entity: any Entity, cause: DamageCause, amount: Double) {
         self.entity = entity

@@ -6,25 +6,29 @@
 //
 
 import Foundation
+import SwiftStringCatalogs
 
-public protocol Material : MultilingualName, Hashable, Identifiable where ID == String {
-    var categories : [any MaterialCategory] { get }
-    var configuration : any MaterialConfiguration { get }
-    /// The ``Recipe`` identifier this material can be crafted by, if applicable.
-    var recipe_id : String? { get }
-    /// The ``Recipe`` this material can be crafted by, if applicable.
-    var recipe : (any Recipe)? { get }
-}
+public struct Material : Identifiable, Hashable, MultilingualName {
+    public static func == (left: Self, right: Self) -> Bool {
+        return left.id == right.id
+    }
 
-public extension Material {
-    static func == (left: any Material, right: any Material) -> Bool {
-        return left.id.elementsEqual(right.id)
-    }
-    static func == (left: Self, right: Self) -> Bool {
-        return left == right
-    }
-    
-    func hash(into hasher: inout Hasher) {
+    public let id:String
+    public let name:LocalizedStringResource
+    /// The ``Recipe`` id this material can be crafted by, if applicable.
+    public let recipeID:String?
+
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
+
+/*
+public protocol Material : MultilingualName, Hashable, Identifiable where ID == String {
+    var categories : [any MaterialCategory] { get }
+    var configuration : any MaterialConfiguration { get }
+    
+    var recipe_id : String? { get }
+    /// The ``Recipe`` this material can be crafted by, if applicable.
+    var recipe : (any Recipe)? { get }
+}*/

@@ -9,36 +9,36 @@ import Foundation
 
 /*
 struct GluonBlock : Block {
-    let material_id:String
-    var material : (any Material)? {
-        return GluonServer.shared.get_material(identifier: material_id)
+    let materialID:String
+    var material : (Material)? {
+        return GluonServer.shared.get_material(identifier: materialID)
     }
     
     let requires_correct_tool_for_drops:Bool
     let has_collision:Bool
     
     let instrument_id:String?
-    var instrument : (any Instrument)? {
+    var instrument : (Instrument)? {
         guard let instrument_id:String = instrument_id else { return nil }
         return GluonServer.shared.get_instrument(identifier: instrument_id)
     }
     
     let map_color:Color?
     
-    let step_sound:(any Sound)?
+    let step_sound:(Sound)?
     
     var light_level:UInt8
     var location:any Location
     
     var growable_age:UInt8?
     
-    var loot_table:(any LootTable)?
+    var loot_table:(LootTable)?
     
     func tick(_ server: any Server) {
     }
     
     func break_naturally() {
-        guard let loot:[any ItemStack] = loot_table?.loot_normal else { return }
+        guard let loot:[ItemStack] = loot_table?.loot_normal else { return }
         let world:any World = location.world
         let pickup_delay:UInt8 = GluonServer.shared.ticks_per_second / 2
         let half:Double = 0.5
@@ -48,12 +48,12 @@ struct GluonBlock : Block {
             world.spawn_entity(item)*/
         }
     }
-    func get_breaking_speed(_ item_stack: any ItemStack) -> Float {
+    func get_breaking_speed(_ item_stack: ItemStack) -> Float {
        guard let block_configuration:any MaterialBlockConfiguration = material?.configuration.block else {
            return 0
        }
        let hardness:Float = block_configuration.hardness
-       let is_preferred_tool:Bool = block_configuration.preferred_break_material_identifiers?.contains(item_stack.material_id) ?? false
+       let is_preferred_tool:Bool = block_configuration.preferred_break_material_identifiers?.contains(item_stack.materialID) ?? false
        let tool_multiplier:Float, additional_multiplier:Float
        if is_preferred_tool {
            tool_multiplier = 1.5

@@ -7,9 +7,10 @@
 
 import Foundation
 
-public protocol ChatMessage : Identifiable where ID == UUID {
-    var timestamp : Date { get }
-    var sender : any CommandSender { get }
-    var receiver : String? { get }
-    var message : String { get }
+public struct ChatMessage : Identifiable {
+    public let id:String
+    public let timestamp:Date
+    public var sender:any CommandSender
+    public let receiver:String?
+    public let message:String
 }

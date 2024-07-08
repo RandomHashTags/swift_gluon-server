@@ -49,7 +49,7 @@ public extension Damageable {
         let new_health:Double = max(0, min(health-amount, health_maximum))
         let event:GluonEntityDamageEvent = GluonEntityDamageEvent(entity: self, cause: cause, amount: amount)
         GluonServer.shared.call_event(event: event)
-        guard !event.is_cancelled else {
+        guard !event.isCancelled else {
             return DamageResult.failure(.cancelled)
         }
         health = new_health

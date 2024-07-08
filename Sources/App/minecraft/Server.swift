@@ -29,28 +29,28 @@ public protocol Server : AnyObject, Tickable {
     var banned_players : Set<BanEntry> { get set }
     var banned_ip_addresses : Set<BanEntry> { get set }
     
-    var difficulties : [String : any Difficulty] { get set }
+    var difficulties : [String : Difficulty] { get set }
     var worlds : [String : any World] { get set }
     
-    var event_types : [String : any EventType] { get set }
+    var event_types : [String : EventType] { get set }
     
-    var sound_categories : [String : any SoundCategory] { get set }
-    var sounds : [String : any Sound] { get set }
-    var materials : [String : any Material] { get set }
-    var biomes : [String : any Biome] { get set }
-    var enchantment_types : [String : any EnchantmentType] { get set }
-    var entity_types : [String : any EntityType] { get set }
+    var sound_categories : [String : SoundCategory] { get set }
+    var sounds : [String : Sound] { get set }
+    var materials : [String : Material] { get set }
+    var biomes : [String : Biome] { get set }
+    var enchantment_types : [String : EnchantmentType] { get set }
+    var entity_types : [String : EntityType] { get set }
     var inventory_types : [String : any InventoryType] { get set }
-    var potion_effect_types : [String : any PotionEffectType] { get set }
-    var game_modes : [String : any GameMode] { get set }
-    var advancements : [String : any Advancement] { get set }
-    var art : [String : any Art] { get set }
+    var potion_effect_types : [String : PotionEffectType] { get set }
+    var game_modes : [String : GameMode] { get set }
+    var advancements : [String : Advancement] { get set }
+    var art : [String : Art] { get set }
     var attributes : [String : any Attribute] { get set }
-    var instruments : [String : any Instrument] { get set }
+    var instruments : [String : Instrument] { get set }
     var statistics : [String : any Statistic] { get set }
     var commands : [String : any Command] { get set }
     var permissions : [String : any Permission] { get set }
-    var recipes : [String : any Recipe] { get set }
+    var recipes : [String : Recipe] { get set }
     
     var event_listeners : [String : [any EventListener]] { get set }
     
@@ -137,14 +137,14 @@ public extension Server {
 }
 
 public extension Server {
-    func get_event_type(identifier: String) -> (any EventType)? {
+    func get_event_type(identifier: String) -> EventType? {
         return event_types[identifier]
     }
-    func register_event_type(type: any EventType) throws {
+    func register_event_type(type: EventType) throws {
         event_types[type.id] = type
     }
     
-    func get_entity_type(identifier: String) -> (any EntityType)? {
+    func get_entity_type(identifier: String) -> (EntityType)? {
         return entity_types[identifier]
     }
     func get_world(name: String) -> (any World)? {
@@ -152,47 +152,47 @@ public extension Server {
     }
     
     
-    func get_advancement(id: String) -> (any Advancement)? {
+    func get_advancement(id: String) -> (Advancement)? {
         return advancements[id]
     }
     func get_command(identifier: String) -> (any Command)? {
         return commands[identifier]
     }
-    func get_enchantment_type(identifier: String) -> (any EnchantmentType)? {
+    func get_enchantment_type(identifier: String) -> (EnchantmentType)? {
         return enchantment_types[identifier]
     }
-    func get_game_mode(identifier: String) -> (any GameMode)? {
+    func get_game_mode(identifier: String) -> (GameMode)? {
         return game_modes[identifier]
     }
     func get_inventory_type(identifier: String) -> (any InventoryType)? {
         return inventory_types[identifier]
     }
     
-    func get_material(identifier: String) -> (any Material)? {
+    func get_material(identifier: String) -> Material? {
         return materials[identifier]
     }
-    func get_materials(identifiers: any Collection<String>) -> [any Material] {
+    func get_materials(identifiers: any Collection<String>) -> [Material] {
         return identifiers.compactMap({ materials[$0] })
     }
     
     func get_permission(identifier: String) -> (any Permission)? {
         return permissions[identifier]
     }
-    func get_potion_effect_type(identifier: String) -> (any PotionEffectType)? {
+    func get_potion_effect_type(identifier: String) -> (PotionEffectType)? {
         return potion_effect_types[identifier]
     }
     func get_statistic(identifier: String) -> (any Statistic)? {
         return statistics[identifier]
     }
     
-    func get_recipe(identifier: String) -> (any Recipe)? {
+    func get_recipe(identifier: String) -> Recipe? {
         return recipes[identifier]
     }
-    func get_recipes(identifiers: any Collection<String>) -> [any Recipe] {
+    func get_recipes(identifiers: any Collection<String>) -> [Recipe] {
         return identifiers.compactMap({ recipes[$0] })
     }
     
-    func get_instrument(identifier: String) -> (any Instrument)? {
+    func get_instrument(identifier: String) -> Instrument? {
         return instruments[identifier]
     }
 }

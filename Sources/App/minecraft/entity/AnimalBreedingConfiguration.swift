@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol AnimalBreedingConfiguration : Identifiable where ID == String {
-    var breed_item : any ItemStack { get }
+    var breed_item : ItemStack { get }
 }

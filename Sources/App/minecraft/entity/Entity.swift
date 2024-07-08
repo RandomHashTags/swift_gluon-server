@@ -11,8 +11,8 @@ public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
     var id : UInt64 { get }
     var uuid : UUID { get }
     /// the ``EntityType`` id
-    var type_id : String { get }
-    var type : (any EntityType)? { get }
+    var typeID : String { get }
+    var type : EntityType? { get }
     
     var ticks_lived : UInt64 { get set }
     
@@ -55,15 +55,15 @@ public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
 
 public extension Entity {
     static func == (lhs: any Entity, rhs: any Entity) -> Bool {
-        return lhs.uuid == rhs.uuid && lhs.type_id == rhs.type_id
+        return lhs.uuid == rhs.uuid && lhs.typeID == rhs.typeID
     }
     static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.uuid == rhs.uuid && lhs.type_id == rhs.type_id
+        return lhs.uuid == rhs.uuid && lhs.typeID == rhs.typeID
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(uuid)
-        hasher.combine(type_id)
+        hasher.combine(typeID)
     }
     
     func tick(_ server: any Server) {
@@ -76,7 +76,7 @@ public extension Entity {
         ServerMojang.instance.logger.info("Entity;default_tick_entity;entity with uuid \(uuid) has been ticked")
         ticks_lived += 1
         
-        if let type:any EntityType = type, type.is_affected_by_gravity && !is_on_ground {
+        if let type:EntityType = type, type.isAffectedByGravity && !is_on_ground {
             let new_location:Double = location.y - server.gravity_per_tick
             // TODO: check distance to closest block at Y position
             location.y = new_location
@@ -103,8 +103,8 @@ public enum EntityCodingKeys : CodingKey {
     case uuid
     case type_id
     case ticks_lived
-    case custom_name
-    case display_name
+    case customName
+    case displayName
     case boundaries
     case location
     case velocity

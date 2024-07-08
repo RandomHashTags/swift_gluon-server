@@ -9,15 +9,15 @@ import Foundation
 
 public protocol Nameable {
     var name : String { get }
-    var custom_name : String? { get set }
-    var display_name : String? { get set }
+    var customName : String? { get set }
+    var displayName : String? { get set }
 }
 public extension Nameable {
-    var has_custom_name : Bool {
-        return custom_name != nil
+    var hasCustomName : Bool {
+        return customName != nil
     }
     
-    var display_name : String? {
+    var displayName : String? {
         return nil
     }
 }

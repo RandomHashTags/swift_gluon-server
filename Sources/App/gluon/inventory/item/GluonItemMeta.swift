@@ -8,7 +8,7 @@
 import Foundation
 
 struct GluonItemMeta : ItemMeta {
-    var display_name:String?
+    var displayName:String?
     var lore:[String]?
     var flags:[any ItemFlag]?
     var enchants:[String:Int]?

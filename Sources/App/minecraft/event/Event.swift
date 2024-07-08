@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol Event {
-    var type : any EventType { get }
+    var type : EventType { get }
 }

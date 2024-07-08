@@ -13,10 +13,10 @@ public protocol World : AnyObject, Hashable, Tickable {
     var name : String { get }
     
     var spawn_location : Vector { get set }
-    var difficulty : any Difficulty { get set }
-    var game_rules : [any GameRule] { get set }
+    var difficulty : Difficulty { get set }
+    var game_rules : [GameRule] { get set }
     var time : UInt64 { get set }
-    var border : (any WorldBorder)? { get set }
+    var border : WorldBorder? { get set }
     
     var y_min : Int { get set }
     var y_max : Int { get set }

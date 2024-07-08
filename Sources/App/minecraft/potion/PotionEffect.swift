@@ -8,10 +8,10 @@
 import Foundation
 
 public protocol PotionEffect : AnyObject, Tickable, Identifiable where ID == String {
-    var type : (any PotionEffectType)? { get }
-    var has_icon : Bool { get set }
-    var has_particles : Bool { get set }
-    var is_ambient : Bool { get set }
+    var typeID : String { get }
+    var hasIcon : Bool { get set }
+    var hasParticles : Bool { get set }
+    var isAmbient : Bool { get set }
     
     var amplifier : UInt16 { get set }
     /// Remaining duration of ticks for this potion effect.
@@ -20,7 +20,7 @@ public protocol PotionEffect : AnyObject, Tickable, Identifiable where ID == Str
 
 public extension PotionEffect {
     static func == (lhs: any PotionEffect, rhs: any PotionEffect) -> Bool {
-        return lhs.id.elementsEqual(rhs.id) && lhs.has_icon == rhs.has_icon && lhs.has_particles == rhs.has_particles && lhs.is_ambient == rhs.is_ambient && lhs.amplifier == rhs.amplifier && lhs.duration == rhs.duration
+        return lhs.id.elementsEqual(rhs.id) && lhs.hasIcon == rhs.hasIcon && lhs.hasParticles == rhs.hasParticles && lhs.isAmbient == rhs.isAmbient && lhs.amplifier == rhs.amplifier && lhs.duration == rhs.duration
     }
     
     func hash(into hasher: inout Hasher) {

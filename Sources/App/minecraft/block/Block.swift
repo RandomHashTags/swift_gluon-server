@@ -8,41 +8,39 @@
 import Foundation
 
 public protocol Block : BlockBehavior, Tickable {
-    associatedtype InstrumentType : Instrument
-    
-    var material_id : String { get }
-    var material : (any Material)? { get }
+    var materialID : String { get }
+    var material : Material? { get }
     
     var requires_correct_tool_for_drops : Bool { get }
-    var has_collision : Bool { get }
+    var hasCollision : Bool { get }
     
-    var instrument : InstrumentType? { get }
+    var instrument : Instrument? { get }
     
-    var map_color : Color? { get }
-    var step_sound : (any Sound)? { get }
+    var mapColor : Color? { get }
+    var stepSound : Sound? { get }
     
-    var light_level : UInt8 { get set }
+    var lightLevel : UInt8 { get set }
     var location : any Location { get set }
     
     var growable_age : UInt8? { get set }
     
-    var loot_table : (any LootTable)? { get set }
+    var loot_table : LootTable? { get set }
     
-    func break_naturally()
+    func breakNaturally()
     
-    func is_preferred_tool(_ material: any Material) -> Bool
+    func isPreferredTool(_ material: Material) -> Bool
     /// Measured in ticks.
-    func get_breaking_speed(_ item_stack: any ItemStack) -> Float
+    func getBreakingSpeed(_ item_stack: ItemStack) -> Float
     /// Measured in ticks.
-    func get_breaking_speed(_ player: any Player) -> Float
+    func getBreakingSpeed(_ player: any Player) -> Float
 }
 
 public extension Block {
-    var is_fully_grown : Bool {
+    var isFullyGrown : Bool {
         return growable_age ?? 0 >= material?.configuration.block?.growable?.maximum_age ?? 0
     }
     
-    func is_preferred_tool(_ material: any Material) -> Bool {
+    func isPreferredTool(_ material: Material) -> Bool {
         let identifier:String = material.id
         return self.material?.configuration.block?.preferred_break_material_identifiers?.contains(identifier) ?? false
     }

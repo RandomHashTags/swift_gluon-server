@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol Item : Entity {
-    var item_stack : any ItemStack { get set }
+    var item_stack : ItemStack { get set }
     var pickup_delay : UInt8 { get set }
     
     func tick_item(_ server: any Server)

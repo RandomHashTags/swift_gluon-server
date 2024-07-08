@@ -9,7 +9,7 @@ import Foundation
 
 public protocol NBTEntity : NBTTag {
     var air : Int { get }
-    var custom_name : String { get }
+    var customName : String { get }
     var custom_name_visible : Bool { get }
     var fall_distance : Float { get }
     var fire : Int { get }

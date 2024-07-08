@@ -13,6 +13,10 @@ public extension MinecraftProtocolVersion {
         case unknown = -999
         
         // MARK: Releases
+        /// 1.21
+        case v1_21   = 767
+        /// 1.20.5 & 1.20.6
+        case v1_20_5 = 766
         /// 1.20.3 & 1.20.4
         case v1_20_3 = 765
         case v1_20_2 = 764
@@ -74,7 +78,5 @@ public extension MinecraftProtocolVersion {
         
         // MARK: Snapshots
         case v23w31a = 0x40000090
-        
-        
     }
 }

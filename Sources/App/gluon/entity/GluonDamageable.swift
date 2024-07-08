@@ -23,7 +23,7 @@ private func damage_gluon_damageable(_ damageable: inout any Damageable, cause: 
     let new_health:Double = max(0, min(damageable.health-amount, damageable.health_maximum))
     let event:GluonEntityDamageEvent = GluonEntityDamageEvent(entity: damageable, cause: cause, amount: amount)
     GluonServer.shared.call_event(event: event)
-    guard !event.is_cancelled else {
+    guard !event.isCancelled else {
         return DamageResult.failure(.cancelled)
     }
     damageable.health = new_health

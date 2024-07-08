@@ -29,8 +29,8 @@ public protocol MaterialBlockConfiguration {
     var resistance : Int { get }
     var hardness : Float { get }
     var preferred_break_material_identifiers : Set<String>? { get }
-    var preferred_break_materials : [any Material]? { get }
+    var preferred_break_materials : [Material]? { get }
     
     /// The items that can be dropped when this block is broken.
-    var loot : (any LootTable)? { get }
+    var loot : (LootTable)? { get }
 }

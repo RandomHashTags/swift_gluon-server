@@ -227,7 +227,7 @@ final class ClientMojangJava : MinecraftClientHandler {
             food_data: food_data,
             permissions: [],
             statistics: [:],
-            game_mode: GameModeJava.survival,
+            game_mode: GameMode.survival,
             is_blocking: false,
             is_flying: false,
             is_op: false,

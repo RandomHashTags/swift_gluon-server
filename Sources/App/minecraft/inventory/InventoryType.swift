@@ -18,7 +18,7 @@ public protocol InventoryType : Hashable, Identifiable where ID == String {
     /// The allowed ``Recipe`` ids that can be created when inside this inventory type, if applicable.
     var allowed_recipe_ids : Set<String>? { get }
     /// The allowed ``Recipe``s that can be created when inside this inventory type, if applicable.
-    var allowed_recipes : [any Recipe]? { get }
+    var allowed_recipes : [Recipe]? { get }
 }
 
 public extension InventoryType {

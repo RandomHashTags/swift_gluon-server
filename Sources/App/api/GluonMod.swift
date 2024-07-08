@@ -16,13 +16,13 @@ public protocol GluonMod {
     func load() async throws
     func unload() async throws
     
-    var custom_enchantment_types : [any EnchantmentType] { get }
-    var custom_entity_types : [any EntityType] { get }
-    var custom_inventory_types : [any EnchantmentType] { get }
+    var custom_enchantment_types : [EnchantmentType] { get }
+    var custom_entity_types : [EntityType] { get }
+    var custom_inventory_types : [EnchantmentType] { get }
 }
 
 public extension GluonMod {
-    var custom_enchantment_types:[any EnchantmentType] { return [] }
-    var custom_entity_types:[any EntityType] { return [] }
-    var custom_inventory_types:[any EnchantmentType] { return [] }
+    var custom_enchantment_types:[EnchantmentType] { return [] }
+    var custom_entity_types:[EntityType] { return [] }
+    var custom_inventory_types:[EnchantmentType] { return [] }
 }

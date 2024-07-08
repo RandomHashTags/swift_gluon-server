@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol RecipeResult : Identifiable where ID == String {
-    var material : (any Material)? { get }
-    var item_stack : (any ItemStack)? { get }
+    var material : (Material)? { get }
+    var item_stack : (ItemStack)? { get }
 }

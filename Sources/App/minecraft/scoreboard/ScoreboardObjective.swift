@@ -7,8 +7,8 @@
 
 import Foundation
 
-public protocol ScoreboardObjective {
-    var name : String { get }
-    var display_name : String { get }
-    var criteria : String { get }
+public struct ScoreboardObjective {
+    public var name:String
+    public var displayName:String
+    public var criteria:String
 }

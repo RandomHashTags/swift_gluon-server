@@ -7,9 +7,10 @@
 
 import Foundation
 
-public protocol WorldBorder {
-    var size : Double { get set }
-    var center : Vector { get set }
-    
-    var warning_distance : UInt { get set }
+public struct WorldBorder {
+    public var size:Double
+    public var center:Vector
+
+    /// measured in blocks
+    public var warning_distance:UInt
 }

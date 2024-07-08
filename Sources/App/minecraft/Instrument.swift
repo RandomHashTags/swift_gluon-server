@@ -7,5 +7,6 @@
 
 import Foundation
 
-public protocol Instrument : Identifiable where ID == String {
+public struct Instrument : Identifiable, Hashable {
+    public let id:String
 }

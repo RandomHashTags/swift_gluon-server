@@ -24,10 +24,10 @@ struct GluonMaterialBlockConfiguration : MaterialBlockConfiguration {
     let resistance:Int
     let hardness:Float
     let preferred_break_material_identifiers:Set<String>?
-    var preferred_break_materials : [any Material]? {
+    var preferred_break_materials : [Material]? {
         guard let identifiers:Set<String> = preferred_break_material_identifiers else { return nil }
         return GluonServer.shared.get_materials(identifiers: identifiers)
     }
     
-    let loot:(any LootTable)?
+    let loot:(LootTable)?
 }

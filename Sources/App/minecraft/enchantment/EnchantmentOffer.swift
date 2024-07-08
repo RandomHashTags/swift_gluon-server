@@ -8,8 +8,8 @@
 import Foundation
 
 public protocol EnchantmentOffer : Hashable {
-    var type_id : String { get }
-    var type : (any EnchantmentType)? { get set }
+    var typeID : String { get }
+    var type : EnchantmentType? { get set }
     /// The enchantment level of ``EnchantmentType``of this offer.
     var level : UInt16 { get set }
     /// The amount of experience levels this offer costs.

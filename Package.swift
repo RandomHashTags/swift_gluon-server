@@ -2,6 +2,7 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
     name: "swift_gluon-server",
@@ -11,6 +12,7 @@ let package = Package(
     ],
     dependencies: [
         //.package(url: "https://github.com/apple/swift-nio.git", from: "2.57.0"),
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "510.0.2"),
         
         .package(url: "https://github.com/vapor/vapor.git", from: "4.101.0"),
         .package(url: "https://github.com/vapor/console-kit.git", from: "4.14.2"),
@@ -27,9 +29,30 @@ let package = Package(
         .package(url: "https://github.com/RandomHashTags/swift-string-catalogs.git", from: "1.0.0")
     ],
     targets: [
+        .macro(
+            name: "GluonMacros",
+            dependencies: [
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+            ]
+        ),
+        .macro(
+            name: "MinecraftMacros",
+            dependencies: [
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+            ]
+        ),
+
         .target(
             name: "App",
             dependencies: [
+                "GluonMacros",
+                "MinecraftMacros",
                 //.product(name: "BlueSocket", package: "BlueSocket"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "Fluent", package: "fluent"),
@@ -44,9 +67,6 @@ let package = Package(
                 .process("Resources")
             ],
             swiftSettings: [
-                // Enable better optimizations when building in Release configuration. Despite the use of
-                // the `.unsafeFlags` construct required by SwiftPM, this flag is recommended for Release
-                // builds. See <https://github.com/swift-server/guides/blob/main/docs/building.md#building-for-production> for details.
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
             ]
         ),

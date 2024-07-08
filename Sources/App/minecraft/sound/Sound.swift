@@ -7,7 +7,9 @@
 
 import Foundation
 
-public protocol Sound : MultilingualName, Identifiable where ID == String {
-    var category_id : String { get }
-    var category : (any SoundCategory)? { get }
+public struct Sound : Identifiable, MultilingualName {
+    public let id:String
+    
+    public let categoryID:String
+    public let name:LocalizedStringResource
 }

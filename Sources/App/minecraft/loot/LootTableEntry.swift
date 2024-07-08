@@ -7,9 +7,9 @@
 
 import Foundation
 
-public protocol LootTableEntry {
-    var item : any ItemStack { get }
-    var amount_min : UInt { get }
-    var amount_max : UInt { get }
-    var chance : UInt8 { get }
+public struct LootTableEntry {
+    public let item:ItemStack
+    public let amountMin:UInt
+    public let amountMax:UInt
+    public let chance:UInt8
 }

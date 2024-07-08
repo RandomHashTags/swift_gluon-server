@@ -7,5 +7,6 @@
 
 import Foundation
 
-public protocol EventType : Hashable, Identifiable where ID == String {
+public struct EventType : Identifiable, Hashable {
+    public let id:String
 }

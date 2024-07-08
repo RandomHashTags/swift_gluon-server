@@ -7,5 +7,6 @@
 
 import Foundation
 
-public protocol WorldType : Identifiable where ID == String {
+public struct WorldType : Identifiable, Hashable {
+    public let id:String
 }

@@ -11,7 +11,7 @@ struct GluonEntityTeleportEvent : EntityTeleportEvent {
     let type:any EventType = GluonEventType.entity_teleport
     var entity:any Entity
     var new_location:any Location
-    var is_cancelled:Bool = false
+    var isCancelled:Bool = false
     
     init(entity: any Entity, new_location: any Location) {
         self.entity = entity

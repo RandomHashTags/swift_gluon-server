@@ -10,7 +10,7 @@ import Foundation
 struct GluonChunkLoadEvent : ChunkLoadEvent {
     let type:any EventType = GluonEventType.chunk_load
     var chunk:any Chunk
-    var is_cancelled:Bool = false
+    var isCancelled:Bool = false
     
     init(chunk: any Chunk) {
         self.chunk = chunk

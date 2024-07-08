@@ -19,7 +19,7 @@ final class GluonPlayer : Player {
     var permissions:Set<String>
     var statistics:[String : any StatisticActive]
     
-    var game_mode:any GameMode
+    var game_mode:GameMode
     
     var is_blocking:Bool
     var is_flying:Bool
@@ -55,14 +55,14 @@ final class GluonPlayer : Player {
     
     var id:UInt64
     var uuid:UUID
-    var type_id:String
-    var type : (any EntityType)? {
+    var typeID:String
+    var type : (EntityType)? {
         return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     
     var ticks_lived:UInt64
-    var custom_name:String?
-    var display_name:String?
+    var customName:String?
+    var displayName:String?
     var boundaries:[Boundary]
     var location:any Location
     var last_slept_location:(any Location)?
@@ -92,11 +92,11 @@ final class GluonPlayer : Player {
         return GluonServer.shared.get_entity(uuid: uuid)
     }
     
-    func set_game_mode(_ game_mode: any GameMode) {
+    func set_game_mode(_ game_mode: GameMode) {
         guard !self.game_mode.id.elementsEqual(game_mode.id) else { return }
         let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
         GluonServer.shared.call_event(event: event)
-        guard !event.is_cancelled else { return }
+        guard !event.isCancelled else { return }
         self.game_mode = game_mode
     }
     
@@ -104,11 +104,11 @@ final class GluonPlayer : Player {
         GluonServer.shared.boot_player(player: self, reason: reason)
     }
     
-    func consumed(item: inout any ItemStack) {
+    func consumed(item: inout ItemStack) {
         guard let consumable_configuration:any MaterialItemConsumableConfiguration = item.material?.configuration.item?.consumable else { return }
         let event:GluonPlayerItemConsumeEvent = GluonPlayerItemConsumeEvent(player: self, item: &item)
         GluonServer.shared.call_event(event: event)
-        guard !event.is_cancelled else { return }
+        guard !event.isCancelled else { return }
         item.amount -= 1
     }
     
@@ -127,7 +127,7 @@ final class GluonPlayer : Player {
         food_data: any FoodData,
         permissions: Set<String>,
         statistics: [String:any StatisticActive],
-        game_mode: any GameMode,
+        game_mode: GameMode,
         is_blocking: Bool,
         is_flying: Bool,
         is_op: Bool,
@@ -276,8 +276,8 @@ extension GluonPlayer {
         uuid = living_entity.uuid
         type = living_entity.type
         ticks_lived = living_entity.ticks_lived
-        custom_name = living_entity.custom_name
-        display_name = living_entity.display_name
+        customName = living_entity.customName
+        displayName = living_entity.displayName
         boundaries = living_entity.boundaries
         location = living_entity.location
         velocity = living_entity.velocity

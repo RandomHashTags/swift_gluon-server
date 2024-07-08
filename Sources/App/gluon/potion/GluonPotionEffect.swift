@@ -8,8 +8,8 @@
 import Foundation
 
 final class GluonPotionEffect : PotionEffect {
-    let type_id:String
-    var type : (any PotionEffectType)? {
+    let typeID:String
+    var type : (PotionEffectType)? {
         return GluonServer.shared.get_potion_effect_type(identifier: type_id)
     }
     

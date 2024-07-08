@@ -17,7 +17,7 @@ public protocol Player : LivingEntity, CommandSender, Permissible {
     
     var statistics : [String : any StatisticActive] { get set }
     
-    var game_mode : any GameMode { get set }
+    var game_mode : GameMode { get set }
     var is_blocking : Bool { get set }
     var is_flying : Bool { get set }
     var is_op : Bool { get set }
@@ -29,11 +29,11 @@ public protocol Player : LivingEntity, CommandSender, Permissible {
         
     func tick_player(_ server: any Server)
     
-    func set_game_mode(_ game_mode: any GameMode)
+    func set_game_mode(_ game_mode: GameMode)
     
     func kick(reason: String)
     
-    func consumed(item: inout any ItemStack)
+    func consumed(item: inout ItemStack)
 }
 
 public extension Player {

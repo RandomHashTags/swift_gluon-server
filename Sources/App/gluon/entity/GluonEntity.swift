@@ -11,14 +11,14 @@ import Foundation
 final class GluonEntity : Entity {
     let id:UInt64
     let uuid:UUID
-    let type_id:String
-    var type : (any EntityType)? {
+    let typeID:String
+    var type : (EntityType)? {
         return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
     let name:String
-    var custom_name:String?
-    var display_name:String?
+    var customName:String?
+    var displayName:String?
     
     var boundaries:[Boundary]
     var location:any Location
@@ -51,14 +51,14 @@ final class GluonEntity : Entity {
         tick_entity(server)
     }
     
-    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
+    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, customName: String? = nil, displayName: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
         self.id = id
         self.uuid = uuid
         self.type_id = type_id
         self.ticks_lived = ticks_lived
         self.name = name
-        self.custom_name = custom_name
-        self.display_name = display_name
+        self.customName = customName
+        self.displayName = displayName
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity
@@ -81,8 +81,8 @@ final class GluonEntity : Entity {
         let type_identifier:String = try container.decode(String.self, forKey: .type)
         self.type = GluonServer.shared.get_entity_type(identifier: type_identifier)!
         self.ticks_lived = try container.decode(UInt64.self, forKey: .ticks_lived)
-        self.custom_name = try container.decodeIfPresent(String.self, forKey: .custom_name)
-        self.display_name = try container.decodeIfPresent(String.self, forKey: .display_name)
+        self.customName = try container.decodeIfPresent(String.self, forKey: .customName)
+        self.displayName = try container.decodeIfPresent(String.self, forKey: .displayName)
         self.boundaries = try container.decode([Boundary].self, forKey: .boundaries)
         self.location = try container.decode(GluonEntity.TargetLocation.self, forKey: .location)
         self.velocity = try container.decode(Vector.self, forKey: .velocity)
@@ -114,7 +114,7 @@ extension GluonEntity {
     func teleport(_ location: any Location) {
         let event:GluonEntityTeleportEvent = GluonEntityTeleportEvent(entity: self, new_location: location)
         GluonServer.shared.call_event(event: event)
-        guard !event.is_cancelled else { return }
+        guard !event.isCancelled else { return }
         self.location = location
     }
 }

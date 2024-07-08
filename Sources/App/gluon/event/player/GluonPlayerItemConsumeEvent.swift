@@ -10,10 +10,10 @@ import Foundation
 struct GluonPlayerItemConsumeEvent : PlayerItemConsumeEvent {
     let type:any EventType = GluonEventType.player_item_consume
     var player:any Player
-    var item:any ItemStack
-    var is_cancelled:Bool = false
+    var item:ItemStack
+    var isCancelled:Bool = false
     
-    init(player: any Player, item: inout any ItemStack) {
+    init(player: any Player, item: inout ItemStack) {
         self.player = player
         self.item = item
     }

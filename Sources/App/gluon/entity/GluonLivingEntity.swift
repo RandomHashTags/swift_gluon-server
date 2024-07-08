@@ -34,14 +34,14 @@ final class GluonLivingEntity : LivingEntity {
     
     var id:UInt64
     var uuid:UUID
-    var type_id:String
-    var type : (any EntityType)? {
+    var typeID:String
+    var type : (EntityType)? {
         return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
     let name:String
-    var custom_name:String?
-    var display_name:String?
+    var customName:String?
+    var displayName:String?
     
     var boundaries:[Boundary]
     var location:any Location
@@ -95,8 +95,8 @@ final class GluonLivingEntity : LivingEntity {
         type_id: String,
         ticks_lived: UInt64,
         name: String,
-        custom_name: String? = nil,
-        display_name: String? = nil,
+        customName: String? = nil,
+        displayName: String? = nil,
         boundaries: [Boundary],
         location: any Location,
         velocity: Vector,
@@ -135,8 +135,8 @@ final class GluonLivingEntity : LivingEntity {
         self.type_id = type_id
         self.ticks_lived = ticks_lived
         self.name = name
-        self.custom_name = custom_name
-        self.display_name = display_name
+        self.customName = customName
+        self.displayName = displayName
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity
@@ -182,8 +182,8 @@ final class GluonLivingEntity : LivingEntity {
         let type_identifier:String = try entity_container.decode(String.self, forKey: .type)
         self.type = GluonServer.shared.get_entity_type(identifier: type_identifier)!
         self.ticks_lived = try entity_container.decode(UInt64.self, forKey: .ticks_lived)
-        self.custom_name = try entity_container.decodeIfPresent(String.self, forKey: .custom_name)
-        self.display_name = try entity_container.decodeIfPresent(String.self, forKey: .display_name)
+        self.customName = try entity_container.decodeIfPresent(String.self, forKey: .customName)
+        self.displayName = try entity_container.decodeIfPresent(String.self, forKey: .displayName)
         self.boundaries = try entity_container.decode([Boundary].self, forKey: .boundaries)
         self.location = try entity_container.decode(TargetLocation.self, forKey: .location)
         self.velocity = try entity_container.decode(Vector.self, forKey: .velocity)

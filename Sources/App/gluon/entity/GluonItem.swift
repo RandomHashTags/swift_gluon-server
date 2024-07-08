@@ -11,14 +11,14 @@ import Foundation
 final class GluonItem : Item {
     var id:UInt64
     var uuid:UUID
-    var type_id:String
-    var type : (any EntityType)? {
+    var typeID:String
+    var type : (EntityType)? {
         return GluonServer.shared.get_entity_type(identifier: type_id)
     }
     var ticks_lived:UInt64
     let name:String
-    var custom_name:String?
-    var display_name:String?
+    var customName:String?
+    var displayName:String?
     
     var boundaries:[Boundary]
     var location:any Location
@@ -46,17 +46,17 @@ final class GluonItem : Item {
         return GluonServer.shared.get_entity(uuid: uuid)
     }
     
-    var item_stack:any ItemStack
+    var item_stack:ItemStack
     var pickup_delay:UInt8
     
-    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, custom_name: String? = nil, display_name: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil, item_stack: any ItemStack, pickup_delay: UInt8) {
+    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, customName: String? = nil, displayName: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil, item_stack: ItemStack, pickup_delay: UInt8) {
         self.id = id
         self.uuid = uuid
         self.type_id = type_id
         self.ticks_lived = ticks_lived
         self.name = name
-        self.custom_name = custom_name
-        self.display_name = display_name
+        self.customName = customName
+        self.displayName = displayName
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity

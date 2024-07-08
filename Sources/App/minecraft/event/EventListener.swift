@@ -14,7 +14,7 @@ public protocol EventListener {
 
 public extension EventListener {
     var priority : UInt8 {
-        return UInt8.normal_event_priority
+        return EventPriority.normal
     }
     func handle(event: any Event) {
     }

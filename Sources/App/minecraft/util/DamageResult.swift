@@ -19,5 +19,6 @@ public enum DamageResult {
     public enum FailureReason {
         case blocked
         case cancelled
+        case custom(String)
     }
 }

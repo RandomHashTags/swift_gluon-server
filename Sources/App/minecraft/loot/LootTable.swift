@@ -7,18 +7,16 @@
 
 import Foundation
 
-public protocol LootTable {
-    var entries : [any LootTableEntry] { get }
-    
-    var loot_normal : [any ItemStack]? { get }
+public struct LootTable {
+    public let entries:[LootTableEntry]
 }
 public extension LootTable {
-    var loot_normal : [any ItemStack]? {
-        let loot:[any ItemStack] = entries.compactMap({ entry in
+    var lootNormal : [ItemStack]? {
+        let loot:[ItemStack] = entries.compactMap({ entry in
             let chance:UInt8 = UInt8.random(in: 0..<100)
             guard chance <= entry.chance else { return nil }
-            var item:any ItemStack = entry.item
-            item.amount = UInt.random(in: entry.amount_min...entry.amount_max)
+            var item:ItemStack = entry.item
+            item.amount = UInt.random(in: entry.amountMin...entry.amountMax)
             return item
         })
         return loot.isEmpty ? nil : loot

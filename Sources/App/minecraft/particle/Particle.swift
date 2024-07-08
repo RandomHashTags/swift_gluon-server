@@ -7,5 +7,6 @@
 
 import Foundation
 
-public protocol Particle : Identifiable where ID == String {
+public struct Particle : Identifiable {
+    public let id:String
 }

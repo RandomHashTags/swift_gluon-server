@@ -7,11 +7,12 @@
 
 import Foundation
 
-public protocol BiomeConfiguration : Hashable {
-    var temperature : Float { get }
-    var temperature_starting_y : Int64 { get }
-    var temperature_ending_y : Int64 { get }
-    var temperature_drop_rate : Float { get }
+public struct BiomeConfiguration : Identifiable, Hashable {
+    public let id:String
+    public let temperature:Float
+    public let temperatureStartingY:Int
+    public let temperatureEndingY:Int
+    public let temperatureDropRate:Float
     
-    var downfall : Float { get }
+    public let downfall:Float
 }

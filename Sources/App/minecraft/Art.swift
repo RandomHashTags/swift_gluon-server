@@ -7,9 +7,11 @@
 
 import Foundation
 
-public protocol Art : Identifiable where ID == String {
+public struct Art : Identifiable {
+    public let id:String
+    
     /// measured in blocks
-    var width : UInt { get }
+    public let width : UInt
     /// measured in blocks
-    var height : UInt { get }
+    public let height:UInt
 }

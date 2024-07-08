@@ -7,11 +7,11 @@
 
 import Foundation
 
-public protocol Recipe {
+public struct Recipe : Identifiable, Hashable {
+    public let id:String
     /// - Returns: The slot and material identifiers required to craft the result.
-    var ingredients : [UInt:Set<String>] { get }
-    
+    public let ingredients:[UInt:Set<String>]
+
     /// - Returns: The ``RecipeResult`` id crafted by this recipe.
-    var result_id : String { get }
-    var result : (any RecipeResult)? { get }
+    public let resultID:String?
 }

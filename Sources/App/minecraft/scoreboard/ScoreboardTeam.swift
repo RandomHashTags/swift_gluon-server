@@ -7,14 +7,14 @@
 
 import Foundation
 
-public protocol ScoreboardTeam {
-    var name : String { get set }
-    var display_name : String { get set }
-    var prefix : String { get set }
-    var suffix : String { get set }
+public struct ScoreboardTeam {
+    public var name:String
+    public var displayName:String
+    public var prefix:String
+    public var suffix:String
     
-    var allows_friendly_fire : Bool { get set }
-    var can_see_friendly_invisibles : Bool { get set }
+    public var allowsFriendlyFire:Bool
+    public var canSeeFriendlyInvisibles:Bool
     
-    var options : [ScoreboardTeamOption : ScoreboardTeamOption.Status] { get set }
+    public var options:[ScoreboardTeamOption:ScoreboardTeamOption.Status]
 }

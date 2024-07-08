@@ -9,5 +9,5 @@ import Foundation
 
 struct GluonAnimalBreedingConfiguration : AnimalBreedingConfiguration {
     let id:String
-    let breed_item:any ItemStack
+    let breed_item:ItemStack
 }

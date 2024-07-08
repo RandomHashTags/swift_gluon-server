@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol Cancellable {
-    var is_cancelled : Bool { get set }
+    var isCancelled : Bool { get set }
 }

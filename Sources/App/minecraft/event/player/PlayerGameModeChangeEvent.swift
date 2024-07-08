@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol PlayerGameModeChangeEvent : PlayerEventCancellable {
-    var new_game_mode : any GameMode { get set }
+    var new_game_mode : GameMode { get set }
 }
