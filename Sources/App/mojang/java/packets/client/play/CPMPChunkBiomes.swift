@@ -8,7 +8,7 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct ChunkBiomes : ClientPacketMojangJavaPlayProtocol {
+    struct ChunkBiomes : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.chunk_biomes
         
         /// Number of elements in `data`.

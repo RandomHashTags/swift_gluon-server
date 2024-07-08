@@ -11,15 +11,15 @@ extension ClientPacket.Mojang.Java.Play {
     /// Lists all of the commands on the server, and how they are parsed.
     ///
     /// This is a directed graph, with one root node. Each redirect or child node must refer only to nodes that have already been declared.
-    struct Commands : ClientPacketMojangJavaPlayProtocol {
+    struct Commands : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.commands
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let count:VariableIntegerJava = try packet.read_var_int()
+            let count:VariableIntegerJava = try packet.readVarInt()
             let nodes:[CommandNodeMojang] = try packet.read_map(count: count) {
                 return try packet.read_packet_decodable()
             }
-            let root_index:VariableIntegerJava = try packet.read_var_int()
+            let root_index:VariableIntegerJava = try packet.readVarInt()
             return Self(count: count, nodes: nodes, root_index: root_index)
         }
         

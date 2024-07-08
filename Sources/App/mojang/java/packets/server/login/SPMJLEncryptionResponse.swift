@@ -13,25 +13,25 @@ extension ServerPacket.Mojang.Java.Login {
         public static let id:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login.encryption_response
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let shared_secret_length:VariableIntegerJava = try packet.read_var_int()
+            let shared_secret_length:VariableIntegerJava = try packet.readVarInt()
             let shared_secret:[UInt8] = try packet.read_byte_array(bytes: shared_secret_length)
-            let verify_token_length:VariableIntegerJava = try packet.read_var_int()
-            let verify_token:[UInt8] = try packet.read_byte_array(bytes: verify_token_length)
-            return Self(shared_secret_length: shared_secret_length, shared_secret: shared_secret, verify_token_length: verify_token_length, verify_token: verify_token)
+            let verifyTokenLength:VariableIntegerJava = try packet.readVarInt()
+            let verifyToken:[UInt8] = try packet.read_byte_array(bytes: verifyTokenLength)
+            return Self(shared_secret_length: shared_secret_length, shared_secret: shared_secret, verifyTokenLength: verifyTokenLength, verifyToken: verifyToken)
         }
         
         let shared_secret_length:VariableIntegerJava
         /// Shared Secret value, encrypted with the server's public key.
         let shared_secret:[UInt8]
-        let verify_token_length:VariableIntegerJava
+        let verifyTokenLength:VariableIntegerJava
         /// Verify Token value, encrypted with the same public key as the shared secret.
-        let verify_token:[UInt8]
+        let verifyToken:[UInt8]
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             var values:[any PacketEncodableMojangJava] = [shared_secret_length]
             values.append(contentsOf: shared_secret)
-            values.append(verify_token_length)
-            values.append(contentsOf: verify_token)
+            values.append(verifyTokenLength)
+            values.append(contentsOf: verifyToken)
             return values
         }
     }

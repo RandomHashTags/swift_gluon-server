@@ -37,10 +37,10 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_player_rotation
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let yaw:Float = try packet.read_float()
-            let pitch:Float = try packet.read_float()
-            let on_ground:Bool = try packet.read_bool()
-            return Self(yaw: yaw, pitch: pitch, on_ground: on_ground)
+            let yaw:Float = try packet.readFloat()
+            let pitch:Float = try packet.readFloat()
+            let onGround:Bool = try packet.readBool()
+            return Self(yaw: yaw, pitch: pitch, onGround: onGround)
         }
         
         /// Absolute rotation on the X Axis, in degrees.
@@ -48,10 +48,10 @@ extension ServerPacket.Mojang.Java.Play {
         /// Absolute rotation on the Y Axis, in degrees.
         public let pitch:Float
         /// True if the client is on the ground, false otherwise.
-        public let on_ground:Bool
+        public let onGround:Bool
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [yaw, pitch, on_ground]
+            return [yaw, pitch, onGround]
         }
     }
 }

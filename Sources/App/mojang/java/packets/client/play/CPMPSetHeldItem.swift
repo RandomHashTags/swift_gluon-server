@@ -9,11 +9,11 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Sent to change the player's slot selection.
-    struct SetHeldItem : ClientPacketMojangJavaPlayProtocol {
+    struct SetHeldItem : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_held_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let slot:Int8 = try packet.read_byte()
+            let slot:Int8 = try packet.readByte()
             return Self(slot: slot)
         }
         

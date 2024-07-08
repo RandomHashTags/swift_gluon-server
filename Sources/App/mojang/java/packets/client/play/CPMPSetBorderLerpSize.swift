@@ -8,13 +8,13 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct SetBorderLerpSize : ClientPacketMojangJavaPlayProtocol {
+    struct SetBorderLerpSize : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_border_lerp_size
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let old_diameter:Double = try packet.read_double()
-            let new_diameter:Double = try packet.read_double()
-            let speed:VariableLongJava = try packet.read_var_long()
+            let old_diameter:Double = try packet.readDouble()
+            let new_diameter:Double = try packet.readDouble()
+            let speed:VariableLongJava = try packet.readVarLong()
             return Self(old_diameter: old_diameter, new_diameter: new_diameter, speed: speed)
         }
         

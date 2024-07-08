@@ -13,7 +13,7 @@ extension ClientPacket.Mojang.Java.Login {
         public static let id:ClientPacket.Mojang.Java.Login = ClientPacket.Mojang.Java.Login.set_compression
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let threshold:VariableIntegerJava = try packet.read_var_int()
+            let threshold:VariableIntegerJava = try packet.readVarInt()
             return Self(threshold: threshold)
         }
         

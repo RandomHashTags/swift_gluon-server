@@ -13,10 +13,10 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_beacon_effect
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let has_primary_effect:Bool = try packet.read_bool()
-            let primary_effect:VariableIntegerJava = try packet.read_var_int()
-            let has_secondary_effect:Bool = try packet.read_bool()
-            let secondary_effect:VariableIntegerJava = try packet.read_var_int()
+            let has_primary_effect:Bool = try packet.readBool()
+            let primary_effect:VariableIntegerJava = try packet.readVarInt()
+            let has_secondary_effect:Bool = try packet.readBool()
+            let secondary_effect:VariableIntegerJava = try packet.readVarInt()
             return Self(has_primary_effect: has_primary_effect, primary_effect: primary_effect, has_secondary_effect: has_secondary_effect, secondary_effect: secondary_effect)
         }
         

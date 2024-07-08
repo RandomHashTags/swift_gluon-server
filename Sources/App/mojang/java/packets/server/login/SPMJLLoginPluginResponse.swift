@@ -13,9 +13,9 @@ extension ServerPacket.Mojang.Java.Login {
         public static let id:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login.login_plugin_response
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let message_id:VariableIntegerJava = try packet.read_var_int()
-            let successful:Bool = try packet.read_bool()
-            let data:[UInt8]? = try packet.read_remaining_optional_byte_array()
+            let message_id:VariableIntegerJava = try packet.readVarInt()
+            let successful:Bool = try packet.readBool()
+            let data:[UInt8]? = try packet.readRemainingOptionalByteArray()
             return Self(message_id: message_id, successful: successful, data: data)
         }
         

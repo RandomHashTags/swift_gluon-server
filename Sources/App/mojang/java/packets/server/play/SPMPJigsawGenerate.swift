@@ -14,8 +14,8 @@ extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
-            let levels:VariableIntegerJava = try packet.read_var_int()
-            let keep_jigsaws:Bool = try packet.read_bool()
+            let levels:VariableIntegerJava = try packet.readVarInt()
+            let keep_jigsaws:Bool = try packet.readBool()
             return Self(location: location, levels: levels, keep_jigaws: keep_jigsaws)
         }
         

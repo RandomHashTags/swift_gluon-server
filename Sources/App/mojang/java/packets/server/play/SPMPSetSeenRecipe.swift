@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_seen_recipe
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let recipe:Namespace = try packet.read_identifier()
+            let recipe:Namespace = try packet.readIdentifier()
             return Self(recipe: recipe)
         }
         

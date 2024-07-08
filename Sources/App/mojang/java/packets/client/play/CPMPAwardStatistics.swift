@@ -9,7 +9,7 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Sent as a response to Client Command (id 1). Will only send the changed values if previously requested.
-    struct AwardStatistics : ClientPacketMojangJavaPlayProtocol {
+    struct AwardStatistics : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.award_statistic
         
         /// Number of elements in `statistics`.

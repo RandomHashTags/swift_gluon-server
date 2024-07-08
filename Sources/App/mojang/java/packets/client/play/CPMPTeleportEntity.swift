@@ -9,20 +9,20 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// This packet is sent by the server when an entity moves more than 8 blocks.
-    struct TeleportEntity : ClientPacketMojangJavaPlayProtocol {
+    struct TeleportEntity : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.teleport_entity
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableIntegerJava = try packet.read_var_int()
-            let x:Double = try packet.read_double()
-            let y:Double = try packet.read_double()
-            let z:Double = try packet.read_double()
-            let yaw:AngleMojang = try packet.read_angle()
-            let pitch:AngleMojang = try packet.read_angle()
-            return Self(entity_id: entity_id, x: x, y: y, z: z, yaw: yaw, pitch: pitch)
+            let entityID:VariableIntegerJava = try packet.readVarInt()
+            let x:Double = try packet.readDouble()
+            let y:Double = try packet.readDouble()
+            let z:Double = try packet.readDouble()
+            let yaw:AngleMojang = try packet.readAngle()
+            let pitch:AngleMojang = try packet.readAngle()
+            return Self(entityID: entityID, x: x, y: y, z: z, yaw: yaw, pitch: pitch)
         }
         
-        public let entity_id:VariableIntegerJava
+        public let entityID:VariableIntegerJava
         public let x:Double
         public let y:Double
         public let z:Double
@@ -32,7 +32,7 @@ extension ClientPacket.Mojang.Java.Play {
         public let pitch:AngleMojang
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [entity_id, x, y, z, yaw, pitch]
+            return [entityID, x, y, z, yaw, pitch]
         }
     }
 }

@@ -28,7 +28,7 @@ public protocol Material : MultilingualName, Hashable, Identifiable where ID == 
     var categories : [any MaterialCategory] { get }
     var configuration : any MaterialConfiguration { get }
     
-    var recipe_id : String? { get }
+    var recipeID : String? { get }
     /// The ``Recipe`` this material can be crafted by, if applicable.
     var recipe : (any Recipe)? { get }
 }*/

@@ -12,8 +12,8 @@ extension ServerPacket.Mojang.Java.Login {
         public static let id:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login.login_start
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let name:String = try packet.read_string()
-            let player_uuid:UUID = try packet.read_uuid()
+            let name:String = try packet.readString()
+            let player_uuid:UUID = try packet.readUUID()
             return Self(name: name, player_uuid: player_uuid)
         }
         

@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.confirm_teleportation
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let teleport_id:VariableIntegerJava = try packet.read_var_int()
+            let teleport_id:VariableIntegerJava = try packet.readVarInt()
             return Self(teleport_id: teleport_id)
         }
 

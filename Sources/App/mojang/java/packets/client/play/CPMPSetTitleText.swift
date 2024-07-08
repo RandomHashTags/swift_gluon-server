@@ -8,7 +8,7 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct SetTitleText : ClientPacketMojangJavaPlayProtocol {
+    struct SetTitleText : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_title_text
         
         public let text:ChatPacketMojang

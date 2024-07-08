@@ -8,7 +8,7 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct StopSound : ClientPacketMojangJavaPlayProtocol { // TODO: fix
+    struct StopSound : ClientPacket.Mojang.Java.PlayProtocol { // TODO: fix
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.stop_sound
         
         /// Controls which fields are present.

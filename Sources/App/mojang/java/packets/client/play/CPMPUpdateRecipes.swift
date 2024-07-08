@@ -8,16 +8,16 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct UpdateRecipes : ClientPacketMojangJavaPlayProtocol {
+    struct UpdateRecipes : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.update_recipes
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let count:VariableIntegerJava = try packet.read_var_int()
+            let count:VariableIntegerJava = try packet.readVarInt()
             let recipes:[UpdateRecipes.UpdateRecipe] = try packet.read_map(count: count) {
-                let identifier:Namespace = try packet.read_identifier()
-                let recipe_id:Namespace = try packet.read_identifier()
+                let identifier:Namespace = try packet.readIdentifier()
+                let recipeID:Namespace = try packet.readIdentifier()
                 let data:Data = Data() // TODO: fix
-                return UpdateRecipes.UpdateRecipe(identifier: identifier, recipe_id: recipe_id, data: data)
+                return UpdateRecipes.UpdateRecipe(identifier: identifier, recipeID: recipeID, data: data)
             }
             return Self(count: count, recipes: recipes)
         }
@@ -28,13 +28,13 @@ extension ClientPacket.Mojang.Java.Play {
         
         public struct UpdateRecipe : Codable, PacketEncodableMojangJava {
             public let identifier:Namespace
-            public let recipe_id:Namespace
+            public let recipeID:Namespace
             /// Additional data for the recipe.
             public let data:Data
             
             public func packet_bytes() throws -> [UInt8] {
                 var array:[UInt8] = try identifier.packet_bytes()
-                array.append(contentsOf: try recipe_id.packet_bytes())
+                array.append(contentsOf: try recipeID.packet_bytes())
                 array.append(contentsOf: try data.packet_bytes())
                 return array
             }

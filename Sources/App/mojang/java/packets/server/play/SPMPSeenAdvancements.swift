@@ -12,8 +12,8 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.seen_advancements
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let action:SeenAdvancements.Action = try packet.read_enum()
-            let tab_id:Namespace? = action == .opened_tab ? try packet.read_identifier() : nil
+            let action:SeenAdvancements.Action = try packet.readEnum()
+            let tab_id:Namespace? = action == .opened_tab ? try packet.readIdentifier() : nil
             return Self(action: action, tab_id: tab_id)
         }
         

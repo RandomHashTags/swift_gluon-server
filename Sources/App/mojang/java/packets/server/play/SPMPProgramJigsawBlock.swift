@@ -14,11 +14,11 @@ extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
-            let name:Namespace = try packet.read_identifier()
-            let target:Namespace = try packet.read_identifier()
-            let pool:Namespace = try packet.read_identifier()
-            let final_state:String = try packet.read_string()
-            let joint_type:String = try packet.read_string()
+            let name:Namespace = try packet.readIdentifier()
+            let target:Namespace = try packet.readIdentifier()
+            let pool:Namespace = try packet.readIdentifier()
+            let final_state:String = try packet.readString()
+            let joint_type:String = try packet.readString()
             return Self(location: location, name: name, target: target, pool: pool, final_state: final_state, joint_type: joint_type)
         }
         

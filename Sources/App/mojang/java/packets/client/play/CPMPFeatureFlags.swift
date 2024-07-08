@@ -13,11 +13,11 @@ extension ClientPacket.Mojang.Java.Play {
     /// As of 1.20.1, the following feature flags are available:
     /// - `minecraft:vanilla` - enables vanilla features
     /// - `minecraft:bundle` - enables support for the bundle
-    struct FeatureFlags : ClientPacketMojangJavaPlayProtocol {
+    struct FeatureFlags : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.feature_flags
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let total_features:VariableIntegerJava = try packet.read_var_int()
+            let total_features:VariableIntegerJava = try packet.readVarInt()
             let feature_flags:[Namespace] = try packet.read_packet_decodable_array(count: total_features)
             return Self(total_features: total_features, feature_flags: feature_flags)
         }

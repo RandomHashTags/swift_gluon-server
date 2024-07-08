@@ -9,14 +9,14 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Entity statuses generally trigger an animation for an entity. The available statuses vary by the entity's type (and are available to subclasses of that type as well).
-    struct EntityEvent : ClientPacketMojangJavaPlayProtocol {
+    struct EntityEvent : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.entity_event
         
-        public let entity_id:Int
-        public let entity_status:Int // TODO: support (https://wiki.vg/Entity_statuses)
+        public let entityID:Int
+        public let entityStatus:Int // TODO: support (https://wiki.vg/Entity_statuses)
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [entity_id, entity_status]
+            return [entityID, entityStatus]
         }
     }
 }

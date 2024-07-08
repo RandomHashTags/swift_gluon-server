@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.rename_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let name:String = try packet.read_string()
+            let name:String = try packet.readString()
             return Self(name: name)
         }
         

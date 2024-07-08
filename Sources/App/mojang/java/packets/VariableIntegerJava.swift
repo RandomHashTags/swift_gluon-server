@@ -12,7 +12,7 @@ import Foundation
 /// Variable-length data encoding a two's complement signed 32-bit integer.
 public struct VariableIntegerJava : Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
     public static func decode(from packet: GeneralPacketMojang) throws -> Self {
-        return try packet.read_var_int()
+        return try packet.readVarInt()
     }
     
     public let value:Int32

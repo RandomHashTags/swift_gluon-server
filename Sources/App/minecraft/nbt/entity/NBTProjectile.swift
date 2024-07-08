@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol NBTProjectile : NBTTag {
-    var has_been_shot : Bool { get }
-    var left_owner : Bool { get }
+    var hasBeenShot : Bool { get }
+    var leftOwner : Bool { get }
     var owner : UUID? { get }
 }

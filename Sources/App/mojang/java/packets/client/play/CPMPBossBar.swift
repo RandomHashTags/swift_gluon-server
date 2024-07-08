@@ -8,12 +8,12 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct BossBar : ClientPacketMojangJavaPlayProtocol {
+    struct BossBar : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.boss_bar
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let uuid:UUID = try packet.read_uuid()
-            let action:BossBar.Action = try packet.read_enum()
+            let uuid:UUID = try packet.readUUID()
+            let action:BossBar.Action = try packet.readEnum()
             var title:ChatPacketMojang? = nil
             var health:Float? = nil
             var color:Color? = nil
@@ -22,25 +22,25 @@ extension ClientPacket.Mojang.Java.Play {
             switch action {
             case .add:
                 title = nil // TODO: fix
-                health = try packet.read_float()
-                color = try packet.read_enum()
-                division = try packet.read_enum()
-                flags = try packet.read_unsigned_byte()
+                health = try packet.readFloat()
+                color = try packet.readEnum()
+                division = try packet.readEnum()
+                flags = try packet.readUnsignedByte()
                 break
             case .remove:
                 break
             case .update_health:
-                health = try packet.read_float()
+                health = try packet.readFloat()
                 break
             case .update_title:
                 title = nil // TODO: fix
                 break
             case .update_style:
-                color = try packet.read_enum()
-                division = try packet.read_enum()
+                color = try packet.readEnum()
+                division = try packet.readEnum()
                 break
             case .update_flags:
-                flags = try packet.read_unsigned_byte()
+                flags = try packet.readUnsignedByte()
                 break
             }
             return Self(uuid: uuid, action: action, title: title, health: health, color: color, division: division, flags: flags)

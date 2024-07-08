@@ -15,9 +15,9 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.player_input
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let sideways:Float = try packet.read_float()
-            let forward:Float = try packet.read_float()
-            let flags:UInt8 = try packet.read_unsigned_byte()
+            let sideways:Float = try packet.readFloat()
+            let forward:Float = try packet.readFloat()
+            let flags:UInt8 = try packet.readUnsignedByte()
             return Self(sideways: sideways, forward: forward, flags: flags)
         }
         

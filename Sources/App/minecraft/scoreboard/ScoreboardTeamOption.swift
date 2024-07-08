@@ -6,9 +6,9 @@
 //
 
 public enum ScoreboardTeamOption : String {
-    case name_tag_visibility
+    case nameTagVisibility
     case death_message_visibility
-    case collision_rule
+    case collisionRule
 
     public enum Status : String {
         case always

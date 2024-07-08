@@ -17,10 +17,10 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_player_on_ground
         
         /// True if the client is on the ground, false otherwise.
-        public let on_ground:Bool
+        public let onGround:Bool
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [on_ground]
+            return [onGround]
         }
     }
 }

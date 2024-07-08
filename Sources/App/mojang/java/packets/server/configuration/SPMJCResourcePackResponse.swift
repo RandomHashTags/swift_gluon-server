@@ -12,7 +12,7 @@ extension ServerPacket.Mojang.Java.Configuration {
         public static let id:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration.resource_pack_response
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let result:Result = try packet.read_enum()
+            let result:Result = try packet.readEnum()
             return Self(result: result)
         }
         

@@ -24,14 +24,14 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.client_information
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let locale:String = try packet.read_string()
-            let view_distance:Int8 = try packet.read_byte()
-            let chat_mode:ClientInformation.ChatMode = try packet.read_enum()
-            let chat_colors:Bool = try packet.read_bool()
-            let displayed_skin_parts:UInt8 = try packet.read_unsigned_byte()
-            let main_hand:ClientInformation.MainHand = try packet.read_enum()
-            let enable_text_filtering:Bool = try packet.read_bool()
-            let allow_server_listings:Bool = try packet.read_bool()
+            let locale:String = try packet.readString()
+            let view_distance:Int8 = try packet.readByte()
+            let chat_mode:ClientInformation.ChatMode = try packet.readEnum()
+            let chat_colors:Bool = try packet.readBool()
+            let displayed_skin_parts:UInt8 = try packet.readUnsignedByte()
+            let main_hand:ClientInformation.MainHand = try packet.readEnum()
+            let enable_text_filtering:Bool = try packet.readBool()
+            let allow_server_listings:Bool = try packet.readBool()
             return Self(locale: locale, view_distance: view_distance, chat_mode: chat_mode, chat_colors: chat_colors, displayed_skin_parts: displayed_skin_parts, main_hand: main_hand, enable_text_filtering: enable_text_filtering, allow_server_listings: allow_server_listings)
         }
         

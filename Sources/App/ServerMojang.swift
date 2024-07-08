@@ -14,7 +14,7 @@ import Logging
 public final class ServerMojang {
     private static let domain:String = ""
     public private(set) static var instance:ServerMojang!
-    public private(set) static var public_key:String!, private_key:String!
+    public private(set) static var publicKey:String!, private_key:String!
     
     let host:String
     let port:Int
@@ -106,11 +106,11 @@ public final class ServerMojang {
         guard let private_key:SecKey = SecKeyCreateRandomKey(keyPairAttr as CFDictionary, &error) else {
             throw error!.takeRetainedValue() as Error
         }
-        guard let public_key:SecKey = SecKeyCopyPublicKey(private_key) else {
+        guard let publicKey:SecKey = SecKeyCopyPublicKey(private_key) else {
             throw DecodingError.valueNotFound(String.self, DecodingError.Context(codingPath: [], debugDescription: "couldn't get public key from private key"))
         }
-        (ServerMojang.public_key, ServerMojang.private_key) = try (public_key.data(), private_key.data())
-        logger.info(Logger.Message(stringLiteral: "Generated server keys;public.count=\(ServerMojang.public_key.count);public=\n" + ServerMojang.public_key))
+        (ServerMojang.publicKey, ServerMojang.private_key) = try (publicKey.data(), private_key.data())
+        logger.info(Logger.Message(stringLiteral: "Generated server keys;public.count=\(ServerMojang.publicKey.count);public=\n" + ServerMojang.publicKey))
     }
 }
 extension SecKey {
@@ -279,8 +279,8 @@ final class ServerMojangHandler : ChannelInboundHandler {
     
     private func parse_handshake(context: ChannelHandlerContext, bytes: [UInt8]) throws {
         let packet:GeneralPacketMojang = try GeneralPacketMojang(bytes: bytes)
-        guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packet_id.value)) else {
-            print("ServerMojang;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
+        guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacketMojangHandshaking(rawValue: UInt8(packet.packetID.value)) else {
+            print("ServerMojang;parse_handshake;failed to find packet with id \(packet.packetID.value)")
             return
         }
         let handshake_packet:any ServerPacketMojangJavaHandshakingProtocol.Type = test.packet

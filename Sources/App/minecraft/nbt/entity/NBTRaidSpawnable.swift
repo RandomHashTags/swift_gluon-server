@@ -6,10 +6,10 @@
 //
 
 public protocol NBTRaidSpawnable : NBTEntity {
-    var can_join_raid : Bool { get }
-    var patrol_leader : Bool { get }
+    var canJoinRaid : Bool { get }
+    var patrolLeader : Bool { get }
     var patrolling : Bool { get }
-    var patrol_target : String { get } // TODO: fix
-    var raid_id : Int { get }
+    var patrolTarget : String { get } // TODO: fix
+    var raidID : Int { get }
     var wave : Int { get }
 }

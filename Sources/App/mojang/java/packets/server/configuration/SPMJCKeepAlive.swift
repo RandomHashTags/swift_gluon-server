@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Configuration {
         public static let id:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration.keep_alive
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let keep_alive_id:Int64 = try packet.read_long()
+            let keep_alive_id:Int64 = try packet.readLong()
             return Self(keep_alive_id: keep_alive_id)
         }
         

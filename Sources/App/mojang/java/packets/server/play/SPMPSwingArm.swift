@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.swing_arm
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let hand:SwingArm.Hand = try packet.read_enum()
+            let hand:SwingArm.Hand = try packet.readEnum()
             return Self(hand: hand)
         }
         

@@ -16,11 +16,11 @@ extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
-            let is_front_text:Bool = try packet.read_bool()
-            let line_1:String = try packet.read_string()
-            let line_2:String = try packet.read_string()
-            let line_3:String = try packet.read_string()
-            let line_4:String = try packet.read_string()
+            let is_front_text:Bool = try packet.readBool()
+            let line_1:String = try packet.readString()
+            let line_2:String = try packet.readString()
+            let line_3:String = try packet.readString()
+            let line_4:String = try packet.readString()
             return Self(location: location, is_front_text: is_front_text, line_1: line_1, line_2: line_2, line_3: line_3, line_4: line_4)
         }
         

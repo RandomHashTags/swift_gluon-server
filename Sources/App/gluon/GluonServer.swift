@@ -123,8 +123,8 @@ final class GluonServer : GluonSharedInstance, Server {
         potion_effect_types = [:]
         
         game_modes = [:]
-        for game_mode in GameModeJava.allCases {
-            game_modes[game_mode.id] = game_mode
+        for gameMode in GameModeJava.allCases {
+            game_modes[gameMode.id] = gameMode
         }
         advancements = [:]
         art = [:]
@@ -165,16 +165,16 @@ final class GluonServer : GluonSharedInstance, Server {
             connection: connection,
             name: "RandomHashTags",
             experience: 0,
-            experience_level: 0,
+            experienceLevel: 0,
             food_level: 20,
             permissions: [],
             statistics: [:],
-            game_mode: GameModeJava.survival,
-            is_blocking: false,
-            is_flying: false,
-            is_op: false,
-            is_sneaking: false,
-            is_sprinting: false,
+            gameMode: GameModeJava.survival,
+            isBlocking: false,
+            isFlying: false,
+            isOP: false,
+            isSneaking: false,
+            isSprinting: false,
             inventory: inventory,
             can_breathe_underwater: false,
             can_pickup_items: true,
@@ -200,7 +200,7 @@ final class GluonServer : GluonSharedInstance, Server {
             boundaries: [],
             location: GluonLocation(world: worlds.first!.value, x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero, yaw: 0, pitch: 0),
             velocity: Vector(x: HugeFloat.zero, y: HugeFloat.zero, z: HugeFloat.zero),
-            fall_distance: 0,
+            fallDistance: 0,
             is_glowing: false,
             is_on_fire: false,
             is_on_ground: false,

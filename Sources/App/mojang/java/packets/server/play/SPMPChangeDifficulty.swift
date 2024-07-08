@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.change_difficulty
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let new_difficulty:Int8 = try packet.read_byte()
+            let new_difficulty:Int8 = try packet.readByte()
             return Self(new_difficulty: new_difficulty)
         }
         

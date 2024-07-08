@@ -9,22 +9,22 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Plays a bobbing animation for the entity receiving damage.
-    struct HurtAnimation : ClientPacketMojangJavaPlayProtocol {
+    struct HurtAnimation : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.hurt_animation
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableIntegerJava = try packet.read_var_int()
-            let yaw:Float = try packet.read_float()
-            return Self(entity_id: entity_id, yaw: yaw)
+            let entityID:VariableIntegerJava = try packet.readVarInt()
+            let yaw:Float = try packet.readFloat()
+            return Self(entityID: entityID, yaw: yaw)
         }
         
         /// The ID of the entity taking damage
-        public let entity_id:VariableIntegerJava
+        public let entityID:VariableIntegerJava
         /// The direction the damage is coming from in relation to the entity
         public let yaw:Float
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [entity_id, yaw]
+            return [entityID, yaw]
         }
     }
 }

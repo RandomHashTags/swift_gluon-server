@@ -9,7 +9,7 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Configuration {
     // TODO: fix
-    struct UpdateTags : ClientPacketMojangJavaConfigurationProtocol {
+    struct UpdateTags : ClientPacket.Mojang.Java.ConfigurationProtocol {
         public static let id:ClientPacket.Mojang.Java.Configuration = ClientPacket.Mojang.Java.Configuration.update_tags
         
         public let length_of_the_array:VariableIntegerJava

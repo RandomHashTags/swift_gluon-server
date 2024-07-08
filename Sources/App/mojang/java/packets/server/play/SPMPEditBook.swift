@@ -12,11 +12,11 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.edit_book
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let slot:VariableIntegerJava = try packet.read_var_int()
-            let count:VariableIntegerJava = try packet.read_var_int()
+            let slot:VariableIntegerJava = try packet.readVarInt()
+            let count:VariableIntegerJava = try packet.readVarInt()
             let entries:[String] = try packet.read_string_array(count: count)
-            let has_title:Bool = try packet.read_bool()
-            let title:String? = has_title ? try packet.read_string() : nil
+            let has_title:Bool = try packet.readBool()
+            let title:String? = has_title ? try packet.readString() : nil
             return Self(slot: slot, count: count, entries: entries, has_title: has_title, title: title)
         }
         

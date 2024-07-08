@@ -11,19 +11,19 @@ extension ClientPacket.Mojang.Java.Play {
     /// Sent when an explosion occurs (creepers, TNT, and ghast fireballs).
     ///
     /// Each block in Records is set to air. Coordinates for each axis in record is int(X) + record.x
-    struct Explosion : ClientPacketMojangJavaPlayProtocol {
+    struct Explosion : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.explosion
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let x:Double = try packet.read_double()
-            let y:Double = try packet.read_double()
-            let z:Double = try packet.read_double()
-            let strength:Float = try packet.read_float()
-            let record_count:VariableIntegerJava = try packet.read_var_int()
+            let x:Double = try packet.readDouble()
+            let y:Double = try packet.readDouble()
+            let z:Double = try packet.readDouble()
+            let strength:Float = try packet.readFloat()
+            let record_count:VariableIntegerJava = try packet.readVarInt()
             let data:Data = try packet.read_data(bytes: record_count.value_int * 3)
-            let player_motion_x:Float = try packet.read_float()
-            let player_motion_y:Float = try packet.read_float()
-            let player_motion_z:Float = try packet.read_float()
+            let player_motion_x:Float = try packet.readFloat()
+            let player_motion_y:Float = try packet.readFloat()
+            let player_motion_z:Float = try packet.readFloat()
             return Self(x: x, y: y, z: z, strength: strength, record_count: record_count, records: data, player_motion_x: player_motion_x, player_motion_y: player_motion_y, player_motion_z: player_motion_z)
         }
         

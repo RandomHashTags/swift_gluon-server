@@ -9,7 +9,7 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Clear the client's current title information, with the option to also reset it.
-    struct ClearTitles : ClientPacketMojangJavaPlayProtocol {
+    struct ClearTitles : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.clear_titles
         
         public let reset:Bool

@@ -88,8 +88,8 @@ final class ClientMojangJava : MinecraftClientHandler {
     
     private func parse_handshake() throws {
         let packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacket.Mojang.Java.Handshaking(rawValue: UInt8(packet.packet_id.value)) else {
-            ServerMojang.instance.logger.critical("ClientMojangJava;parse_handshake;failed to find packet with id \(packet.packet_id.value)")
+        guard let test:ServerPacket.Mojang.Java.Handshaking = ServerPacket.Mojang.Java.Handshaking(rawValue: UInt8(packet.packetID.value)) else {
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_handshake;failed to find packet with id \(packet.packetID.value)")
             return
         }
         let handshake_packet:any ServerPacketMojangJavaHandshakingProtocol.Type = test.packet
@@ -110,8 +110,8 @@ final class ClientMojangJava : MinecraftClientHandler {
     
     private func parse_status() throws {
         var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacket.Mojang.Java.Status = ServerPacket.Mojang.Java.Status(rawValue: UInt8(packet.packet_id.value)) else {
-            ServerMojang.instance.logger.critical("ClientMojangJava;parse_status;failed to find packet with id \(packet.packet_id.value)")
+        guard let test:ServerPacket.Mojang.Java.Status = ServerPacket.Mojang.Java.Status(rawValue: UInt8(packet.packetID.value)) else {
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_status;failed to find packet with id \(packet.packetID.value)")
             return
         }
         ServerMojang.instance.logger.info("ClientMojangJava;parse_status;packet=\(test)")
@@ -140,8 +140,8 @@ final class ClientMojangJava : MinecraftClientHandler {
     }
     private func parse_login() throws {
         var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login(rawValue: UInt8(packet.packet_id.value)) else {
-            ServerMojang.instance.logger.critical("ClientMojangJava;parse_login;failed to find packet with id \(packet.packet_id.value)")
+        guard let test:ServerPacket.Mojang.Java.Login = ServerPacket.Mojang.Java.Login(rawValue: UInt8(packet.packetID.value)) else {
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_login;failed to find packet with id \(packet.packetID.value)")
             return
         }
         ServerMojang.instance.logger.info("ClientMojangJava;parse_login;packet=\(test)")
@@ -152,19 +152,19 @@ final class ClientMojangJava : MinecraftClientHandler {
         case .login_start:
             let online_mode:Bool = false
             if online_mode {
-                let public_key:String = ServerMojang.public_key
+                let publicKey:String = ServerMojang.publicKey
                 
                 //var bruh = DER.Serializer()
                 //bruh.serialize(SubjectPublicKeyInfo(algorithm: SubjectPublicKeyInfo.Algorithm, subjectPublicKey: <#T##ArraySlice<UInt8>#>))
                 
-                let yoink:String = "-----BEGIN PUBLIC KEY-----\n" + public_key + "\n-----END PUBLIC KEY-----"
+                let yoink:String = "-----BEGIN PUBLIC KEY-----\n" + publicKey + "\n-----END PUBLIC KEY-----"
                 let public_key_bytes:[UInt8] = [UInt8](yoink.utf8)
                 
-                let verify_token:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
+                let verifyToken:[UInt8] = [UInt8.random(), UInt8.random(), UInt8.random(), UInt8.random()]
                 let encryption_request:ClientPacket.Mojang.Java.Login.EncryptionRequest = ClientPacket.Mojang.Java.Login.EncryptionRequest(
-                    server_id: "",
-                    public_key: public_key_bytes,
-                    verify_token: verify_token
+                    serverID: "",
+                    publicKey: public_key_bytes,
+                    verifyToken: verifyToken
                 )
                 try send_packet(encryption_request)
                 
@@ -177,7 +177,7 @@ final class ClientMojangJava : MinecraftClientHandler {
                 let success_packet:ClientPacket.Mojang.Java.Login.LoginSuccess = ClientPacket.Mojang.Java.Login.LoginSuccess(
                     uuid: login_start_packet.player_uuid,
                     username: login_start_packet.name,
-                    number_of_properties: VariableIntegerJava(value: 0),
+                    numberOfProperties: VariableIntegerJava(value: 0),
                     properties: []
                 )
                 try send_packet(success_packet)
@@ -198,8 +198,8 @@ final class ClientMojangJava : MinecraftClientHandler {
     
     private func parse_configuration() throws {
         var packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration(rawValue: UInt8(packet.packet_id.value)) else {
-            ServerMojang.instance.logger.critical("ClientMojangJava;parse_configuration;failed to find packet with id \(packet.packet_id.value)")
+        guard let test:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration(rawValue: UInt8(packet.packetID.value)) else {
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_configuration;failed to find packet with id \(packet.packetID.value)")
             return
         }
         ServerMojang.instance.logger.info("ClientMojangJava;parse_configuration;packet=\(test)")
@@ -223,16 +223,16 @@ final class ClientMojangJava : MinecraftClientHandler {
         player = PlayerJava(
             name: player_builder.name,
             experience: 0,
-            experience_level: 0,
+            experienceLevel: 0,
             food_data: food_data,
             permissions: [],
             statistics: [:],
-            game_mode: GameMode.survival,
-            is_blocking: false,
-            is_flying: false,
-            is_op: false,
-            is_sneaking: false,
-            is_sprinting: false,
+            gameMode: GameMode.survival,
+            isBlocking: false,
+            isFlying: false,
+            isOP: false,
+            isSneaking: false,
+            isSprinting: false,
             inventory: inventory,
             can_breathe_underwater: false,
             can_pickup_items: true,
@@ -260,7 +260,7 @@ final class ClientMojangJava : MinecraftClientHandler {
             boundaries: [],
             location: GluonLocation(world: world, x: 0, y: 0, z: 0, yaw: 0, pitch: 0),
             velocity: Vector(x: 0, y: 0, z: 0),
-            fall_distance: 0,
+            fallDistance: 0,
             is_glowing: false,
             is_on_fire: false,
             is_on_ground: true,
@@ -277,8 +277,8 @@ final class ClientMojangJava : MinecraftClientHandler {
     
     private func parse_play() throws {
         let packet:GeneralPacketMojang = try read_packet()
-        guard let test:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play(rawValue: UInt8(packet.packet_id.value)) else {
-            ServerMojang.instance.logger.critical("ClientMojangJava;parse_play;failed to find packet with id \(packet.packet_id.value)")
+        guard let test:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play(rawValue: UInt8(packet.packetID.value)) else {
+            ServerMojang.instance.logger.critical("ClientMojangJava;parse_play;failed to find packet with id \(packet.packetID.value)")
             return
         }
         ServerMojang.instance.logger.info("ClientMojangJava;parse_play;packet=\(test)")

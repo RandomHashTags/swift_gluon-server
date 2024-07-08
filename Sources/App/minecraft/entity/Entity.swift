@@ -22,7 +22,7 @@ public protocol Entity : AnyObject, Hashable, Nameable, Tickable {
     /// The current velocity of this entity.
     var velocity : Vector { get set }
     /// The total fall distance of this entity, measured in blocks.
-    var fall_distance : Float { get set }
+    var fallDistance : Float { get set }
     
     var is_glowing : Bool { get set }
     var is_on_fire : Bool { get set }
@@ -108,7 +108,7 @@ public enum EntityCodingKeys : CodingKey {
     case boundaries
     case location
     case velocity
-    case fall_distance
+    case fallDistance
     case is_glowing
     case is_on_fire
     case is_on_ground

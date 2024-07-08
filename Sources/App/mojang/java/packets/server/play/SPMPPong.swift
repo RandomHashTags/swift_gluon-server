@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.pong
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let id:Int32 = try packet.read_int()
+            let id:Int32 = try packet.readInt()
             return Self(id: id)
         }
         

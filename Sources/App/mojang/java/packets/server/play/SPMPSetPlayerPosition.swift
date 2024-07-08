@@ -25,11 +25,11 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_player_position
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let x:Double = try packet.read_double()
-            let feet_y:Double = try packet.read_double()
-            let z:Double = try packet.read_double()
-            let on_ground:Bool = try packet.read_bool()
-            return Self(x: x, feet_y: feet_y, z: z, on_ground: on_ground)
+            let x:Double = try packet.readDouble()
+            let feet_y:Double = try packet.readDouble()
+            let z:Double = try packet.readDouble()
+            let onGround:Bool = try packet.readBool()
+            return Self(x: x, feet_y: feet_y, z: z, onGround: onGround)
         }
         
         /// Absolute position.
@@ -39,10 +39,10 @@ extension ServerPacket.Mojang.Java.Play {
         /// Absolute position.
         public let z:Double
         /// True if the client is on the ground, false otherwise.
-        public let on_ground:Bool
+        public let onGround:Bool
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [x, feet_y, z, on_ground]
+            return [x, feet_y, z, onGround]
         }
     }
 }

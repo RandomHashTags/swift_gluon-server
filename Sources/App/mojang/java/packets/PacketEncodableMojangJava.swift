@@ -36,7 +36,7 @@ extension Int : PacketEncodableMojangJava {}
 extension Int8 : PacketEncodableMojangJava {}
 extension Int16 : PacketEncodableMojangJava, PacketDecodableMojangJava {
     public static func decode(from packet: GeneralPacketMojang) throws -> Int16 {
-        return try packet.read_short()
+        return try packet.readShort()
     }
 }
 extension Int32 : PacketEncodableMojangJava {}

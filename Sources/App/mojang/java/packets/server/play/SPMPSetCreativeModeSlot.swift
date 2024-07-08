@@ -17,7 +17,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_creative_mode_slot
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let slot:Int16 = try packet.read_short()
+            let slot:Int16 = try packet.readShort()
             let clicked_item:SlotMojang = try packet.read_packet_decodable()
             return Self(slot: slot, clicked_item: clicked_item)
         }

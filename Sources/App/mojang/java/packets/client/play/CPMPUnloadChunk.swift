@@ -11,12 +11,12 @@ extension ClientPacket.Mojang.Java.Play {
     /// Tells the client to unload a chunk column.
     ///
     /// It is legal to send this packet even if the given chunk is not currently loaded.
-    struct UnloadChunk : ClientPacketMojangJavaPlayProtocol {
+    struct UnloadChunk : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.unload_chunk
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let chunk_x:Int32 = try packet.read_int()
-            let chunk_z:Int32 = try packet.read_int()
+            let chunk_x:Int32 = try packet.readInt()
+            let chunk_z:Int32 = try packet.readInt()
             return Self(chunk_x: chunk_x, chunk_z: chunk_z)
         }
         

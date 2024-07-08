@@ -19,8 +19,8 @@ extension ServerPacket.Mojang.Java.Configuration {
         public static let id:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration.plugin_message
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let channel:Namespace = try packet.read_identifier()
-            let data:[UInt8] = try packet.read_remaining_byte_array()
+            let channel:Namespace = try packet.readIdentifier()
+            let data:[UInt8] = try packet.readRemainingByteArray()
             return Self(channel: channel, data: data)
         }
         

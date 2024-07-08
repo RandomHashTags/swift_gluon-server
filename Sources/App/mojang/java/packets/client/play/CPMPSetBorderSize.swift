@@ -8,11 +8,11 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct SetBorderSize : ClientPacketMojangJavaPlayProtocol {
+    struct SetBorderSize : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_border_size
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let diameter:Double = try packet.read_double()
+            let diameter:Double = try packet.readDouble()
             return Self(diameter: diameter)
         }
         

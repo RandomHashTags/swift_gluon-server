@@ -9,7 +9,7 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Used to send system chat messages to the client.
-    struct DisguisedChatMessage : ClientPacketMojangJavaPlayProtocol {
+    struct DisguisedChatMessage : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.disguised_chat_message
         
         public let message:ChatPacketMojang

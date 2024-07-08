@@ -15,14 +15,14 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.close_container
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let window_id:UInt8 = try packet.read_unsigned_byte()
-            return Self(window_id: window_id)
+            let windowID:UInt8 = try packet.readUnsignedByte()
+            return Self(windowID: windowID)
         }
         
-        public let window_id:UInt8
+        public let windowID:UInt8
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [window_id]
+            return [windowID]
         }
     }
 }

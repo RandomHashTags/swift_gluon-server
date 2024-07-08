@@ -9,17 +9,17 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// The server responds with a list of auto-completions of the last word sent to it. In the case of regular chat, this is a player username. Command names and parameters are also supported. The client sorts these alphabetically before listing them.
-    struct CommandSuggestionsResponse : ClientPacketMojangJavaPlayProtocol {
+    struct CommandSuggestionsResponse : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.command_suggestions_response
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let id:VariableIntegerJava = try packet.read_var_int()
-            let start:VariableIntegerJava = try packet.read_var_int()
-            let length:VariableIntegerJava = try packet.read_var_int()
-            let count:VariableIntegerJava = try packet.read_var_int()
+            let id:VariableIntegerJava = try packet.readVarInt()
+            let start:VariableIntegerJava = try packet.readVarInt()
+            let length:VariableIntegerJava = try packet.readVarInt()
+            let count:VariableIntegerJava = try packet.readVarInt()
             let matches:[CommandSuggestionsResponse.Match] = try packet.read_map(count: count) {
-                let match:String = try packet.read_string()
-                let has_tooltip:Bool = try packet.read_bool()
+                let match:String = try packet.readString()
+                let has_tooltip:Bool = try packet.readBool()
                 let tooltip:ChatPacketMojang? = nil // TODO: fix
                 return CommandSuggestionsResponse.Match(match: match, has_tooltip: has_tooltip, tooltip: tooltip)
             }

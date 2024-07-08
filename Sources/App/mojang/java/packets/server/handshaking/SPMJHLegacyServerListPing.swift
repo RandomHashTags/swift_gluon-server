@@ -14,7 +14,7 @@ extension ServerPacket.Mojang.Java.Handshaking {
         public static let id:ServerPacket.Mojang.Java.Handshaking = ServerPacket.Mojang.Java.Handshaking.legacy_server_list_ping
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let payload:UInt8 = try packet.read_unsigned_byte()
+            let payload:UInt8 = try packet.readUnsignedByte()
             return Self(payload: payload)
         }
         

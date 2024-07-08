@@ -47,7 +47,7 @@ final class GluonLivingEntity : LivingEntity {
     var location:any Location
     var velocity:Vector
     
-    var fall_distance:Float
+    var fallDistance:Float
     
     var is_glowing:Bool
     var is_on_fire:Bool
@@ -100,7 +100,7 @@ final class GluonLivingEntity : LivingEntity {
         boundaries: [Boundary],
         location: any Location,
         velocity: Vector,
-        fall_distance: Float,
+        fallDistance: Float,
         is_glowing: Bool,
         is_on_fire: Bool,
         is_on_ground: Bool,
@@ -140,7 +140,7 @@ final class GluonLivingEntity : LivingEntity {
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity
-        self.fall_distance = fall_distance
+        self.fallDistance = fallDistance
         self.is_glowing = is_glowing
         self.is_on_fire = is_on_fire
         self.is_on_ground = is_on_ground
@@ -187,7 +187,7 @@ final class GluonLivingEntity : LivingEntity {
         self.boundaries = try entity_container.decode([Boundary].self, forKey: .boundaries)
         self.location = try entity_container.decode(TargetLocation.self, forKey: .location)
         self.velocity = try entity_container.decode(Vector.self, forKey: .velocity)
-        self.fall_distance = try entity_container.decode(Float.self, forKey: .fall_distance)
+        self.fallDistance = try entity_container.decode(Float.self, forKey: .fallDistance)
         self.is_glowing = try entity_container.decode(Bool.self, forKey: .is_glowing)
         self.is_on_fire = try entity_container.decode(Bool.self, forKey: .is_on_fire)
         self.is_on_ground = try entity_container.decode(Bool.self, forKey: .is_on_ground)

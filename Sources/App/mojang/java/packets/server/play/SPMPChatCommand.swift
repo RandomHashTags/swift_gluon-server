@@ -12,17 +12,17 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.chat_command
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> ServerPacket.Mojang.Java.Play.ChatCommand {
-            let command:String = try packet.read_string()
-            let timestamp:Int64 = try packet.read_long()
-            let salt:Int64 = try packet.read_long()
-            let array_length:VariableIntegerJava = try packet.read_var_int()
+            let command:String = try packet.readString()
+            let timestamp:Int64 = try packet.readLong()
+            let salt:Int64 = try packet.readLong()
+            let array_length:VariableIntegerJava = try packet.readVarInt()
             let argument_names:[String] = try packet.read_string_array(count: array_length)
             let signature_byte_count:Int = 256
             let signatures:[[UInt8]] = try packet.read_map(count: array_length, transform: {
                 return try packet.read_byte_array(bytes: signature_byte_count)
             })
-            let message_count:VariableIntegerJava = try packet.read_var_int()
-            let acknowledged:[UInt8] = try packet.read_remaining_byte_array()
+            let message_count:VariableIntegerJava = try packet.readVarInt()
+            let acknowledged:[UInt8] = try packet.readRemainingByteArray()
             return Self(command: command, timestamp: timestamp, salt: salt, array_length: array_length, argument_names: argument_names, signatures: signatures, message_count: message_count, acknowledged: acknowledged)
         }
         

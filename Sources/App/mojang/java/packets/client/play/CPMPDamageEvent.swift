@@ -8,11 +8,11 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct DamageEvent : ClientPacketMojangJavaPlayProtocol {
+    struct DamageEvent : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.damage_event
         
         /// The ID of the entity taking damage.
-        public let entity_id:VariableIntegerJava
+        public let entityID:VariableIntegerJava
         /// The ID of the type of damage taken.
         public let source_type_id:VariableIntegerJava
         /// The ID + 1 of the entity responsible for the damage, if present. If not present, the value is 0.
@@ -36,7 +36,7 @@ extension ClientPacket.Mojang.Java.Play {
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
-                entity_id,
+                entityID,
                 source_type_id,
                 source_cause_id,
                 source_direct_id,

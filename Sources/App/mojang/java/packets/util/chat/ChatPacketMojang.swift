@@ -12,7 +12,7 @@ struct ChatPacketMojang : ChatPacket, PacketMojangJava, PacketEncodableMojangJav
     
     // TODO: fix
     public static let id:ClientPacket.Mojang.Java.Status = ClientPacket.Mojang.Java.Status.ping_response
-    public static let packet_gameplay_id:ClientPacket.Mojang.Java.Status.Type = ClientPacket.Mojang.Java.Status.self
+    public static let packetGameplayID:ClientPacket.Mojang.Java.Status.Type = ClientPacket.Mojang.Java.Status.self
     
     public static func decode(from packet: GeneralPacketMojang) throws -> ChatPacketMojang {
         throw GeneralPacketError.not_implemented(packet_type: Self.self)

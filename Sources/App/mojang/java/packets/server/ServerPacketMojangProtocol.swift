@@ -14,7 +14,7 @@ protocol ServerPacketMojangJavaProtocol : ServerPacketProtocol, PacketMojangJava
 protocol ServerPacketMojangJavaHandshakingProtocol : ServerPacketMojangJavaProtocol where GameplayID == ServerPacket.Mojang.Java.Handshaking {
 }
 extension ServerPacketMojangJavaHandshakingProtocol {
-    static var packet_gameplay_id : GameplayID.Type {
+    static var packetGameplayID : GameplayID.Type {
         get {
             return ServerPacket.Mojang.Java.Handshaking.self
         }
@@ -30,7 +30,7 @@ extension ServerPacketMojangJavaHandshakingProtocol {
 protocol ServerPacketMojangJavaLoginProtocol : ServerPacketMojangJavaProtocol where GameplayID == ServerPacket.Mojang.Java.Login {
 }
 extension ServerPacketMojangJavaLoginProtocol {
-    static var packet_gameplay_id : GameplayID.Type {
+    static var packetGameplayID : GameplayID.Type {
         get {
             return ServerPacket.Mojang.Java.Login.self
         }
@@ -46,7 +46,7 @@ extension ServerPacketMojangJavaLoginProtocol {
 protocol ServerPacketMojangJavaConfigurationProtocol : ServerPacketMojangJavaProtocol where GameplayID == ServerPacket.Mojang.Java.Configuration {
 }
 extension ServerPacketMojangJavaConfigurationProtocol {
-    static var packet_gameplay_id : GameplayID.Type {
+    static var packetGameplayID : GameplayID.Type {
         get {
             return ServerPacket.Mojang.Java.Configuration.self
         }
@@ -62,7 +62,7 @@ extension ServerPacketMojangJavaConfigurationProtocol {
 protocol ServerPacketMojangJavaPlayProtocol : ServerPacketMojangJavaProtocol where GameplayID == ServerPacket.Mojang.Java.Play {
 }
 extension ServerPacketMojangJavaPlayProtocol {
-    static var packet_gameplay_id : GameplayID.Type {
+    static var packetGameplayID : GameplayID.Type {
         get {
             return ServerPacket.Mojang.Java.Play.self
         }
@@ -78,7 +78,7 @@ extension ServerPacketMojangJavaPlayProtocol {
 protocol ServerPacketMojangJavaStatusProtocol : ServerPacketMojangJavaProtocol where GameplayID == ServerPacket.Mojang.Java.Status {
 }
 extension ServerPacketMojangJavaStatusProtocol {
-    static var packet_gameplay_id : GameplayID.Type {
+    static var packetGameplayID : GameplayID.Type {
         get {
             return ServerPacket.Mojang.Java.Status.self
         }

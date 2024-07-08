@@ -19,7 +19,7 @@ extension ClientPacket.Mojang.Java {
         case feature_flags
         case update_tags
         
-        var packet : any ClientPacketMojangJavaConfigurationProtocol.Type {
+        var packet : any ClientPacket.Mojang.Java.ConfigurationProtocol.Type {
             switch self {
             case .plugin_message:       return ClientPacket.Mojang.Java.Configuration.PluginMessage.self
             case .disconnect:           return ClientPacket.Mojang.Java.Configuration.Disconnect.self

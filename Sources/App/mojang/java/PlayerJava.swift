@@ -17,22 +17,22 @@ final class PlayerJava : Player { // TODO: fix
     }
     
     var name:String
-    var list_name:String?
+    var listName:String?
     
     var experience:UInt64
-    var experience_level:UInt64
+    var experienceLevel:UInt64
     var food_data:any FoodData
     
     var permissions:Set<String>
     var statistics:[String : any StatisticActive]
     
-    var game_mode:GameMode
+    var gameMode:GameMode
     
-    var is_blocking:Bool
-    var is_flying:Bool
-    var is_op:Bool
-    var is_sneaking:Bool
-    var is_sprinting:Bool
+    var isBlocking:Bool
+    var isFlying:Bool
+    var isOP:Bool
+    var isSneaking:Bool
+    var isSprinting:Bool
     
     var inventory:any PlayerInventory
     
@@ -72,9 +72,9 @@ final class PlayerJava : Player { // TODO: fix
     var displayName:String?
     var boundaries:[Boundary]
     var location:any Location
-    var last_slept_location:(any Location)?
+    var lastSleptLocation:(any Location)?
     var velocity:Vector
-    var fall_distance:Float
+    var fallDistance:Float
     
     var is_glowing:Bool
     var is_on_fire:Bool
@@ -99,12 +99,12 @@ final class PlayerJava : Player { // TODO: fix
         return GluonServer.shared.get_entity(uuid: uuid)
     }
     
-    func set_game_mode(_ game_mode: GameMode) {
-        guard !self.game_mode.id.elementsEqual(game_mode.id) else { return }
-        let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
+    func set_game_mode(_ gameMode: GameMode) {
+        guard !self.gameMode.id.elementsEqual(gameMode.id) else { return }
+        let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: gameMode)
         GluonServer.shared.call_event(event: event)
         guard !event.isCancelled else { return }
-        self.game_mode = game_mode
+        self.gameMode = gameMode
     }
     
     func kick(reason: String) {
@@ -130,16 +130,16 @@ final class PlayerJava : Player { // TODO: fix
     init(
         name: String,
         experience: UInt64,
-        experience_level: UInt64,
+        experienceLevel: UInt64,
         food_data: any FoodData,
         permissions: Set<String>,
         statistics: [String:any StatisticActive],
-        game_mode: GameMode,
-        is_blocking: Bool,
-        is_flying: Bool,
-        is_op: Bool,
-        is_sneaking: Bool,
-        is_sprinting: Bool,
+        gameMode: GameMode,
+        isBlocking: Bool,
+        isFlying: Bool,
+        isOP: Bool,
+        isSneaking: Bool,
+        isSprinting: Bool,
         inventory: any PlayerInventory,
         can_breathe_underwater: Bool,
         can_pickup_items: Bool,
@@ -166,7 +166,7 @@ final class PlayerJava : Player { // TODO: fix
         boundaries: [Boundary],
         location: any Location,
         velocity: Vector,
-        fall_distance: Float,
+        fallDistance: Float,
         is_glowing: Bool,
         is_on_fire: Bool,
         is_on_ground: Bool,
@@ -180,16 +180,16 @@ final class PlayerJava : Player { // TODO: fix
     ) {
         self.name = name
         self.experience = experience
-        self.experience_level = experience_level
+        self.experienceLevel = experienceLevel
         self.food_data = food_data
         self.permissions = permissions
         self.statistics = statistics
-        self.game_mode = game_mode
-        self.is_blocking = is_blocking
-        self.is_flying = is_flying
-        self.is_op = is_op
-        self.is_sneaking = is_sneaking
-        self.is_sprinting = is_sprinting
+        self.gameMode = gameMode
+        self.isBlocking = isBlocking
+        self.isFlying = isFlying
+        self.isOP = isOP
+        self.isSneaking = isSneaking
+        self.isSprinting = isSprinting
         self.inventory = inventory
         self.can_breathe_underwater = can_breathe_underwater
         self.can_pickup_items = can_pickup_items
@@ -216,7 +216,7 @@ final class PlayerJava : Player { // TODO: fix
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity
-        self.fall_distance = fall_distance
+        self.fallDistance = fallDistance
         self.is_glowing = is_glowing
         self.is_on_fire = is_on_fire
         self.is_on_ground = is_on_ground

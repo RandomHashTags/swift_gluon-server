@@ -17,13 +17,13 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.player_command
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableIntegerJava = try packet.read_var_int()
-            let action:PlayerCommand.Action = try packet.read_enum()
-            let jump_boost:VariableIntegerJava = try packet.read_var_int()
-            return Self(entity_id: entity_id, action: action, jump_boost: jump_boost)
+            let entityID:VariableIntegerJava = try packet.readVarInt()
+            let action:PlayerCommand.Action = try packet.readEnum()
+            let jump_boost:VariableIntegerJava = try packet.readVarInt()
+            return Self(entityID: entityID, action: action, jump_boost: jump_boost)
         }
         
-        public let entity_id:VariableIntegerJava
+        public let entityID:VariableIntegerJava
         public let action:PlayerCommand.Action
         public let jump_boost:VariableIntegerJava
         
@@ -40,7 +40,7 @@ extension ServerPacket.Mojang.Java.Play {
         }
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            return [entity_id, action, jump_boost]
+            return [entityID, action, jump_boost]
         }
     }
 }

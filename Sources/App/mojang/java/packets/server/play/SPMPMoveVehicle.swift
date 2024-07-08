@@ -13,11 +13,11 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.move_vehicle
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let x:Double = try packet.read_double()
-            let y:Double = try packet.read_double()
-            let z:Double = try packet.read_double()
-            let yaw:Float = try packet.read_float()
-            let pitch:Float = try packet.read_float()
+            let x:Double = try packet.readDouble()
+            let y:Double = try packet.readDouble()
+            let z:Double = try packet.readDouble()
+            let yaw:Float = try packet.readFloat()
+            let pitch:Float = try packet.readFloat()
             return Self(x: x, y: y, z: z, yaw: yaw, pitch: pitch)
         }
         

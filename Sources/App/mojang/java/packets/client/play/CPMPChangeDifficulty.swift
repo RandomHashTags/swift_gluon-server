@@ -9,7 +9,7 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Changes the difficulty setting in the client's option menu.
-    struct ChangeDifficulty : ClientPacketMojangJavaPlayProtocol {
+    struct ChangeDifficulty : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.change_difficulty
         
         public let difficulty:ChangeDifficulty.Difficulty

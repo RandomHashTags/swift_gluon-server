@@ -9,11 +9,11 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
     /// Sent by the server when a vehicle or other non-living entity is created.
-    struct SpawnEntity : ClientPacketMojangJavaPlayProtocol {
+    struct SpawnEntity : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.spawn_entity
         
         /// A unique integer ID mostly used to identify the entity.
-        public let entity_id:VariableIntegerJava
+        public let entityID:VariableIntegerJava
         /// A unique identifier that is mostly used in persistence and places where the uniqueness matters more.
         public let entity_uuid:UUID
         /// The type of the entity.
@@ -28,13 +28,13 @@ extension ClientPacket.Mojang.Java.Play {
         /// Only used by living entities, where the head of the entity may differ from the general body rotation.
         public let head_yaw:Float
         public let data:VariableIntegerJava
-        public let velocity_x:Int
-        public let velocity_y:Int
-        public let velocity_z:Int
+        public let velocityX:Int
+        public let velocityY:Int
+        public let velocityZ:Int
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
             return [
-                entity_id,
+                entityID,
                 entity_uuid,
                 type,
                 x,
@@ -44,9 +44,9 @@ extension ClientPacket.Mojang.Java.Play {
                 yaw,
                 head_yaw,
                 data,
-                velocity_x,
-                velocity_y,
-                velocity_z
+                velocityX,
+                velocityY,
+                velocityZ
             ]
         }
     }

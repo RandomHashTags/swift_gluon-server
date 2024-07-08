@@ -33,32 +33,32 @@ fileprivate extension Array where Element == UInt8 {
 
 public final class GeneralPacketMojang : GeneralPacket {
     public static func == (lhs: GeneralPacketMojang, rhs: GeneralPacketMojang) -> Bool {
-        return lhs.length == rhs.length && lhs.packet_id == rhs.packet_id && lhs.data.elementsEqual(rhs.data)
+        return lhs.length == rhs.length && lhs.packetID == rhs.packetID && lhs.data.elementsEqual(rhs.data)
     }
     
     public static let segment_bits:UInt8 = 0x7F
     public static let continue_bit:UInt8 = 0x80
     
     public let length:VariableIntegerJava
-    public let packet_id:VariableIntegerJava
+    public let packetID:VariableIntegerJava
     public let data:ArraySlice<UInt8>
     
     public private(set) var reading_index:Int = 0
     
     public init(bytes: [UInt8]) throws {
-        let (length, length_read_bytes):(VariableIntegerJava, Int) = try bytes.read_var_int()
+        let (length, length_read_bytes):(VariableIntegerJava, Int) = try bytes.readVarInt()
         self.length = length
-        let (packet_id, packet_read_bytes):(VariableIntegerJava, Int) = try bytes.read_var_int(byteOffset: length_read_bytes)
-        self.packet_id = packet_id
+        let (packetID, packet_read_bytes):(VariableIntegerJava, Int) = try bytes.read_var_int(byteOffset: length_read_bytes)
+        self.packetID = packetID
         let offset:Int = length_read_bytes + packet_read_bytes
         data = bytes[offset..<bytes.count]
         reading_index = offset
-        //print("GeneralPacketMojang;length=\(length);packet_id=\(packet_id);offset=\(offset);data=" + data.description + ";bytes=" + bytes.description)
+        //print("GeneralPacketMojang;length=\(length);packetID=\(packetID);offset=\(offset);data=" + data.description + ";bytes=" + bytes.description)
     }
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(length)
-        hasher.combine(packet_id)
+        hasher.combine(packetID)
         hasher.combine(data)
     }
     
@@ -67,7 +67,7 @@ public final class GeneralPacketMojang : GeneralPacket {
     /// Minecraft's VarInts are not encoded using Protocol Buffers; it's just similar. If you try to use Protocol Buffers Varints with Minecraft's VarInts, you'll get incorrect results in some cases. The major differences:
     /// - Minecraft's VarInts are all signed, but do not use the ZigZag encoding. Protocol buffers have 3 types of Varints: `uint32` (normal encoding, unsigned), `sint32` (ZigZag encoding, signed), and `int32` (normal encoding, signed). Minecraft's are the `int32` variety. Because Minecraft uses the normal encoding instead of ZigZag encoding, negative values always use the maximum number of bytes.
     /// - Minecraft's VarInts are never longer than 5 bytes and its VarLongs will never be longer than 10 bytes, while Protocol Buffer Varints will always use 10 bytes when encoding negative numbers, even if it's an `int32`.
-    public func read_var_int() throws -> VariableIntegerJava {
+    public func readVarInt() throws -> VariableIntegerJava {
         var value:Int32 = 0
         var position:Int = 0
         var current_byte:UInt8 = 0
@@ -87,7 +87,7 @@ public final class GeneralPacketMojang : GeneralPacket {
         return VariableIntegerJava(value: value)
     }
     
-    public func read_var_long() throws -> VariableLongJava {
+    public func readVarLong() throws -> VariableLongJava {
         var value:Int64 = 0
         var position:Int = 0
         var current_byte:UInt8 = 0
@@ -139,28 +139,28 @@ public final class GeneralPacketMojang : GeneralPacket {
         return bytes
     }
     
-    public func read_byte() throws -> Int8 {
+    public func readByte() throws -> Int8 {
         return try from_bytes_integer(bytes: 1)
     }
-    public func read_unsigned_byte() throws -> UInt8 {
+    public func readUnsignedByte() throws -> UInt8 {
         return try from_bytes_integer(bytes: 1)
     }
     
-    public func read_short() throws -> Int16 {
+    public func readShort() throws -> Int16 {
         return try from_bytes_integer(bytes: 2)
     }
-    public func read_unsigned_short() throws -> UInt16 {
+    public func readUnsignedShort() throws -> UInt16 {
         return try from_bytes_integer(bytes: 2)
     }
     
-    public func read_int() throws -> Int32 {
+    public func readInt() throws -> Int32 {
         return try from_bytes_integer(bytes: 4)
     }
-    public func read_long() throws -> Int64 {
+    public func readLong() throws -> Int64 {
         return try from_bytes_integer(bytes: 8)
     }
     
-    public func read_unsigned_long() throws -> UInt64 {
+    public func readUnsignedLong() throws -> UInt64 {
         return try from_bytes_integer(bytes: 8)
     }
     
@@ -172,10 +172,10 @@ public final class GeneralPacketMojang : GeneralPacket {
         reading_index += bytes
         return value
     }
-    public func read_float() throws -> Float {
+    public func readFloat() throws -> Float {
         return try from_bytes(bytes: 4)
     }
-    public func read_double() throws -> Double {
+    public func readDouble() throws -> Double {
         return try from_bytes(bytes: 8)
     }
     
@@ -184,35 +184,35 @@ public final class GeneralPacketMojang : GeneralPacket {
         reading_index += size
         return string
     }
-    public func read_string() throws -> String {
-        let size:Int = try read_var_int().value_int
+    public func readString() throws -> String {
+        let size:Int = try readVarInt().value_int
         return read_string(size: size)
     }
     
-    public func read_bool() throws -> Bool {
+    public func readBool() throws -> Bool {
         let byte:UInt8 = data[reading_index]
         reading_index += 1
         return byte == 1
     }
     
-    public func read_angle() throws -> AngleMojang {
+    public func readAngle() throws -> AngleMojang {
         let byte:UInt8 = data[reading_index]
         reading_index += 1
         return AngleMojang(value: Int(byte))
     }
     
     public func read_enum<T: PacketEncodableMojangJava & RawRepresentable<Int>>() throws -> T {
-        let integer:Int = try read_var_int().value_int
+        let integer:Int = try readVarInt().value_int
         guard let value:T = T.init(rawValue: integer) else {
             throw ServerPacketMojangErrors.VarIntEnum.doesnt_exist(type: T.self, id: integer)
         }
         return value
     }
     
-    public func read_remaining_byte_array() throws -> [UInt8] {
+    public func readRemainingByteArray() throws -> [UInt8] {
         return try read_byte_array(bytes: data.count - reading_index)
     }
-    public func read_remaining_optional_byte_array() throws -> [UInt8]? {
+    public func readRemainingOptionalByteArray() throws -> [UInt8]? {
         let bytes:Int = data.count - reading_index
         guard bytes > 0 else { return nil }
         return try read_byte_array(bytes: bytes)
@@ -231,7 +231,7 @@ public final class GeneralPacketMojang : GeneralPacket {
     }
     public func read_string_array(count: Int) throws -> [String] {
         return try (0..<count).map({ _ in
-            let size:Int = try read_var_int().value_int
+            let size:Int = try readVarInt().value_int
             return read_string(size: size)
         })
     }
@@ -255,8 +255,8 @@ public final class GeneralPacketMojang : GeneralPacket {
         return value
     }
     
-    public func read_identifier() throws -> Namespace {
-        let string:String = try read_string()
+    public func readIdentifier() throws -> Namespace {
+        let string:String = try readString()
         let values:[Substring] = string.split(separator: ".")
         guard values.count == 2 else {
             throw GeneralPacketError.namespace_value_length_not_equal
@@ -264,9 +264,9 @@ public final class GeneralPacketMojang : GeneralPacket {
         return Namespace(identifier: values[0], value: values[1])
     }
     
-    public func read_uuid() throws -> UUID {
-        let left:UInt64 = try read_unsigned_long()
-        let right:UInt64 = try read_unsigned_long()
+    public func readUUID() throws -> UUID {
+        let left:UInt64 = try readUnsignedLong()
+        let right:UInt64 = try readUnsignedLong()
         let left_array:[UInt8] = withUnsafeBytes(of: left.bigEndian, Array.init)
         let right_array:[UInt8] = withUnsafeBytes(of: right.bigEndian, Array.init)
         let test:uuid_t = (
@@ -282,7 +282,7 @@ public final class GeneralPacketMojang : GeneralPacket {
     }
     
     public func read_json<T: Decodable>() throws -> T {
-        let size:Int = try read_var_int().value_int
+        let size:Int = try readVarInt().value_int
         let bytes:ArraySlice<UInt8> = data[reading_index..<reading_index + size]
         let buffer:ByteBuffer = ByteBuffer(bytes: bytes)
         let json:T = try JSONDecoder().decode(T.self, from: buffer)

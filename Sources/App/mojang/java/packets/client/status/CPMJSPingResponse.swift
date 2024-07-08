@@ -12,7 +12,7 @@ extension ClientPacket.Mojang.Java.Status {
         public static let id:ClientPacket.Mojang.Java.Status = ClientPacket.Mojang.Java.Status.ping_response
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let payload:Int64 = try packet.read_long()
+            let payload:Int64 = try packet.readLong()
             return Self(payload: payload)
         }
         

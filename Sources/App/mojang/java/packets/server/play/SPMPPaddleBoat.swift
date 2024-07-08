@@ -13,8 +13,8 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.paddle_boat
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let left_paddle_turning:Bool = try packet.read_bool()
-            let right_paddle_turning:Bool = try packet.read_bool()
+            let left_paddle_turning:Bool = try packet.readBool()
+            let right_paddle_turning:Bool = try packet.readBool()
             return Self(left_paddle_turning: left_paddle_turning, right_paddle_turning: right_paddle_turning)
         }
         

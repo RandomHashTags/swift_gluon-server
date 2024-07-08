@@ -10,22 +10,22 @@ import Foundation
 public protocol NBTEntity : NBTTag {
     var air : Int { get }
     var customName : String { get }
-    var custom_name_visible : Bool { get }
-    var fall_distance : Float { get }
+    var customNameVisible : Bool { get }
+    var fallDistance : Float { get }
     var fire : Int { get }
     var glowing : Bool { get }
-    var has_visual_fire : Bool { get }
+    var hasVisualFire : Bool { get }
     var id : String { get }
     var invulnerable : Bool { get }
     var motion : [Double] { get }
-    var no_gravity : Bool { get }
-    var on_ground : Bool { get }
+    var noGravity : Bool { get }
+    var onGround : Bool { get }
     var passengers : [UUID] { get }
-    var portal_cooldown : Int { get }
+    var portalCooldown : Int { get }
     var pos : [Double] { get }
     var rotation : [Float] { get }
     var silent : Bool { get }
     var tags : [String] { get } // TODO: fix
-    var ticks_frozen : Int? { get }
+    var ticksFrozen : Int? { get }
     var uuid : UUID { get }
 }

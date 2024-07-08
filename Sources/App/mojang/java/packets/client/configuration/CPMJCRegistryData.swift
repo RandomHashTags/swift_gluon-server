@@ -9,7 +9,7 @@ import Foundation
 
 extension ClientPacket.Mojang.Java.Configuration {
     /// Represents certain registries that are sent from the server and are applied on the client.
-    struct RegistryData : ClientPacketMojangJavaConfigurationProtocol {
+    struct RegistryData : ClientPacket.Mojang.Java.ConfigurationProtocol {
         public static let id:ClientPacket.Mojang.Java.Configuration = ClientPacket.Mojang.Java.Configuration.registry_data
         
         // TODO: fix (supposed to be a NBT Tag Compound, not a string)

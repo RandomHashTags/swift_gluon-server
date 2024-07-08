@@ -12,7 +12,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.resource_pack
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let result:ResourcePack.Result = try packet.read_enum()
+            let result:ResourcePack.Result = try packet.readEnum()
             return Self(result: result)
         }
         

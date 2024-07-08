@@ -15,25 +15,25 @@ extension ClientPacket.Mojang.Java.Login {
         public static let id:ClientPacket.Mojang.Java.Login = ClientPacket.Mojang.Java.Login.login_success
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let uuid:UUID = try packet.read_uuid()
-            let username:String = try packet.read_string()
-            let number_of_properties:VariableIntegerJava = try packet.read_var_int()
-            let properties:[LoginSuccess.Property] = try packet.read_packet_decodable_array(count: number_of_properties)
-            return Self(uuid: uuid, username: username, number_of_properties: number_of_properties, properties: properties)
+            let uuid:UUID = try packet.readUUID()
+            let username:String = try packet.readString()
+            let numberOfProperties:VariableIntegerJava = try packet.readVarInt()
+            let properties:[LoginSuccess.Property] = try packet.read_packet_decodable_array(count: numberOfProperties)
+            return Self(uuid: uuid, username: username, numberOfProperties: numberOfProperties, properties: properties)
         }
         
         public let uuid:UUID
         public let username:String
         /// Number of elements in `properties`.
-        public let number_of_properties:VariableIntegerJava
+        public let numberOfProperties:VariableIntegerJava
         public let properties:[LoginSuccess.Property]
         
         public struct Property : Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
             public static func decode(from packet: GeneralPacketMojang) throws -> Self {
-                let name:String = try packet.read_string()
-                let value:String = try packet.read_string()
-                let is_signed:Bool = try packet.read_bool()
-                let signature:String? = is_signed ? try packet.read_string() : nil
+                let name:String = try packet.readString()
+                let value:String = try packet.readString()
+                let is_signed:Bool = try packet.readBool()
+                let signature:String? = is_signed ? try packet.readString() : nil
                 return Self(name: name, value: value, is_signed: is_signed, signature: signature)
             }
             
@@ -57,7 +57,7 @@ extension ClientPacket.Mojang.Java.Login {
         }
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            var array:[(any PacketEncodableMojangJava)?] = [uuid, username, number_of_properties]
+            var array:[(any PacketEncodableMojangJava)?] = [uuid, username, numberOfProperties]
             array.append(contentsOf: properties)
             return array
         }

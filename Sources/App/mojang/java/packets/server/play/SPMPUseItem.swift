@@ -13,8 +13,8 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.use_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let hand:UseItem.Hand = try packet.read_enum()
-            let sequence:VariableIntegerJava = try packet.read_var_int()
+            let hand:UseItem.Hand = try packet.readEnum()
+            let sequence:VariableIntegerJava = try packet.readVarInt()
             return Self(hand: hand, sequence: sequence)
         }
         

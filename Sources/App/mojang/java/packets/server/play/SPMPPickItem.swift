@@ -20,7 +20,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.pick_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let slot_to_use:VariableIntegerJava = try packet.read_var_int()
+            let slot_to_use:VariableIntegerJava = try packet.readVarInt()
             return Self(slot_to_use: slot_to_use)
         }
         

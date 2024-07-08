@@ -9,27 +9,27 @@ import Foundation
 import Logging
 
 public protocol Player : LivingEntity, CommandSender, Permissible {
-    var list_name : String? { get set }
+    var listName : String? { get set }
     
     var experience : UInt64 { get set }
-    var experience_level : UInt64 { get set }
+    var experienceLevel : UInt64 { get set }
     var food_data : any FoodData { get set }
     
     var statistics : [String : any StatisticActive] { get set }
     
-    var game_mode : GameMode { get set }
-    var is_blocking : Bool { get set }
-    var is_flying : Bool { get set }
-    var is_op : Bool { get set }
-    var is_sneaking : Bool { get set }
-    var is_sprinting : Bool { get set }
-    var last_slept_location : (any Location)? { get set }
+    var gameMode : GameMode { get set }
+    var isBlocking : Bool { get set }
+    var isFlying : Bool { get set }
+    var isOP : Bool { get set }
+    var isSneaking : Bool { get set }
+    var isSprinting : Bool { get set }
+    var lastSleptLocation : (any Location)? { get set }
     
     var inventory : any PlayerInventory { get set }
         
     func tick_player(_ server: any Server)
     
-    func set_game_mode(_ game_mode: GameMode)
+    func set_game_mode(_ gameMode: GameMode)
     
     func kick(reason: String)
     

@@ -10,22 +10,22 @@ import Foundation
 /*
 final class GluonPlayer : Player {
     var name:String
-    var list_name:String?
+    var listName:String?
     
     var experience:UInt64
-    var experience_level:UInt64
+    var experienceLevel:UInt64
     var food_data:any FoodData
     
     var permissions:Set<String>
     var statistics:[String : any StatisticActive]
     
-    var game_mode:GameMode
+    var gameMode:GameMode
     
-    var is_blocking:Bool
-    var is_flying:Bool
-    var is_op:Bool
-    var is_sneaking:Bool
-    var is_sprinting:Bool
+    var isBlocking:Bool
+    var isFlying:Bool
+    var isOP:Bool
+    var isSneaking:Bool
+    var isSprinting:Bool
     
     var inventory:any PlayerInventory
     
@@ -65,9 +65,9 @@ final class GluonPlayer : Player {
     var displayName:String?
     var boundaries:[Boundary]
     var location:any Location
-    var last_slept_location:(any Location)?
+    var lastSleptLocation:(any Location)?
     var velocity:Vector
-    var fall_distance:Float
+    var fallDistance:Float
     
     var is_glowing:Bool
     var is_on_fire:Bool
@@ -92,12 +92,12 @@ final class GluonPlayer : Player {
         return GluonServer.shared.get_entity(uuid: uuid)
     }
     
-    func set_game_mode(_ game_mode: GameMode) {
-        guard !self.game_mode.id.elementsEqual(game_mode.id) else { return }
-        let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: game_mode)
+    func set_game_mode(_ gameMode: GameMode) {
+        guard !self.gameMode.id.elementsEqual(gameMode.id) else { return }
+        let event:GluonPlayerGameModeChangeEvent = GluonPlayerGameModeChangeEvent(player: self, new_game_mode: gameMode)
         GluonServer.shared.call_event(event: event)
         guard !event.isCancelled else { return }
-        self.game_mode = game_mode
+        self.gameMode = gameMode
     }
     
     func kick(reason: String) {
@@ -123,16 +123,16 @@ final class GluonPlayer : Player {
     init(
         name: String,
         experience: UInt64,
-        experience_level: UInt64,
+        experienceLevel: UInt64,
         food_data: any FoodData,
         permissions: Set<String>,
         statistics: [String:any StatisticActive],
-        game_mode: GameMode,
-        is_blocking: Bool,
-        is_flying: Bool,
-        is_op: Bool,
-        is_sneaking: Bool,
-        is_sprinting: Bool,
+        gameMode: GameMode,
+        isBlocking: Bool,
+        isFlying: Bool,
+        isOP: Bool,
+        isSneaking: Bool,
+        isSprinting: Bool,
         inventory: any PlayerInventory,
         can_breathe_underwater: Bool,
         can_pickup_items: Bool,
@@ -159,7 +159,7 @@ final class GluonPlayer : Player {
         boundaries: [Boundary],
         location: any Location,
         velocity: Vector,
-        fall_distance: Float,
+        fallDistance: Float,
         is_glowing: Bool,
         is_on_fire: Bool,
         is_on_ground: Bool,
@@ -173,16 +173,16 @@ final class GluonPlayer : Player {
     ) {
         self.name = name
         self.experience = experience
-        self.experience_level = experience_level
+        self.experienceLevel = experienceLevel
         self.food_data = food_data
         self.permissions = permissions
         self.statistics = statistics
-        self.game_mode = game_mode
-        self.is_blocking = is_blocking
-        self.is_flying = is_flying
-        self.is_op = is_op
-        self.is_sneaking = is_sneaking
-        self.is_sprinting = is_sprinting
+        self.gameMode = gameMode
+        self.isBlocking = isBlocking
+        self.isFlying = isFlying
+        self.isOP = isOP
+        self.isSneaking = isSneaking
+        self.isSprinting = isSprinting
         self.inventory = inventory
         self.can_breathe_underwater = can_breathe_underwater
         self.can_pickup_items = can_pickup_items
@@ -209,7 +209,7 @@ final class GluonPlayer : Player {
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity
-        self.fall_distance = fall_distance
+        self.fallDistance = fallDistance
         self.is_glowing = is_glowing
         self.is_on_fire = is_on_fire
         self.is_on_ground = is_on_ground
@@ -230,22 +230,22 @@ extension GluonPlayer {
         connection = PlayerConnectionMojang("")
         
         name = try container.decode(String.self, forKey: .name)
-        list_name = try container.decodeIfPresent(String.self, forKey: .list_name)
+        listName = try container.decodeIfPresent(String.self, forKey: .listName)
         experience = try container.decode(UInt64.self, forKey: .experience)
-        experience_level = try container.decode(UInt64.self, forKey: .experience_level)
+        experienceLevel = try container.decode(UInt64.self, forKey: .experienceLevel)
         food_level = try container.decode(UInt64.self, forKey: .food_level)
         
         permissions = try container.decode(Set<String>.self, forKey: .permissions)
         statistics = try container.decode([String:TargetStatisticActive].self, forKey: .statistics)
         
-        let game_mode_identifier:String = try container.decode(String.self, forKey: .game_mode)
-        game_mode = GluonServer.shared.get_game_mode(identifier: game_mode_identifier)!
+        let game_mode_identifier:String = try container.decode(String.self, forKey: .gameMode)
+        gameMode = GluonServer.shared.get_game_mode(identifier: game_mode_identifier)!
         
-        is_blocking = try container.decode(Bool.self, forKey: .is_blocking)
-        is_flying = try container.decode(Bool.self, forKey: .is_flying)
-        is_op = try container.decode(Bool.self, forKey: .is_op)
-        is_sneaking = try container.decode(Bool.self, forKey: .is_sneaking)
-        is_sprinting = try container.decode(Bool.self, forKey: .is_sprinting)
+        isBlocking = try container.decode(Bool.self, forKey: .isBlocking)
+        isFlying = try container.decode(Bool.self, forKey: .isFlying)
+        isOP = try container.decode(Bool.self, forKey: .isOP)
+        isSneaking = try container.decode(Bool.self, forKey: .isSneaking)
+        isSprinting = try container.decode(Bool.self, forKey: .isSprinting)
         
         inventory = try container.decode(GluonPlayerInventory.self, forKey: .inventory)
         
@@ -281,7 +281,7 @@ extension GluonPlayer {
         boundaries = living_entity.boundaries
         location = living_entity.location
         velocity = living_entity.velocity
-        fall_distance = living_entity.fall_distance
+        fallDistance = living_entity.fallDistance
         
         is_glowing = living_entity.is_glowing
         is_on_fire = living_entity.is_on_fire
@@ -305,18 +305,18 @@ extension GluonPlayer {
 
 enum GluonPlayerCodingKeys : CodingKey {
     case name
-    case list_name
+    case listName
     case experience
-    case experience_level
+    case experienceLevel
     case food_level
     case permissions
     case statistics
-    case game_mode
-    case is_blocking
-    case is_flying
-    case is_op
-    case is_sneaking
-    case is_sprinting
+    case gameMode
+    case isBlocking
+    case isFlying
+    case isOP
+    case isSneaking
+    case isSprinting
     case inventory
 }
 */

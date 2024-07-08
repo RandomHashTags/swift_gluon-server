@@ -8,12 +8,12 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct GameEvent : ClientPacketMojangJavaPlayProtocol {
+    struct GameEvent : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.game_event
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let event:GameEvent.Event = try packet.read_enum()
-            let value:Float = try packet.read_float()
+            let event:GameEvent.Event = try packet.readEnum()
+            let value:Float = try packet.readFloat()
             return Self(event: event, value: value)
         }
         

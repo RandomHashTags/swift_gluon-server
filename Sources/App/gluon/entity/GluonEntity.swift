@@ -23,7 +23,7 @@ final class GluonEntity : Entity {
     var boundaries:[Boundary]
     var location:any Location
     var velocity:Vector
-    var fall_distance:Float
+    var fallDistance:Float
     
     var is_glowing:Bool
     var is_on_fire:Bool
@@ -51,7 +51,7 @@ final class GluonEntity : Entity {
         tick_entity(server)
     }
     
-    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, customName: String? = nil, displayName: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fall_distance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
+    init(id: UInt64, uuid: UUID, type_id: String, ticks_lived: UInt64, name: String, customName: String? = nil, displayName: String? = nil, boundaries: [Boundary], location: any Location, velocity: Vector, fallDistance: Float, is_glowing: Bool, is_on_fire: Bool, is_on_ground: Bool, height: Float, fire_ticks: UInt16, fire_ticks_maximum: UInt16, freeze_ticks: UInt16, freeze_ticks_maximum: UInt16, passenger_uuids: Set<UUID>, vehicle_uuid: UUID? = nil) {
         self.id = id
         self.uuid = uuid
         self.type_id = type_id
@@ -62,7 +62,7 @@ final class GluonEntity : Entity {
         self.boundaries = boundaries
         self.location = location
         self.velocity = velocity
-        self.fall_distance = fall_distance
+        self.fallDistance = fallDistance
         self.is_glowing = is_glowing
         self.is_on_fire = is_on_fire
         self.is_on_ground = is_on_ground
@@ -86,7 +86,7 @@ final class GluonEntity : Entity {
         self.boundaries = try container.decode([Boundary].self, forKey: .boundaries)
         self.location = try container.decode(GluonEntity.TargetLocation.self, forKey: .location)
         self.velocity = try container.decode(Vector.self, forKey: .velocity)
-        self.fall_distance = try container.decode(Float.self, forKey: .fall_distance)
+        self.fallDistance = try container.decode(Float.self, forKey: .fallDistance)
         self.is_glowing = try container.decode(Bool.self, forKey: .is_glowing)
         self.is_on_fire = try container.decode(Bool.self, forKey: .is_on_fire)
         self.is_on_ground = try container.decode(Bool.self, forKey: .is_on_ground)

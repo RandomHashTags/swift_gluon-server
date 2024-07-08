@@ -8,7 +8,7 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct PlayerChatMessage : ClientPacketMojangJavaPlayProtocol {
+    struct PlayerChatMessage : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.player_chat_message
         
         // MARK: Header

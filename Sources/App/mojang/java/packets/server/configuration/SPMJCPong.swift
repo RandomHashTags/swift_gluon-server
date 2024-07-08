@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Configuration {
         public static let id:ServerPacket.Mojang.Java.Configuration = ServerPacket.Mojang.Java.Configuration.pong
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let id:Int32 = try packet.read_int()
+            let id:Int32 = try packet.readInt()
             return Self(id: id)
         }
         

@@ -9,8 +9,8 @@ public protocol NBTPotionEffect : NBTTag {
     var ambient : Bool { get }
     var amplifier : Bool { get }
     var duration : Int { get }
-    var hidden_effect : String { get } // TODO: fix
+    var hiddenEffect : String { get } // TODO: fix
     var id : Int { get }
-    var show_icon : Bool { get }
-    var show_particles : Bool { get }
+    var showIcon : Bool { get }
+    var showParticles : Bool { get }
 }

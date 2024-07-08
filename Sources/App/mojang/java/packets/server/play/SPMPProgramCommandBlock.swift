@@ -13,9 +13,9 @@ extension ServerPacket.Mojang.Java.Play {
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
             let location:PositionPacketMojang = try packet.read_packet_decodable()
-            let command:String = try packet.read_string()
-            let mode:ProgramCommandBlock.Mode = try packet.read_enum()
-            let flags:Int8 = try packet.read_byte()
+            let command:String = try packet.readString()
+            let mode:ProgramCommandBlock.Mode = try packet.readEnum()
+            let flags:Int8 = try packet.readByte()
             return Self(location: location, command: command, mode: mode, flags: flags)
         }
         

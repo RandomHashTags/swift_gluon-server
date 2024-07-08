@@ -15,7 +15,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.teleport_to_entity
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let target_player:UUID = try packet.read_uuid()
+            let target_player:UUID = try packet.readUUID()
             return Self(target_player: target_player)
         }
         

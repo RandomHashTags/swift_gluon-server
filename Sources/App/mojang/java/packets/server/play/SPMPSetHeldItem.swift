@@ -13,7 +13,7 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.set_held_item
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let slot:Int16 = try packet.read_short()
+            let slot:Int16 = try packet.readShort()
             return Self(slot: slot)
         }
         

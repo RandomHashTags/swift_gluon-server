@@ -26,22 +26,22 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.click_container
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let window_id:UInt8 = try packet.read_unsigned_byte()
-            let state_id:VariableIntegerJava = try packet.read_var_int()
-            let slot:Int16 = try packet.read_short()
-            let button:Int8 = try packet.read_byte()
-            let mode:ClickContainer.Mode = try packet.read_enum()
-            let slots_count:VariableIntegerJava = try packet.read_var_int()
+            let windowID:UInt8 = try packet.readUnsignedByte()
+            let stateID:VariableIntegerJava = try packet.readVarInt()
+            let slot:Int16 = try packet.readShort()
+            let button:Int8 = try packet.readByte()
+            let mode:ClickContainer.Mode = try packet.readEnum()
+            let slots_count:VariableIntegerJava = try packet.readVarInt()
             let slot_numbers:[Int16] = try packet.read_packet_decodable_array(count: slots_count)
             let slot_data:[SlotMojang] = try packet.read_packet_decodable_array(count: slots_count)
             let carried_item:SlotMojang = try packet.read_packet_decodable()
-            return Self(window_id: window_id, state_id: state_id, slot: slot, button: button, mode: mode, slots_count: slots_count, slot_numbers: slot_numbers, slot_data: slot_data, carried_item: carried_item)
+            return Self(windowID: windowID, stateID: stateID, slot: slot, button: button, mode: mode, slots_count: slots_count, slot_numbers: slot_numbers, slot_data: slot_data, carried_item: carried_item)
         }
         
         /// The ID of the window which was clicked. 0 for player inventory.
-        public let window_id:UInt8
+        public let windowID:UInt8
         /// The last recieved State ID from either a [Set Container Slot](https://wiki.vg/Protocol#Set_Container_Slot) or a [Set Container Content](https://wiki.vg/Protocol#Set_Container_Content) packet.
-        public let state_id:VariableIntegerJava
+        public let stateID:VariableIntegerJava
         /// The clicked slot number.
         public let slot:Int16
         /// The button used in the click
@@ -65,7 +65,7 @@ extension ServerPacket.Mojang.Java.Play {
         }
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            var array:[any PacketEncodableMojangJava] = [window_id, state_id, slot, button, mode, slots_count]
+            var array:[any PacketEncodableMojangJava] = [windowID, stateID, slot, button, mode, slots_count]
             array.append(contentsOf: slot_numbers)
             array.append(contentsOf: slot_data)
             array.append(carried_item)

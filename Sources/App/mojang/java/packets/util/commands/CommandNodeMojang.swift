@@ -9,14 +9,14 @@ import Foundation
 
 public struct CommandNodeMojang : Codable, PacketEncodableMojangJava, PacketDecodableMojangJava {
     public static func decode(from packet: GeneralPacketMojang) throws -> Self {
-        let flags:Int8 = try packet.read_byte()
-        let children_count:VariableIntegerJava = try packet.read_var_int()
+        let flags:Int8 = try packet.readByte()
+        let children_count:VariableIntegerJava = try packet.readVarInt()
         let children:[VariableIntegerJava] = try packet.read_map(count: children_count) {
-            return try packet.read_var_int()
+            return try packet.readVarInt()
         }
         let redirect_node:VariableIntegerJava?
         if (flags & 0x08) != 0 {
-            redirect_node = try packet.read_var_int()
+            redirect_node = try packet.readVarInt()
         } else {
             redirect_node = nil
         }
@@ -28,13 +28,13 @@ public struct CommandNodeMojang : Codable, PacketEncodableMojangJava, PacketDeco
         let properties:Data?
         switch flag_node_type {
         case 1:
-            name = try packet.read_string()
+            name = try packet.readString()
             parser = nil
             properties = nil
             break
         case 2:
-            name = try packet.read_string()
-            parser = try packet.read_enum()
+            name = try packet.readString()
+            parser = try packet.readEnum()
             properties = nil // TODO: fix
             break
         default:
@@ -46,7 +46,7 @@ public struct CommandNodeMojang : Codable, PacketEncodableMojangJava, PacketDeco
         
         let suggestions_type:Namespace?
         if (flags & 0x10) != 0 {
-            suggestions_type = try packet.read_identifier()
+            suggestions_type = try packet.readIdentifier()
         } else {
             suggestions_type = nil
         }

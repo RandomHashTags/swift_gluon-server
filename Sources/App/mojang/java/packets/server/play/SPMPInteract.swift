@@ -19,8 +19,8 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.interact
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let entity_id:VariableIntegerJava = try packet.read_var_int()
-            let type:Interact.InteractType = try packet.read_enum()
+            let entityID:VariableIntegerJava = try packet.readVarInt()
+            let type:Interact.InteractType = try packet.readEnum()
             let target_x:Float?
             let target_y:Float?
             let target_z:Float?
@@ -30,7 +30,7 @@ extension ServerPacket.Mojang.Java.Play {
                 target_x = nil
                 target_y = nil
                 target_z = nil
-                hand = try packet.read_enum()
+                hand = try packet.readEnum()
                 break
             case .attack:
                 target_x = nil
@@ -39,18 +39,18 @@ extension ServerPacket.Mojang.Java.Play {
                 hand = nil
                 break
             case .interact_at:
-                target_x = try packet.read_float()
-                target_y = try packet.read_float()
-                target_z = try packet.read_float()
-                hand = try packet.read_enum()
+                target_x = try packet.readFloat()
+                target_y = try packet.readFloat()
+                target_z = try packet.readFloat()
+                hand = try packet.readEnum()
                 break
             }
-            let sneaking:Bool = try packet.read_bool()
-            return Self(entity_id: entity_id, type: type, target_x: target_x, target_y: target_y, target_z: target_z, hand: hand, sneaking: sneaking)
+            let sneaking:Bool = try packet.readBool()
+            return Self(entityID: entityID, type: type, target_x: target_x, target_y: target_y, target_z: target_z, hand: hand, sneaking: sneaking)
         }
         
         /// The ID of the entity to interact.
-        public let entity_id:VariableIntegerJava
+        public let entityID:VariableIntegerJava
         public let type:Interact.InteractType
         /// Only if Type is interact at.
         public let target_x:Float?
@@ -74,7 +74,7 @@ extension ServerPacket.Mojang.Java.Play {
         }
         
         public func encoded_values() throws -> [(any PacketEncodableMojangJava)?] {
-            var array:[any PacketEncodableMojangJava] = [entity_id, type]
+            var array:[any PacketEncodableMojangJava] = [entityID, type]
             switch type {
             case .interact:
                 let hand:Interact.Hand = try unwrap_optional(hand, key_path: \Self.hand, precondition: "type == .interact")

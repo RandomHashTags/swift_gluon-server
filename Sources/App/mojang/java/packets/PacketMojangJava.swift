@@ -12,7 +12,7 @@ protocol PacketMojangJava : Packet where IDValue == UInt, Category == PacketCate
     associatedtype GameplayID : PacketGameplayID
     
     static func server_received(_ client: ClientMojangJava) throws
-    static var packet_gameplay_id : GameplayID.Type { get }
+    static var packetGameplayID : GameplayID.Type { get }
     
     static var id : GameplayID { get }
     

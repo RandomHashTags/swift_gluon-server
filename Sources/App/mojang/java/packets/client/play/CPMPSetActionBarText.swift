@@ -8,7 +8,7 @@
 import Foundation
 
 extension ClientPacket.Mojang.Java.Play {
-    struct SetActionBarText : ClientPacketMojangJavaPlayProtocol {
+    struct SetActionBarText : ClientPacket.Mojang.Java.PlayProtocol {
         public static let id:ClientPacket.Mojang.Java.Play = ClientPacket.Mojang.Java.Play.set_action_bar_text
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> ClientPacket.Mojang.Java.Play.SetActionBarText {

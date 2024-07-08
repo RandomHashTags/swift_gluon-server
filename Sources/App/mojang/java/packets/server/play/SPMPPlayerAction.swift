@@ -13,10 +13,10 @@ extension ServerPacket.Mojang.Java.Play {
         public static let id:ServerPacket.Mojang.Java.Play = ServerPacket.Mojang.Java.Play.player_action
         
         public static func parse(_ packet: GeneralPacketMojang) throws -> Self {
-            let status:PlayerAction.Status = try packet.read_enum()
+            let status:PlayerAction.Status = try packet.readEnum()
             let location:PositionPacketMojang = try packet.read_packet_decodable()
-            let face:PlayerAction.Face = try packet.read_enum()
-            let sequence:VariableIntegerJava = try packet.read_var_int()
+            let face:PlayerAction.Face = try packet.readEnum()
+            let sequence:VariableIntegerJava = try packet.readVarInt()
             return Self(status: status, location: location, face: face, sequence: sequence)
         }
         
